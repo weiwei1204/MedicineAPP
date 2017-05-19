@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#70CECE"
+    tools:context="com.example.carrie.carrie_test1.MainActivity">
+
+    <TableLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical">
+
+        <TableRow
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <LinearLayout android:orientation="vertical">
+
+                <ImageButton
+                    android:id="@+id/imageButton"
+                    android:layout_width="150sp"
+                    android:layout_height="150sp"
+                    android:layout_marginBottom="5sp"
+                    android:layout_marginLeft="25sp"
+                    android:layout_marginRight="5sp"
+                    android:layout_marginTop="80sp"
+                    android:background="@drawable/robot"
+                    android:onClick="gotoFirstActivity" />
+
+                <TextView
+                    android:id="@+id/textView"
+                    android:layout_width="150sp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="20sp"
+                    android:layout_marginLeft="25sp"
+                    android:layout_marginRight="5sp"
+                    android:layout_marginTop="5sp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="用藥諮詢"
+                    android:textColor="@android:color/background_light"
+                    android:textSize="18sp" />
+
+            </LinearLayout>
+
+            <LinearLayout android:orientation="vertical">
+
+                <ImageButton
+                    android:id="@+id/imageButton2"
+                    android:layout_width="150sp"
+                    android:layout_height="150sp"
+                    android:layout_marginBottom="5sp"
+                    android:layout_marginLeft="5sp"
+                    android:layout_marginRight="5sp"
+                    android:layout_marginTop="80sp"
+                    android:background="@drawable/wifi"
+                    android:onClick="gotoSecondActivity" />
+
+                <TextView
+                    android:id="@+id/textView2"
+                    android:layout_width="150sp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="20sp"
+                    android:layout_marginLeft="5sp"
+                    android:layout_marginRight="5sp"
+                    android:layout_marginTop="5sp"
+                    android:gravity="center"
+                    android:text="Beacon藥品追蹤"
+                    android:textColor="@android:color/background_light"
+                    android:textSize="18sp" />
+            </LinearLayout>
+
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout android:orientation="vertical">
+
+                <ImageButton
+                    android:id="@+id/imageButton3"
+                    android:layout_width="151sp"
+                    android:layout_height="151sp"
+                    android:layout_marginBottom="5sp"
+                    android:layout_marginLeft="25sp"
+                    android:layout_marginRight="5sp"
+                    android:layout_marginTop="5sp"
+                    android:background="@drawable/calendar"
+                    android:onClick="gotoThirdActivity" />
+
+                <TextView
+                    android:id="@+id/textView3"
+                    android:layout_width="151sp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="5sp"
+                    android:layout_marginLeft="25sp"
+                    android:layout_marginRight="5sp"
+                    android:layout_marginTop="5sp"
+                    android:gravity="center"
+                    android:text="用藥排程"
+                    android:textColor="@android:color/background_light"
+                    android:textSize="18sp" />
+
+            </LinearLayout>
+
+            <LinearLayout android:orientation="vertical">
+
+                <ImageButton
+                    android:id="@+id/imageButton4"
+                    android:layout_width="151sp"
+                    android:layout_height="151sp"
+                    android:layout_margin="5sp"
+                    android:background="@drawable/medicine" />
+
+                <TextView
+                    android:id="@+id/textView4"
+                    android:layout_width="151sp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5sp"
+                    android:gravity="center"
+                    android:text="藥品資訊"
+                    android:textColor="@android:color/background_light"
+                    android:textSize="18sp" />
+
+            </LinearLayout>
+
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        </TableRow>
+    </TableLayout>
+
+
+</android.support.constraint.ConstraintLayout>
