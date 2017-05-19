@@ -25,7 +25,13 @@
             android:label="@string/title_activity_second" />
         <activity
             android:name=".ThirdActivity"
-            android:label="@string/title_activity_third"></activity>
+            android:label="@string/title_activity_third" />
+        <activity
+            android:name=".certify"
+            android:label="@string/title_activity_certify" />
+        <activity
+            android:name=".thirdverify"
+            android:label="@string/title_activity_thirdverify"></activity>
     </application>
 
 </manifest>
