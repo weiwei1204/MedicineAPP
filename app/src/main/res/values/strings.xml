@@ -4,4 +4,6 @@
     <string name="title_activity_second">藥品追蹤</string>
     <string name="title_activity_third">用藥排程</string>
     <string name="title_activity_fourth">用藥排程</string>
+    <string name="title_activity_certify">排程</string>
+    <string name="title_activity_thirdverify">親友認證</string>
 </resources>

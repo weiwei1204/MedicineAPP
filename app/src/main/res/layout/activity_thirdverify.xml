@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFFFFF"
+    tools:context="com.example.carrie.carrie_test1.thirdverify"
+    tools:layout_editor_absoluteY="81dp"
+    tools:layout_editor_absoluteX="0dp">
+
+    <LinearLayout
+        android:layout_width="350sp"
+        android:layout_height="500sp"
+        android:orientation="vertical"
+        tools:layout_editor_absoluteX="8dp"
+        tools:layout_editor_absoluteY="8dp">
+
+        <TableLayout
+            android:layout_width="match_parent"
+            android:layout_height="400sp"
+            tools:layout_editor_absoluteX="5dp"
+            tools:layout_editor_absoluteY="8dp">
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5sp"
+                android:background="@drawable/text_view_border"
+                android:onClick="gotoThirdActivity"
+                android:shadowColor="#849AA1"
+                android:shadowDx="0"
+                android:shadowDy="0"
+                android:shadowRadius="25">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"></LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:id="@+id/imageView"
+                        android:layout_width="100sp"
+                        android:layout_height="100sp"
+                        android:layout_margin="2sp"
+                        app:srcCompat="@mipmap/ic_launcher" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="50sp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/textView6"
+                            android:layout_width="110sp"
+                            android:layout_height="61dp"
+                            android:layout_marginBottom="5sp"
+                            android:layout_marginLeft="5sp"
+                            android:layout_marginRight="5sp"
+                            android:layout_marginTop="5sp"
+                            android:gravity="center_vertical"
+                            android:text="Mindy"
+                            android:textColor="#000000" />
+
+                        <ImageButton
+                            android:id="@+id/imageButton5"
+                            android:layout_width="40sp"
+                            android:layout_height="40sp"
+                            android:layout_margin="9sp"
+                            android:background="@drawable/send" />
+
+                        <ImageButton
+                            android:id="@+id/imageButton6"
+                            android:layout_width="40sp"
+                            android:layout_height="40sp"
+                            android:layout_margin="9sp"
+                            android:background="@drawable/trash" />
+
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/textView7"
+                        android:layout_width="match_parent"
+                        android:layout_height="10sp"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical"
+                        android:text="mindy8503020312@gmail.com"
+                        android:textColor="#000000" />
+
+                </LinearLayout>
+
+            </TableRow>
+
+        </TableLayout>
+
+        <ImageButton
+            android:id="@+id/imageButton8"
+            android:layout_width="80sp"
+            android:layout_height="80sp"
+            android:layout_marginLeft="130sp"
+            android:background="@drawable/add"
+            tools:layout_editor_absoluteX="140dp"
+            tools:layout_editor_absoluteY="420dp" />
+
+    </LinearLayout>
+
+</android.support.constraint.ConstraintLayout>
+
+
