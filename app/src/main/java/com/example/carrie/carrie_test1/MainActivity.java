@@ -1,5 +1,6 @@
 package com.example.carrie.carrie_test1;
 
+import android.app.ActionBar;
 import android.content.Intent;
 import android.app.Activity;
 import android.os.Bundle;
@@ -22,6 +23,10 @@ public class MainActivity extends Activity {
     }
     public void gotoThirdActivity(View v){
         Intent it = new Intent(this,ThirdActivity.class);
+        startActivity(it);
+    }
+    public void gotoFourthActivity(View v){
+        Intent it = new Intent(this,FourthActivity.class);
         startActivity(it);
     }
 }

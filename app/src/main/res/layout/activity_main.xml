@@ -7,6 +7,7 @@
     android:background="#70CECE"
     tools:context="com.example.carrie.carrie_test1.MainActivity">
 
+
     <TableLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -113,7 +114,8 @@
                     android:layout_width="151sp"
                     android:layout_height="151sp"
                     android:layout_margin="5sp"
-                    android:background="@drawable/medicine" />
+                    android:background="@drawable/medicine"
+                    android:onClick="gotoFourthActivity" />
 
                 <TextView
                     android:id="@+id/textView4"
