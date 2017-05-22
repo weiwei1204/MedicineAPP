@@ -37,7 +37,10 @@
             android:label="@string/title_activity_thirdverify" />
         <activity
             android:name=".RobotActivity"
-            android:label="@string/title_activity_robot"></activity>
+            android:label="@string/title_activity_robot" />
+        <activity
+            android:name=".LoginActivity"
+            android:label="@string/title_activity_login"></activity>
     </application>
 
 </manifest>

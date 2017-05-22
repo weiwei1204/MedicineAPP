@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#70CECE"
+    tools:context="com.example.carrie.carrie_test1.LoginActivity">
+
+    <TableLayout
+        android:layout_width="344dp"
+        android:layout_height="495dp"
+        tools:layout_editor_absoluteX="8dp"
+        tools:layout_editor_absoluteY="8dp">
+
+        <TableRow
+            android:layout_width="300dp"
+            android:layout_height="300dp"
+            android:gravity="center">
+
+            <ImageView
+                android:id="@+id/imageView20"
+                android:layout_width="250dp"
+                android:layout_height="250dp"
+                android:gravity="center"
+                app:srcCompat="@drawable/home_picture" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="300dp"
+            android:layout_height="300dp"
+            android:layout_marginTop="30dp">
+
+            <Button
+                android:id="@+id/button5"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="100dp"
+                android:background="@drawable/loginbutton"
+                android:text="Google + 登入"
+                android:textSize="10pt" />
+        </TableRow>
+
+    </TableLayout>
+</android.support.constraint.ConstraintLayout>
