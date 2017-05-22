@@ -1,0 +1,477 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FAFAFA"
+    tools:context="com.example.carrie.carrie_test1.FourthActivity">
+
+    <TableLayout
+        android:layout_width="344dp"
+        android:layout_height="495dp"
+        tools:layout_editor_absoluteX="8dp"
+        tools:layout_editor_absoluteY="8dp">
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/imageView4"
+                    android:layout_width="130dp"
+                    android:layout_height="130dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="25dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/imgfourth"
+                    app:srcCompat="@drawable/pill3"
+                    tools:layout_editor_absoluteX="44dp"
+                    tools:layout_editor_absoluteY="36dp" />
+
+                <ImageView
+                    android:id="@+id/imageView5"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="65dp"
+                    android:layout_weight="1"
+                    app:srcCompat="@drawable/star1" />
+
+                <ImageView
+                    android:id="@+id/imageView6"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:layout_marginTop="65dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_weight="1"
+                    app:srcCompat="@drawable/star1" />
+
+                <ImageView
+                    android:id="@+id/imageView7"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:layout_marginTop="65dp"
+                    android:layout_marginLeft="1dp"
+                    android:layout_weight="1"
+                    app:srcCompat="@drawable/star1" />
+
+                <ImageView
+                    android:id="@+id/imageView8"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:layout_marginTop="65dp"
+                    android:layout_marginLeft="1dp"
+                    android:layout_weight="1"
+                    app:srcCompat="@drawable/star1" />
+
+                <ImageView
+                    android:id="@+id/imageView9"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:layout_marginTop="65dp"
+                    android:layout_marginLeft="1dp"
+                    android:layout_weight="1"
+                    app:srcCompat="@drawable/star2" />
+            </LinearLayout>
+
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
+
+            <LinearLayout
+                android:layout_width="100dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:id="@+id/imageView10"
+                        android:layout_width="1dp"
+                        android:layout_height="18dp"
+                        android:layout_marginLeft="-20dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_weight="1"
+                        app:srcCompat="@drawable/planet" />
+
+                    <TextView
+                        android:id="@+id/textView20"
+                        android:layout_width="100dp"
+                        android:layout_height="20dp"
+                        android:layout_marginLeft="-40dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_weight="1"
+                        android:text="許可證字號："
+                        android:textColor="#6C6C6C"
+                        android:textSize="8pt" />
+
+                    <TextView
+                        android:id="@+id/textContent1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="20dp"
+                        android:layout_marginLeft="-120dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_weight="1"
+                        android:text="TextView"
+                        android:textColor="#6C6C6C"
+                        android:textSize="8pt" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:id="@+id/imageView12"
+                        android:layout_width="1dp"
+                        android:layout_height="18dp"
+                        android:layout_marginLeft="-20dp"
+                        android:layout_marginTop="7dp"
+                        android:layout_weight="1"
+                        app:srcCompat="@drawable/planet" />
+
+                    <TextView
+                        android:id="@+id/textView21"
+                        android:layout_width="100dp"
+                        android:layout_height="20dp"
+                        android:layout_marginLeft="-40dp"
+                        android:layout_marginTop="7dp"
+                        android:layout_weight="1"
+                        android:text="中文名稱："
+                        android:textColor="#6C6C6C"
+                        android:textSize="8pt" />
+
+                    <TextView
+                        android:id="@+id/textContent2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="20dp"
+                        android:layout_marginLeft="-120dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_weight="1"
+                        android:text="TextView"
+                        android:textColor="#6C6C6C"
+                        android:textSize="8pt" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:id="@+id/imageView11"
+                        android:layout_width="1dp"
+                        android:layout_height="18dp"
+                        android:layout_marginLeft="-20dp"
+                        android:layout_marginTop="7dp"
+                        android:layout_weight="1"
+                        app:srcCompat="@drawable/planet" />
+
+                    <TextView
+                        android:id="@+id/textView22"
+                        android:layout_width="100dp"
+                        android:layout_height="20dp"
+                        android:layout_marginLeft="-40dp"
+                        android:layout_marginTop="7dp"
+                        android:layout_weight="1"
+                        android:text="英文名稱："
+                        android:textColor="#6C6C6C"
+                        android:textSize="8pt" />
+
+                    <TextView
+                        android:id="@+id/textContent3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="20dp"
+                        android:layout_marginLeft="-120dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_weight="1"
+                        android:text="TextView"
+                        android:textColor="#6C6C6C"
+                        android:textSize="8pt" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:id="@+id/imageView13"
+                        android:layout_width="1dp"
+                        android:layout_height="18dp"
+                        android:layout_marginLeft="-20dp"
+                        android:layout_marginTop="7dp"
+                        android:layout_weight="1"
+                        app:srcCompat="@drawable/planet" />
+
+                    <TextView
+                        android:id="@+id/textView23"
+                        android:layout_width="100dp"
+                        android:layout_height="20dp"
+                        android:layout_marginLeft="-40dp"
+                        android:layout_marginTop="7dp"
+                        android:layout_weight="1"
+                        android:text="適應症："
+                        android:textColor="#6C6C6C"
+                        android:textSize="8pt" />
+
+
+                    <TextView
+                        android:id="@+id/textContent4"
+                        android:layout_width="wrap_content"
+                        android:layout_height="20dp"
+                        android:layout_marginLeft="-120dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_weight="1"
+                        android:text="TextView"
+                        android:textColor="#6C6C6C"
+                        android:textSize="8pt" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:id="@+id/imageView14"
+                        android:layout_width="1dp"
+                        android:layout_height="18dp"
+                        android:layout_marginLeft="-20dp"
+                        android:layout_marginTop="7dp"
+                        android:layout_weight="1"
+                        app:srcCompat="@drawable/planet" />
+
+                    <TextView
+                        android:id="@+id/textView24"
+                        android:layout_width="100dp"
+                        android:layout_height="20dp"
+                        android:layout_marginLeft="-40dp"
+                        android:layout_marginTop="7dp"
+                        android:layout_weight="1"
+                        android:text="劑型："
+                        android:textColor="#6C6C6C"
+                        android:textSize="8pt" />
+
+                    <TextView
+                        android:id="@+id/textContent5"
+                        android:layout_width="wrap_content"
+                        android:layout_height="20dp"
+                        android:layout_marginLeft="-120dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_weight="1"
+                        android:text="TextView"
+                        android:textColor="#6C6C6C"
+                        android:textSize="8pt" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:id="@+id/imageView15"
+                        android:layout_width="1dp"
+                        android:layout_height="18dp"
+                        android:layout_marginLeft="-20dp"
+                        android:layout_marginTop="7dp"
+                        android:layout_weight="1"
+                        app:srcCompat="@drawable/planet" />
+
+                    <TextView
+                        android:id="@+id/textView25"
+                        android:layout_width="100dp"
+                        android:layout_height="20dp"
+                        android:layout_marginLeft="-40dp"
+                        android:layout_marginTop="7dp"
+                        android:layout_weight="1"
+                        android:text="主成份略述："
+                        android:textColor="#6C6C6C"
+                        android:textSize="8pt" />
+
+                    <TextView
+                        android:id="@+id/textContent6"
+                        android:layout_width="wrap_content"
+                        android:layout_height="20dp"
+                        android:layout_marginLeft="-120dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_weight="1"
+                        android:text="TextView"
+                        android:textColor="#6C6C6C"
+                        android:textSize="8pt" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:id="@+id/imageView17"
+                        android:layout_width="1dp"
+                        android:layout_height="18dp"
+                        android:layout_marginLeft="-20dp"
+                        android:layout_marginTop="7dp"
+                        android:layout_weight="1"
+                        app:srcCompat="@drawable/planet" />
+
+                    <TextView
+                        android:id="@+id/textView26"
+                        android:layout_width="100dp"
+                        android:layout_height="20dp"
+                        android:layout_marginLeft="-40dp"
+                        android:layout_marginTop="7dp"
+                        android:layout_weight="1"
+                        android:text="製造商國別："
+                        android:textColor="#6C6C6C"
+                        android:textSize="8pt" />
+
+                    <TextView
+                        android:id="@+id/textContent7"
+                        android:layout_width="wrap_content"
+                        android:layout_height="20dp"
+                        android:layout_marginLeft="-120dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_weight="1"
+                        android:text="TextView"
+                        android:textColor="#6C6C6C"
+                        android:textSize="8pt" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:id="@+id/imageView18"
+                        android:layout_width="1dp"
+                        android:layout_height="18dp"
+                        android:layout_marginLeft="-20dp"
+                        android:layout_marginTop="7dp"
+                        android:layout_weight="1"
+                        app:srcCompat="@drawable/planet" />
+
+                    <TextView
+                        android:id="@+id/textView27"
+                        android:layout_width="100dp"
+                        android:layout_height="20dp"
+                        android:layout_marginLeft="-40dp"
+                        android:layout_marginTop="7dp"
+                        android:layout_weight="1"
+                        android:text="申請商名稱："
+                        android:textColor="#6C6C6C"
+                        android:textSize="8pt" />
+
+                    <TextView
+                        android:id="@+id/textContent8"
+                        android:layout_width="wrap_content"
+                        android:layout_height="20dp"
+                        android:layout_marginLeft="-120dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_weight="1"
+                        android:text="TextView"
+                        android:textColor="#6C6C6C"
+                        android:textSize="8pt" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:id="@+id/imageView16"
+                        android:layout_width="1dp"
+                        android:layout_height="18dp"
+                        android:layout_marginLeft="-20dp"
+                        android:layout_marginTop="7dp"
+                        android:layout_weight="1"
+                        app:srcCompat="@drawable/planet" />
+
+                    <TextView
+                        android:id="@+id/textView28"
+                        android:layout_width="100dp"
+                        android:layout_height="20dp"
+                        android:layout_marginLeft="-40dp"
+                        android:layout_marginTop="7dp"
+                        android:layout_weight="1"
+                        android:text="製造商名稱："
+                        android:textColor="#6C6C6C"
+                        android:textSize="8pt" />
+
+                    <TextView
+                        android:id="@+id/textContent9"
+                        android:layout_width="wrap_content"
+                        android:layout_height="20dp"
+                        android:layout_marginLeft="-120dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_weight="1"
+                        android:text="TextView"
+                        android:textColor="#6C6C6C"
+                        android:textSize="8pt" />
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
+
+            <TextView
+                android:id="@+id/textView30"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:layout_marginLeft="20dp"
+                android:text="評論"
+                android:textColor="#6C6C6C"
+                android:textSize="13pt"/>
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"></LinearLayout>
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+            </FrameLayout>
+        </TableRow>
+    </TableLayout>
+
+</android.support.constraint.ConstraintLayout>

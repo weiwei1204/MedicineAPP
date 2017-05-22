@@ -14,6 +14,26 @@
         android:gravity="center_vertical">
 
         <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/imageView3"
+                    android:layout_width="20dp"
+                    android:layout_height="40dp"
+                    android:layout_marginLeft="-110dp"
+                    android:layout_weight="1"
+                    app:srcCompat="@drawable/home_picture" />
+            </LinearLayout>
+
+        </TableRow>
+
+        <TableRow
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
 
@@ -26,7 +46,7 @@
                     android:layout_marginBottom="5sp"
                     android:layout_marginLeft="25sp"
                     android:layout_marginRight="5sp"
-                    android:layout_marginTop="80sp"
+                    android:layout_marginTop="30sp"
                     android:background="@drawable/robot"
                     android:onClick="gotoFirstActivity" />
 
@@ -46,31 +66,35 @@
 
             </LinearLayout>
 
-            <LinearLayout android:orientation="vertical">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
 
                 <ImageButton
-                    android:id="@+id/imageButton2"
-                    android:layout_width="150sp"
-                    android:layout_height="150sp"
+                    android:id="@+id/imageButton4"
+                    android:layout_width="151sp"
+                    android:layout_height="151sp"
                     android:layout_marginBottom="5sp"
                     android:layout_marginLeft="5sp"
                     android:layout_marginRight="5sp"
-                    android:layout_marginTop="80sp"
-                    android:background="@drawable/wifi"
-                    android:onClick="gotoSecondActivity" />
+                    android:layout_marginTop="30sp"
+                    android:background="@drawable/medicine"
+                    android:onClick="gotoFourthActivity" />
 
                 <TextView
-                    android:id="@+id/textView2"
-                    android:layout_width="150sp"
+                    android:id="@+id/textView4"
+                    android:layout_width="151sp"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="20sp"
                     android:layout_marginLeft="5sp"
                     android:layout_marginRight="5sp"
                     android:layout_marginTop="5sp"
                     android:gravity="center"
-                    android:text="Beacon藥品追蹤"
+                    android:text="藥品資訊"
                     android:textColor="@android:color/background_light"
                     android:textSize="18sp" />
+
             </LinearLayout>
 
         </TableRow>
@@ -107,26 +131,28 @@
 
             </LinearLayout>
 
-            <LinearLayout android:orientation="vertical">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
 
                 <ImageButton
-                    android:id="@+id/imageButton4"
-                    android:layout_width="151sp"
-                    android:layout_height="151sp"
+                    android:id="@+id/imageButton2"
+                    android:layout_width="150sp"
+                    android:layout_height="150sp"
                     android:layout_margin="5sp"
-                    android:background="@drawable/medicine"
-                    android:onClick="gotoFourthActivity" />
+                    android:background="@drawable/wifi"
+                    android:onClick="gotoSecondActivity" />
 
                 <TextView
-                    android:id="@+id/textView4"
-                    android:layout_width="151sp"
+                    android:id="@+id/textView2"
+                    android:layout_width="150sp"
                     android:layout_height="wrap_content"
                     android:layout_margin="5sp"
                     android:gravity="center"
-                    android:text="藥品資訊"
+                    android:text="Beacon藥品追蹤"
                     android:textColor="@android:color/background_light"
                     android:textSize="18sp" />
-
             </LinearLayout>
 
         </TableRow>
