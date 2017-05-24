@@ -36,8 +36,16 @@
             android:name=".thirdverify"
             android:label="@string/title_activity_thirdverify" />
         <activity
+
             android:name=".medicineverify"
             android:label="@string/title_activity_medicineverify"></activity>
+
+            android:name=".RobotActivity"
+            android:label="@string/title_activity_robot" />
+        <activity
+            android:name=".LoginActivity"
+            android:label="@string/title_activity_login"></activity>
+
     </application>
 
 </manifest>

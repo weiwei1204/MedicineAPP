@@ -3,8 +3,13 @@
     <string name="title_activity_first">用藥諮詢</string>
     <string name="title_activity_second">藥品追蹤</string>
     <string name="title_activity_third">用藥排程</string>
-    <string name="title_activity_fourth">用藥排程</string>
+    <string name="title_activity_fourth">藥品資訊</string>
     <string name="title_activity_certify">排程</string>
     <string name="title_activity_thirdverify">親友認證</string>
+
     <string name="title_activity_medicineverify">用藥驗證</string>
+
+    <string name="title_activity_robot">聊天機器人</string>
+    <string name="title_activity_login">登入</string>
+
 </resources>

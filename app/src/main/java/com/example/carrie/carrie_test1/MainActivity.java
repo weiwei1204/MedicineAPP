@@ -13,20 +13,20 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
     }
-    public void gotoFirstActivity(View v){
-        Intent it = new Intent(this,FirstActivity.class);
+    public void gotoFirstActivity(View v){ //連到聊天機器人頁面
+        Intent it = new Intent(this,RobotActivity.class);
         startActivity(it);
     }
-    public void gotoSecondActivity(View v){
+    public void gotoSecondActivity(View v){ //連到iBeacon頁面
         Intent it = new Intent(this,SecondActivity.class);
         startActivity(it);
     }
-    public void gotoThirdActivity(View v){
+    public void gotoThirdActivity(View v){  //連到用藥排成設定頁面
         Intent it = new Intent(this,ThirdActivity.class);
         startActivity(it);
     }
-    public void gotoFourthActivity(View v){
-        Intent it = new Intent(this,FourthActivity.class);
+    public void gotoFourthActivity(View v){ //連到搜尋藥品資訊頁面
+        Intent it = new Intent(this,FirstActivity.class);
         startActivity(it);
     }
 }
