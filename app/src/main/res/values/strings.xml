@@ -6,4 +6,5 @@
     <string name="title_activity_fourth">用藥排程</string>
     <string name="title_activity_certify">排程</string>
     <string name="title_activity_thirdverify">親友認證</string>
+    <string name="title_activity_medicineverify">用藥驗證</string>
 </resources>
