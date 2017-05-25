@@ -7,9 +7,11 @@
     <string name="title_activity_certify">排程</string>
     <string name="title_activity_thirdverify">親友認證</string>
 
-    <string name="title_activity_medicineverify">用藥驗證</string>
 
     <string name="title_activity_robot">聊天機器人</string>
     <string name="title_activity_login">登入</string>
+    <string name="title_activity_medicinevertify">用藥驗證</string>
+    <string name="title_activity_historyrecord">排成歷史紀錄</string>
+    <string name="title_activity_comment">藥品評論</string>
 
 </resources>

@@ -35,17 +35,20 @@
         <activity
             android:name=".thirdverify"
             android:label="@string/title_activity_thirdverify" />
-        <activity
-
-            android:name=".medicineverify"
-            android:label="@string/title_activity_medicineverify"></activity>
-
-            android:name=".RobotActivity"
-            android:label="@string/title_activity_robot" />
+        android:name=".RobotActivity"
+        android:label="@string/title_activity_robot" />
         <activity
             android:name=".LoginActivity"
-            android:label="@string/title_activity_login"></activity>
-
+            android:label="@string/title_activity_login" />
+        <activity
+            android:name=".medicinevertify"
+            android:label="@string/title_activity_medicinevertify" />
+        <activity
+            android:name=".historyrecord"
+            android:label="@string/title_activity_historyrecord" />
+        <activity
+            android:name=".comment"
+            android:label="@string/title_activity_comment"></activity>
     </application>
 
 </manifest>
