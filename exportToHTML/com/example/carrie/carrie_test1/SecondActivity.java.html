@@ -1,0 +1,54 @@
+<html>
+<head>
+<title>SecondActivity.java</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.ln { color: #999999; font-weight: normal; font-style: normal; }
+.s0 { color: rgb(0,0,128); font-weight: bold; }
+.s1 { color: rgb(0,0,0); }
+.s2 { color: rgb(0,128,0); font-weight: bold; }
+</style>
+</head>
+<BODY BGCOLOR="#ffffff">
+<TABLE CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#c0c0c0" >
+<TR><TD><CENTER>
+<FONT FACE="Arial, Helvetica" COLOR="#000000">
+SecondActivity.java</FONT>
+</center></TD></TR></TABLE>
+<pre>
+<span class="s0">package </span><span class="s1">com.example.carrie.carrie_test1; 
+ 
+</span><span class="s0">import </span><span class="s1">android.os.Bundle; 
+</span><span class="s0">import </span><span class="s1">android.support.v7.app.AppCompatActivity; 
+</span><span class="s0">import </span><span class="s1">android.view.View; 
+</span><span class="s0">import </span><span class="s1">android.widget.AdapterView; 
+</span><span class="s0">import </span><span class="s1">android.widget.ArrayAdapter; 
+</span><span class="s0">import </span><span class="s1">android.widget.ListView; 
+</span><span class="s0">import </span><span class="s1">android.widget.Toast; 
+ 
+</span><span class="s0">public class </span><span class="s1">SecondActivity </span><span class="s0">extends </span><span class="s1">AppCompatActivity { 
+    </span><span class="s0">private </span><span class="s1">ListView listView; 
+    </span><span class="s0">private </span><span class="s1">String[] list = {</span><span class="s2">&quot;Beacon1&quot;</span><span class="s1">,</span><span class="s2">&quot;Beacon2&quot;</span><span class="s1">,</span><span class="s2">&quot;Beacon3&quot;</span><span class="s1">,</span><span class="s2">&quot;Beacon4&quot;</span><span class="s1">,</span><span class="s2">&quot;Beacon5&quot;</span><span class="s1">}; 
+    </span><span class="s0">private </span><span class="s1">ArrayAdapter&lt;String&gt; listAdapter; 
+ 
+    @Override 
+    </span><span class="s0">protected void </span><span class="s1">onCreate(Bundle savedInstanceState) { 
+        </span><span class="s0">super</span><span class="s1">.onCreate(savedInstanceState); 
+        setContentView(R.layout.activity_second); 
+        listView = (ListView)findViewById(R.id.beacon_list_view); 
+        listAdapter = </span><span class="s0">new </span><span class="s1">ArrayAdapter(</span><span class="s0">this</span><span class="s1">,R.layout.row,R.id.textView31,list); 
+        listView.setAdapter(listAdapter); 
+        listView.setOnItemClickListener(</span><span class="s0">new </span><span class="s1">AdapterView.OnItemClickListener() { 
+            @Override 
+            </span><span class="s0">public void </span><span class="s1">onItemClick(AdapterView&lt;?&gt; parent, View view, </span><span class="s0">int </span><span class="s1">position, </span><span class="s0">long </span><span class="s1">id) { 
+                Toast.makeText(getApplicationContext(), </span><span class="s2">&quot;你選擇的是&quot; </span><span class="s1">+ list[position], Toast.LENGTH_SHORT).show(); 
+            } 
+        }); 
+    } 
+    </span><span class="s0">public void </span><span class="s1">goback(View v){ 
+        finish(); 
+    } 
+} 
+</span></pre>
+</body>
+</html>
