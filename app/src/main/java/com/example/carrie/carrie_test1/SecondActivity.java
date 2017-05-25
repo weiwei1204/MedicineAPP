@@ -18,7 +18,7 @@ public class SecondActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_second);
         listView = (ListView)findViewById(R.id.beacon_list_view);
-        listAdapter = new ArrayAdapter(this,android.R.layout.simple_list_item_1,list);
+        listAdapter = new ArrayAdapter(this,R.layout.row,R.id.textView31,list);
         listView.setAdapter(listAdapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

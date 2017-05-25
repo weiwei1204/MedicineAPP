@@ -40,7 +40,10 @@
             android:label="@string/title_activity_robot" />
         <activity
             android:name=".LoginActivity"
-            android:label="@string/title_activity_login"></activity>
+            android:label="@string/title_activity_login" />
+        <activity
+            android:name=".beaconActivity"
+            android:label="@string/title_activity_beacon"></activity>
     </application>
 
 </manifest>

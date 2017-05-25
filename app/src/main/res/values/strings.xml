@@ -8,4 +8,5 @@
     <string name="title_activity_thirdverify">親友認證</string>
     <string name="title_activity_robot">聊天機器人</string>
     <string name="title_activity_login">登入</string>
+    <string name="title_activity_beacon">藥品追蹤</string>
 </resources>
