@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFFFFF"
+    tools:layout_editor_absoluteY="81dp"
+    tools:layout_editor_absoluteX="0dp"
+    tools:context="com.example.carrie.carrie_test1.medicinevertify">
+
+    <LinearLayout
+        android:layout_width="368dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        tools:layout_editor_absoluteX="8dp"
+        tools:layout_editor_absoluteY="6dp">
+
+        <TextView
+            android:id="@+id/textView29"
+            android:layout_width="200sp"
+            android:layout_height="40sp"
+            android:layout_marginLeft="80dp"
+            android:layout_marginTop="70dp"
+            android:text="此次提醒時間：8:00"
+            android:gravity="center_horizontal"
+            android:textColor="#272727"
+            android:textSize="10pt"/>
+
+        <TextView
+            android:id="@+id/textView31"
+            android:layout_width="200sp"
+            android:layout_height="50sp"
+            android:layout_marginLeft="80dp"
+            android:layout_marginTop="10dp"
+            android:gravity="center_horizontal"
+            android:text="服用藥物：普拿疼"
+            android:textColor="#272727"
+            android:textSize="10pt"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"></LinearLayout>
+
+        <ImageButton
+            android:id="@+id/imageButton9"
+            android:layout_width="130sp"
+            android:layout_height="130sp"
+            android:layout_gravity="center_vertical|center_horizontal"
+            android:layout_margin="20sp"
+            android:background="@drawable/single"
+            android:gravity="bottom|center"
+            android:onClick="gotocomment" />
+
+        <ImageButton
+            android:id="@+id/imageButton10"
+            android:layout_width="130sp"
+            android:layout_height="130sp"
+            android:layout_gravity="center_vertical|center_horizontal"
+            android:background="@drawable/third"
+            android:gravity="bottom|center"
+            android:onClick="gotothirdverify" />
+    </LinearLayout>
+
+</android.support.constraint.ConstraintLayout>
+

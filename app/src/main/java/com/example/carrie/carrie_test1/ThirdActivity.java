@@ -57,7 +57,16 @@ public class ThirdActivity extends AppCompatActivity {
         });
         */
     }
+    public void gotomedicinevertify(View v){ //連到親友認證頁面
+        Intent it = new Intent(this,medicinevertify.class);
+        startActivity(it);
+    }
 
+
+    public void gotohistoryrecord(View v){ //連到親友認證頁面
+        Intent it = new Intent(this,historyrecord.class);
+        startActivity(it);
+    }
 
     public void goback(View v){
         finish();
