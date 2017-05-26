@@ -39,7 +39,7 @@
                     android:layout_height="35sp"
                     android:layout_marginTop="20dp"
                     android:layout_weight="1"
-                    android:background="@drawable/scheduletext"
+                    android:background="@drawable/thirdsettext"
                     android:ems="10"
                     android:inputType="textPersonName"
                     android:text=""
@@ -75,7 +75,7 @@
                     android:textColor="#272727"
                     android:layout_marginTop="20dp"
                     android:layout_weight="1"
-                    android:background="@drawable/scheduletext"
+                    android:background="@drawable/thirdsettext"
                     android:ems="10"
                     android:inputType="date" />
 
@@ -109,7 +109,7 @@
                     android:layout_height="35sp"
                     android:layout_marginTop="20dp"
                     android:layout_weight="1"
-                    android:background="@drawable/scheduletext"
+                    android:background="@drawable/thirdsettext"
                     android:textColor="#272727"
                     android:ems="10"
                     android:inputType="number" />
@@ -155,7 +155,7 @@
                     android:layout_marginLeft="20dp"
                     android:layout_marginTop="20dp"
                     android:layout_weight="1"
-                    android:background="@drawable/scheduletext"
+                    android:background="@drawable/thirdsettext"
                     android:ems="10"
                     android:inputType="time"
                     android:textColor="#272727" />
@@ -189,7 +189,7 @@
                     android:layout_height="35sp"
                     android:layout_marginTop="20dp"
                     android:layout_weight="1"
-                    android:background="@drawable/scheduletext"
+                    android:background="@drawable/thirdsettext"
                     android:textColor="#272727"
                     android:ems="10"
                     android:inputType="textPersonName"
