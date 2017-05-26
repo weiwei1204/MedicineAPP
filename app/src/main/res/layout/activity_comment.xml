@@ -102,8 +102,8 @@
             android:layout_height="180sp"
             android:orientation="horizontal">
 
-            <TextView
-                android:id="@+id/textView38"
+            <EditText
+                android:id="@+id/editText"
                 android:layout_width="300sp"
                 android:layout_height="150sp"
                 android:layout_marginLeft="63dp"
