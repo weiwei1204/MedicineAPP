@@ -45,9 +45,14 @@
         <activity
             android:name=".beaconActivity"
             android:label="@string/title_activity_beacon" />
+
+        android:name=".medicinevertify"
+        android:label="@string/title_activity_medicinevertify" />
+
         <activity
             android:name=".medicinevertify"
             android:label="@string/title_activity_medicinevertify" />
+
         <activity
             android:name=".historyrecord"
             android:label="@string/title_activity_historyrecord" />
@@ -55,8 +60,14 @@
             android:name=".comment"
             android:label="@string/title_activity_comment" />
         <activity
+
+            android:name=".Beacon"
+            android:label="@string/title_activity_beacon"></activity>
+
+        <activity
             android:name=".ScheduleActivity"
             android:label="@string/title_activity_schedule"></activity>
+
     </application>
 
 </manifest>
