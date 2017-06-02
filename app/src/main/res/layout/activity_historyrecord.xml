@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#FAFAFA"
-    tools:context="com.example.carrie.carrie_test1.historyrecord">
+    tools:context="com.example.carrie.carrie_test1.com.example.carrie.strawberry.historyrecord">
 
     <TableLayout
         android:layout_width="350dp"
