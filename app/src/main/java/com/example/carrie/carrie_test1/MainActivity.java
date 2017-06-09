@@ -1,12 +1,13 @@
 package com.example.carrie.carrie_test1;
 
-import android.app.ActionBar;
 import android.content.Intent;
+
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
 
 public class MainActivity extends Activity {
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

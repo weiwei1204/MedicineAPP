@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#FAFAFA"
-    tools:context="com.example.carrie.carrie_test1.RobotActivity">
+    tools:context="com.example.carrie.carrie_test1.com.example.carrie.strawberry.RobotActivity">
 
     <TableLayout
         android:layout_width="344dp"
@@ -64,6 +64,7 @@
                     android:layout_marginTop="5dp"
                     android:layout_weight="1"
 
+                    android:onClick="gotologinActivity"
                     app:srcCompat="@drawable/search" />
 
                 <ImageView

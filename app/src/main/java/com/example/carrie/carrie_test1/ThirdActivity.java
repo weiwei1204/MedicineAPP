@@ -1,19 +1,13 @@
 package com.example.carrie.carrie_test1;
 
 import android.annotation.TargetApi;
-import android.app.TimePickerDialog;
-import android.icu.util.Calendar;
 import android.os.Build;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.TimePicker;
-
-import java.sql.Time;
 
 public class ThirdActivity extends AppCompatActivity {
 
