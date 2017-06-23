@@ -37,7 +37,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     RequestQueue requestQueue;
    
 
-    @Override
+
+
+@Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
@@ -81,6 +83,12 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 //
 //        PostResponseAsyncTask task = new PostResponseAsyncTask(this,postData);
 //        task.execute("http://127.0.0.1/client2/member.php");
+    }
+
+
+    public void gotoMainActivity(View v){ //連到聊天機器人頁面
+        Intent it = new Intent(this,MainActivity.class);
+        startActivity(it);
     }
 
 
@@ -154,4 +162,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         finish();
     }
 
+
 }
+
+
+

@@ -77,12 +77,13 @@ public class RobotActivity extends Activity {
 
     }
 
+    public void gotoChatActivity(View v) { //連到chat頁面
+        Intent it = new Intent(this, chat.class);
 
-
-
-
+    }
     public void gotologinActivity(View v){ //連到聊天機器人頁面
         Intent it = new Intent(this,LoginActivity.class);
+
         startActivity(it);
     }
 

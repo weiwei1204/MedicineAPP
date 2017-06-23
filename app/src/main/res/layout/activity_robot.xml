@@ -10,7 +10,7 @@
     <TableLayout
         android:layout_width="344dp"
         android:layout_height="495dp"
-        tools:layout_editor_absoluteX="8dp"
+        tools:layout_editor_absoluteX="20dp"
         tools:layout_editor_absoluteY="8dp">
 
         <TableRow
@@ -69,6 +69,14 @@
                 android:layout_height="match_parent"
                 android:layout_marginTop="30dp"
                 android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/button8"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:onClick="gotochat"
+                    android:text="聊天機器人" />
 
                 <EditText
                     android:id="@+id/editText2"
