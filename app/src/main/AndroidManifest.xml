@@ -1,7 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.carrie.carrie_test1">
-    <uses-permission android:name="android.permission.INTERNET"></uses-permission>
+
+
+    <uses-sdk
+        android:minSdkVersion="8"
+        android:targetSdkVersion="17" />
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
         android:allowBackup="true"
@@ -48,11 +54,9 @@
 
         android:name=".medicinevertify"
         android:label="@string/title_activity_medicinevertify" />
-
         <activity
             android:name=".medicinevertify"
             android:label="@string/title_activity_medicinevertify" />
-
         <activity
             android:name=".historyrecord"
             android:label="@string/title_activity_historyrecord" />
@@ -60,14 +64,14 @@
             android:name=".comment"
             android:label="@string/title_activity_comment" />
         <activity
-
             android:name=".Beacon"
-            android:label="@string/title_activity_beacon"></activity>
-
+            android:label="@string/title_activity_beacon" />
         <activity
             android:name=".ScheduleActivity"
-            android:label="@string/title_activity_schedule"></activity>
-
+            android:label="@string/title_activity_schedule" />
+        <activity
+            android:name=".ConnectActivity"
+            android:label="@string/title_activity_connect"></activity>
     </application>
 
 </manifest>
