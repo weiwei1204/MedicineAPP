@@ -8,13 +8,14 @@
         android:icon="@mipmap/ic_launcher"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme"
+   >
         <activity
-            android:name=".MainActivity"
-            android:label="用藥小幫手">
+            android:name=".Main2"
+            android:theme="@style/SplashTheme"
+            >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -40,13 +41,12 @@
             android:name=".RobotActivity"
             android:label="@string/title_activity_robot" />
         <activity
-            android:name=".LoginActivity"
-            android:label="@string/title_activity_login" />
+            android:name=".MainActivity"
+            android:label="用藥小幫手" />
         <activity
             android:name=".beaconActivity"
             android:label="@string/title_activity_beacon" />
-        android:name=".medicinevertify"
-        android:label="@string/title_activity_medicinevertify" />
+
         <activity
             android:name=".medicinevertify"
             android:label="@string/title_activity_medicinevertify" />
@@ -62,19 +62,11 @@
         <activity
             android:name=".ScheduleActivity"
             android:label="@string/title_activity_schedule" />
-        <activity android:name=".HomeActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+        <activity
+            android:name=".LoginActivity"
+            android:label="登入" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-        <activity
-            android:name=".Main2"
-            android:label="@string/title_activity_main2" />
-        <activity
-            android:name=".chat"
-            android:label="@string/title_activity_chat"></activity>
+
     </application>
 
 </manifest>

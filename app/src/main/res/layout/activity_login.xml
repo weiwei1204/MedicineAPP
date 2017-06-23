@@ -5,52 +5,15 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#70CECE"
-    tools:context="com.example.carrie.carrie_test1.com.example.carrie.strawberry.LoginActivity">
-
-
-    
-    <TableLayout
+    tools:context="com.example.carrie.carrie_test1.LoginActivity">
 
     <LinearLayout
         android:id="@+id/prof_section"
-
         android:layout_width="344dp"
         android:layout_height="495dp"
         android:orientation="vertical"
         tools:layout_editor_absoluteX="8dp"
         tools:layout_editor_absoluteY="8dp">
-
-
-        <TableRow
-            android:layout_width="300dp"
-            android:layout_height="300dp"
-            android:gravity="center">
-
-            <ImageView
-                android:id="@+id/imageView20"
-                android:layout_width="250dp"
-                android:layout_height="250dp"
-                android:gravity="center"
-                app:srcCompat="@drawable/home_picture" />
-        </TableRow>
-
-        <TableRow
-            android:layout_width="300dp"
-            android:layout_height="300dp"
-            android:layout_marginTop="30dp">
-
-            <Button
-                android:id="@+id/button5"
-                android:layout_width="150dp"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="100dp"
-                android:background="@drawable/loginbutton"
-                android:onClick="gotoMainActivity"
-                android:text="Google + 登入"
-                android:textSize="10pt" />
-        </TableRow>
-
-    </TableLayout>
 
         <ImageView
             android:id="@+id/imageView20"
@@ -87,6 +50,5 @@
         android:id="@+id/btn_login"
         android:layout_width="150dp"
         android:layout_height="80dp"></com.google.android.gms.common.SignInButton>
-
 
 </android.support.constraint.ConstraintLayout>

@@ -4,6 +4,37 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#70CECE"
+
     tools:context="com.example.carrie.carrie_test1.Main2">
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="495dp"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        tools:layout_editor_absoluteX="8dp"
+        tools:layout_editor_absoluteY="6dp">
+
+        <ImageView
+            android:id="@+id/imageView22"
+            android:layout_width="300sp"
+            android:layout_height="300sp"
+            android:layout_margin="25sp"
+            android:layout_marginRight="200sp"
+            android:layout_marginTop="900sp"
+            android:src="@drawable/icon" />
+
+
+        <TextView
+            android:id="@+id/textView44"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="90sp"
+            android:layout_marginTop="0sp"
+            android:layout_weight="30"
+            android:text="吾藥可救"
+            android:textSize="20pt" />
+    </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>

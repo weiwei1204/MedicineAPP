@@ -13,10 +13,10 @@ public class RobotActivity extends Activity {
         setContentView(R.layout.activity_robot);
     }
 
-    public void gotoChatActivity(View v){ //連到chat頁面
-        Intent it = new Intent(this,chat.class);
+    public void gotoChatActivity(View v) { //連到chat頁面
+        Intent it = new Intent(this, chat.class);
 
-
+    }
     public void gotologinActivity(View v){ //連到聊天機器人頁面
         Intent it = new Intent(this,LoginActivity.class);
 
