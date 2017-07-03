@@ -25,17 +25,16 @@ import com.kosalgeek.asynctask.AsyncResponse;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener,GoogleApiClient.OnConnectionFailedListener,AsyncResponse {
 
-    private LinearLayout Prof_Section;
-    private Button SignOut;
+    private LinearLayout Prof_Section2;
     private SignInButton SignIn;
     private TextView Name,Email;
-    private GoogleApiClient googleApiCliente;
+    public GoogleApiClient googleApiCliente;
     private static final int REQ_CODE = 9001;
     EditText ET_name,ET_username,ET_email;
     String name1,username1,email1;
     Button insert;
     RequestQueue requestQueue;
-   
+
 
 
 
@@ -43,16 +42,17 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        Prof_Section = (LinearLayout)findViewById(R.id.prof_section);
-        SignOut = (Button)findViewById(R.id.btn);
+        Prof_Section2= (LinearLayout)findViewById(R.id.prof_section2);
+
         SignIn = (SignInButton)findViewById(R.id.btn_login);
         Name = (TextView)findViewById(R.id.Name);
         Email = (TextView)findViewById(R.id.email);
         SignIn.setOnClickListener(this);
-        SignOut.setOnClickListener(this);
-        Prof_Section.setVisibility(View.GONE);
-        GoogleSignInOptions signInOptions = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestEmail().build();
+        Prof_Section2.setVisibility(View.VISIBLE);
+
+    GoogleSignInOptions signInOptions = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestEmail().build();
         googleApiCliente = new GoogleApiClient.Builder(this).enableAutoManage(this,this).addApi(Auth.GOOGLE_SIGN_IN_API,signInOptions).build();
+
 
     }
 
@@ -70,9 +70,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             case R.id.btn_login:
                 signIn();
                 break;
-            case R.id.btn:
-                signOut();
-                break;
+//            case R.id.setbtn:
+//                signOut();
+//                break;
         }
 
 //        HashMap postData=new HashMap();
@@ -99,8 +99,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     private void  signIn() {
 
+
         Intent intent = Auth.GoogleSignInApi.getSignInIntent(googleApiCliente);
         startActivityForResult(intent,REQ_CODE);
+
 
     }
 
@@ -137,11 +139,15 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private void updateUI(boolean isLogin){
 
         if (isLogin){
-            Prof_Section.setVisibility(View.VISIBLE);
-            SignIn.setVisibility(View.GONE);
+
+                Intent it = new Intent(this,MainActivity.class);
+                startActivity(it);
+
+//            Prof_Section.setVisibility(View.VISIBLE);
+//            SignIn.setVisibility(View.GONE);
         }
         else {
-            Prof_Section.setVisibility(View.GONE);
+            Prof_Section2.setVisibility(View.GONE);
             SignIn.setVisibility(View.VISIBLE);
         }
 

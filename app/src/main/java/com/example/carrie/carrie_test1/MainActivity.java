@@ -1,12 +1,18 @@
 package com.example.carrie.carrie_test1;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.view.View;
+import android.widget.ImageButton;
 
-public class MainActivity extends Activity {
+import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.common.api.Status;
 
+public class MainActivity extends LoginActivity {
+
+    private ImageButton SignOut;
 
 
 
@@ -14,7 +20,33 @@ public class MainActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        SignOut = (ImageButton) findViewById(R.id.setbtn);
+        SignOut.setOnClickListener(this);
+
     }
+    public void onClick(View v) {
+
+        switch (v.getId()) {
+//            case R.id.btn_login:
+//                break;
+            case R.id.setbtn:
+                signOut();
+                break;
+        }
+    }
+    private  void  signOut() {
+
+        Auth.GoogleSignInApi.signOut(googleApiCliente).setResultCallback(new ResultCallback<Status>() {
+            @Override
+            public void onResult(@NonNull Status status) {
+
+            }
+        });
+        Intent it = new Intent(this,LoginActivity.class);
+        startActivity(it);
+
+    }
+
     public void gotoFirstActivity(View v){ //連到聊天機器人頁面
 
         Intent it = new Intent(this,RobotActivity.class);
@@ -33,5 +65,9 @@ public class MainActivity extends Activity {
         startActivity(it);
     }
 
+    public void gotoLoginActivity(View v){ //連到搜尋藥品資訊頁面
+        Intent it = new Intent(this,LoginActivity.class);
+        startActivity(it);
+    }
 
 }
