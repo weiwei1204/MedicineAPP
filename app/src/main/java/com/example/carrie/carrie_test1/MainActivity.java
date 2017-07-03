@@ -1,12 +1,13 @@
 package com.example.carrie.carrie_test1;
 
-import android.content.Intent;
-
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
 public class MainActivity extends Activity {
+
+
 
 
     @Override
@@ -15,6 +16,7 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
     }
     public void gotoFirstActivity(View v){ //連到聊天機器人頁面
+
         Intent it = new Intent(this,RobotActivity.class);
         startActivity(it);
     }
@@ -30,4 +32,6 @@ public class MainActivity extends Activity {
         Intent it = new Intent(this,FirstActivity.class);
         startActivity(it);
     }
+
+
 }

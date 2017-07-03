@@ -29,6 +29,7 @@
             android:layout_marginLeft="100dp"
             android:background="@drawable/loginbutton"
             android:text="logout"
+            android:onClick="userReg"
             android:textSize="10pt" />
 
 
@@ -44,11 +45,13 @@
             android:layout_height="wrap_content"
             android:text="TextView" />
 
+
     </LinearLayout>
     <com.google.android.gms.common.SignInButton
 
         android:id="@+id/btn_login"
         android:layout_width="150dp"
-        android:layout_height="80dp"></com.google.android.gms.common.SignInButton>
+        android:layout_height="80dp"
+        ></com.google.android.gms.common.SignInButton>
 
 </android.support.constraint.ConstraintLayout>
