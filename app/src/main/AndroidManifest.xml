@@ -18,6 +18,7 @@
     >
         <activity
             android:name=".Main2"
+            android:label="@drawable/robot"
 
             >
             <intent-filter>
