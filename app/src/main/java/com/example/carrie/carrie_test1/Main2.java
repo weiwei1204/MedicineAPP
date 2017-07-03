@@ -11,7 +11,7 @@ import android.widget.ImageView;
 
 public class Main2 extends Activity {
 
-    private static int SPLASH_TIME_OUT=4000;
+  //  private static int SPLASH_TIME_OUT=4000;
     ImageView imageView;
 
     @Override
@@ -42,15 +42,15 @@ public class Main2 extends Activity {
             }
         });
 
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                Intent homeIntent= new Intent(Main2.this, LoginActivity.class);
-                startActivity(homeIntent);
-                finish();
+       // new Handler().postDelayed(new Runnable() {
+         //   @Override
+           // public void run() {
+             //   Intent homeIntent= new Intent(Main2.this, LoginActivity.class);
+               // startActivity(homeIntent);
+                //finish();
 
-            }
-        },SPLASH_TIME_OUT);
+            //}
+        //},SPLASH_TIME_OUT);
     }
 
 }

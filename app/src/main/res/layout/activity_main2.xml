@@ -28,7 +28,6 @@
             android:layout_weight="30"
             android:text="吾藥可救"
             android:textSize="20pt" />
-
         <ImageView
             android:id="@+id/imageView22"
             android:layout_width="350sp"
@@ -36,9 +35,9 @@
             android:layout_marginLeft="10sp"
             android:layout_marginTop="0sp"
             android:layout_weight="30"
-
             android:src="@drawable/icon"
-            android:padding="25dp"/>
+            />
+
 
     </LinearLayout>
 
