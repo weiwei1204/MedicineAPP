@@ -8,6 +8,7 @@
 
     tools:context="com.example.carrie.carrie_test1.Main2">
 
+    
     <LinearLayout
         android:layout_width="0dp"
         android:layout_height="495dp"
@@ -15,15 +16,6 @@
         android:orientation="vertical"
         tools:layout_editor_absoluteX="8dp"
         tools:layout_editor_absoluteY="6dp">
-
-        <ImageView
-            android:id="@+id/imageView22"
-            android:layout_width="300sp"
-            android:layout_height="300sp"
-            android:layout_margin="25sp"
-            android:layout_marginRight="200sp"
-            android:layout_marginTop="900sp"
-            android:src="@drawable/icon" />
 
 
         <TextView
