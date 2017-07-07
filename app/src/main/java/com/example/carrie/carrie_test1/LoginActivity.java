@@ -4,14 +4,19 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
 import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
@@ -23,17 +28,27 @@ import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
 import com.kosalgeek.asynctask.AsyncResponse;
 
+import java.io.BufferedReader;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.util.HashMap;
+import java.util.Map;
+
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener,GoogleApiClient.OnConnectionFailedListener,AsyncResponse {
 
     private LinearLayout Prof_Section2;
     private SignInButton SignIn;
-    private TextView Name,Email;
+    public TextView Name,Email;
     public GoogleApiClient googleApiCliente;
     private static final int REQ_CODE = 9001;
-    EditText ET_name,ET_username,ET_email;
-    String name1,username1,email1;
-    Button insert;
+    String gname,gemail,googleid;
     RequestQueue requestQueue;
+    String insertUrl = "http://140.136.47.56/client2/insert.php/";
+    String inputStr;
 
 
 
@@ -75,14 +90,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 //                break;
         }
 
-//        HashMap postData=new HashMap();
-//
-//        postData.put("mobile","android");
-//        postData.put("Username","weiwei");
-//        postData.put("Password","12345");
-//
-//        PostResponseAsyncTask task = new PostResponseAsyncTask(this,postData);
-//        task.execute("http://127.0.0.1/client2/member.php");
     }
 
 
@@ -108,6 +115,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     private  void  signOut() {
 
+
         Auth.GoogleSignInApi.signOut(googleApiCliente).setResultCallback(new ResultCallback<Status>() {
             @Override
             public void onResult(@NonNull Status status) {
@@ -124,9 +132,13 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             GoogleSignInAccount account = result.getSignInAccount();
             String name = account.getDisplayName();
             String email = account.getEmail();
+            String google =account.getId();
+            gname=name;
+            gemail=email;
+            googleid=google;
+
+            member();
             String username="rita";
-            Name.setText(name);
-            Email.setText(email);
             updateUI(true);
 
         }
@@ -136,11 +148,96 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     }
 
+
+    public void member(){
+
+        requestQueue = Volley.newRequestQueue(getApplicationContext());
+
+        final StringRequest request = new StringRequest(Request.Method.POST, insertUrl, new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+//                        Log.d("asdfg","1");
+//                        Log.i("asdfg",response);
+                    }
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                    }
+                }){
+                    protected Map<String,String> getParams() throws AuthFailureError {
+                        Map<String, String> parameters = new HashMap<String, String>();
+                        parameters.put("username", gname);
+                        parameters.put("password", gemail);
+                        parameters.put("google_id", googleid);
+                        Log.d("my",parameters.toString());
+                        check();
+//                        try {
+//                            Log.d("qqqqq","333");
+//
+//                            URL url = new URL(insertUrl);
+//                            HttpURLConnection httpHandler = (HttpURLConnection) url.openConnection();
+//                            httpHandler.setRequestMethod("GET");
+//                            httpHandler.setDoInput(true);
+//                            InputStream is = httpHandler.getInputStream();
+//                            BufferedReader br = new BufferedReader(new InputStreamReader(is));
+//                            inputStr = br.readLine();
+//                            Log.d("qqqqq","555");
+//
+//                            Log.d("qqqqq",inputStr);
+//                        } catch(Exception e){
+//                            Log.d("ErrorMessage", e.getLocalizedMessage());
+//                        }
+                        return parameters;
+
+
+                    }
+                };
+                requestQueue.add(request);
+
+
+
+    }
+
+
+    public void check() {
+        Log.d("aaa","1");
+        try {
+            URL url = new URL(insertUrl);
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            Log.d("aaa","2");
+
+//            connection.connect();
+//            Log.d("aaa","3");
+            connection.setRequestMethod("GET");
+            connection.setDoInput(true);
+            Log.d("aaa","3");
+            InputStream is = connection.getInputStream();
+            Log.d("aaa","4");
+
+            ByteArrayOutputStream byteArrayOutputStream=new ByteArrayOutputStream();
+            BufferedReader streamReader = new BufferedReader(new InputStreamReader(is, "UTF-8"));
+            Log.d("aaa","5");
+
+            while ((inputStr = streamReader.readLine()) != null) {
+                Log.d("aaa","6");
+
+                Log.d("aaa",inputStr);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     private void updateUI(boolean isLogin){
 
         if (isLogin){
 
-                Intent it = new Intent(this,MainActivity.class);
+                Intent it = new Intent(this,informationActivity.class);
+            Bundle bundle = new Bundle();
+            bundle.putString("name",gname);
+            bundle.putString("email",gemail);
+            Log.d("mm",bundle.getString("email"));
+            it.putExtras(bundle);   // 記得put進去，不然資料不會帶過去哦
                 startActivity(it);
 
 //            Prof_Section.setVisibility(View.VISIBLE);
@@ -153,7 +250,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     }
 
-    protected void onActivityResult(int requestCode, int resultCode, Intent data){
+    public void onActivityResult(int requestCode, int resultCode, Intent data){
         super.onActivityResult(requestCode,resultCode,data);
 
         if (requestCode==REQ_CODE){
@@ -161,6 +258,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             handleResult(result);
         }
     }
+
+
 
 
 

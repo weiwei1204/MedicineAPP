@@ -1,0 +1,333 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FAFAFA"
+    tools:context="com.example.carrie.carrie_test1.informationActivity">
+
+    <TableLayout
+        android:layout_width="344dp"
+        android:layout_height="495dp"
+        tools:layout_editor_absoluteX="8dp"
+        tools:layout_editor_absoluteY="8dp">
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/textname"
+                    android:layout_width="60dp"
+                    android:layout_height="25dp"
+                    android:layout_marginLeft="25dp"
+                    android:layout_marginTop="25dp"
+                    android:layout_weight="1"
+                    android:text="姓名"
+                    android:textColor="#272727"
+                    android:textSize="8pt" />
+
+                <TextView
+                    android:id="@+id/Name"
+                    android:layout_width="220dp"
+                    android:layout_height="25dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginTop="25dp"
+                    android:textColor="#272727"
+                    android:textSize="8pt" />
+
+            </LinearLayout>
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/textemail"
+                    android:layout_width="60dp"
+                    android:layout_height="25dp"
+                    android:layout_marginLeft="25dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_weight="1"
+                    android:text="E-mail"
+                    android:textColor="#272727"
+                    android:textSize="8pt" />
+
+                <TextView
+                    android:id="@+id/email"
+                    android:layout_width="220dp"
+                    android:layout_height="25dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginTop="10dp"
+                    android:text="TextView"
+                    android:textColor="#272727"
+                    android:textSize="8pt" />
+
+            </LinearLayout>
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/textsex"
+                    android:layout_width="10dp"
+                    android:layout_height="25dp"
+                    android:layout_marginLeft="25dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_weight="1"
+                    android:text="性別"
+                    android:textColor="#272727"
+                    android:textSize="8pt" />
+
+                <RadioGroup
+                    android:layout_width="200dp"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginRight="30dp">
+
+                    <RadioButton
+                        android:id="@+id/radiosex1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:layout_weight="1"
+                        android:text="男"
+                        android:textColor="#272727"
+                        android:textSize="8pt"
+                        android:buttonTint="#272727"/>
+
+                    <RadioButton
+                        android:id="@+id/radiosex2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:layout_weight="1"
+                        android:text="女"
+                        android:textColor="#272727"
+                        android:textSize="8pt"
+                        android:buttonTint="#272727"/>
+
+                </RadioGroup>
+            </LinearLayout>
+        </TableRow>
+
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/textheight"
+                    android:layout_width="10dp"
+                    android:layout_height="25dp"
+                    android:layout_marginLeft="25dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_weight="1"
+                    android:text="身高"
+                    android:textColor="#272727"
+                    android:textSize="8pt" />
+
+
+                <EditText
+                    android:id="@+id/hight"
+                    android:layout_width="100dp"
+                    android:layout_height="28dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_weight="1"
+                    android:ems="10"
+                    android:background="@drawable/informationborder"
+                    android:textColor="#272727"
+                    android:textSize="8pt"
+                    android:inputType="number"/>
+
+                <TextView
+                    android:id="@+id/textcm"
+                    android:layout_width="10dp"
+                    android:layout_height="25dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_weight="1"
+                    android:text="cm"
+                    android:textColor="#272727"
+                    android:textSize="8pt" />
+
+            </LinearLayout>
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/textweight"
+                    android:layout_width="10dp"
+                    android:layout_height="25dp"
+                    android:layout_marginLeft="25dp"
+                    android:layout_marginTop="12dp"
+                    android:layout_weight="1"
+                    android:text="體重"
+                    android:textColor="#272727"
+                    android:textSize="8pt" />
+
+
+                <EditText
+                    android:id="@+id/weight"
+                    android:layout_width="100dp"
+                    android:layout_height="28dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginTop="15dp"
+                    android:layout_weight="1"
+                    android:ems="10"
+                    android:background="@drawable/informationborder"
+                    android:inputType="number"
+                    android:textColor="#272727"
+                    android:textSize="8pt" />
+
+                <TextView
+                    android:id="@+id/textkg"
+                    android:layout_width="10dp"
+                    android:layout_height="25dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_weight="1"
+                    android:text="kg"
+                    android:textColor="#272727"
+                    android:textSize="8pt" />
+
+            </LinearLayout>
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/textage"
+                    android:layout_width="10dp"
+                    android:layout_height="25dp"
+                    android:layout_marginLeft="25dp"
+                    android:layout_marginTop="12dp"
+                    android:layout_weight="1"
+                    android:text="年齡"
+                    android:textColor="#272727"
+                    android:textSize="8pt" />
+
+
+                <EditText
+                    android:id="@+id/age"
+                    android:layout_width="100dp"
+                    android:layout_height="28dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginTop="15dp"
+                    android:layout_weight="1"
+                    android:ems="10"
+                    android:background="@drawable/informationborder"
+                    android:inputType="number"
+                    android:textColor="#272727"
+                    android:textSize="8pt" />
+
+                <TextView
+                    android:id="@+id/textage2"
+                    android:layout_width="10dp"
+                    android:layout_height="25dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_weight="1"
+                    android:text="歲"
+                    android:textColor="#272727"
+                    android:textSize="8pt" />
+
+            </LinearLayout>
+        </TableRow>
+
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/texteffect"
+                    android:layout_width="10dp"
+                    android:layout_height="25dp"
+                    android:layout_marginLeft="25dp"
+                    android:layout_marginTop="12dp"
+                    android:layout_weight="1"
+                    android:text="慢性疾病"
+                    android:textColor="#272727"
+                    android:textSize="8pt" />
+
+
+                <EditText
+                    android:id="@+id/effect"
+                    android:layout_width="100dp"
+                    android:layout_height="28dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginTop="15dp"
+                    android:layout_weight="1"
+                    android:ems="10"
+                    android:background="@drawable/informationborder"
+                    android:inputType="number"
+                    android:textColor="#272727"
+                    android:textSize="8pt" />
+
+
+            </LinearLayout>
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
+
+            <Button
+                android:id="@+id/buttonck"
+                android:layout_width="30dp"
+                android:layout_height="50dp"
+                android:layout_marginTop="30dp"
+                android:layout_marginLeft="100dp"
+                android:layout_marginRight="80dp"
+                android:onClick="gotoMainActivity"
+                android:text="Check" />
+        </TableRow>
+
+    </TableLayout>
+</android.support.constraint.ConstraintLayout>
