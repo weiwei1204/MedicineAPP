@@ -48,7 +48,7 @@ public class RobotActivity extends Activity {
                 StringRequest request = new StringRequest(Request.Method.POST, insertUrl, new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        Log.d("my", response);
+                        Log.d("my1", response);
                     }
                 }, new Response.ErrorListener() {
                     @Override

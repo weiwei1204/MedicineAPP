@@ -28,13 +28,6 @@ import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
 import com.kosalgeek.asynctask.AsyncResponse;
 
-import java.io.BufferedReader;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -47,8 +40,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private static final int REQ_CODE = 9001;
     String gname,gemail,googleid;
     RequestQueue requestQueue;
-    String insertUrl = "http://140.136.47.56/client2/insert.php/";
-    String inputStr;
+    String insertUrl = "http://192.168.100.9/client2/insert.php/";
 
 
 
@@ -93,11 +85,28 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     }
 
 
-    public void gotoMainActivity(View v){ //連到聊天機器人頁面
+    public void gotoMain(){ //連到首頁
+        Log.d("rrr", "4");
+
         Intent it = new Intent(this,MainActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putString("name",gname);
+        bundle.putString("email",gemail);
+        it.putExtras(bundle);   // 記得put進去，不然資料不會帶過去哦
         startActivity(it);
     }
 
+    public void gotoInformation(){ //連到個人資訊頁面
+        Log.d("rrr", "3");
+
+        Intent it = new Intent(this,informationActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putString("name",gname);
+        bundle.putString("email",gemail);
+        Log.d("mm",bundle.getString("email"));
+        it.putExtras(bundle);   // 記得put進去，不然資料不會帶過去哦
+        startActivity(it);
+    }
 
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
@@ -149,96 +158,55 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     }
 
 
-    public void member(){
+    public void member() {
 
         requestQueue = Volley.newRequestQueue(getApplicationContext());
 
         final StringRequest request = new StringRequest(Request.Method.POST, insertUrl, new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-//                        Log.d("asdfg","1");
-//                        Log.i("asdfg",response);
-                    }
-                }, new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                    }
-                }){
-                    protected Map<String,String> getParams() throws AuthFailureError {
-                        Map<String, String> parameters = new HashMap<String, String>();
-                        parameters.put("username", gname);
-                        parameters.put("password", gemail);
-                        parameters.put("google_id", googleid);
-                        Log.d("my",parameters.toString());
-                        check();
-//                        try {
-//                            Log.d("qqqqq","333");
-//
-//                            URL url = new URL(insertUrl);
-//                            HttpURLConnection httpHandler = (HttpURLConnection) url.openConnection();
-//                            httpHandler.setRequestMethod("GET");
-//                            httpHandler.setDoInput(true);
-//                            InputStream is = httpHandler.getInputStream();
-//                            BufferedReader br = new BufferedReader(new InputStreamReader(is));
-//                            inputStr = br.readLine();
-//                            Log.d("qqqqq","555");
-//
-//                            Log.d("qqqqq",inputStr);
-//                        } catch(Exception e){
-//                            Log.d("ErrorMessage", e.getLocalizedMessage());
-//                        }
-                        return parameters;
+            @Override
+            public void onResponse(String response) {
+                Log.d("rrr", "1");
+                Log.d("rrr", response);
 
-
-                    }
-                };
-                requestQueue.add(request);
-
-
-
-    }
-
-
-    public void check() {
-        Log.d("aaa","1");
-        try {
-            URL url = new URL(insertUrl);
-            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-            Log.d("aaa","2");
-
-//            connection.connect();
-//            Log.d("aaa","3");
-            connection.setRequestMethod("GET");
-            connection.setDoInput(true);
-            Log.d("aaa","3");
-            InputStream is = connection.getInputStream();
-            Log.d("aaa","4");
-
-            ByteArrayOutputStream byteArrayOutputStream=new ByteArrayOutputStream();
-            BufferedReader streamReader = new BufferedReader(new InputStreamReader(is, "UTF-8"));
-            Log.d("aaa","5");
-
-            while ((inputStr = streamReader.readLine()) != null) {
-                Log.d("aaa","6");
-
-                Log.d("aaa",inputStr);
+                if(response.contains("success")){//檢查是否為新會員
+                    gotoMain();
+                }
+                else if(response.contains("nodata")){
+                    gotoInformation();
+                }
             }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.d("rrr", error.toString());
+                Toast.makeText(getApplicationContext(), "Error read insert.php!!!", Toast.LENGTH_LONG).show();
+            }
+        }) {
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> parameters = new HashMap<String, String>();
+                parameters.put("username", gname);
+                parameters.put("password", gemail);
+                parameters.put("google_id", googleid);
+                Log.d("my", parameters.toString());
+                return parameters;
+
+
+            }
+        };
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(request);
+
+
+
     }
+
+
 
     private void updateUI(boolean isLogin){
 
         if (isLogin){
+            Log.d("rrr", "2");
 
-                Intent it = new Intent(this,informationActivity.class);
-            Bundle bundle = new Bundle();
-            bundle.putString("name",gname);
-            bundle.putString("email",gemail);
-            Log.d("mm",bundle.getString("email"));
-            it.putExtras(bundle);   // 記得put進去，不然資料不會帶過去哦
-                startActivity(it);
 
 //            Prof_Section.setVisibility(View.VISIBLE);
 //            SignIn.setVisibility(View.GONE);
