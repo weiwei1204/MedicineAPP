@@ -23,7 +23,7 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    android:id="@+id/textname"
+                    android:id="@+id/textnamec"
                     android:layout_width="60dp"
                     android:layout_height="25dp"
                     android:layout_marginLeft="25dp"
@@ -34,7 +34,7 @@
                     android:textSize="8pt" />
 
                 <TextView
-                    android:id="@+id/Name"
+                    android:id="@+id/Namec"
                     android:layout_width="220dp"
                     android:layout_height="25dp"
                     android:layout_marginLeft="5dp"
@@ -55,7 +55,7 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    android:id="@+id/textemail"
+                    android:id="@+id/textemailc"
                     android:layout_width="60dp"
                     android:layout_height="25dp"
                     android:layout_marginLeft="25dp"
@@ -66,7 +66,7 @@
                     android:textSize="8pt" />
 
                 <TextView
-                    android:id="@+id/email"
+                    android:id="@+id/emailc"
                     android:layout_width="220dp"
                     android:layout_height="25dp"
                     android:layout_marginLeft="5dp"
@@ -88,7 +88,7 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    android:id="@+id/textsex"
+                    android:id="@+id/textsexc"
                     android:layout_width="10dp"
                     android:layout_height="25dp"
                     android:layout_marginLeft="25dp"
@@ -99,14 +99,14 @@
                     android:textSize="8pt" />
 
                 <RadioGroup
-                    android:id="@+id/rggender"
+                    android:id="@+id/rggenderc"
                     android:layout_width="200dp"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
                     android:layout_marginRight="30dp">
 
                     <RadioButton
-                        android:id="@+id/radioman"
+                        android:id="@+id/radiomanc"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
@@ -117,7 +117,7 @@
                         android:buttonTint="#272727"/>
 
                     <RadioButton
-                        android:id="@+id/radiowoman"
+                        android:id="@+id/radiowomanc"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
@@ -142,7 +142,7 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    android:id="@+id/textheight"
+                    android:id="@+id/textheightc"
                     android:layout_width="10dp"
                     android:layout_height="25dp"
                     android:layout_marginLeft="25dp"
@@ -153,21 +153,20 @@
                     android:textSize="8pt" />
 
 
-                <EditText
-                    android:id="@+id/height"
+                <TextView
+                    android:id="@+id/heightc"
                     android:layout_width="100dp"
                     android:layout_height="28dp"
                     android:layout_marginLeft="5dp"
                     android:layout_marginTop="10dp"
                     android:layout_weight="1"
-                    android:ems="10"
                     android:background="@drawable/informationborder"
                     android:textColor="#272727"
                     android:textSize="8pt"
                     android:inputType="number"/>
 
                 <TextView
-                    android:id="@+id/textcm"
+                    android:id="@+id/textcmc"
                     android:layout_width="10dp"
                     android:layout_height="25dp"
                     android:layout_marginLeft="5dp"
@@ -190,7 +189,7 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    android:id="@+id/textweight"
+                    android:id="@+id/textweightc"
                     android:layout_width="10dp"
                     android:layout_height="25dp"
                     android:layout_marginLeft="25dp"
@@ -201,21 +200,20 @@
                     android:textSize="8pt" />
 
 
-                <EditText
-                    android:id="@+id/weight"
+                <TextView
+                    android:id="@+id/weightc"
                     android:layout_width="100dp"
                     android:layout_height="28dp"
                     android:layout_marginLeft="5dp"
                     android:layout_marginTop="15dp"
                     android:layout_weight="1"
-                    android:ems="10"
                     android:background="@drawable/informationborder"
                     android:inputType="number"
                     android:textColor="#272727"
                     android:textSize="8pt" />
 
                 <TextView
-                    android:id="@+id/textkg"
+                    android:id="@+id/textkgc"
                     android:layout_width="10dp"
                     android:layout_height="25dp"
                     android:layout_marginLeft="5dp"
@@ -238,7 +236,7 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    android:id="@+id/textage"
+                    android:id="@+id/textagec"
                     android:layout_width="10dp"
                     android:layout_height="25dp"
                     android:layout_marginLeft="25dp"
@@ -249,21 +247,20 @@
                     android:textSize="8pt" />
 
 
-                <EditText
-                    android:id="@+id/age"
+                <TextView
+                    android:id="@+id/agec"
                     android:layout_width="100dp"
                     android:layout_height="28dp"
                     android:layout_marginLeft="5dp"
                     android:layout_marginTop="15dp"
                     android:layout_weight="1"
-                    android:ems="10"
                     android:background="@drawable/informationborder"
                     android:inputType="number"
                     android:textColor="#272727"
                     android:textSize="8pt" />
 
                 <TextView
-                    android:id="@+id/textage2"
+                    android:id="@+id/textage2c"
                     android:layout_width="10dp"
                     android:layout_height="25dp"
                     android:layout_marginLeft="5dp"
@@ -287,7 +284,7 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    android:id="@+id/texteffect"
+                    android:id="@+id/texteffectc"
                     android:layout_width="10dp"
                     android:layout_height="25dp"
                     android:layout_marginLeft="25dp"
@@ -298,19 +295,17 @@
                     android:textSize="8pt" />
 
 
-                <EditText
-                    android:id="@+id/effect"
+                <TextView
+                    android:id="@+id/effectc"
                     android:layout_width="100dp"
                     android:layout_height="28dp"
                     android:layout_marginLeft="5dp"
                     android:layout_marginTop="15dp"
                     android:layout_weight="1"
-                    android:ems="10"
                     android:background="@drawable/informationborder"
-                    android:inputType="text"
+                    android:inputType="number"
                     android:textColor="#272727"
                     android:textSize="8pt" />
-
 
 
             </LinearLayout>
@@ -320,15 +315,34 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent" >
 
-            <Button
-                android:id="@+id/buttonck"
-                android:layout_width="30dp"
-                android:layout_height="50dp"
-                android:layout_marginLeft="100dp"
-                android:layout_marginRight="80dp"
-                android:layout_marginTop="30dp"
-                android:onClick="gotocheckinfrmationActivity"
-                android:text="Check" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/btnreturn"
+                    android:layout_width="30dp"
+                    android:layout_height="50dp"
+                    android:layout_marginLeft="80dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginTop="30dp"
+                    android:layout_weight="1"
+                    android:onClick="gotoinActivity"
+                    android:text="修改" />
+
+                <Button
+                    android:id="@+id/btnok"
+                    android:layout_width="30dp"
+                    android:layout_height="50dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="50dp"
+                    android:layout_marginTop="30dp"
+                    android:layout_weight="1"
+                    android:onClick="gotoMainActivity"
+                    android:text="確認" />
+            </LinearLayout>
+
         </TableRow>
 
     </TableLayout>

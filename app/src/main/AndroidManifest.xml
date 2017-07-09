@@ -72,7 +72,10 @@
             android:label="登入" />
         <activity
             android:name=".informationActivity"
-            android:label="@string/title_activity_information"></activity>
+            android:label="@string/title_activity_information" />
+        <activity
+            android:name=".checkinfrmationActivity"
+            android:label="@string/title_activity_checkinfrmation"></activity>
     </application>
 
 </manifest>

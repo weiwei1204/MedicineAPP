@@ -103,6 +103,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         Bundle bundle = new Bundle();
         bundle.putString("name",gname);
         bundle.putString("email",gemail);
+        bundle.putString("googleid",googleid);
         Log.d("mm",bundle.getString("email"));
         it.putExtras(bundle);   // 記得put進去，不然資料不會帶過去哦
         startActivity(it);

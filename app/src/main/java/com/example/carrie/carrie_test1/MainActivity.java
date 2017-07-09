@@ -69,5 +69,7 @@ public class MainActivity extends LoginActivity {
         Intent it = new Intent(this,LoginActivity.class);
         startActivity(it);
     }
-
+    public void goback(View v){
+        finish();
+    }
 }
