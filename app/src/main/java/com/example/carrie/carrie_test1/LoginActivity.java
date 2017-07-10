@@ -40,7 +40,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private static final int REQ_CODE = 9001;
     String gname,gemail,googleid;
     RequestQueue requestQueue;
-    String insertUrl = "http://192.168.100.9/client2/insert.php/";
+    String insertUrl = "http://192.168.100.7/client2/insert.php/";
 
 
 
@@ -59,6 +59,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     GoogleSignInOptions signInOptions = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestEmail().build();
         googleApiCliente = new GoogleApiClient.Builder(this).enableAutoManage(this,this).addApi(Auth.GOOGLE_SIGN_IN_API,signInOptions).build();
+
+
+    }
 
 
     }
@@ -123,22 +126,25 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     }
 
-    private  void  signOut() {
-
+    private   void  signOut() {
+        Log.d("hh","5");
 
         Auth.GoogleSignInApi.signOut(googleApiCliente).setResultCallback(new ResultCallback<Status>() {
             @Override
             public void onResult(@NonNull Status status) {
-                updateUI(false);
+
+                    updateUI(false);
+
             }
         });
+        Log.d("hh","6");
 
     }
 
 
     private void handleResult(GoogleSignInResult result){
 
-        if (result.isSuccess()){
+        if (result.isSuccess()){//取google的值
             GoogleSignInAccount account = result.getSignInAccount();
             String name = account.getDisplayName();
             String email = account.getEmail();
@@ -183,7 +189,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 Toast.makeText(getApplicationContext(), "Error read insert.php!!!", Toast.LENGTH_LONG).show();
             }
         }) {
-            protected Map<String, String> getParams() throws AuthFailureError {
+            protected Map<String, String> getParams() throws AuthFailureError {//把值丟到php
                 Map<String, String> parameters = new HashMap<String, String>();
                 parameters.put("username", gname);
                 parameters.put("password", gemail);
@@ -215,6 +221,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         else {
             Prof_Section2.setVisibility(View.GONE);
             SignIn.setVisibility(View.VISIBLE);
+            Log.d("hh","5");
+
         }
 
     }

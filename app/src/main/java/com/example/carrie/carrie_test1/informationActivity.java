@@ -90,7 +90,6 @@ public class informationActivity extends AppCompatActivity{
 
         try{
             show();
-            Log.d("mm","0");
             Intent it = new Intent(this,checkinfrmationActivity.class);
             Bundle bundle = new Bundle();
             bundle.putString("name",Name.getText().toString());
@@ -102,11 +101,8 @@ public class informationActivity extends AppCompatActivity{
             bundle.putString("gender", radioresult);
             bundle.putString("googleid", googleid);
             Log.d("mm1",radioresult);
-            Log.d("mm","1");
             it.putExtras(bundle);   // 記得put進去，不然資料不會帶過去哦
-            Log.d("mm","2");
             startActivity(it);
-            Log.d("mm","3");
         }catch(Exception obj){
             if(rggender.getCheckedRadioButtonId()==-1){
                 Toast.makeText(informationActivity.this, "Please enter gender", Toast.LENGTH_SHORT).show();
