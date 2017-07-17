@@ -92,6 +92,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         startActivity(it);
     }
 
+    public void gotorow(View v){ //連到聊天機器人頁面
+        Intent it = new Intent(this,Beacon.class);
+        startActivity(it);
+    }
 
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
