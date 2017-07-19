@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#FAFAFA"
-    tools:context="com.example.carrie.carrie_test1.com.example.carrie.strawberry.comment">
+    tools:context="com.example.carrie.carrie_test1.comment">
 
     <LinearLayout
         android:layout_width="368dp"

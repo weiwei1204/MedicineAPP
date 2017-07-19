@@ -4,14 +4,19 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
 import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
@@ -23,20 +28,21 @@ import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
 import com.kosalgeek.asynctask.AsyncResponse;
 
+import java.util.HashMap;
+import java.util.Map;
+
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener,GoogleApiClient.OnConnectionFailedListener,AsyncResponse {
 
-    private LinearLayout Prof_Section;
-    private Button SignOut;
+    private LinearLayout Prof_Section2;
     private SignInButton SignIn;
-    private TextView Name,Email;
-    private GoogleApiClient googleApiCliente;
+    public TextView Name,Email;
+    public GoogleApiClient googleApiCliente;
     private static final int REQ_CODE = 9001;
-    EditText ET_name,ET_username,ET_email;
-    String name1,username1,email1;
-    Button insert;
+    String gname,gemail,googleid;
     RequestQueue requestQueue;
-   
+    String insertUrl = "http://192.168.100.7/client2/insert.php/";
+
 
 
 
@@ -44,18 +50,22 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        Prof_Section = (LinearLayout)findViewById(R.id.prof_section);
-        SignOut = (Button)findViewById(R.id.btn);
+        Prof_Section2= (LinearLayout)findViewById(R.id.prof_section2);
+
         SignIn = (SignInButton)findViewById(R.id.btn_login);
         Name = (TextView)findViewById(R.id.Name);
         Email = (TextView)findViewById(R.id.email);
         SignIn.setOnClickListener(this);
-        SignOut.setOnClickListener(this);
-        Prof_Section.setVisibility(View.GONE);
-        GoogleSignInOptions signInOptions = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestEmail().build();
+        Prof_Section2.setVisibility(View.VISIBLE);
+
+    GoogleSignInOptions signInOptions = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestEmail().build();
         googleApiCliente = new GoogleApiClient.Builder(this).enableAutoManage(this,this).addApi(Auth.GOOGLE_SIGN_IN_API,signInOptions).build();
 
+
     }
+
+
+    
 
     @Override
     public void processFinish(String result){
@@ -71,29 +81,40 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             case R.id.btn_login:
                 signIn();
                 break;
-            case R.id.btn:
-                signOut();
-                break;
+//            case R.id.setbtn:
+//                signOut();
+//                break;
         }
 
-//        HashMap postData=new HashMap();
-//
-//        postData.put("mobile","android");
-//        postData.put("Username","weiwei");
-//        postData.put("Password","12345");
-//
-//        PostResponseAsyncTask task = new PostResponseAsyncTask(this,postData);
-//        task.execute("http://127.0.0.1/client2/member.php");
     }
 
 
-    public void gotoMainActivity(View v){ //連到聊天機器人頁面
+    public void gotoMain(){ //連到首頁
+        Log.d("rrr", "4");
+
         Intent it = new Intent(this,MainActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putString("name",gname);
+        bundle.putString("email",gemail);
+        it.putExtras(bundle);   // 記得put進去，不然資料不會帶過去哦
         startActivity(it);
     }
 
+
     public void gotorow(View v){ //連到聊天機器人頁面
         Intent it = new Intent(this,Beacon.class);
+
+    public void gotoInformation(){ //連到個人資訊頁面
+        Log.d("rrr", "3");
+
+        Intent it = new Intent(this,informationActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putString("name",gname);
+        bundle.putString("email",gemail);
+        bundle.putString("googleid",googleid);
+        Log.d("mm",bundle.getString("email"));
+        it.putExtras(bundle);   // 記得put進去，不然資料不會帶過去哦
+
         startActivity(it);
     }
 
@@ -104,32 +125,42 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     private void  signIn() {
 
+
         Intent intent = Auth.GoogleSignInApi.getSignInIntent(googleApiCliente);
         startActivityForResult(intent,REQ_CODE);
 
+
     }
 
-    private  void  signOut() {
+    private   void  signOut() {
+        Log.d("hh","5");
 
         Auth.GoogleSignInApi.signOut(googleApiCliente).setResultCallback(new ResultCallback<Status>() {
             @Override
             public void onResult(@NonNull Status status) {
-                updateUI(false);
+
+                    updateUI(false);
+
             }
         });
+        Log.d("hh","6");
 
     }
 
 
     private void handleResult(GoogleSignInResult result){
 
-        if (result.isSuccess()){
+        if (result.isSuccess()){//取google的值
             GoogleSignInAccount account = result.getSignInAccount();
             String name = account.getDisplayName();
             String email = account.getEmail();
+            String google =account.getId();
+            gname=name;
+            gemail=email;
+            googleid=google;
+
+            member();
             String username="rita";
-            Name.setText(name);
-            Email.setText(email);
             updateUI(true);
 
         }
@@ -139,20 +170,70 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     }
 
+
+    public void member() {
+
+        requestQueue = Volley.newRequestQueue(getApplicationContext());
+
+        final StringRequest request = new StringRequest(Request.Method.POST, insertUrl, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Log.d("rrr", "1");
+                Log.d("rrr", response);
+
+                if(response.contains("success")){//檢查是否為新會員
+                    gotoMain();
+                }
+                else if(response.contains("nodata")){
+                    gotoInformation();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.d("rrr", error.toString());
+                Toast.makeText(getApplicationContext(), "Error read insert.php!!!", Toast.LENGTH_LONG).show();
+            }
+        }) {
+            protected Map<String, String> getParams() throws AuthFailureError {//把值丟到php
+                Map<String, String> parameters = new HashMap<String, String>();
+                parameters.put("username", gname);
+                parameters.put("password", gemail);
+                parameters.put("google_id", googleid);
+                Log.d("my", parameters.toString());
+                return parameters;
+
+
+            }
+        };
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(request);
+
+
+
+    }
+
+
+
     private void updateUI(boolean isLogin){
 
         if (isLogin){
-            Prof_Section.setVisibility(View.VISIBLE);
-            SignIn.setVisibility(View.GONE);
+            Log.d("rrr", "2");
+
+
+//            Prof_Section.setVisibility(View.VISIBLE);
+//            SignIn.setVisibility(View.GONE);
         }
         else {
-            Prof_Section.setVisibility(View.GONE);
+            Prof_Section2.setVisibility(View.GONE);
             SignIn.setVisibility(View.VISIBLE);
+            Log.d("hh","5");
+
         }
 
     }
 
-    protected void onActivityResult(int requestCode, int resultCode, Intent data){
+    public void onActivityResult(int requestCode, int resultCode, Intent data){
         super.onActivityResult(requestCode,resultCode,data);
 
         if (requestCode==REQ_CODE){
@@ -160,6 +241,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             handleResult(result);
         }
     }
+
+
 
 
 

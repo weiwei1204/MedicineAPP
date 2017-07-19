@@ -7,13 +7,44 @@
     android:background="#70CECE"
     tools:context="com.example.carrie.carrie_test1.LoginActivity">
 
+    <!--<LinearLayout-->
+        <!--android:id="@+id/prof_section"-->
+        <!--android:layout_width="344dp"-->
+        <!--android:layout_height="495dp"-->
+        <!--android:orientation="vertical"-->
+        <!--tools:layout_editor_absoluteX="8dp"-->
+        <!--tools:layout_editor_absoluteY="8dp">-->
+
+        <!--<ImageView-->
+            <!--android:id="@+id/imageView20"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="300dp"-->
+            <!--android:gravity="center"-->
+            <!--app:srcCompat="@drawable/bkicon" />-->
+
+        <!--<Button-->
+            <!--android:id="@+id/btn"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_marginLeft="100dp"-->
+            <!--android:background="@drawable/loginbutton"-->
+            <!--android:text="logout"-->
+            <!--android:onClick="userReg"-->
+            <!--android:textSize="10pt" />-->
+
+
+        <!---->
+
+
+    <!--</LinearLayout>-->
     <LinearLayout
-        android:id="@+id/prof_section"
+        android:id="@+id/prof_section2"
         android:layout_width="344dp"
         android:layout_height="495dp"
         android:orientation="vertical"
         tools:layout_editor_absoluteX="8dp"
-        tools:layout_editor_absoluteY="8dp">
+        tools:layout_editor_absoluteY="8dp"
+        >
 
         <Button
             android:id="@+id/button5"
@@ -23,42 +54,32 @@
             android:text="Beacon" />
 
         <ImageView
-            android:id="@+id/imageView20"
+            android:id="@+id/bkimg"
             android:layout_width="match_parent"
-            android:layout_height="250dp"
+            android:layout_height="300dp"
             android:gravity="center"
-            app:srcCompat="@drawable/home_picture" />
+            app:srcCompat="@drawable/bkicon" />
+        <com.google.android.gms.common.SignInButton
 
-        <Button
-            android:id="@+id/btn"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:id="@+id/btn_login"
+            android:layout_width="150dp"
+            android:layout_height="80dp"
             android:layout_marginLeft="100dp"
-            android:background="@drawable/loginbutton"
-            android:text="logout"
-            android:onClick="userReg"
-            android:textSize="10pt" />
+            ></com.google.android.gms.common.SignInButton>
+        <!--android:background="@drawable/loginbutton"-->
+        <!--<TextView-->
+            <!--android:id="@+id/Name"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="TextView" />-->
 
-
-        <TextView
-            android:id="@+id/Name"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="TextView" />
-
-        <TextView
-            android:id="@+id/email"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="TextView" />
-
+        <!--<TextView-->
+            <!--android:id="@+id/email"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="TextView" />-->
 
     </LinearLayout>
-    <com.google.android.gms.common.SignInButton
 
-        android:id="@+id/btn_login"
-        android:layout_width="150dp"
-        android:layout_height="80dp"
-        ></com.google.android.gms.common.SignInButton>
 
 </android.support.constraint.ConstraintLayout>

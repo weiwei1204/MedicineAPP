@@ -24,15 +24,13 @@ public class RobotActivity extends Activity {
     EditText name, paasword;
     Button insert;
     RequestQueue requestQueue;
-    String insertUrl = "http://140.136.47.47/client2/insert.php/";
+    String insertUrl = "http://140.136.47.56/client2/insert.php/";
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Log.d("myTag", "This is my message");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_robot);
-        Log.d("my", "view");
 
         name = (EditText) findViewById(R.id.e1);
         paasword = (EditText) findViewById(R.id.e2);
@@ -50,7 +48,7 @@ public class RobotActivity extends Activity {
                 StringRequest request = new StringRequest(Request.Method.POST, insertUrl, new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        Log.d("my", response);
+                        Log.d("my1", response);
                     }
                 }, new Response.ErrorListener() {
                     @Override
@@ -67,7 +65,7 @@ public class RobotActivity extends Activity {
 
                    }
                 };
-                Log.d("my",request.toString());
+                Log.d("pp",request.toString());
                 requestQueue.add(request);
             }
 

@@ -5,8 +5,12 @@
     <uses-sdk
         android:minSdkVersion="8"
         android:targetSdkVersion="17" />
-    <uses-permission android:name="android.permission.INTERNET"/>
+
+    <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -16,6 +20,7 @@
         android:theme="@style/AppTheme">
 
 
+
         <activity
             android:name=".Main2">
         <intent-filter>
@@ -23,6 +28,7 @@
             <category android:name="android.intent.category.LAUNCHER" />
         </intent-filter>
 </activity>
+
 
         <activity
             android:name=".FirstActivity"
@@ -51,7 +57,6 @@
         <activity
             android:name=".beaconActivity"
             android:label="@string/title_activity_beacon" />
-
         <activity
             android:name=".medicinevertify"
             android:label="@string/title_activity_medicinevertify" />
@@ -69,8 +74,13 @@
             android:label="@string/title_activity_schedule" />
         <activity
             android:name=".LoginActivity"
-            android:label="登入頁面" />
-
+            android:label="登入" />
+        <activity
+            android:name=".informationActivity"
+            android:label="@string/title_activity_information" />
+        <activity
+            android:name=".checkinfrmationActivity"
+            android:label="@string/title_activity_checkinfrmation"></activity>
 
     </application>
 
