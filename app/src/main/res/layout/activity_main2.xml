@@ -6,7 +6,8 @@
     android:layout_height="match_parent"
     android:background="#70CECE"
 
-    tools:context="com.example.carrie.carrie_test1.Main2">
+    tools:context="com.example.carrie.carrie_test1.Main2"
+    >
 
     
     <LinearLayout
@@ -34,6 +35,8 @@
             android:layout_weight="30"
             android:text="吾藥可救"
             android:textSize="20pt" />
+
+
     </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>

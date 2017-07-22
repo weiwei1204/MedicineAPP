@@ -31,6 +31,7 @@ import com.kosalgeek.asynctask.AsyncResponse;
 import java.util.HashMap;
 import java.util.Map;
 
+
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener,GoogleApiClient.OnConnectionFailedListener,AsyncResponse {
 
     private LinearLayout Prof_Section2;
@@ -100,6 +101,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         startActivity(it);
     }
 
+
+    public void gotorow(View v){ //連到聊天機器人頁面
+        Intent it = new Intent(this,Beacon.class);
+
     public void gotoInformation(){ //連到個人資訊頁面
         Log.d("rrr", "3");
 
@@ -110,6 +115,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         bundle.putString("googleid",googleid);
         Log.d("mm",bundle.getString("email"));
         it.putExtras(bundle);   // 記得put進去，不然資料不會帶過去哦
+
         startActivity(it);
     }
 
