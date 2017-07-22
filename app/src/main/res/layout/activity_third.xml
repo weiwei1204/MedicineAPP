@@ -5,7 +5,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#FAFAFA"
-    tools:context="com.example.carrie.carrie_test1.com.example.carrie.strawberry.ThirdActivity">
+    tools:context="com.example.carrie.carrie_test1.ThirdActivity">
+
+
 
     <TableLayout
         android:layout_width="344dp"
@@ -135,31 +137,80 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:id="@+id/layoutTeste"
                 android:orientation="vertical">
 
-                <TextView
-                    android:id="@+id/txttime"
+                <!--<TextView-->
+                    <!--android:id="@+id/txttime"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="30dp"-->
+                    <!--android:layout_marginLeft="20dp"-->
+                    <!--android:layout_marginTop="20dp"-->
+                    <!--android:layout_weight="1"-->
+                    <!--android:text="每日提醒時間"-->
+                    <!--android:textColor="#272727"-->
+                    <!--android:textSize="10pt" />-->
+
+
+                <!--<EditText-->
+                    <!--android:id="@+id/timetxt"-->
+                    <!--android:layout_width="200dp"-->
+                    <!--android:layout_height="35dp"-->
+                    <!--android:layout_marginLeft="20dp"-->
+                    <!--android:layout_marginTop="20dp"-->
+                    <!--android:layout_weight="1"-->
+                    <!--android:background="@drawable/thirdsettext"-->
+                    <!--android:ems="10"-->
+                    <!--android:inputType="time"-->
+                    <!--android:textColor="#272727" />-->
+
+                <!--<ImageButton-->
+                    <!--android:id="@+id/imageButton14"-->
+                    <!--android:layout_width="50dp"-->
+                    <!--android:layout_height="50dp"-->
+                    <!--android:layout_weight="1"-->
+                    <!--app:srcCompat="@drawable/add" />-->
+                <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="30dp"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginTop="20dp"
-                    android:layout_weight="1"
-                    android:text="每日提醒時間"
-                    android:textColor="#272727"
-                    android:textSize="10pt" />
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:id="@+id/txttime"
+                        android:layout_width="match_parent"
+                        android:layout_height="30dp"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginTop="20dp"
+                        android:layout_weight="1"
+                        android:text="每日提醒時間"
+                        android:textColor="#272727"
+                        android:textSize="10pt"
+                        android:layout_alignBottom="@+id/btnAdd"
+                        android:layout_alignParentLeft="true"
+                        android:layout_toLeftOf="@+id/btnAdd"
+                        android:gravity="center_vertical|center_horizontal"
+                        android:textAppearance="?android:attr/textAppearanceLarge" />
 
+                    <ImageButton android:id="@+id/btnAdd"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_alignParentTop="true"
+                        android:contentDescription="@string/btnAdd"
+                        android:src="@android:drawable/ic_input_add" />
+                </RelativeLayout>
 
-                <EditText
-                    android:id="@+id/timetxt"
-                    android:layout_width="200dp"
-                    android:layout_height="35dp"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginTop="20dp"
-                    android:layout_weight="1"
-                    android:background="@drawable/thirdsettext"
-                    android:ems="10"
-                    android:inputType="time"
-                    android:textColor="#272727" />
+                <ScrollView android:id="@+id/scrollView1"
+                    android:layout_width="match_parent"
+                    android:layout_height="275dp">
+                    <LinearLayout android:id="@+id/linearLayoutForm"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+                    </LinearLayout>
+                </ScrollView>
+                <Button android:id="@+id/btnDisplay"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/btnDisplay" />
             </LinearLayout>
 
         </TableRow>
@@ -203,7 +254,8 @@
                     android:layout_marginLeft="5dp"
                     android:layout_marginTop="15dp"
                     android:layout_weight="1"
-                    android:background="@drawable/search" />
+                    android:background="@drawable/search"
+                    android:onClick="gotoalarm" />
 
             </LinearLayout>
 

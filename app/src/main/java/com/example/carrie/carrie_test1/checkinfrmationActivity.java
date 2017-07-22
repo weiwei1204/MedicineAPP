@@ -8,6 +8,18 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.RadioButton;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class checkinfrmationActivity extends Activity {
 
@@ -15,6 +27,10 @@ public class checkinfrmationActivity extends Activity {
     private RadioButton radiomanc,radiowomanc;
     private String googleid;
     private Button btnreturn,btnok;
+    String email,name,height,weight,age,effect,gender;
+    RequestQueue requestQueue;
+    String insertUrl = "http://192.168.100.9/medicine/insert.php/";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,13 +49,13 @@ public class checkinfrmationActivity extends Activity {
         btnok = (Button)findViewById(R.id.btnok);
 
         Bundle bundle = getIntent().getExtras();
-        String email = bundle.getString("email");
-        String name = bundle.getString("name");
-        String height = bundle.getString("height");
-        String weight = bundle.getString("weight");
-        String age = bundle.getString("age");
-        String effect = bundle.getString("effect");
-        String gender = bundle.getString("gender");
+        email = bundle.getString("email");
+        name = bundle.getString("name");
+        height = bundle.getString("height");
+        weight = bundle.getString("weight");
+        age = bundle.getString("age");
+        effect = bundle.getString("effect");
+        gender = bundle.getString("gender");
         googleid=bundle.getString("googleid");
 
         Namec.setText(name);
@@ -61,7 +77,44 @@ public class checkinfrmationActivity extends Activity {
     }
 
 
-    public void gotoinActivity(View v){ //連到首頁
+    public void insertmember() {
+
+        requestQueue = Volley.newRequestQueue(getApplicationContext());
+
+        final StringRequest request = new StringRequest(Request.Method.POST, insertUrl, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.d("rrr", error.toString());
+                Toast.makeText(getApplicationContext(), "Error read insert.php!!!", Toast.LENGTH_LONG).show();
+            }
+        })
+        {
+            protected Map<String, String> getParams() throws AuthFailureError {//把值丟到php
+                Map<String, String> parameters = new HashMap<String, String>();
+                parameters.put("name", name);
+                parameters.put("email", email);
+                parameters.put("gender_man",gender);
+                parameters.put("weight",weight);
+                parameters.put("height",height);
+                parameters.put("google_id", googleid);
+                Log.d("my111", parameters.toString());
+                Log.d("my","checck!!!");
+                return parameters;
+
+            }
+        }
+                ;
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(request);
+
+    }
+
+    public void gotoinActivity(View v){ //連到個人資訊頁面
         Intent it = new Intent(this,informationActivity.class);
         Bundle bundle = new Bundle();
         bundle.putString("name",Namec.getText().toString());
@@ -79,7 +132,11 @@ public class checkinfrmationActivity extends Activity {
     }
 
     public void gotoMainActivity(View v){ //連到首頁
+        insertmember();
         Intent it = new Intent(this,MainActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putString("googleid", googleid);
+        it.putExtras(bundle);   // 記得put進去，不然資料不會帶過去哦
         startActivity(it);
     }
 

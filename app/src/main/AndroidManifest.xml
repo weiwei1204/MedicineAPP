@@ -75,7 +75,29 @@
             android:label="@string/title_activity_information" />
         <activity
             android:name=".checkinfrmationActivity"
-            android:label="@string/title_activity_checkinfrmation"></activity>
+            android:label="@string/title_activity_checkinfrmation" />
+        <activity
+            android:name=".Generate_Qrcode"
+            android:label="@string/title_activity_generate__qrcode" />
+        <activity
+            android:name=".Scanner"
+            android:label="@string/title_activity_scanner" />
+        <activity
+            android:name=".Choice"
+            android:label="@string/title_activity_choice" />
+        <activity
+            android:name=".alarm"
+            android:label="@string/title_activity_alarm" />
+
+        <receiver android:name=".Alarm_Receiver" />
+
+        <service
+            android:name=".RingtonePlayingService"
+            android:enabled="true" />
+
+        <activity
+            android:name=".edt"
+            android:label="@string/title_activity_edt"></activity>
     </application>
 
 </manifest>
