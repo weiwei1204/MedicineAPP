@@ -46,12 +46,6 @@
         tools:layout_editor_absoluteY="8dp"
         >
 
-        <Button
-            android:id="@+id/button5"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:onClick="gotorow"
-            android:text="Beacon" />
 
         <ImageView
             android:id="@+id/bkimg"
