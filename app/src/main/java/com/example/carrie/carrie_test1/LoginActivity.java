@@ -102,8 +102,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     }
 
 
-    public void gotorow(View v){ //連到聊天機器人頁面
-        Intent it = new Intent(this,Beacon.class);
+    public void gotorow(View v) { //連到聊天機器人頁面
+        Intent it = new Intent(this, Beacon.class);
+    }
 
     public void gotoInformation(){ //連到個人資訊頁面
         Log.d("rrr", "3");
