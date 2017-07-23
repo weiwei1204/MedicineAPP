@@ -13,14 +13,8 @@ import android.os.Handler;
 
 public class Main2 extends Activity {
 
-    private static int SPLASH_TIME_OUT=4000;
+    private static int SPLASH_TIME_OUT=500;
    // ImageView imageView;
-
-
-public class Main2 extends Activity {
-
-
-    private static int SPLASH_TIME_OUT = 500;
 
 
     @Override
@@ -36,11 +30,11 @@ public class Main2 extends Activity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                Intent homeIntent = new Intent(Main2.this, beaconActivity.class);
+                Intent homeIntent = new Intent(Main2.this, LoginActivity.class);
                 startActivity(homeIntent);
                 finish();
             }
         }, SPLASH_TIME_OUT);
     }
 
-}}
+}

@@ -46,12 +46,13 @@
         tools:layout_editor_absoluteY="8dp"
         >
 
+
         <Button
             android:id="@+id/button5"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:onClick="gotorow"
-            android:text="Beacon" />
+            android:onClick="gotoFirstAvtivity"
+            android:text="藥品資訊（暫時放在這之後會刪掉：））" />
 
         <ImageView
             android:id="@+id/bkimg"
