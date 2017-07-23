@@ -36,48 +36,45 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     private LinearLayout Prof_Section2;
     private SignInButton SignIn;
-    public TextView Name,Email;
+    public TextView Name, Email;
     public GoogleApiClient googleApiCliente;
     private static final int REQ_CODE = 9001;
-    String gname,gemail,googleid;
+    String gname, gemail, googleid;
     RequestQueue requestQueue;
     String insertUrl = "http://192.168.100.9/medicine/login.php/";
 
 
 
-
-@Override
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        Prof_Section2= (LinearLayout)findViewById(R.id.prof_section2);
+        Prof_Section2 = (LinearLayout) findViewById(R.id.prof_section2);
 
-        SignIn = (SignInButton)findViewById(R.id.btn_login);
-        Name = (TextView)findViewById(R.id.Name);
-        Email = (TextView)findViewById(R.id.email);
+        SignIn = (SignInButton) findViewById(R.id.btn_login);
+        Name = (TextView) findViewById(R.id.Name);
+        Email = (TextView) findViewById(R.id.email);
         SignIn.setOnClickListener(this);
         Prof_Section2.setVisibility(View.VISIBLE);
 
-    GoogleSignInOptions signInOptions = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestEmail().build();
-        googleApiCliente = new GoogleApiClient.Builder(this).enableAutoManage(this,this).addApi(Auth.GOOGLE_SIGN_IN_API,signInOptions).build();
+        GoogleSignInOptions signInOptions = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestEmail().build();
+        googleApiCliente = new GoogleApiClient.Builder(this).enableAutoManage(this, this).addApi(Auth.GOOGLE_SIGN_IN_API, signInOptions).build();
 
 
     }
 
 
-
-
     @Override
-    public void processFinish(String result){
+    public void processFinish(String result) {
 
-        Toast.makeText(this,result,Toast.LENGTH_LONG).show();
+        Toast.makeText(this, result, Toast.LENGTH_LONG).show();
     }
 
 
     @Override
     public void onClick(View v) {
 
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.btn_login:
                 signIn();
                 break;
@@ -89,11 +86,13 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     }
 
 
-    public void gotoMain(){ //連到首頁
+    public void gotoMain() { //連到首頁
         Log.d("rrr", "4");
 
-        Intent it = new Intent(this,MainActivity.class);
+        Intent it = new Intent(this, MainActivity.class);
         Bundle bundle = new Bundle();
+        bundle.putString("name", gname);
+        bundle.putString("email", gemail);
         bundle.putString("name",gname);
         bundle.putString("email",gemail);
         bundle.putString("googleid",googleid);
@@ -211,7 +210,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         }
         ;
         RequestQueue requestQueue = Volley.newRequestQueue(this);
-        requestQueue.add(request);
+      requestQueue.add(request);
 
 
 
@@ -246,7 +245,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         }
     }
 
-
+    public void gotoFirstAvtivity(View v){ //連到搜尋藥品資訊頁面
+        Intent it = new Intent(this,FirstActivity.class);
+        startActivity(it);
+    }
 
 
 

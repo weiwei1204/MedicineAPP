@@ -6,13 +6,12 @@ import android.os.Bundle;
 import android.os.Handler;
 
 
-
-
-
 public class Main2 extends Activity {
 
 
-    private static int SPLASH_TIME_OUT = 500;
+    private static int SPLASH_TIME_OUT=500;
+   // ImageView imageView;
+
 
 
     @Override
