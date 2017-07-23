@@ -37,14 +37,23 @@
                 android:layout_height="match_parent"
                 android:orientation="horizontal">
 
-                <ImageButton
-                    android:id="@+id/setbtn"
+                <!--<ImageButton-->
+                    <!--android:id="@+id/setbtn"-->
+                    <!--android:layout_width="35sp"-->
+                    <!--android:layout_height="35sp"-->
+                    <!--android:layout_marginLeft="130dp"-->
+                    <!--android:background="@drawable/settings"-->
+                    <!--android:onClick="gotoLoginActivity" />-->
+
+                <Spinner
+                    android:id="@+id/spinner"
                     android:layout_width="35sp"
                     android:layout_height="35sp"
                     android:layout_marginLeft="130dp"
                     android:background="@drawable/settings"
-                   />
 
+
+                    ></Spinner>
             </LinearLayout>
 
         </TableRow>
@@ -130,7 +139,7 @@
                     android:layout_marginRight="5sp"
                     android:layout_marginTop="5sp"
                     android:background="@drawable/calendar"
-                    android:onClick="gotoScheduleActivity" />
+                    android:onClick="gotoChoice" />
 
                 <TextView
                     android:id="@+id/textView3"

@@ -41,7 +41,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private static final int REQ_CODE = 9001;
     String gname, gemail, googleid;
     RequestQueue requestQueue;
-    String insertUrl = "http://140.136.10.149/client2/insert.php/";
+    String insertUrl = "http://192.168.100.9/medicine/login.php/";
+
 
 
     @Override
@@ -92,6 +93,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         Bundle bundle = new Bundle();
         bundle.putString("name", gname);
         bundle.putString("email", gemail);
+        bundle.putString("name",gname);
+        bundle.putString("email",gemail);
+        bundle.putString("googleid",googleid);
         it.putExtras(bundle);   // 記得put進去，不然資料不會帶過去哦
         startActivity(it);
     }
@@ -193,20 +197,22 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 Log.d("rrr", error.toString());
                 Toast.makeText(getApplicationContext(), "Error read insert.php!!!", Toast.LENGTH_LONG).show();
             }
-        }) {
+        })
+ {
             protected Map<String, String> getParams() throws AuthFailureError {//把值丟到php
                 Map<String, String> parameters = new HashMap<String, String>();
-                parameters.put("username", gname);
-                parameters.put("password", gemail);
+//                parameters.put("username", gname);
+//                parameters.put("password", gemail);
                 parameters.put("google_id", googleid);
                 Log.d("my", parameters.toString());
                 return parameters;
 
 
             }
-        };
+        }
+        ;
         RequestQueue requestQueue = Volley.newRequestQueue(this);
-        requestQueue.add(request);
+      requestQueue.add(request);
 
 
 

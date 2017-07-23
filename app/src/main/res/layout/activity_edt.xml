@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+    <!--<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
+        <!--android:layout_width="344dp"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:orientation="horizontal"-->
+        <!--tools:layout_editor_absoluteY="0dp"-->
+        <!--tools:layout_editor_absoluteX="8dp">-->
+        <!--<EditText-->
+            <!--android:layout_width="200dp"-->
+            <!--android:layout_height="35dp"-->
+            <!--android:layout_marginLeft="20dp"-->
+            <!--android:layout_marginTop="20dp"-->
+            <!--android:layout_weight="1"-->
+            <!--android:background="@drawable/thirdsettext"-->
+            <!--android:ems="10"-->
+            <!--android:inputType="time"-->
+            <!--android:textColor="#272727"-->
+            <!--/>-->
+        <!--<Button-->
+            <!--android:id="@+id/edtbtn"-->
+            <!--android:layout_marginLeft="20dp"-->
+            <!--android:layout_marginTop="20dp"-->
+            <!--android:layout_width="44dp"-->
+            <!--android:layout_height="44dp" />-->
+    <!--</LinearLayout>-->
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/rowdetail"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+        <EditText
+            android:id="@+id/timetxt"
+            android:layout_width="200dp"
+            android:layout_height="35dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="20dp"
+            android:layout_weight="0.62"
+            android:background="@drawable/thirdsettext"
+            android:ems="10"
+            android:inputType="time"
+            android:textColor="#272727"> <requestFocus />
+        </EditText>
+        <ImageButton android:id="@+id/btnRemove"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/btnRemove"
+            android:src="@android:drawable/ic_delete" />
+    </LinearLayout>

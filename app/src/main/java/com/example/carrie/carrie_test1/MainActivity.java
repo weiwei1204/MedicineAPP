@@ -4,7 +4,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
+import android.widget.Spinner;
 
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.common.api.ResultCallback;
@@ -13,6 +16,9 @@ import com.google.android.gms.common.api.Status;
 public class MainActivity extends LoginActivity {
 
     private ImageButton SignOut;
+    Spinner spinner;
+    ArrayAdapter<CharSequence> adapter;
+    String googleid;
 
 
 
@@ -20,20 +26,52 @@ public class MainActivity extends LoginActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        SignOut = (ImageButton) findViewById(R.id.bkimg);
-        SignOut.setOnClickListener(this);
 
-    }
-    public void onClick(View v) {
+        Bundle bundle = getIntent().getExtras();
+        googleid=bundle.getString("googleid");
 
-        switch (v.getId()) {
-//            case R.id.btn_login:
-//                break;
-            case R.id.bkimg:
+
+//        SignOut = (ImageButton) findViewById(R.id.bkimg);
+//        SignOut.setOnClickListener(this);
+        spinner = (Spinner)findViewById(R.id.spinner);
+        adapter = ArrayAdapter.createFromResource(this,R.array.mainspinner,android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setSelection(0,false);
+        spinner.setAdapter(adapter);
+
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
+        @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+//                Toast.makeText(getBaseContext(),parent.getItemAtPosition(position)+"selected",Toast.LENGTH_LONG).show();
+            if (parent.getItemAtPosition(position).equals("QR_Code")){
+                gotoGenerate_Qrcode();
+            }
+            else if (parent.getItemAtPosition(position).equals("SignOut")){
                 signOut();
-                break;
-        }
+            }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
     }
+
+
+
+//    public void onClick(View v) {
+//
+//        switch (v.getId()) {
+////            case R.id.btn_login:
+////                break;
+//            case R.id.bkimg:
+//                signOut();
+//                break;
+//        }
+//    }
     private  void  signOut() {
 
         Auth.GoogleSignInApi.signOut(googleApiCliente).setResultCallback(new ResultCallback<Status>() {
@@ -55,12 +93,19 @@ public class MainActivity extends LoginActivity {
         Intent it = new Intent(this,SecondActivity.class);
         startActivity(it);
     }
-    public void gotoThirdActivity(View v){  //連到用藥排成設定頁面
-        Intent it = new Intent(this,ThirdActivity.class);
+    public void gotoChoice(View v){  //連到排程選擇頁面
+        Intent it = new Intent(this,Choice.class);
         startActivity(it);
     }
     public void gotoFourthActivity(View v){ //連到搜尋藥品資訊頁面
         Intent it = new Intent(this,FirstActivity.class);
+        startActivity(it);
+    }
+    public void gotoGenerate_Qrcode(){ //連到製造qrcode頁面
+        Intent it = new Intent(this,Generate_Qrcode.class);
+        Bundle bundle = new Bundle();
+        bundle.putString("googleid", googleid);
+        it.putExtras(bundle);   // 記得put進去，不然資料不會帶過去哦
         startActivity(it);
     }
 

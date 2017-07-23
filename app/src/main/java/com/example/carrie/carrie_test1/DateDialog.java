@@ -3,7 +3,9 @@ package com.example.carrie.carrie_test1;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.app.DatePickerDialog;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.RequiresApi;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -14,6 +16,7 @@ import java.util.Calendar;
  * Created by rita on 2017/5/19.
  */
 
+@RequiresApi(api = Build.VERSION_CODES.HONEYCOMB)
 public class DateDialog extends DialogFragment implements DatePickerDialog.OnDateSetListener {
 
     EditText txtDate;
