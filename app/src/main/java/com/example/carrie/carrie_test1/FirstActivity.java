@@ -18,6 +18,11 @@ public class FirstActivity extends AppCompatActivity {
         Intent it = new Intent(this,FourthActivity.class);
         startActivity(it);
     }
+
+    public void gotoScanner(View v){ //連到搜尋藥品資訊頁面
+        Intent it = new Intent(this,Scanner.class);
+        startActivity(it);
+    }
     public void goback(View v){
         finish();
     }

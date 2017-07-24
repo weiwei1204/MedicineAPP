@@ -72,8 +72,9 @@
                             android:layout_marginTop="35sp"
                             android:background="@drawable/qrcode"
 
+                            android:onClick="gotoScanner"
                             tools:layout_editor_absoluteX="259dp"
-                            tools:layout_editor_absoluteY="148dp"/>
+                            tools:layout_editor_absoluteY="148dp" />
 
                     </LinearLayout>
 
