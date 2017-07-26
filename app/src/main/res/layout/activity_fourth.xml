@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#FAFAFA"
-    tools:context="com.example.carrie.carrie_test1.com.example.carrie.strawberry.FourthActivity">
+    tools:context="com.example.carrie.carrie_test1.FourthActivity">
 
     <TableLayout
         android:layout_width="344dp"
@@ -34,50 +34,7 @@
                     tools:layout_editor_absoluteX="44dp"
                     tools:layout_editor_absoluteY="36dp" />
 
-                <ImageView
-                    android:id="@+id/imageView5"
-                    android:layout_width="35dp"
-                    android:layout_height="35dp"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginTop="65dp"
-                    android:layout_weight="1"
-                    app:srcCompat="@drawable/star1" />
 
-                <ImageView
-                    android:id="@+id/imageView6"
-                    android:layout_width="35dp"
-                    android:layout_height="35dp"
-                    android:layout_marginTop="65dp"
-                    android:layout_marginLeft="5dp"
-                    android:layout_weight="1"
-                    app:srcCompat="@drawable/star1" />
-
-                <ImageView
-                    android:id="@+id/imageView7"
-                    android:layout_width="35dp"
-                    android:layout_height="35dp"
-                    android:layout_marginTop="65dp"
-                    android:layout_marginLeft="1dp"
-                    android:layout_weight="1"
-                    app:srcCompat="@drawable/star1" />
-
-                <ImageView
-                    android:id="@+id/imageView8"
-                    android:layout_width="35dp"
-                    android:layout_height="35dp"
-                    android:layout_marginTop="65dp"
-                    android:layout_marginLeft="1dp"
-                    android:layout_weight="1"
-                    app:srcCompat="@drawable/star1" />
-
-                <ImageView
-                    android:id="@+id/imageView9"
-                    android:layout_width="35dp"
-                    android:layout_height="35dp"
-                    android:layout_marginTop="65dp"
-                    android:layout_marginLeft="1dp"
-                    android:layout_weight="1"
-                    app:srcCompat="@drawable/star2" />
             </LinearLayout>
 
         </TableRow>
@@ -442,20 +399,7 @@
 
         </TableRow>
 
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" >
 
-            <TextView
-                android:id="@+id/textView30"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:layout_marginLeft="20dp"
-                android:text="評論"
-                android:textColor="#6C6C6C"
-                android:textSize="13pt"/>
-        </TableRow>
 
         <TableRow
             android:layout_width="match_parent"
@@ -473,5 +417,4 @@
             </FrameLayout>
         </TableRow>
     </TableLayout>
-
-</android.support.constraint.ConstraintLayout>
+</ScrollView>

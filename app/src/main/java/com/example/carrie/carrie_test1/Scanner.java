@@ -47,4 +47,8 @@ public class Scanner extends Activity {
             super.onActivityResult(requestCode, resultCode, data);
         }
     }
+    public void goback(View v){
+        finish();
+    }
+
 }
