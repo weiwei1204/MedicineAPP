@@ -1,6 +1,9 @@
 package com.example.carrie.carrie_test1;
 
 import android.annotation.TargetApi;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Intent;
 import android.media.MediaPlayer;
@@ -59,18 +62,18 @@ public class RingtonePlayingService extends Service {
             this.isRunning=true;
             this.startId=0;
 
-//            NotificationManager notify_manager=(NotificationManager)getSystemService(NOTIFICATION_SERVICE);
-//            Intent intent_alarm=new Intent(this.getApplicationContext(),alarm.class);
-//            PendingIntent pending_intent_alarm=PendingIntent.getActivity(this,0,intent_alarm,0);
-//            Notification notification_popup=new Notification.Builder(this)
-//                    .setSmallIcon(R.drawable.add)
-//                    .setContentTitle("an alarm is goin off!!")
-//                    .setContentText("click me")
-//                    .setContentIntent(pending_intent_alarm)
-//                    .setAutoCancel(true)
-//                    .build();
-//
-//            notify_manager.notify(0,notification_popup);
+            NotificationManager notify_manager=(NotificationManager)getSystemService(NOTIFICATION_SERVICE);
+            Intent intent_alarm=new Intent(this.getApplicationContext(),alarm.class);
+            PendingIntent pending_intent_alarm=PendingIntent.getActivity(this,0,intent_alarm,0);
+            Notification notification_popup=new Notification.Builder(this)
+                    .setSmallIcon(R.drawable.add)
+                    .setContentTitle("an alarm is goin off!!")
+                    .setContentText("click me")
+                    .setContentIntent(pending_intent_alarm)
+                    .setAutoCancel(true)
+                    .build();
+
+            notify_manager.notify(0,notification_popup);
         }
         else if (this.isRunning && startId ==0){
             Log.e("there is music","and you want end");

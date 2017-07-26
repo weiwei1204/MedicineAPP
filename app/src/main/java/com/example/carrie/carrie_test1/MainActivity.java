@@ -95,6 +95,9 @@ public class MainActivity extends LoginActivity {
     }
     public void gotoChoice(View v){  //連到排程選擇頁面
         Intent it = new Intent(this,Choice.class);
+        Bundle bundle = new Bundle();
+        bundle.putString("googleid", googleid);
+        it.putExtras(bundle);   // 記得put進去，不然資料不會帶過去哦
         startActivity(it);
     }
     public void gotoFourthActivity(View v){ //連到搜尋藥品資訊頁面

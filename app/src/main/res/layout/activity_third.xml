@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -135,61 +135,63 @@
             android:layout_height="match_parent" >
 
             <LinearLayout
+                android:id="@+id/layoutTeste"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:id="@+id/layoutTeste"
                 android:orientation="vertical">
 
                 <!--<TextView-->
-                    <!--android:id="@+id/txttime"-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="30dp"-->
-                    <!--android:layout_marginLeft="20dp"-->
-                    <!--android:layout_marginTop="20dp"-->
-                    <!--android:layout_weight="1"-->
-                    <!--android:text="每日提醒時間"-->
-                    <!--android:textColor="#272727"-->
-                    <!--android:textSize="10pt" />-->
+                <!--android:id="@+id/txttime"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="30dp"-->
+                <!--android:layout_marginLeft="20dp"-->
+                <!--android:layout_marginTop="20dp"-->
+                <!--android:layout_weight="1"-->
+                <!--android:text="每日提醒時間"-->
+                <!--android:textColor="#272727"-->
+                <!--android:textSize="10pt" />-->
 
 
                 <!--<EditText-->
-                    <!--android:id="@+id/timetxt"-->
-                    <!--android:layout_width="200dp"-->
-                    <!--android:layout_height="35dp"-->
-                    <!--android:layout_marginLeft="20dp"-->
-                    <!--android:layout_marginTop="20dp"-->
-                    <!--android:layout_weight="1"-->
-                    <!--android:background="@drawable/thirdsettext"-->
-                    <!--android:ems="10"-->
-                    <!--android:inputType="time"-->
-                    <!--android:textColor="#272727" />-->
+                <!--android:id="@+id/timetxt"-->
+                <!--android:layout_width="200dp"-->
+                <!--android:layout_height="35dp"-->
+                <!--android:layout_marginLeft="20dp"-->
+                <!--android:layout_marginTop="20dp"-->
+                <!--android:layout_weight="1"-->
+                <!--android:background="@drawable/thirdsettext"-->
+                <!--android:ems="10"-->
+                <!--android:inputType="time"-->
+                <!--android:textColor="#272727" />-->
 
                 <!--<ImageButton-->
-                    <!--android:id="@+id/imageButton14"-->
-                    <!--android:layout_width="50dp"-->
-                    <!--android:layout_height="50dp"-->
-                    <!--android:layout_weight="1"-->
-                    <!--app:srcCompat="@drawable/add" />-->
+                <!--android:id="@+id/imageButton14"-->
+                <!--android:layout_width="50dp"-->
+                <!--android:layout_height="50dp"-->
+                <!--android:layout_weight="1"-->
+                <!--app:srcCompat="@drawable/add" />-->
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
+
                     <TextView
                         android:id="@+id/txttime"
                         android:layout_width="match_parent"
                         android:layout_height="30dp"
-                        android:layout_marginLeft="20dp"
-                        android:layout_marginTop="20dp"
-                        android:layout_weight="1"
-                        android:text="每日提醒時間"
-                        android:textColor="#272727"
-                        android:textSize="10pt"
                         android:layout_alignBottom="@+id/btnAdd"
                         android:layout_alignParentLeft="true"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginTop="20dp"
                         android:layout_toLeftOf="@+id/btnAdd"
+                        android:layout_weight="1"
                         android:gravity="center_vertical|center_horizontal"
-                        android:textAppearance="?android:attr/textAppearanceLarge" />
+                        android:text="每日提醒時間"
+                        android:textAppearance="?android:attr/textAppearanceLarge"
+                        android:textColor="#272727"
+                        android:textSize="10pt" />
 
-                    <ImageButton android:id="@+id/btnAdd"
+                    <ImageButton
+                        android:id="@+id/btnAdd"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
@@ -198,16 +200,20 @@
                         android:src="@android:drawable/ic_input_add" />
                 </RelativeLayout>
 
-                <ScrollView android:id="@+id/scrollView1"
+                <ScrollView
+                    android:id="@+id/scrollView1"
                     android:layout_width="match_parent"
                     android:layout_height="275dp">
-                    <LinearLayout android:id="@+id/linearLayoutForm"
+
+                    <LinearLayout
+                        android:id="@+id/linearLayoutForm"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical">
-                    </LinearLayout>
+                        android:orientation="vertical"></LinearLayout>
                 </ScrollView>
-                <Button android:id="@+id/btnDisplay"
+
+                <Button
+                    android:id="@+id/btnDisplay"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/btnDisplay" />
@@ -231,7 +237,7 @@
                     android:layout_marginLeft="20dp"
                     android:layout_marginTop="20dp"
                     android:layout_weight="1"
-                    android:text="藥品種類"
+                    android:text="藥品項目"
                     android:textColor="#272727"
                     android:textSize="10pt" />
 
@@ -259,6 +265,29 @@
 
             </LinearLayout>
 
+        </TableRow>
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+            <TextView
+                android:id="@+id/textbeacon"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="20dp"
+                android:layout_weight="1"
+                android:text="Beacon"
+                android:textColor="#272727"
+                android:textSize="10pt" />
+            <Spinner
+                android:id="@+id/spinnerbeacon"
+                android:layout_width="150dp"
+                android:layout_height="35sp"
+                android:layout_marginTop="20dp"
+                android:layout_marginRight="70dp"
+
+                ></Spinner>
         </TableRow>
 
         <TableRow
@@ -296,9 +325,13 @@
                     android:onClick="gotomedicinevertify"
                     android:text="認證"
                     android:textSize="55px" />
+
             </LinearLayout>
 
         </TableRow>
+
+
+
     </TableLayout>
 
-</android.support.constraint.ConstraintLayout>
+</ScrollView>

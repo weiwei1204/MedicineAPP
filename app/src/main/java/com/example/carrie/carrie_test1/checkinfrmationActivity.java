@@ -29,7 +29,7 @@ public class checkinfrmationActivity extends Activity {
     private Button btnreturn,btnok;
     String email,name,height,weight,age,effect,gender;
     RequestQueue requestQueue;
-    String insertUrl = "http://192.168.100.9/medicine/insert.php/";
+    String insertUrl = "http://192.168.100.8/medicine/insert.php/";
 
 
     @Override

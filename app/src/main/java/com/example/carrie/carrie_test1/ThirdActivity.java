@@ -1,17 +1,41 @@
 package com.example.carrie.carrie_test1;
 
 import android.annotation.TargetApi;
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.Spinner;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class ThirdActivity extends AppCompatActivity {
 
@@ -19,35 +43,36 @@ public class ThirdActivity extends AppCompatActivity {
     Button btnDisplay;
     ImageButton btnAdd;
     EditText txtTime;
+    String getBeaconUrl = "http://192.168.100.8/medicine/getBeacon.php/";
+    String m_caledarUrl = "http://192.168.100.8/medicine/m_calendar.php/";
+    ArrayAdapter<CharSequence> adapterbeacon;
+    Spinner spinnerbeacon;
+    String googleid,beaconUUID;
+    RequestQueue requestQueue;
+
+
+
+
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_third);
+        Bundle bundle = getIntent().getExtras();
+        googleid=bundle.getString("googleid");
         btnAdd = (ImageButton) findViewById(R.id.btnAdd);
         btnDisplay = (Button) findViewById(R.id.btnDisplay);
         MyLayoutOperation.display(this, btnDisplay);
 //        MyLayoutOperation.add(this, btnAdd);
-        MyLayoutOperation myLayoutOperation=new MyLayoutOperation();
-        myLayoutOperation.add(this,btnAdd);
-//        myLayoutOperation.time();
-        LinearLayout edt = (LinearLayout)getLayoutInflater().inflate(R.layout.activity_edt, null);
-        txtTime= (EditText) edt.findViewById(R.id.timetxt);
-//        btnAdd.setOnClickListener(new View.OnClickListener() {
-//            @RequiresApi(api = Build.VERSION_CODES.HONEYCOMB)
-//            @Override
-//            public void onClick(View v) {
-//                TimeDialog tdialog=new TimeDialog(v);
-//                android.app.FragmentTransaction ft=getFragmentManager().beginTransaction();
-//                tdialog.show(ft,"TimePicker");
-//                Log.d("fffff","4");
-//
-//            }
-//        });
+        add(this,btnAdd);
+        Log.d("ssdf",this.toString());
+        spinnerbeacon = (Spinner)findViewById(R.id.spinnerbeacon);
+        getBeacon();
 
 
     }
+
 
 
     @Override
@@ -59,6 +84,70 @@ public class ThirdActivity extends AppCompatActivity {
     }
 
 
+    public void getBeacon(){
+        requestQueue = Volley.newRequestQueue(getApplicationContext());
+        Log.d("vvv","1");
+        Log.d("vvv","1");
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, getBeaconUrl, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                try {
+                    Log.d("vvv","1");
+                    JSONArray beacons = response.getJSONArray("Beacons");
+                    final String[] beaconarray=new String[beacons.length()];
+//                    JSONArray idcheck = response.getJSONArray("Member");
+//                     beaconarray = new String[beacons.length()];
+                    for (int i=0 ; i<beacons.length() ; i++){
+                        JSONObject beacon = beacons.getJSONObject(i);
+                        String UUID = beacon.getString("UUID");
+                        beaconarray[i] = UUID;
+                        Log.d("vvvvv",beaconarray[i]);
+                    }
+//                    adapterbeacon = ArrayAdapter.createFromResource(ThirdActivity.this,beaconarray,android.R.layout.simple_spinner_item);
+                    adapterbeacon = new ArrayAdapter(ThirdActivity.this,android.R.layout.simple_spinner_item,beaconarray);
+                    adapterbeacon.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                    spinnerbeacon.setSelection(0,false);
+                    spinnerbeacon.setAdapter(adapterbeacon);
+                    spinnerbeacon.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
+                        @Override
+                        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+//                            Toast.makeText(getBaseContext(),parent.getItemAtPosition(position)+"selected",Toast.LENGTH_LONG).show();
+                            beaconUUID= (String) parent.getItemAtPosition(position);
+//                if (parent.getItemAtPosition(position).equals("QR_Code")){
+//                }
+//                else if (parent.getItemAtPosition(position).equals("SignOut")){
+//                }
+                        }
+
+                        @Override
+                        public void onNothingSelected(AdapterView<?> parent) {
+
+                        }
+                    });
+
+                }catch (JSONException e){
+                    e.printStackTrace();
+                }
+
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        });
+        requestQueue.add(jsonObjectRequest);
+    }
+
+//    public void spinnerbcon(){
+//        adapterbeacon = new ArrayAdapter(this,android.R.layout.simple_list_item_1,beaconarray);
+//        adapterbeacon.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+////        spinnerbeacon.setSelection(0,false);
+//        spinnerbeacon.setAdapter(adapterbeacon);
+//
+//    }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     public void  onStart(){//設定日期和時間
@@ -72,61 +161,11 @@ public class ThirdActivity extends AppCompatActivity {
                         if (hasFocus){
                             DateDialog dialog=new DateDialog(v);
                             android.app.FragmentTransaction ft=getFragmentManager().beginTransaction();
+                            Log.d("ff123",ft.toString());
                             dialog.show(ft,"DatePicker");
                         }
                     }
                 });
-//        super.onStart();
-//        LinearLayout scrollViewlinerLayout = (LinearLayout) findViewById(R.id.linearLayoutForm);
-//        for (int i = 0; i < scrollViewlinerLayout.getChildCount(); i++)
-//        {
-//            LinearLayout innerLayout = (LinearLayout) scrollViewlinerLayout.getChildAt(i);
-//            EditText edit = (EditText) innerLayout.findViewById(R.id.timetxt);
-//            edit.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-//            @TargetApi(Build.VERSION_CODES.HONEYCOMB)
-//            @RequiresApi(api = Build.VERSION_CODES.HONEYCOMB)
-//            @Override
-//            public void onFocusChange(View v, boolean hasFocus) {
-//                if (hasFocus){
-//                    TimeDialog tdialog=new TimeDialog(v);
-//                    android.app.FragmentTransaction ft=getFragmentManager().beginTransaction();
-//                    tdialog.show(ft,"TimePicker");
-//                }
-//            }
-//        });
-//        }
-
-//        super.onStart();
-//        btnAdd.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                TimeDialog tdialog=new TimeDialog(v);
-//                android.app.FragmentTransaction ft=getFragmentManager().beginTransaction();
-//                tdialog.show(ft,"TimePicker");
-//            }
-//        });
-//        super.onStart();
-//        LinearLayout edt = (LinearLayout)getLayoutInflater().inflate(R.layout.activity_edt, null);
-//        EditText txtTime= (EditText) edt.findViewById(R.id.timetxt);
-////        EditText txtTime=(EditText)findViewById(R.id.timetxt);//時間
-//            Log.d("fff","okokokok");
-//
-//        txtTime.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-//            @TargetApi(Build.VERSION_CODES.HONEYCOMB)
-//            @RequiresApi(api = Build.VERSION_CODES.HONEYCOMB)
-//            @Override
-//            public void onFocusChange(View v, boolean hasFocus) {
-//                Log.d("fff","ok1111");
-//                if (hasFocus){
-//                    Log.d("fff","ok222");
-//                    TimeDialog tdialog=new TimeDialog(v);
-//                    android.app.FragmentTransaction ft=getFragmentManager().beginTransaction();
-//                    tdialog.show(ft,"TimePicker");
-//                }
-//            }
-//
-//        });
-
     }
 
 
@@ -156,4 +195,86 @@ public class ThirdActivity extends AppCompatActivity {
         startActivity(it);
     }
     */
+    public void add(final Activity activity, ImageButton btn)
+    {
+        final LinearLayout linearLayoutForm = (LinearLayout) activity.findViewById(R.id.linearLayoutForm);
+        btn.setOnClickListener(new View.OnClickListener() {
+
+            @TargetApi(Build.VERSION_CODES.N)
+            @RequiresApi(api = Build.VERSION_CODES.HONEYCOMB)
+            @Override
+            public void onClick(View v) {
+                final LinearLayout newView = (LinearLayout)activity.getLayoutInflater().inflate(R.layout.activity_edt, null);
+                newView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+                EditText txtTime= (EditText) newView.findViewById(R.id.timetxt);
+                final TextView gettime=(TextView)newView.findViewById(R.id.settimetxt);
+                Log.d("fff", String.valueOf(txtTime));
+                txtTime.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+                    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
+                    @RequiresApi(api = Build.VERSION_CODES.HONEYCOMB)
+                    @Override
+                    public void onFocusChange(View v, boolean hasFocus) {
+
+                        if (hasFocus){
+                            TimeDialog tdialog=new TimeDialog(v,gettime);
+                            try {
+                                android.app.FragmentTransaction ft=getFragmentManager().beginTransaction();
+                                Log.d("ff12345",ft.toString());
+                                tdialog.show(ft,"TimePicker");
+                            }
+                            catch (Exception e){
+                                Log.d("ffffffff",e.toString());
+                            }
+
+                        }
+                    }
+                });
+
+                ImageButton btnRemove = (ImageButton) newView.findViewById(R.id.btnRemove);
+                btnRemove.setOnClickListener(new View.OnClickListener() {
+
+                    @Override
+                    public void onClick(View v) {
+                        linearLayoutForm.removeView(newView);
+                    }
+                });
+                linearLayoutForm.addView(newView);
+
+            }
+        });
+    }
+    public void insertm_calendar() {
+
+        requestQueue = Volley.newRequestQueue(getApplicationContext());
+
+        final StringRequest request = new StringRequest(Request.Method.POST, m_caledarUrl, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.d("rrr", error.toString());
+                Toast.makeText(getApplicationContext(), "Error read insert.php!!!", Toast.LENGTH_LONG).show();
+            }
+        })
+        {
+            protected Map<String, String> getParams() throws AuthFailureError {//把值丟到php
+                Map<String, String> parameters = new HashMap<String, String>();
+
+                parameters.put("google_id", googleid);
+                Log.d("my111", parameters.toString());
+                Log.d("my","checck!!!");
+                return parameters;
+
+            }
+        }
+                ;
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(request);
+
+    }
+
+
 }
