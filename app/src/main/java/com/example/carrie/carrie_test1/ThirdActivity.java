@@ -43,11 +43,11 @@ public class ThirdActivity extends AppCompatActivity {
     Button btnDisplay;
     ImageButton btnAdd;
     EditText txtTime;
-    String getBeaconUrl = "http://192.168.100.8/medicine/getBeacon.php/";
-    String m_caledarUrl = "http://192.168.100.8/medicine/m_calendar.php/";
+    String getBeaconUrl = "http://54.65.194.253/Beacon/getBeacon.php";
+    String m_caledarUrl = "http://54.65.194.253/Medicine_Calendar/m_calendar.php";
     ArrayAdapter<CharSequence> adapterbeacon;
     Spinner spinnerbeacon;
-    String googleid,beaconUUID;
+    String memberid,beaconUUID;
     RequestQueue requestQueue;
 
 
@@ -60,7 +60,8 @@ public class ThirdActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_third);
         Bundle bundle = getIntent().getExtras();
-        googleid=bundle.getString("googleid");
+        memberid=bundle.getString("memberid");
+
         btnAdd = (ImageButton) findViewById(R.id.btnAdd);
         btnDisplay = (Button) findViewById(R.id.btnDisplay);
         MyLayoutOperation.display(this, btnDisplay);
@@ -86,24 +87,32 @@ public class ThirdActivity extends AppCompatActivity {
 
     public void getBeacon(){
         requestQueue = Volley.newRequestQueue(getApplicationContext());
-        Log.d("vvv","1");
-        Log.d("vvv","1");
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, getBeaconUrl, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 try {
-                    Log.d("vvv","1");
                     JSONArray beacons = response.getJSONArray("Beacons");
-                    final String[] beaconarray=new String[beacons.length()];
-//                    JSONArray idcheck = response.getJSONArray("Member");
-//                     beaconarray = new String[beacons.length()];
+                    int count=0;
+                    for (int i=0 ; i<beacons.length() ; i++){
+                        JSONObject beacon = beacons.getJSONObject(i);
+                        String Member_id = beacon.getString("member_id");
+                        if (Member_id.equals(memberid)){
+                            count++;
+                        }
+                    }
+                    Log.d("vvv123", String.valueOf(count));
+                    final String[] beaconarray=new String[count];
+                    count=0;
                     for (int i=0 ; i<beacons.length() ; i++){
                         JSONObject beacon = beacons.getJSONObject(i);
                         String UUID = beacon.getString("UUID");
-                        beaconarray[i] = UUID;
-                        Log.d("vvvvv",beaconarray[i]);
+                        String Member_id = beacon.getString("member_id");
+                        if (Member_id.equals(memberid)){
+                            beaconarray[count] = UUID;
+                            Log.d("vvvvv",beaconarray[count]);
+                            count++;
+                        }
                     }
-//                    adapterbeacon = ArrayAdapter.createFromResource(ThirdActivity.this,beaconarray,android.R.layout.simple_spinner_item);
                     adapterbeacon = new ArrayAdapter(ThirdActivity.this,android.R.layout.simple_spinner_item,beaconarray);
                     adapterbeacon.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                     spinnerbeacon.setSelection(0,false);
@@ -114,29 +123,17 @@ public class ThirdActivity extends AppCompatActivity {
                         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 //                            Toast.makeText(getBaseContext(),parent.getItemAtPosition(position)+"selected",Toast.LENGTH_LONG).show();
                             beaconUUID= (String) parent.getItemAtPosition(position);
-//                if (parent.getItemAtPosition(position).equals("QR_Code")){
-//                }
-//                else if (parent.getItemAtPosition(position).equals("SignOut")){
-//                }
                         }
-
                         @Override
-                        public void onNothingSelected(AdapterView<?> parent) {
-
-                        }
+                        public void onNothingSelected(AdapterView<?> parent) {}
                     });
-
                 }catch (JSONException e){
                     e.printStackTrace();
                 }
-
-
             }
         }, new Response.ErrorListener() {
             @Override
-            public void onErrorResponse(VolleyError error) {
-
-            }
+            public void onErrorResponse(VolleyError error) {}
         });
         requestQueue.add(jsonObjectRequest);
     }
@@ -263,7 +260,7 @@ public class ThirdActivity extends AppCompatActivity {
             protected Map<String, String> getParams() throws AuthFailureError {//把值丟到php
                 Map<String, String> parameters = new HashMap<String, String>();
 
-                parameters.put("google_id", googleid);
+//                parameters.put("google_id", googleid);
                 Log.d("my111", parameters.toString());
                 Log.d("my","checck!!!");
                 return parameters;

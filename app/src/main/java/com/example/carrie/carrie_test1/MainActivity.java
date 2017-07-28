@@ -3,15 +3,27 @@ package com.example.carrie.carrie_test1;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.Spinner;
+import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class MainActivity extends LoginActivity {
 
@@ -19,6 +31,11 @@ public class MainActivity extends LoginActivity {
     Spinner spinner;
     ArrayAdapter<CharSequence> adapter;
     String googleid;
+    String getidUrl = "http://54.65.194.253/Member/getid.php";
+    RequestQueue requestQueue;
+    String memberid;
+
+
 
 
 
@@ -31,6 +48,7 @@ public class MainActivity extends LoginActivity {
         googleid=bundle.getString("googleid");
 
 
+        getid();
 //        SignOut = (ImageButton) findViewById(R.id.bkimg);
 //        SignOut.setOnClickListener(this);
         spinner = (Spinner)findViewById(R.id.spinner);
@@ -96,7 +114,7 @@ public class MainActivity extends LoginActivity {
     public void gotoChoice(View v){  //連到排程選擇頁面
         Intent it = new Intent(this,Choice.class);
         Bundle bundle = new Bundle();
-        bundle.putString("googleid", googleid);
+        bundle.putString("memberid", memberid);
         it.putExtras(bundle);   // 記得put進去，不然資料不會帶過去哦
         startActivity(it);
     }
@@ -123,6 +141,62 @@ public class MainActivity extends LoginActivity {
 //        startActivity(it);
 
     }
+
+    public void getid(){
+        requestQueue = Volley.newRequestQueue(getApplicationContext());
+
+        final StringRequest request = new StringRequest(Request.Method.POST, getidUrl, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Log.d("rrr123", response);
+                memberid = response;
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.d("rrr", error.toString());
+                Toast.makeText(getApplicationContext(), "Error read insert.php!!!", Toast.LENGTH_LONG).show();
+            }
+        })
+        {
+            protected Map<String, String> getParams() throws AuthFailureError {//把值丟到php
+                Map<String, String> parameters = new HashMap<String, String>();
+                parameters.put("google_id", googleid);
+                Log.d("my123", parameters.toString());
+                Log.d("my123","checck!!!");
+                return parameters;
+
+            }
+        }
+                ;
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(request);
+
+//        requestQueue = Volley.newRequestQueue(getApplicationContext());
+//        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, getidUrl, new Response.Listener<JSONObject>() {
+//            @Override
+//            public void onResponse(JSONObject response) {
+//                try {
+//                    JSONArray members = response.getJSONArray("Members");
+//                    final String[] memberarray=new String[members.length()];
+//
+//                    for (int i=0 ; i<members.length() ; i++){
+//                        JSONObject member = members.getJSONObject(i);
+//                        String id = member.getString("id");
+//                        memberarray[i] = id;
+//                        Log.d("vvvvv",memberarray[i]);
+//                    }
+//                }catch (JSONException e){
+//                    e.printStackTrace();
+//                }
+//            }
+//        }, new Response.ErrorListener() {
+//            @Override
+//            public void onErrorResponse(VolleyError error) {}
+//        });
+//        requestQueue.add(jsonObjectRequest);
+    }
+
     public void goback(View v){
         finish();
     }

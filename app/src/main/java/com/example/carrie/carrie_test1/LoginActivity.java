@@ -43,7 +43,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     String gname, gemail, googleid;
     Uri gphoto;
     RequestQueue requestQueue;
-    String insertUrl = "http://192.168.100.8/medicine/login.php/";
+    String insertUrl = "http://54.65.194.253/Member/login.php";
 
 
 
@@ -164,6 +164,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             googleid=google;
             gphoto=photo;
 
+
             member();
             String username="rita";
             updateUI(true);
@@ -208,8 +209,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 parameters.put("google_id", googleid);
                 Log.d("my", parameters.toString());
                 return parameters;
-
-
             }
         }
         ;

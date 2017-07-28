@@ -29,7 +29,7 @@ public class checkinfrmationActivity extends Activity {
     private Button btnreturn,btnok;
     String email,name,height,weight,age,effect,gender;
     RequestQueue requestQueue;
-    String insertUrl = "http://192.168.100.8/medicine/insert.php/";
+    String insertUrl = "http://54.65.194.253/Member/insert.php";
 
 
     @Override
@@ -101,6 +101,7 @@ public class checkinfrmationActivity extends Activity {
                 parameters.put("gender_man",gender);
                 parameters.put("weight",weight);
                 parameters.put("height",height);
+                parameters.put("birth",age);
                 parameters.put("google_id", googleid);
                 Log.d("my111", parameters.toString());
                 Log.d("my","checck!!!");
