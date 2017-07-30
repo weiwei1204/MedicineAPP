@@ -135,20 +135,20 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     }
 
-    private   void  signOut() {
-        Log.d("hh","5");
-
-        Auth.GoogleSignInApi.signOut(googleApiCliente).setResultCallback(new ResultCallback<Status>() {
-            @Override
-            public void onResult(@NonNull Status status) {
-
-                    updateUI(false);
-
-            }
-        });
-        Log.d("hh","6");
-
-    }
+//    private   void  signOut() {
+//        Log.d("hh","5");
+//
+//        Auth.GoogleSignInApi.signOut(googleApiCliente).setResultCallback(new ResultCallback<Status>() {
+//            @Override
+//            public void onResult(@NonNull Status status) {
+//
+//                    updateUI(false);
+//
+//            }
+//        });
+//        Log.d("hh","6");
+//
+//    }
 
 
     private void handleResult(GoogleSignInResult result){
@@ -164,6 +164,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             googleid=google;
             gphoto=photo;
 
+            Log.d("rrr123", "1");
 
             member();
             String username="rita";
