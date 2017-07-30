@@ -12,7 +12,7 @@
         <item></item>
         <item>QR_Code</item>
         <item>SignOut</item>
-        </string-array>
+    </string-array>
     <string name="title_activity_robot">聊天機器人</string>
     <string name="title_activity_login">登入</string>
     <string name="title_activity_beacon">Beacon</string>
@@ -36,6 +36,7 @@
     <string name="btnRemove">Remove</string>
     <string name="btnAdd">Add</string>
     <string name="btnDisplay">Show</string>
+    <string name="title_activity_monitor">MonitorActivity</string>
 
 
 </resources>

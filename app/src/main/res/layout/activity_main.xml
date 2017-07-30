@@ -167,7 +167,7 @@
                     android:layout_height="150sp"
                     android:layout_margin="5sp"
                     android:background="@drawable/monitor"
-                    android:onClick="gotoSecondActivity" />
+                    android:onClick="gotoMonitorActivity" />
 
                 <TextView
                     android:id="@+id/textView2"
