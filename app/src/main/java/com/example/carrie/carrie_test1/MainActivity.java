@@ -111,6 +111,12 @@ public class MainActivity extends LoginActivity {
         Intent it = new Intent(this,SecondActivity.class);
         startActivity(it);
     }
+
+    public void gotoMonitorActivity(View v) {
+        Intent it = new Intent(this,MonitorActivity.class);
+        startActivity(it);
+    }
+
     public void gotoChoice(View v){  //連到排程選擇頁面
         Intent it = new Intent(this,Choice.class);
         Bundle bundle = new Bundle();

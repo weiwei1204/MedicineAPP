@@ -166,8 +166,8 @@
                     android:layout_width="150sp"
                     android:layout_height="150sp"
                     android:layout_margin="5sp"
-                    android:background="@drawable/wifi"
-                    android:onClick="gotoSecondActivity" />
+                    android:background="@drawable/monitor"
+                    android:onClick="gotoMonitorActivity" />
 
                 <TextView
                     android:id="@+id/textView2"
@@ -175,7 +175,7 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="5sp"
                     android:gravity="center"
-                    android:text="Beacon藥品追蹤"
+                    android:text="監控模式"
                     android:textColor="@android:color/background_light"
                     android:textSize="18sp" />
             </LinearLayout>
