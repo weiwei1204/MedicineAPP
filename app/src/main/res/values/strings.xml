@@ -37,6 +37,7 @@
     <string name="btnAdd">Add</string>
     <string name="btnDisplay">Show</string>
     <string name="title_activity_monitor">監控模式</string>
+    <string name="title_activity_scan">QRcodeScanner</string>
 
 
 </resources>
