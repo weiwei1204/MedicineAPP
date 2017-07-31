@@ -27,7 +27,6 @@ public class TimeDialog extends DialogFragment implements TimePickerDialog.OnTim
 
     public TimeDialog(View view,TextView textview){
 //        final LinearLayout newView = (LinearLayout)activity.getLayoutInflater().inflate(R.layout.activity_edt, null);
-        Log.d("fffff","1");
         txtTime=(EditText)view;
         Log.d("fffff",view.toString());
         settimetxt=textview;
@@ -37,7 +36,6 @@ public class TimeDialog extends DialogFragment implements TimePickerDialog.OnTim
 
 
     public Dialog onCreateDialog(Bundle savedInstanceState){
-        Log.d("fffff","2");
         final Calendar c=Calendar.getInstance();
         int hour=c.get(Calendar.HOUR_OF_DAY);
         int minute=c.get(Calendar.MINUTE);
@@ -46,11 +44,20 @@ public class TimeDialog extends DialogFragment implements TimePickerDialog.OnTim
 
     }
     public void onTimeSet(TimePicker view, int hour, int minute){
-        Log.d("fffff","3");
-        String time=hour+":"+minute;
-        Log.d("fffff","4");
+        String time;
+        if (hour < 10 && minute < 10){
+            time="0"+hour+":"+"0"+minute;
+        }
+        else if (hour < 10 && minute > 10){
+            time="0"+hour+":"+minute;
+        }
+        else if (hour > 10 && minute < 10){
+            time=hour+":"+"0"+minute;
+        }
+        else {
+            time=hour+":"+minute;
+        }
         txtTime.setText(time);
-        Log.d("fffff","5");
         String set = String.valueOf(settime);
         settimetxt.setText(set);
     }

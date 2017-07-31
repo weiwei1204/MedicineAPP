@@ -121,6 +121,7 @@ public class MainActivity extends LoginActivity {
         Intent it = new Intent(this,Choice.class);
         Bundle bundle = new Bundle();
         bundle.putString("memberid", memberid);
+        Log.d("fffaaa",memberid);
         it.putExtras(bundle);   // 記得put進去，不然資料不會帶過去哦
         startActivity(it);
     }
@@ -160,7 +161,7 @@ public class MainActivity extends LoginActivity {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.d("rrr", error.toString());
+                Log.d("rrr111", error.toString());
                 Toast.makeText(getApplicationContext(), "Error read insert.php!!!", Toast.LENGTH_LONG).show();
             }
         })
