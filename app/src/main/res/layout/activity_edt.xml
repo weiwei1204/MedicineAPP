@@ -45,13 +45,12 @@
 
     <TextView
         android:id="@+id/settimetxt"
-        android:layout_width="100dp"
+        android:layout_width="10dp"
         android:layout_height="35dp"
         android:layout_weight="0.62"
-        android:background="@drawable/thirdsettext"
+        android:background="#FAFAFA"
         android:text=""
-        android:textColor="#272727"
-
+        android:textColor="#FAFAFA"
         />
 
         <ImageButton android:id="@+id/btnRemove"

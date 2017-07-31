@@ -9,13 +9,11 @@ import android.app.Activity;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -66,34 +64,6 @@ public class MyLayoutOperation extends AppCompatActivity{
                     }
                 });
                 linearLayoutForm.addView(newView);
-                count++;
-                EditText txtTime= (EditText) newView.findViewById(R.id.timetxt);
-                Log.d("fff", String.valueOf(txtTime));
-                txtTime.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-                    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
-                    @RequiresApi(api = Build.VERSION_CODES.HONEYCOMB)
-                    @Override
-                    public void onFocusChange(View v, boolean hasFocus) {
-                        Log.d("fffff","7");
-
-                        if (hasFocus){
-//                            TimeDialog tdialog=new TimeDialog(v);
-//                            Log.d("fffff","8");
-//
-//                            try {
-//                                android.app.FragmentTransaction ft=getFragmentManager().beginTransaction();
-//                                Log.d("fffff","9");
-//                                Log.d("ff12345",ft.toString());
-//                                tdialog.show(ft,"TimePicker");
-//                            }
-//                            catch (Exception e){
-//                                Log.d("ffffffff",e.toString());
-//                            }
-
-                        }
-                    }
-                });
-
             }
         });
     }
