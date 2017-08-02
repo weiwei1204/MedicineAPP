@@ -38,4 +38,8 @@
     <string name="btnDisplay">Show</string>
 
 
+    <string name="search_title">搜尋標題</string>
+    <string name="search_hint">提示</string>
+
+
 </resources>
