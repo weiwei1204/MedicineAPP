@@ -142,7 +142,7 @@ public class ThirdActivity extends AppCompatActivity {
                             Log.d("vvvvv",beaconarray[count]);
                             count++;
                         };
-                    }
+                    }//取值結束
                     adapterbeacon = new ArrayAdapter(ThirdActivity.this,android.R.layout.simple_spinner_item,beaconarray);
                     adapterbeacon.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                     spinnerbeacon.setSelection(0,false);
@@ -160,7 +160,7 @@ public class ThirdActivity extends AppCompatActivity {
                             }
                         }
                         @Override
-                        public void onNothingSelected(AdapterView<?> parent) {}
+                        public void onNothingSelected(AdapterView<?> parent) {}//~~~~
                     });
                 }catch (JSONException e){
                     e.printStackTrace();
@@ -168,7 +168,8 @@ public class ThirdActivity extends AppCompatActivity {
             }
         }, new Response.ErrorListener() {
             @Override
-            public void onErrorResponse(VolleyError error) {}
+            public void onErrorResponse(VolleyError error) {
+            }
         });
         requestQueue.add(jsonObjectRequest);
     }
