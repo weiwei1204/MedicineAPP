@@ -46,6 +46,7 @@ public class MonitorActivity extends AppCompatActivity{
         if(id == R.id.action_add){
             Intent intent = new Intent(MonitorActivity.this,ScanActivity.class);
             startActivityForResult(intent,REQUEST_CODE);
+
         }
         return super.onOptionsItemSelected(item);
     }

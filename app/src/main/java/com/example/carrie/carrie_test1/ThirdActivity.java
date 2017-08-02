@@ -2,6 +2,9 @@ package com.example.carrie.carrie_test1;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -41,7 +44,7 @@ import java.util.Map;
 public class ThirdActivity extends AppCompatActivity {
 
 
-    Button btnDisplay,m_store;
+    Button btnDisplay,m_store,alarmoff;
     ImageButton btnAdd;
     EditText txtTime;
     EditText m_cal_name;
@@ -58,6 +61,12 @@ public class ThirdActivity extends AppCompatActivity {
     int counttime;
     java.util.ArrayList<String> msg = new ArrayList<String>();
     java.util.ArrayList<String> timearray = new ArrayList<String>();
+    Context context;
+    PendingIntent pending_intent;
+    AlarmManager alarm_manager;
+
+
+
 
 
 
@@ -75,6 +84,7 @@ public class ThirdActivity extends AppCompatActivity {
         m_cal_name = (EditText)findViewById(R.id.m_cal_name);
         btnAdd = (ImageButton) findViewById(R.id.btnAdd);
         btnDisplay = (Button) findViewById(R.id.btnDisplay);
+        alarmoff = (Button) findViewById(R.id.alarmoff);
         m_store = (Button)findViewById(R.id.m_store);
         txtdate = (EditText) findViewById(R.id.txtdate);
         txtday = (EditText)findViewById(R.id.txtday);
@@ -84,6 +94,8 @@ public class ThirdActivity extends AppCompatActivity {
         Log.d("ssdf",this.toString());
         spinnerbeacon = (Spinner)findViewById(R.id.spinnerbeacon);
         getBeacon();
+        this.context=this;
+        alarm_manager=(AlarmManager)getSystemService(ALARM_SERVICE);
 
 
     }
@@ -130,7 +142,7 @@ public class ThirdActivity extends AppCompatActivity {
                             Log.d("vvvvv",beaconarray[count]);
                             count++;
                         };
-                    }
+                    }//取值結束
                     adapterbeacon = new ArrayAdapter(ThirdActivity.this,android.R.layout.simple_spinner_item,beaconarray);
                     adapterbeacon.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                     spinnerbeacon.setSelection(0,false);
@@ -148,7 +160,7 @@ public class ThirdActivity extends AppCompatActivity {
                             }
                         }
                         @Override
-                        public void onNothingSelected(AdapterView<?> parent) {}
+                        public void onNothingSelected(AdapterView<?> parent) {}//~~~~
                     });
                 }catch (JSONException e){
                     e.printStackTrace();
@@ -156,7 +168,8 @@ public class ThirdActivity extends AppCompatActivity {
             }
         }, new Response.ErrorListener() {
             @Override
-            public void onErrorResponse(VolleyError error) {}
+            public void onErrorResponse(VolleyError error) {
+            }
         });
         requestQueue.add(jsonObjectRequest);
     }
@@ -292,7 +305,8 @@ public class ThirdActivity extends AppCompatActivity {
 
     public void insertm_calendar(View view) {
         gettime(ThirdActivity.this);
-//        final int day = Integer.parseInt(String.valueOf(txtday))*counttime;
+        int inttxtday = Integer.parseInt(txtday.getText().toString());
+        final int day = inttxtday*counttime;
         requestQueue = Volley.newRequestQueue(getApplicationContext());
 
         final StringRequest request = new StringRequest(Request.Method.POST, m_caledarUrl, new Response.Listener<String>() {
@@ -312,7 +326,7 @@ public class ThirdActivity extends AppCompatActivity {
                 Map<String, String> parameters = new HashMap<String, String>();
                 parameters.put("member_id",memberid);
                 parameters.put("startDate", txtdate.getText().toString());
-                parameters.put("day", String.valueOf(counttime));
+                parameters.put("day", String.valueOf(day));
                 parameters.put("name",m_cal_name.getText().toString());
                 parameters.put("beacon_id",beaconid);
                 parameters.put("finish","0");
@@ -338,7 +352,19 @@ public class ThirdActivity extends AppCompatActivity {
             @Override
             public void onResponse(String response) {
                 Log.d("nnnmmmm",response);
-                m_calendarid = response;
+                if(response.equals(null)){
+                    get_M_calendart_id();
+                }
+                else {
+                    m_calendarid = response;
+                    Log.d("nnn123456",m_calendarid);
+                    for (int j=0;j<msg.size();j++){ //一個一個設鬧鐘
+                        setAlerttime(j);
+                    }
+                    for (int i=0;i<timearray.size();i++){      //一個一個存時間
+                        insertAlert_time(i);
+                    }
+                }
 
             }
         }, new Response.ErrorListener() {
@@ -360,13 +386,29 @@ public class ThirdActivity extends AppCompatActivity {
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         requestQueue.add(request);
 
-        for (int i=0;i<timearray.size();i++){
-            insertAlert_time(i);
-        }
+
+
+
+
 
     }
 
-    public void insertAlert_time(final int i){
+    public void setAlerttime(int j){         //設鬧鐘
+        final Intent my_intent=new Intent(this.context,Alarm_Receiver.class);
+        my_intent.putExtra("extra","alarm on");
+        pending_intent= PendingIntent.getBroadcast(ThirdActivity.this,j,
+                my_intent,PendingIntent.FLAG_CANCEL_CURRENT);
+        alarm_manager.set(AlarmManager.RTC_WAKEUP, Long.parseLong(msg.get(j)),pending_intent);
+        Log.d("sss", String.valueOf(msg.get(j)));
+
+
+
+    }
+//    private void set_alarm_text(String output) {
+//        alarmset.setText(output);
+//    }
+
+    public void insertAlert_time(final int i){//時間存到資料庫
         Log.d("nnnaaa","1");
         requestQueue = Volley.newRequestQueue(getApplicationContext());
             Log.d("nnnaaa","2");
@@ -395,7 +437,8 @@ public class ThirdActivity extends AppCompatActivity {
         };
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         requestQueue.add(request);
-        
+
+
 
 }
 
