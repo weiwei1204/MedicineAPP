@@ -9,20 +9,20 @@ import android.app.Activity;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
 
 public class MyLayoutOperation extends AppCompatActivity{
+    private int count=0;
 
     public static void display(final Activity activity, Button btn)
     {
@@ -35,7 +35,7 @@ public class MyLayoutOperation extends AppCompatActivity{
                 for (int i = 0; i < scrollViewlinerLayout.getChildCount(); i++)
                 {
                     LinearLayout innerLayout = (LinearLayout) scrollViewlinerLayout.getChildAt(i);
-                    EditText edit = (EditText) innerLayout.findViewById(R.id.timetxt);
+                    TextView edit = (TextView) innerLayout.findViewById(R.id.settimetxt);
                     msg.add(edit.getText().toString());
                 }
                 Toast t = Toast.makeText(activity.getApplicationContext(), msg.toString(), Toast.LENGTH_SHORT);
@@ -64,54 +64,61 @@ public class MyLayoutOperation extends AppCompatActivity{
                     }
                 });
                 linearLayoutForm.addView(newView);
-                EditText txtTime= (EditText) newView.findViewById(R.id.timetxt);
-                Log.d("fff", String.valueOf(txtTime));
-                txtTime.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-                    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
-                    @RequiresApi(api = Build.VERSION_CODES.HONEYCOMB)
-                    @Override
-                    public void onFocusChange(View v, boolean hasFocus) {
-                        Log.d("fffff","7");
-
-                        if (hasFocus){
-                            TimeDialog tdialog=new TimeDialog(v);
-                            Log.d("fffff","8");
-                            android.app.FragmentTransaction ft=getFragmentManager().beginTransaction();
-                            tdialog.show(ft,"TimePicker");
-                        }
-                    }
-                });
-
             }
         });
     }
 
+//    public void show(){
+//        final Calendar c=Calendar.getInstance();
+//        int hour=c.get(Calendar.HOUR_OF_DAY);
+//        int minute=c.get(Calendar.MINUTE);
+//        return new TimePickerDialog(getActivity(), this,hour,minute, DateFormat.is24HourFormat(getActivity()));
+//    }
+//    @RequiresApi(api = Build.VERSION_CODES.HONEYCOMB)
+//    @Override
+//    public void onDetachedFromWindow() {
+//        super.onDetachedFromWindow();
+//
+//        try {
+//
+//            Field childFragmentManager = android.app.Fragment.class.getDeclaredField("mChildFragmentManager");
+//            childFragmentManager.setAccessible(true);
+//            childFragmentManager.set(this, null);
+//
+//        } catch (NoSuchFieldException e) {
+//            Log.d("ffffffff1",e.toString());
+//            throw new RuntimeException(e);
+//        } catch (IllegalAccessException e) {
+//            Log.d("ffffffff2",e.toString());
+//            throw new RuntimeException(e);
+//        }
+//    }
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
-    public void  onStart(){//設定日期和時間
-super.onStart();
-                Log.d("fffff","5");
-
-        LinearLayout edt = (LinearLayout)getLayoutInflater().inflate(R.layout.activity_edt, null);
-        EditText txtTime= (EditText) edt.findViewById(R.id.timetxt);
-        Log.d("fffff","6");
-
-//        EditText txtTime=(EditText)findViewById(R.id.timetxt);//時間
-        txtTime.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @TargetApi(Build.VERSION_CODES.HONEYCOMB)
-            @RequiresApi(api = Build.VERSION_CODES.HONEYCOMB)
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                Log.d("fffff","7");
-
-                if (hasFocus){
-                    TimeDialog tdialog=new TimeDialog(v);
-                    Log.d("fffff","8");
-                    android.app.FragmentTransaction ft=getFragmentManager().beginTransaction();
-                    tdialog.show(ft,"TimePicker");
-                }
-            }
-        });
-
-    }
+//    @RequiresApi(api = Build.VERSION_CODES.N)
+//    public void  onStart(){//設定日期和時間
+//super.onStart();
+//                Log.d("fffff","5");
+//
+//        LinearLayout edt = (LinearLayout)getLayoutInflater().inflate(R.layout.activity_edt, null);
+//        EditText txtTime= (EditText) edt.findViewById(R.id.timetxt);
+//        Log.d("fffff","6");
+//
+////        EditText txtTime=(EditText)findViewById(R.id.timetxt);//時間
+//        txtTime.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+//            @TargetApi(Build.VERSION_CODES.HONEYCOMB)
+//            @RequiresApi(api = Build.VERSION_CODES.HONEYCOMB)
+//            @Override
+//            public void onFocusChange(View v, boolean hasFocus) {
+//                Log.d("fffff","7");
+//
+//                if (hasFocus){
+//                    TimeDialog tdialog=new TimeDialog(v);
+//                    Log.d("fffff","8");
+//                    android.app.FragmentTransaction ft=getFragmentManager().beginTransaction();
+//                    tdialog.show(ft,"TimePicker");
+//                }
+//            }
+//        });
+//
+//    }
 }

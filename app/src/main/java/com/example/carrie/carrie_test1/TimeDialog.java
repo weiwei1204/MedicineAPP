@@ -11,6 +11,7 @@ import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.TimePicker;
 
 import java.util.Calendar;
@@ -21,30 +22,46 @@ import java.util.Calendar;
 @RequiresApi(api = Build.VERSION_CODES.HONEYCOMB)
 public class TimeDialog extends DialogFragment implements TimePickerDialog.OnTimeSetListener {
     EditText txtTime;
-    public TimeDialog(View view){
-        Log.d("fffff","1");
-//        LinearLayout edt = (LinearLayout)getLayoutInflater().inflate(R.layout.activity_edt, null);
+    TextView settimetxt;
+    long settime;
 
-//        txtTime= (EditText) edt.findViewById(R.id.timetxt);
-//        txtTime=(EditText)view.findViewById(R.id.timetxt);
+    public TimeDialog(View view,TextView textview){
+//        final LinearLayout newView = (LinearLayout)activity.getLayoutInflater().inflate(R.layout.activity_edt, null);
         txtTime=(EditText)view;
+        Log.d("fffff",view.toString());
+        settimetxt=textview;
+        Log.d("fffff1",settimetxt.toString());
+
     }
 
 
-
     public Dialog onCreateDialog(Bundle savedInstanceState){
-        Log.d("fffff","2");
         final Calendar c=Calendar.getInstance();
         int hour=c.get(Calendar.HOUR_OF_DAY);
         int minute=c.get(Calendar.MINUTE);
+        settime=c.getTimeInMillis();
         return new TimePickerDialog(getActivity(), this,hour,minute, DateFormat.is24HourFormat(getActivity()));
 
     }
     public void onTimeSet(TimePicker view, int hour, int minute){
-        Log.d("fffff","3");
-        String time=hour+":"+minute;
+        String time;
+        if (hour < 10 && minute < 10){
+            time="0"+hour+":"+"0"+minute;
+        }
+        else if (hour < 10 && minute > 10){
+            time="0"+hour+":"+minute;
+        }
+        else if (hour > 10 && minute < 10){
+            time=hour+":"+"0"+minute;
+        }
+        else {
+            time=hour+":"+minute;
+        }
         txtTime.setText(time);
+        String set = String.valueOf(settime);
+        settimetxt.setText(set);
     }
+
 
 
 

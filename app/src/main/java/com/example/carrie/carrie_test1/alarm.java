@@ -8,6 +8,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -58,6 +59,7 @@ public class alarm extends AppCompatActivity {
                 pending_intent= PendingIntent.getBroadcast(alarm.this,0,
                         my_intent,PendingIntent.FLAG_CANCEL_CURRENT);
                 alarm_manager.set(AlarmManager.RTC_WAKEUP,calendar.getTimeInMillis(),pending_intent);
+                Log.d("sss", String.valueOf(calendar.getTimeInMillis()));
 
             }
         });
@@ -66,8 +68,11 @@ public class alarm extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 set_alarm_text("Alarm off!");
-                alarm_manager.cancel(pending_intent);
                 my_intent.putExtra("extra","alarm off");
+                pending_intent= PendingIntent.getBroadcast(alarm.this,0,
+                        my_intent,PendingIntent.FLAG_CANCEL_CURRENT);
+                alarm_manager.cancel(pending_intent);
+
 
                 sendBroadcast(my_intent);
             }

@@ -1,6 +1,7 @@
 package com.example.carrie.carrie_test1;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -40,8 +41,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     public GoogleApiClient googleApiCliente;
     private static final int REQ_CODE = 9001;
     String gname, gemail, googleid;
+    Uri gphoto;
     RequestQueue requestQueue;
-    String insertUrl = "http://192.168.100.9/medicine/login.php/";
+    String insertUrl = "http://54.65.194.253/Member/login.php";
 
 
 
@@ -133,20 +135,20 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     }
 
-    private   void  signOut() {
-        Log.d("hh","5");
-
-        Auth.GoogleSignInApi.signOut(googleApiCliente).setResultCallback(new ResultCallback<Status>() {
-            @Override
-            public void onResult(@NonNull Status status) {
-
-                    updateUI(false);
-
-            }
-        });
-        Log.d("hh","6");
-
-    }
+//    private   void  signOut() {
+//        Log.d("hh","5");
+//
+//        Auth.GoogleSignInApi.signOut(googleApiCliente).setResultCallback(new ResultCallback<Status>() {
+//            @Override
+//            public void onResult(@NonNull Status status) {
+//
+//                    updateUI(false);
+//
+//            }
+//        });
+//        Log.d("hh","6");
+//
+//    }
 
 
     private void handleResult(GoogleSignInResult result){
@@ -156,9 +158,13 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             String name = account.getDisplayName();
             String email = account.getEmail();
             String google =account.getId();
+            Uri photo = account.getPhotoUrl();
             gname=name;
             gemail=email;
             googleid=google;
+            gphoto=photo;
+
+            Log.d("rrr123", "1");
 
             member();
             String username="rita";
@@ -204,8 +210,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 parameters.put("google_id", googleid);
                 Log.d("my", parameters.toString());
                 return parameters;
-
-
             }
         }
         ;
