@@ -38,7 +38,7 @@ public class MonitorActivity extends AppCompatActivity{
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if(id == R.id.action_add){
-            startActivity(new Intent(this,ScanActivity.class));
+//            startActivity(new Intent(this,ScanActivity.class));
         }
         return super.onOptionsItemSelected(item);
     }

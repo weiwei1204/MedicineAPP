@@ -146,119 +146,119 @@
 
                 <!--</TableRow>-->
 
-                <!--<TableRow-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="match_parent"-->
-                    <!--android:layout_marginTop="20sp"-->
-                    <!--android:layout_weight="1">-->
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="20sp"
+                    android:layout_weight="1">
 
-                    <!--<LinearLayout-->
-                        <!--android:layout_width="match_parent"-->
-                        <!--android:layout_height="match_parent"-->
-                        <!--android:orientation="horizontal">-->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal">
 
-                        <!--<LinearLayout-->
-                            <!--android:layout_width="150sp"-->
-                            <!--android:layout_height="match_parent"-->
-                            <!--android:layout_marginLeft="20sp"-->
-                            <!--android:layout_weight="1"-->
-                            <!--android:background="@drawable/back"-->
-                            <!--android:orientation="vertical">-->
+                        <LinearLayout
+                            android:layout_width="150sp"
+                            android:layout_height="match_parent"
+                            android:layout_marginLeft="20sp"
+                            android:layout_weight="1"
+                            android:background="@drawable/back"
+                            android:orientation="vertical">
 
-                            <!--<ImageView-->
-                                <!--android:id="@+id/imageView"-->
-                                <!--android:layout_width="120sp"-->
-                                <!--android:layout_height="70sp"-->
-                                <!--android:layout_marginBottom="30sp"-->
-                                <!--android:layout_marginLeft="5sp"-->
-                                <!--android:layout_marginTop="10sp"-->
-                                <!--android:layout_weight="1"-->
-                                <!--android:background="@drawable/imgboder1"-->
-                                <!--app:srcCompat="@drawable/pill" />-->
+                            <ImageView
+                                android:id="@+id/imageView"
+                                android:layout_width="120sp"
+                                android:layout_height="70sp"
+                                android:layout_marginBottom="30sp"
+                                android:layout_marginLeft="5sp"
+                                android:layout_marginTop="10sp"
+                                android:layout_weight="1"
+                                android:background="@drawable/imgboder1"
+                                app:srcCompat="@drawable/pill" />
 
-                            <!--<TextView-->
-                                <!--android:id="@+id/textView14"-->
-                                <!--android:layout_width="match_parent"-->
-                                <!--android:layout_height="1sp"-->
-                                <!--android:layout_weight="1"-->
-                                <!--android:gravity="center"-->
-                                <!--android:text="中文名稱:普拿疼"-->
-                                <!--android:textColor="#5B5B5B" />-->
+                            <TextView
+                                android:id="@+id/chname"
+                                android:layout_width="match_parent"
+                                android:layout_height="1sp"
+                                android:layout_weight="1"
+                                android:gravity="center"
 
-                            <!--<TextView-->
-                                <!--android:id="@+id/textView13"-->
-                                <!--android:layout_width="match_parent"-->
-                                <!--android:layout_height="1sp"-->
-                                <!--android:layout_weight="1"-->
-                                <!--android:gravity="center"-->
-                                <!--android:text="英文名稱：abc"-->
-                                <!--android:textColor="#5B5B5B" />-->
+                                android:textColor="#5B5B5B" />
 
-                            <!--<TextView-->
-                                <!--android:id="@+id/textView11"-->
-                                <!--android:layout_width="120sp"-->
-                                <!--android:layout_height="1sp"-->
-                                <!--android:layout_marginLeft="5sp"-->
-                                <!--android:layout_weight="1"-->
-                                <!--android:gravity="center"-->
-                                <!--android:text="適應症：頭痛"-->
-                                <!--android:textColor="#5B5B5B" />-->
+                            <TextView
+                                android:id="@+id/textView13"
+                                android:layout_width="match_parent"
+                                android:layout_height="1sp"
+                                android:layout_weight="1"
+                                android:gravity="center"
+                                android:text="英文名稱：abc"
+                                android:textColor="#5B5B5B" />
 
-                        <!--</LinearLayout>-->
+                            <TextView
+                                android:id="@+id/textView11"
+                                android:layout_width="120sp"
+                                android:layout_height="1sp"
+                                android:layout_marginLeft="5sp"
+                                android:layout_weight="1"
+                                android:gravity="center"
+                                android:text="適應症：頭痛"
+                                android:textColor="#5B5B5B" />
 
-                        <!--<LinearLayout-->
-                            <!--android:layout_width="150sp"-->
-                            <!--android:layout_height="307dp"-->
-                            <!--android:layout_marginLeft="20sp"-->
-                            <!--android:background="@drawable/back"-->
-                            <!--android:orientation="vertical">-->
+                        </LinearLayout>
 
-                            <!--<ImageView-->
-                                <!--android:id="@+id/imageView2"-->
-                                <!--android:layout_width="120sp"-->
-                                <!--android:layout_height="70sp"-->
-                                <!--android:layout_marginBottom="30sp"-->
-                                <!--android:layout_marginLeft="5sp"-->
-                                <!--android:layout_marginTop="10sp"-->
-                                <!--android:layout_weight="1"-->
-                                <!--android:background="@drawable/imgboder1"-->
-                                <!--app:srcCompat="@drawable/pill2" />-->
+                        <LinearLayout
+                            android:layout_width="150sp"
+                            android:layout_height="307dp"
+                            android:layout_marginLeft="20sp"
+                            android:background="@drawable/back"
+                            android:orientation="vertical">
 
-                            <!--<TextView-->
-                                <!--android:id="@+id/textView17"-->
-                                <!--android:layout_width="match_parent"-->
-                                <!--android:layout_height="1sp"-->
-                                <!--android:layout_weight="1"-->
-                                <!--android:gravity="center"-->
-                                <!--android:text="中文名稱:斯斯感冒"-->
-                                <!--android:textColor="#5B5B5B" />-->
+                            <ImageView
+                                android:id="@+id/imageView2"
+                                android:layout_width="120sp"
+                                android:layout_height="70sp"
+                                android:layout_marginBottom="30sp"
+                                android:layout_marginLeft="5sp"
+                                android:layout_marginTop="10sp"
+                                android:layout_weight="1"
+                                android:background="@drawable/imgboder1"
+                                app:srcCompat="@drawable/pill2" />
 
-                            <!--<TextView-->
-                                <!--android:id="@+id/textView15"-->
-                                <!--android:layout_width="match_parent"-->
-                                <!--android:layout_height="1sp"-->
-                                <!--android:layout_weight="1"-->
-                                <!--android:gravity="center"-->
-                                <!--android:text="英文名稱:rrrtr"-->
-                                <!--android:textColor="#5B5B5B" />-->
+                            <TextView
+                                android:id="@+id/textView17"
+                                android:layout_width="match_parent"
+                                android:layout_height="1sp"
+                                android:layout_weight="1"
+                                android:gravity="center"
+                                android:text="中文名稱:斯斯感冒"
+                                android:textColor="#5B5B5B" />
 
-                            <!--<TextView-->
-                                <!--android:id="@+id/textView16"-->
-                                <!--android:layout_width="match_parent"-->
-                                <!--android:layout_height="1sp"-->
-                                <!--android:layout_weight="1"-->
-                                <!--android:gravity="center"-->
-                                <!--android:text="適應症:感冒"-->
-                                <!--android:textColor="#5B5B5B" />-->
+                            <TextView
+                                android:id="@+id/textView15"
+                                android:layout_width="match_parent"
+                                android:layout_height="1sp"
+                                android:layout_weight="1"
+                                android:gravity="center"
+                                android:text="英文名稱:rrrtr"
+                                android:textColor="#5B5B5B" />
 
-                        <!--</LinearLayout>-->
+                            <TextView
+                                android:id="@+id/textView16"
+                                android:layout_width="match_parent"
+                                android:layout_height="1sp"
+                                android:layout_weight="1"
+                                android:gravity="center"
+                                android:text="適應症:感冒"
+                                android:textColor="#5B5B5B" />
 
-
+                        </LinearLayout>
 
 
-                    <!--</LinearLayout>-->
 
-                <!--</TableRow>-->
+
+                    </LinearLayout>
+
+                </TableRow>
 
                 <!--<TableRow-->
                     <!--android:layout_width="match_parent"-->
