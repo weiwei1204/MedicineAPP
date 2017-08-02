@@ -109,7 +109,8 @@
         <!--  -->
         <activity
             android:name=".MonitorActivity"
-            android:label="@string/title_activity_monitor"></activity>
+            android:label="@string/title_activity_monitor" />
+        <activity android:name=".notification"></activity>
     </application>
 
 </manifest>

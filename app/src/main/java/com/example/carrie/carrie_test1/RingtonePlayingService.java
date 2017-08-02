@@ -63,7 +63,7 @@ public class RingtonePlayingService extends Service {
             this.startId=0;
 
             NotificationManager notify_manager=(NotificationManager)getSystemService(NOTIFICATION_SERVICE);
-            Intent intent_alarm=new Intent(this.getApplicationContext(),alarm.class);
+            Intent intent_alarm=new Intent(this.getApplicationContext(),ThirdActivity.class);
             PendingIntent pending_intent_alarm=PendingIntent.getActivity(this,0,intent_alarm,0);
             Notification notification_popup=new Notification.Builder(this)
                     .setSmallIcon(R.drawable.add)
