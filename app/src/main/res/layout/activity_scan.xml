@@ -12,9 +12,11 @@
 
         <SurfaceView
             android:id="@+id/cameraView"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            tools:layout_editor_absoluteY="8dp"
-            tools:layout_editor_absoluteX="8dp" />
+            android:layout_width="280dp"
+            android:layout_height="280dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_margin="100dp"
+            tools:layout_editor_absoluteX="8dp"
+            tools:layout_editor_absoluteY="8dp" />
 
 </LinearLayout>

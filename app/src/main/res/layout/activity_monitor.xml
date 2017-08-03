@@ -8,7 +8,8 @@
     android:orientation="vertical"
     tools:context="com.example.carrie.carrie_test1.MonitorActivity"
     tools:layout_editor_absoluteX="0dp"
-    tools:layout_editor_absoluteY="81dp">
+    tools:layout_editor_absoluteY="81dp"
+    android:weightSum="1">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
@@ -20,16 +21,14 @@
 
     <TextView
         android:id="@+id/result"
-        android:layout_width="100dp"
-        android:layout_height="200dp"
+        android:layout_width="228dp"
+        android:layout_height="78dp"
         android:layout_marginLeft="80dp"
         android:layout_marginTop="190dp"
-        android:gravity="center_horizontal"
-        android:textColor="#272822"
         android:background="#218790"
+        android:gravity="center_horizontal"
         android:text="222333"
-        android:textSize="18pt"
-        />
+        android:textAppearance="@android:style/TextAppearance.Large" />
 
 
 </LinearLayout>
