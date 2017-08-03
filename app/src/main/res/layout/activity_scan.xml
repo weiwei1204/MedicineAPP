@@ -4,15 +4,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context="com.example.carrie.carrie_test1.ScanActivity">
 
         <SurfaceView
             android:id="@+id/cameraView"
             android:layout_width="280dp"
             android:layout_height="280dp"
-            android:gravity="center"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="100dp"
+            android:gravity="center"
             tools:layout_editor_absoluteX="8dp"
             tools:layout_editor_absoluteY="8dp" />
 
