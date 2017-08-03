@@ -8,6 +8,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
+import android.view.View;
 import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.TextView;
@@ -66,7 +67,10 @@ public class MonitorActivity extends AppCompatActivity{
         }
     }
 
-
+    public void gotoBpBsPlot(View v){ //連到圖表頁面
+        Intent it = new Intent(this,BpBsPlot.class);
+        startActivity(it);
+    }
 
 
 
