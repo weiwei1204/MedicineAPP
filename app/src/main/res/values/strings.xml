@@ -38,12 +38,13 @@
     <string name="btnDisplay">Show</string>
     <string name="title_activity_monitor">監控模式</string>
     <string name="title_activity_scan">QRcodeScanner</string>
-    <string name="title_activity_test">test</string>
-    <string name="title_activity_monitor2">Monitor2Activity</string>
 
 
     <string name="search_title">搜尋標題</string>
     <string name="search_hint">提示</string>
+    <string name="plot">血糖血壓趨勢</string>
+    <string name="bs_plot">血糖趨勢圖</string>
+    <string name="bp_plot">血壓趨勢圖</string>
 
 
 </resources>

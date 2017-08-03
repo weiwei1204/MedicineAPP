@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.google.android.gms.vision.barcode.Barcode;
 
+
 public class MonitorActivity extends AppCompatActivity{
     Button scanbtn;
     TextView result;
@@ -31,7 +32,6 @@ public class MonitorActivity extends AppCompatActivity{
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA}, PERMISSION_REQUEST);
         }
 
-
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -47,10 +47,10 @@ public class MonitorActivity extends AppCompatActivity{
             Intent intent = new Intent(MonitorActivity.this,ScanActivity.class);
             startActivityForResult(intent,REQUEST_CODE);
 
+
         }
         return super.onOptionsItemSelected(item);
     }
-
     @Override
     protected void onActivityResult(int requestCode,int resultCOde,Intent data){
         if (requestCode == REQUEST_CODE && resultCOde == RESULT_OK){
@@ -65,6 +65,9 @@ public class MonitorActivity extends AppCompatActivity{
             }
         }
     }
+
+
+
 
 
 }
