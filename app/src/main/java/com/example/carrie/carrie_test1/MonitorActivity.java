@@ -33,15 +33,24 @@ import java.util.Map;
 public class MonitorActivity extends AppCompatActivity{
     Button scanbtn;
     TextView result;
-    public String google_id;
+    public String my_google_id;
+    public String google_id;//欲監控對象的google_id
+    public String my_id;
+    public String my_mon_id;//Supviser的id
+    public String mon_id;//欲監控對象的id
     public static final int REQUEST_CODE = 100;
     public static final int PERMISSION_REQUEST = 200;
     RequestQueue requestQueue;
     String insertUrl = "http://54.65.194.253/Monitor/checkMonitor.php";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_monitor);
+        Bundle bundle = getIntent().getExtras();
+        my_id=bundle.getString("my_id");//get 自己 id
+        my_google_id=bundle.getString("my_google_id");//get 自己google_ id
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         scanbtn = (Button)findViewById(R.id.action_add);
@@ -83,6 +92,8 @@ public class MonitorActivity extends AppCompatActivity{
                 google_id=barcode.displayValue;
                 Log.d("monitorGoogle", google_id);
                 checkMonitorExist();
+                getMonitorId();
+                addMonitor();//新增監控者至監視列表
             }
         }
     }
@@ -98,21 +109,24 @@ public class MonitorActivity extends AppCompatActivity{
             public void onResponse(String response) {
 //                Log.d("rrr", "1");
 //                Log.d("rrr", response);
+                Log.d("monitor_response",response);
 
-                if(response.contains("success")){//檢查是否為新會員
-                    //gotoMain();
-
-                }
-                else if(response.contains("nodata")){
+                if(response.contains("nodata")){//檢查是否為新會員
                     Log.d("monitor_check", "success");
                     normalDialogEvent();
+
+                }
+                else{
+                    //Log.d("monitor_response",response);
+                    mon_id=response;
+                    Log.d("mon_id", mon_id);
                 }
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
 //                Log.d("rrr", error.toString());
-                Toast.makeText(getApplicationContext(), "Error read insert.php!!!", Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), "Error read checkMonitors.php!!!", Toast.LENGTH_LONG).show();
             }
         }){
             protected Map<String, String> getParams() throws AuthFailureError {//把值丟到php
@@ -128,8 +142,75 @@ public class MonitorActivity extends AppCompatActivity{
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         requestQueue.add(request);
     }
-    public void addMonitor(){
+    public void getMonitorId(){//取得監控者的id
+        requestQueue = Volley.newRequestQueue(getApplicationContext());
+        String getMonitorIdUrl = "http://54.65.194.253/Monitor/getMonitorId.php";
+        final StringRequest request = new StringRequest(Request.Method.POST, getMonitorIdUrl, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+//                Log.d("rrr", "1");
+//                Log.d("rrr", response);
+                Log.d("my_mon_id",response);
 
+                if(response.contains("nodata")){
+                    Log.d("monitorId_check", "success");
+                    normalDialogEvent();
+
+                }
+                else{
+                    //Log.d("monitor_response",response);
+                    my_mon_id=response;
+                    Log.d("my_mon_id222", my_mon_id);
+
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+//                Log.d("rrr", error.toString());
+                Toast.makeText(getApplicationContext(), "Error read getMonitorId.php!!!", Toast.LENGTH_LONG).show();
+            }
+        }){
+            protected Map<String, String> getParams() throws AuthFailureError {//把值丟到php
+                Map<String, String> parameters = new HashMap<String, String>();
+//                parameters.put("username", gname);
+//                parameters.put("password", gemail);
+                parameters.put("google_id_mymonitor", my_google_id);
+                Log.d("google_id_monitor", parameters.toString());
+                return parameters;
+            }
+        }
+                ;
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(request);
+    }
+    public void addMonitor(){
+        String addMemberUrl = "http://54.65.194.253/Monitor/addMember.php";
+        requestQueue = Volley.newRequestQueue(getApplicationContext());
+        final StringRequest request = new StringRequest(Request.Method.POST, addMemberUrl, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.d("rrr111", error.toString());
+                Toast.makeText(getApplicationContext(), "Error read addMember.php!!!", Toast.LENGTH_LONG).show();
+            }
+        })
+        {
+            protected Map<String, String> getParams() throws AuthFailureError {//把值丟到php
+                Map<String, String> parameters = new HashMap<String, String>();
+                parameters.put("my_mon_id1", my_mon_id);
+                parameters.put("mon_id1", mon_id);
+                Log.d("my_mon_id123", parameters.toString());
+                return parameters;
+
+            }
+        }
+                ;
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(request);
     }
     public void  normalDialogEvent(){
         new AlertDialog.Builder(MonitorActivity.this)
@@ -141,6 +222,7 @@ public class MonitorActivity extends AppCompatActivity{
                 })
                 .show();
     }
+
 
 
 }
