@@ -1,26 +1,43 @@
 package com.example.carrie.carrie_test1;
 import android.Manifest;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
-import android.view.View;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.google.android.gms.vision.barcode.Barcode;
+
+import java.util.HashMap;
+import java.util.Map;
 
 
 public class MonitorActivity extends AppCompatActivity{
     Button scanbtn;
     TextView result;
+    public String google_id;
     public static final int REQUEST_CODE = 100;
     public static final int PERMISSION_REQUEST = 200;
+    RequestQueue requestQueue;
+    String insertUrl = "http://54.65.194.253/Monitor/checkMonitor.php";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,6 +80,9 @@ public class MonitorActivity extends AppCompatActivity{
                         result.setText(barcode.displayValue);
                     }
                 });
+                google_id=barcode.displayValue;
+                Log.d("monitorGoogle", google_id);
+                checkMonitorExist();
             }
         }
     }
@@ -71,7 +91,56 @@ public class MonitorActivity extends AppCompatActivity{
         Intent it = new Intent(this,BpBsPlot.class);
         startActivity(it);
     }
+    public void checkMonitorExist(){
+        requestQueue = Volley.newRequestQueue(getApplicationContext());
+        final StringRequest request = new StringRequest(Request.Method.POST, insertUrl, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+//                Log.d("rrr", "1");
+//                Log.d("rrr", response);
 
+                if(response.contains("success")){//檢查是否為新會員
+                    //gotoMain();
+
+                }
+                else if(response.contains("nodata")){
+                    Log.d("monitor_check", "success");
+                    normalDialogEvent();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+//                Log.d("rrr", error.toString());
+                Toast.makeText(getApplicationContext(), "Error read insert.php!!!", Toast.LENGTH_LONG).show();
+            }
+        }){
+            protected Map<String, String> getParams() throws AuthFailureError {//把值丟到php
+                Map<String, String> parameters = new HashMap<String, String>();
+//                parameters.put("username", gname);
+//                parameters.put("password", gemail);
+                parameters.put("google_id_monitor", google_id);
+                Log.d("monitor", parameters.toString());
+                return parameters;
+            }
+        }
+                ;
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(request);
+    }
+    public void addMonitor(){
+
+    }
+    public void  normalDialogEvent(){
+        new AlertDialog.Builder(MonitorActivity.this)
+                .setMessage(R.string.notFindMonitor)
+                .setPositiveButton(R.string.ok,new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        Toast.makeText(getApplicationContext(), "請重新新增", Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .show();
+    }
 
 
 }
