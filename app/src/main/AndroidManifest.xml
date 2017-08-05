@@ -115,7 +115,7 @@
         <activity
             android:name=".MonitorActivity"
             android:label="@string/title_activity_monitor" />
-        <activity android:name=".notification" />
+        <!--<activity android:name=".notification" />-->
         <activity android:name=".ScanActivity" />
         <activity android:name=".BpBsPlot" />
         <activity android:name=".testview" />
