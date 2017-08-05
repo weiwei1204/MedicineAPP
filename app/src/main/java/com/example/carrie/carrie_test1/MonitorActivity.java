@@ -14,7 +14,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -32,7 +31,7 @@ import java.util.Map;
 
 public class MonitorActivity extends AppCompatActivity{
     Button scanbtn;
-    TextView result;
+//    TextView result;
     public static String my_google_id="";
     public static String google_id="";//欲監控對象的google_id
     public static String my_id="";
@@ -54,7 +53,7 @@ public class MonitorActivity extends AppCompatActivity{
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         scanbtn = (Button)findViewById(R.id.action_add);
-        result = (TextView)findViewById(R.id.result);
+//        result = (TextView)findViewById(R.id.result);
         if(ContextCompat.checkSelfPermission(this,Manifest.permission.CAMERA)!= PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA}, PERMISSION_REQUEST);
         }
@@ -83,12 +82,12 @@ public class MonitorActivity extends AppCompatActivity{
         if (requestCode == REQUEST_CODE && resultCOde == RESULT_OK){
             if(data != null){
                 final Barcode barcode = data.getParcelableExtra("barcode");
-                result.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        result.setText(barcode.displayValue);
-                    }
-                });
+//                result.post(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        result.setText(barcode.displayValue);
+//                    }
+//                });
                 google_id=barcode.displayValue;
                 Log.d("monitorGoogle", google_id);
                 checkMonitorExist();
