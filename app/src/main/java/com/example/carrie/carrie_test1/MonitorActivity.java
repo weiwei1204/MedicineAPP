@@ -33,11 +33,11 @@ import java.util.Map;
 public class MonitorActivity extends AppCompatActivity{
     Button scanbtn;
     TextView result;
-    public String my_google_id;
-    public String google_id;//欲監控對象的google_id
-    public String my_id;
-    public String my_mon_id;//Supviser的id
-    public String mon_id;//欲監控對象的id
+    public static String my_google_id="";
+    public static String google_id="";//欲監控對象的google_id
+    public static String my_id="";
+    public static String my_mon_id="";//Supviser的id
+    public static String mon_id="";//欲監控對象的id
     public static final int REQUEST_CODE = 100;
     public static final int PERMISSION_REQUEST = 200;
     RequestQueue requestQueue;
@@ -92,8 +92,7 @@ public class MonitorActivity extends AppCompatActivity{
                 google_id=barcode.displayValue;
                 Log.d("monitorGoogle", google_id);
                 checkMonitorExist();
-                getMonitorId();
-                addMonitor();//新增監控者至監視列表
+
             }
         }
     }
@@ -120,6 +119,8 @@ public class MonitorActivity extends AppCompatActivity{
                     //Log.d("monitor_response",response);
                     mon_id=response;
                     Log.d("mon_id", mon_id);
+                    getMonitorId();
+                    addMonitor();//新增監控者至監視列表
                 }
             }
         }, new Response.ErrorListener() {
@@ -169,6 +170,7 @@ public class MonitorActivity extends AppCompatActivity{
             public void onErrorResponse(VolleyError error) {
 //                Log.d("rrr", error.toString());
                 Toast.makeText(getApplicationContext(), "Error read getMonitorId.php!!!", Toast.LENGTH_LONG).show();
+//                refreshNormalDialogEvent();
             }
         }){
             protected Map<String, String> getParams() throws AuthFailureError {//把值丟到php
@@ -190,6 +192,7 @@ public class MonitorActivity extends AppCompatActivity{
         final StringRequest request = new StringRequest(Request.Method.POST, addMemberUrl, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
+                addNormalDialogEvent();
             }
         }, new Response.ErrorListener() {
             @Override
@@ -218,6 +221,26 @@ public class MonitorActivity extends AppCompatActivity{
                 .setPositiveButton(R.string.ok,new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         Toast.makeText(getApplicationContext(), "請重新新增", Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .show();
+    }
+    public void  addNormalDialogEvent(){
+        new AlertDialog.Builder(MonitorActivity.this)
+                .setMessage("新增好友成功")
+                .setPositiveButton(R.string.ok,new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        Toast.makeText(getApplicationContext(), "已完成新增", Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .show();
+    }
+    public void  refreshNormalDialogEvent(){
+        new AlertDialog.Builder(MonitorActivity.this)
+                .setMessage("請重新掃描")
+                .setPositiveButton(R.string.ok,new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        Toast.makeText(getApplicationContext(), "掃描again", Toast.LENGTH_SHORT).show();
                     }
                 })
                 .show();
