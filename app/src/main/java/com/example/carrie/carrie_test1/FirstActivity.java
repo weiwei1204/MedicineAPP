@@ -86,14 +86,13 @@ public class FirstActivity extends AppCompatActivity {
         requestQueue = Volley.newRequestQueue(getApplicationContext());
         Log.d("aaa","3");
 
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, getDrugUrl, new Response.Listener<JSONObject>() {
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST,getDrugUrl, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 try {
                     Log.d("aaa","1");
 
                     JSONArray drugs = response.getJSONArray("Drugs");
-
 
                     final String[] drugarray=new String[drugs.length()];
                     final String[] drugaidrray=new String[drugs.length()];
@@ -107,8 +106,8 @@ public class FirstActivity extends AppCompatActivity {
                             drugarray[i] = chinesename;
                             Log.d("vvvvv",drugarray[i]);
                     }//取值結束
-                    chname.setText(drugarray[0]);
-                    Log.d("aaa",drugarray[0]);
+//                    chname.setText(drugarray[0]);
+//                    Log.d("aaa",drugarray[0]);
                 }catch (JSONException e){
                     e.printStackTrace();
                 }
@@ -117,6 +116,7 @@ public class FirstActivity extends AppCompatActivity {
             @Override
             public void onErrorResponse(VolleyError error) {
             }
+
         });
         requestQueue.add(jsonObjectRequest);
     }
