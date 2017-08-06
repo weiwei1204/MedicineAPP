@@ -48,6 +48,7 @@
     <string name="addMonitor">新增監控者</string>
     <string name="notFindMonitor">查無此人</string>
     <string name="ok">好</string>
+    <string name="title_activity_test1">test1Activity</string>
 
 
 </resources>

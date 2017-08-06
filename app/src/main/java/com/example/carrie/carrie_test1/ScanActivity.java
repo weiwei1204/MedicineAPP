@@ -25,7 +25,7 @@ public class ScanActivity extends AppCompatActivity {
     CameraSource cameraSource;
     SurfaceHolder holder;
 
-    //public String google_id;
+//    public String google_id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,62 +83,11 @@ public class ScanActivity extends AppCompatActivity {
                     intent.putExtra("barcode",barcodes.valueAt(0));
                     setResult(RESULT_OK,intent);
                     finish();
+
                 }
             }
         });
-    }
-//    public void checkMonitorExist(){
-//        requestQueue = Volley.newRequestQueue(getApplicationContext());
-//        final StringRequest request = new StringRequest(Request.Method.POST, insertUrl, new Response.Listener<String>() {
-//            @Override
-//            public void onResponse(String response) {
-////                Log.d("rrr", "1");
-////                Log.d("rrr", response);
-//
-//                if(response.contains("success")){//檢查是否為新會員
-//                    //gotoMain();
-//
-//                }
-//                else if(response.contains("nodata")){
-//                    //gotoInformation();
-//                    Log.d("monitor_check", "success");
-//                    normalDialogEvent();
-//                }
-//            }
-//        }, new Response.ErrorListener() {
-//            @Override
-//            public void onErrorResponse(VolleyError error) {
-////                Log.d("rrr", error.toString());
-//                Toast.makeText(getApplicationContext(), "Error read insert.php!!!", Toast.LENGTH_LONG).show();
-//            }
-//        }){
-//            protected Map<String, String> getParams() throws AuthFailureError {//把值丟到php
-//                Map<String, String> parameters = new HashMap<String, String>();
-////                parameters.put("username", gname);
-////                parameters.put("password", gemail);
-//                parameters.put("google_id_monitor", google_id);
-//                Log.d("monitor", parameters.toString());
-//                return parameters;
-//            }
-//        }
-//                ;
-//        RequestQueue requestQueue = Volley.newRequestQueue(this);
-//        requestQueue.add(request);
-//    }
-//    public void addMonitor(){
-//
-//    }
-//    public void  normalDialogEvent(){
-//        new AlertDialog.Builder(ScanActivity.this)
-//                .setTitle(R.string.addMonitor)
-//                .setMessage(R.string.notFindMonitor)
-//                .setPositiveButton(R.string.ok,new DialogInterface.OnClickListener() {
-//                    public void onClick(DialogInterface dialog, int id) {
-//                        Toast.makeText(getApplicationContext(), "ok", Toast.LENGTH_SHORT).show();
-//                    }
-//                })
-//                .show();
-//    }
 
+    }
 
 }
