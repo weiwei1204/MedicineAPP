@@ -113,6 +113,10 @@ public class MainActivity extends LoginActivity {
 
     public void gotoMonitorActivity(View v) {
         Intent it = new Intent(this,MonitorActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putString("my_id", memberid);
+        bundle.putString("my_google_id", googleid);
+        it.putExtras(bundle);
         startActivity(it);
     }
 

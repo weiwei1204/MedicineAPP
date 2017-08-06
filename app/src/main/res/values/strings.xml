@@ -45,6 +45,9 @@
     <string name="plot">血糖血壓趨勢</string>
     <string name="bs_plot">血糖趨勢圖</string>
     <string name="bp_plot">血壓趨勢圖</string>
+    <string name="addMonitor">新增監控者</string>
+    <string name="notFindMonitor">查無此人</string>
+    <string name="ok">好</string>
 
 
 </resources>
