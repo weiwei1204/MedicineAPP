@@ -119,7 +119,7 @@ public class MonitorActivity extends AppCompatActivity{
                     mon_id=response;
                     Log.d("mon_id", mon_id);
                     getMonitorId();
-                    addMonitor();//新增監控者至監視列表
+
                 }
             }
         }, new Response.ErrorListener() {
@@ -161,7 +161,7 @@ public class MonitorActivity extends AppCompatActivity{
                     //Log.d("monitor_response",response);
                     my_mon_id=response;
                     Log.d("my_mon_id222", my_mon_id);
-
+                    addMonitor();//新增監控者至監視列表
                 }
             }
         }, new Response.ErrorListener() {
