@@ -222,7 +222,7 @@ public class FirstActivity extends AppCompatActivity {
         return true;
     }
 
-<
+
 
 
     public void getDrug(){//取此用藥資訊
