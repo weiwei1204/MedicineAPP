@@ -117,6 +117,7 @@ public class ThirdActivity extends AppCompatActivity {
             @Override
             public void onResponse(JSONObject response) {
                 try {
+
                     JSONArray beacons = response.getJSONArray("Beacons");
                     int count=0;
                     for (int i=0 ; i<beacons.length() ; i++){

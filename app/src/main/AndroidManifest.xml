@@ -115,11 +115,16 @@
         <activity
             android:name=".MonitorActivity"
             android:label="@string/title_activity_monitor" />
-        <activity android:name=".notification" />
+        <!-- <activity android:name=".notification" /> -->
         <activity android:name=".ScanActivity" />
         <activity android:name=".BpBsPlot" />
         <activity android:name=".testview" />
         <activity android:name=".SwipeView" />
+
+        <activity
+            android:name=".SwipePlot"
+            android:label="@string/title_activity_swipe_plot"
+            android:theme="@style/AppTheme"></activity>
     </application>
 
 </manifest>
