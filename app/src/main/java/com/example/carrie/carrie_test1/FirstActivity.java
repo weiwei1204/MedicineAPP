@@ -5,6 +5,7 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.support.annotation.RequiresApi;
@@ -28,7 +29,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-
+import java.util.List;
 
 
 public class FirstActivity extends AppCompatActivity {
@@ -55,6 +56,9 @@ public class FirstActivity extends AppCompatActivity {
         lv = (ListView) findViewById(R.id.list);
 
         new GetContacts().execute();
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
+
 
 
     }
@@ -138,14 +142,19 @@ public class FirstActivity extends AppCompatActivity {
         }
         protected void showdrugdata(){
 
+
         }
         @Override
         protected void onPostExecute(Void result) {
             super.onPostExecute(result);
+            String data;
+            List<String> r = new ArrayList<String>();
+            ArrayAdapter<String>adapter=new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_list_item_1,r);
 //            ListAdapter adapter = new SimpleAdapter(FirstActivity.this, contactList,
 //                    R.layout.activity_first, new String[]{ "chineseName","englishName"},
 //                    new int[]{R.id.chname,R.id.engname});
 //            lv.setAdapter(adapter);
+
 
 
         }
