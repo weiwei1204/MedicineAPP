@@ -18,6 +18,9 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+
+import com.android.volley.toolbox.HttpClientStack;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
@@ -80,7 +83,9 @@ public class FirstActivity extends AppCompatActivity {
         return true;
     }
 
-    public void getDrug(){//取此會員的beacon
+
+
+    public void getDrug(){//取此用藥資訊
         Log.d("aaa","4");
 
         requestQueue = Volley.newRequestQueue(getApplicationContext());
@@ -96,6 +101,7 @@ public class FirstActivity extends AppCompatActivity {
 
                     final String[] drugarray=new String[drugs.length()];
                     final String[] drugaidrray=new String[drugs.length()];
+
                     Log.d("aaa",drugs.toString());
                     for (int i=0 ; i<drugs.length() ; i++){
                         Log.d("aaa","2");
