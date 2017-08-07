@@ -120,6 +120,7 @@
         <activity android:name=".BpBsPlot" />
         <activity android:name=".testview" />
         <activity android:name=".SwipeView" />
+
         <activity
             android:name=".SwipePlot"
             android:label="@string/title_activity_swipe_plot"
