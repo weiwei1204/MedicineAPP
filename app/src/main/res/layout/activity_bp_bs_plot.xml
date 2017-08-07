@@ -72,12 +72,13 @@
             android:id="@+id/textView6"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:gravity="center"
-            android:text="@string/bs_plot"
+            android:layout_weight="1"
             android:background="@drawable/button_selector"
+            android:gravity="center"
+            android:onClick="ToSwipeView"
+            android:text="@string/bs_plot"
             android:textColor="#000000"
             android:textSize="10pt"
-            android:layout_weight="1"
             tools:ignore="NestedWeights" />
         <Button
             android:id="@+id/textView7"
@@ -88,7 +89,8 @@
             android:background="@drawable/button_selector2"
             android:textColor="#000000"
             android:textSize="10pt"
-            android:layout_weight="1" />
+            android:layout_weight="1"
+            android:onClick="ToSwipeView"/>
 
     </LinearLayout>
     <LinearLayout

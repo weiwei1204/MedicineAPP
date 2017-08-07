@@ -115,7 +115,7 @@
         <activity
             android:name=".MonitorActivity"
             android:label="@string/title_activity_monitor" />
-        <activity android:name=".notification" />
+        <!-- <activity android:name=".notification" /> -->
         <activity android:name=".ScanActivity" />
         <activity android:name=".BpBsPlot" />
         <activity android:name=".testview" />
@@ -128,6 +128,12 @@
             android:name=".card"
             android:label="@string/title_activity_card"
             android:theme="@style/AppTheme" />
+        <activity
+            android:name=".SwipePlot"
+            android:label="@string/title_activity_swipe_plot"
+            android:theme="@style/AppTheme" />
+        <activity android:name=".DrugListActivity"></activity>
+
     </application>
 
 </manifest>

@@ -34,6 +34,7 @@ public class MainActivity extends LoginActivity {
     String getidUrl = "http://54.65.194.253/Member/getid.php";
     RequestQueue requestQueue;
     String memberid;
+    String my_mon_id;
 
 
 
@@ -47,7 +48,7 @@ public class MainActivity extends LoginActivity {
         Bundle bundle = getIntent().getExtras();
         googleid=bundle.getString("googleid");
 
-
+        getMonitorId();
         getid();
 //        SignOut = (ImageButton) findViewById(R.id.bkimg);
 //        SignOut.setOnClickListener(this);
@@ -102,8 +103,12 @@ public class MainActivity extends LoginActivity {
 
     }
 
-    public void gotodruginfoActivity(View v){ //連到聊天機器人頁面
-        Intent it = new Intent(this,druginfo.class);
+    public void gotodruginfoActivity(View v) { //連到聊天機器人頁面
+        Intent it = new Intent(this, druginfo.class);
+    }
+    public void gotoFirstActivity(View v){ //連到聊天機器人頁面
+        Intent it = new Intent(this,DrugListActivity.class);
+
         startActivity(it);
     }
     public void gotoSecondActivity(View v){ //連到iBeacon頁面
@@ -116,6 +121,7 @@ public class MainActivity extends LoginActivity {
         Bundle bundle = new Bundle();
         bundle.putString("my_id", memberid);
         bundle.putString("my_google_id", googleid);
+        bundle.putString("my_supervise_id", my_mon_id);
         it.putExtras(bundle);
         startActivity(it);
     }
@@ -129,7 +135,7 @@ public class MainActivity extends LoginActivity {
         startActivity(it);
     }
     public void gotoFourthActivity(View v){ //連到搜尋藥品資訊頁面
-        Intent it = new Intent(this,FirstActivity.class);
+        Intent it = new Intent(this,DrugListActivity.class);
         startActivity(it);
     }
     public void gotoGenerate_Qrcode(){ //連到製造qrcode頁面
@@ -205,6 +211,49 @@ public class MainActivity extends LoginActivity {
 //            public void onErrorResponse(VolleyError error) {}
 //        });
 //        requestQueue.add(jsonObjectRequest);
+    }
+    public void getMonitorId(){//取得監控者的id
+        requestQueue = Volley.newRequestQueue(getApplicationContext());
+        String getMonitorIdUrl = "http://54.65.194.253/Monitor/getMonitorId.php";
+        final StringRequest request = new StringRequest(Request.Method.POST, getMonitorIdUrl, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+//                Log.d("rrr", "1");
+//                Log.d("rrr", response);
+                Log.d("my_mon_id",response);
+
+                if(response.contains("nodata")){
+                    Log.d("monitorId_check", "success");
+                    //normalDialogEvent();
+
+                }
+                else{
+                    //Log.d("monitor_response",response);
+                    my_mon_id=response;
+                    Log.d("my_mon_id222", my_mon_id);
+                    //addMonitor();//新增監控者至監視列表
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+//                Log.d("rrr", error.toString());
+                Toast.makeText(getApplicationContext(), "Error read getMonitorId.php!!!", Toast.LENGTH_LONG).show();
+//                refreshNormalDialogEvent();
+            }
+        }){
+            protected Map<String, String> getParams() throws AuthFailureError {//把值丟到php
+                Map<String, String> parameters = new HashMap<String, String>();
+//                parameters.put("username", gname);
+//                parameters.put("password", gemail);
+                parameters.put("google_id_mymonitor", googleid);
+                Log.d("google_id_monitor", parameters.toString());
+                return parameters;
+            }
+        }
+                ;
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(request);
     }
 
     public void goback(View v){

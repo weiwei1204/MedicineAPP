@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -74,14 +75,25 @@ public class BpBsPlot extends AppCompatActivity {
     private boolean hasLabelForSelected = false;
     private boolean pointsHaveDifferentColor;
     private boolean hasGradientToTransparent = false;
+     Button btn;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bp_bs_plot);
+        Bundle bundle = getIntent().getExtras();
+        btn = (Button)findViewById(R.id.textView7);
 
 
+    }
+    public void ToSwipeView(View v){
+        Intent it = new Intent(this,SwipePlot.class);
+        startActivity(it);
+        Log.d("testbp","1");
+    }
+    public void goback(View v){
+        finish();
     }
 
 }

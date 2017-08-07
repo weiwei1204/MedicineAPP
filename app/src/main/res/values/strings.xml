@@ -52,5 +52,11 @@
     <string name="title_activity_card">card</string>
     <string name="title_activity_main3">Main3Activity</string>
 
+    <string name="title_activity_swipe_plot">個人化圖表動態</string>
+    <string name="section_format">Hello World from section: %1$d</string>
+    <string name="title_home">home</string>
+    <string name="title_dashboard">dashboard</string>
+    <string name="title_notifications">notifications</string>
+
 
 </resources>

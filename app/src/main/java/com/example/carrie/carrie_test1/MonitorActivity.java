@@ -1,4 +1,5 @@
 package com.example.carrie.carrie_test1;
+
 import android.Manifest;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -8,6 +9,8 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
@@ -25,7 +28,13 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.gms.vision.barcode.Barcode;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 
@@ -39,17 +48,23 @@ public class MonitorActivity extends AppCompatActivity{
     public static String mon_id="";//欲監控對象的id
     public static final int REQUEST_CODE = 100;
     public static final int PERMISSION_REQUEST = 200;
+    private RecyclerView recyclerView;
+    private GridLayoutManager gridLayoutManager;
+    private CustomAdapter adapter;
+    private List<MyMonitorData> dataList;
+
     RequestQueue requestQueue;
     String insertUrl = "http://54.65.194.253/Monitor/checkMonitor.php";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        getMonitorId();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_monitor);
         Bundle bundle = getIntent().getExtras();
         my_id=bundle.getString("my_id");//get 自己 id
         my_google_id=bundle.getString("my_google_id");//get 自己google_ id
-
+        my_mon_id=bundle.getString("my_supervise_id");
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         scanbtn = (Button)findViewById(R.id.action_add);
@@ -57,7 +72,62 @@ public class MonitorActivity extends AppCompatActivity{
         if(ContextCompat.checkSelfPermission(this,Manifest.permission.CAMERA)!= PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA}, PERMISSION_REQUEST);
         }
+        recyclerView = (RecyclerView)findViewById(R.id.recycler_view);
+        dataList  = new ArrayList<>();
+        load_data_from_server();
 
+        gridLayoutManager = new GridLayoutManager(this,2);
+        recyclerView.setLayoutManager(gridLayoutManager);
+
+        adapter = new CustomAdapter(this,dataList);
+        recyclerView.setAdapter(adapter);
+    }
+    private void load_data_from_server() {
+                //getMonitorId();
+                requestQueue = Volley.newRequestQueue(getApplicationContext());
+                String insertUrl = "http://54.65.194.253/Monitor/getAllMonitor.php";
+                final StringRequest request = new StringRequest(Request.Method.POST, insertUrl, new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        try {
+
+                            JSONArray array = new JSONArray(response);
+
+                            for (int i=0; i<array.length(); i++){
+
+                                JSONObject object = array.getJSONObject(i);
+
+                                MyMonitorData data = new MyMonitorData(object.getInt("m_id"),object.getString("name"),
+                                        object.getString("google_id"));
+
+                                dataList.add(data);
+                            }
+
+
+
+                        }catch (JSONException e) {
+                            System.out.println("End of content");
+                        }
+                    }
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+//                Log.d("rrr", error.toString());
+                        Toast.makeText(getApplicationContext(), "Error read getAllMonitor.php!!!", Toast.LENGTH_LONG).show();
+                    }
+                }){
+                    protected Map<String, String> getParams() throws AuthFailureError {//把值丟到php
+                        Map<String, String> parameters = new HashMap<String, String>();
+//                parameters.put("username", gname);
+//                parameters.put("password", gemail);
+                        parameters.put("supervisor_id", my_mon_id);
+                        Log.d("supervisor_id_check", parameters.toString());
+                        return parameters;
+                    }
+                }
+                        ;
+                RequestQueue requestQueue = Volley.newRequestQueue(this);
+                requestQueue.add(request);
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -97,7 +167,7 @@ public class MonitorActivity extends AppCompatActivity{
     }
 
     public void gotoBpBsPlot(View v){ //連到圖表頁面
-        Intent it = new Intent(this,BpBsPlot.class);
+        Intent it = new Intent(this,SwipePlot.class);
         startActivity(it);
     }
     public void checkMonitorExist(){
@@ -118,8 +188,7 @@ public class MonitorActivity extends AppCompatActivity{
                     //Log.d("monitor_response",response);
                     mon_id=response;
                     Log.d("mon_id", mon_id);
-                    getMonitorId();
-
+                    addMonitor();
                 }
             }
         }, new Response.ErrorListener() {
@@ -154,14 +223,14 @@ public class MonitorActivity extends AppCompatActivity{
 
                 if(response.contains("nodata")){
                     Log.d("monitorId_check", "success");
-                    normalDialogEvent();
+                    //normalDialogEvent();
 
                 }
                 else{
                     //Log.d("monitor_response",response);
                     my_mon_id=response;
                     Log.d("my_mon_id222", my_mon_id);
-                    addMonitor();//新增監控者至監視列表
+                    //addMonitor();//新增監控者至監視列表
                 }
             }
         }, new Response.ErrorListener() {
