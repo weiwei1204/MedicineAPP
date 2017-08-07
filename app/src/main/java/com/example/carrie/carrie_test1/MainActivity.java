@@ -104,7 +104,7 @@ public class MainActivity extends LoginActivity {
     }
 
     public void gotoFirstActivity(View v){ //連到聊天機器人頁面
-        Intent it = new Intent(this,FirstActivity.class);
+        Intent it = new Intent(this,DrugListActivity.class);
         startActivity(it);
     }
     public void gotoSecondActivity(View v){ //連到iBeacon頁面
@@ -131,7 +131,7 @@ public class MainActivity extends LoginActivity {
         startActivity(it);
     }
     public void gotoFourthActivity(View v){ //連到搜尋藥品資訊頁面
-        Intent it = new Intent(this,FirstActivity.class);
+        Intent it = new Intent(this,DrugListActivity.class);
         startActivity(it);
     }
     public void gotoGenerate_Qrcode(){ //連到製造qrcode頁面
