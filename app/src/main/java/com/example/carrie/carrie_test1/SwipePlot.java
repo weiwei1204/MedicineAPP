@@ -138,7 +138,7 @@ public class SwipePlot extends AppCompatActivity {
                 case 1:
                     return "血壓趨勢圖";
                 case 2:
-                    return "用藥排成紀錄";
+                    return "用藥排程紀錄";
             }
             return null;
         }

@@ -97,7 +97,7 @@ public class MonitorActivity extends AppCompatActivity{
     }
 
     public void gotoBpBsPlot(View v){ //連到圖表頁面
-        Intent it = new Intent(this,BpBsPlot.class);
+        Intent it = new Intent(this,SwipePlot.class);
         startActivity(it);
     }
     public void checkMonitorExist(){
