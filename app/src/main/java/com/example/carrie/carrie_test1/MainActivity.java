@@ -102,8 +102,8 @@ public class MainActivity extends LoginActivity {
 
     }
 
-    public void gotoFirstActivity(View v){ //連到聊天機器人頁面
-        Intent it = new Intent(this,FirstActivity.class);
+    public void gotodruginfoActivity(View v){ //連到聊天機器人頁面
+        Intent it = new Intent(this,druginfo.class);
         startActivity(it);
     }
     public void gotoSecondActivity(View v){ //連到iBeacon頁面

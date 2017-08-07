@@ -3,6 +3,8 @@ package com.example.carrie.carrie_test1;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Canvas;
+import android.graphics.Paint;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
@@ -30,6 +32,16 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+
+//測試換行
+import android.content.Context;
+import android.graphics.Paint;
+import android.text.TextUtils;
+import android.util.AttributeSet;
+import android.widget.TextView;
+import android.app.Activity;
+import android.os.Bundle;
+
 // 注意這裡, Android Studio 預設會幫您引入 import android.widget.SearchView
 // 但我們要的是 android.support.v7.widget.SearchView;
 
@@ -39,6 +51,8 @@ public class FirstActivity extends AppCompatActivity {
     String getDrugUrl = "http://54.65.194.253/test/testDrugAll.php";
     RequestQueue requestQueue;
     TextView chname;
+    TextView engname;
+    TextView indication;
     ArrayList<Drug> DrugList = new ArrayList<Drug>();
 
     @Override
@@ -46,9 +60,17 @@ public class FirstActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_first);
         chname=(TextView)findViewById(R.id.chname);
+        engname=(TextView)findViewById(R.id.engname);
+        indication=(TextView)findViewById(R.id.indication);
+
         getDrug();
 
     }
+
+
+
+
+
 
 
     public void gotoFourthActivity(View v){ //連到搜尋藥品資訊頁面
@@ -63,6 +85,7 @@ public class FirstActivity extends AppCompatActivity {
     public void goback(View v){
         finish();
     }
+
 
 
     @RequiresApi(api = Build.VERSION_CODES.HONEYCOMB)
@@ -127,15 +150,25 @@ public class FirstActivity extends AppCompatActivity {
 //                        String id = drug.getString("id");
                         Drug Adrug = new Drug( id,  chineseName,  licenseNumber,  indication,  englishName,  category,  image,  delivery,  maker_Name,  maker_Country,  applicant);
                         DrugList.add(Adrug);
-//                        drugaidrray[i] = id;
-//                            drugarray[i] = chineseName;
+//                       drugaidrray[i] = id;
+//                        drugarray[i] = chineseName;
 
                     }//取值結束
-//                    chname.setText(drugarray[0]);
-//                    Log.d("aaa",drugarray[0]);
+                   chname.setText(DrugList.get(0).getChineseName());
+       //             Log.d("aaa",drugarray[0]);
                     for (int j=0;j<DrugList.size();j++){
                         Log.d("vvvvv",DrugList.get(j).getChineseName());
                     }
+
+                    engname.setText(DrugList.get(0).getEnglishName());
+                    for(int i=0;i<DrugList.size(); i++){
+                        Log.d("vvvvv",DrugList.get(i).getEnglishName());
+                    }
+                    indication.setText(DrugList.get(0).getIndication());
+                    for(int k=0; k<DrugList.size(); k++){
+                        Log.d("vvvvv",DrugList.get(k).getIndication());
+                    }
+
 
 
                 }catch (JSONException e){

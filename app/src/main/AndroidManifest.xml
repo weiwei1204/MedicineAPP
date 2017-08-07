@@ -119,7 +119,15 @@
         <activity android:name=".ScanActivity" />
         <activity android:name=".BpBsPlot" />
         <activity android:name=".testview" />
-        <activity android:name=".SwipeView"></activity>
+        <activity android:name=".SwipeView" />
+        <activity
+            android:name=".druginfo"
+            android:label="@string/title_activity_druginfo"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".card"
+            android:label="@string/title_activity_card"
+            android:theme="@style/AppTheme" />
     </application>
 
 </manifest>
