@@ -9,13 +9,15 @@ class MyData {
     private int id;
     private String description,image_link;
 
+
     public MyData(int id, String description, String image_link) {
         this.id = id;
         this.description = description;
         this.image_link = image_link;
+      //  this.indication= indication;
     }
 
-    public int getId() {
+    int getId() {
         return id;
     }
 
@@ -39,4 +41,11 @@ class MyData {
         this.image_link = image_link;
     }
 
+//    public String getIndication() {
+//        return indication;
+//    }
+
+ //   public void setIndication(String indication) {
+ //       this.indication= indication;
+ //   }
 }

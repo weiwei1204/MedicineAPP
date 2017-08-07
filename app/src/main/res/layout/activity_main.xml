@@ -73,7 +73,7 @@
                     android:layout_marginRight="5sp"
                     android:layout_marginTop="20sp"
                     android:background="@drawable/robot"
-                    android:onClick="gotoFirstActivity" />
+                    android:onClick="gotoFirstctivity" />
 
                 <TextView
                     android:id="@+id/textView"
@@ -105,7 +105,7 @@
                     android:layout_marginRight="5sp"
                     android:layout_marginTop="20sp"
                     android:background="@drawable/medicine"
-                    android:onClick="gotodruginfoActivity" />
+                    android:onClick="gotodruginfo" />
 
                 <TextView
                     android:id="@+id/textView4"

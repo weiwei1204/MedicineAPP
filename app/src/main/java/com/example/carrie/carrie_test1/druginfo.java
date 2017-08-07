@@ -7,6 +7,7 @@ package com.example.carrie.carrie_test1;
  import android.os.Bundle;
  import android.support.v7.widget.GridLayoutManager;
  import android.support.v7.widget.RecyclerView;
+ import android.view.View;
 
  import org.json.JSONArray;
  import org.json.JSONException;
@@ -28,10 +29,10 @@ public class druginfo extends AppCompatActivity{
 
     private RecyclerView recyclerView;
     private GridLayoutManager gridLayoutManager;
-    private CustomAdapter adapter;
+    private CustomAdapter2 adapter;
     private List<MyData> data_list;
 
-    @RequiresApi(api = Build.VERSION_CODES.GINGERBREAD)
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -45,7 +46,7 @@ public class druginfo extends AppCompatActivity{
         gridLayoutManager = new GridLayoutManager(this,2);
         recyclerView.setLayoutManager(gridLayoutManager);
 
-        adapter = new CustomAdapter(this,data_list);
+        adapter = new CustomAdapter2(this,data_list);
         recyclerView.setAdapter(adapter);
 
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -59,6 +60,9 @@ public class druginfo extends AppCompatActivity{
             }
         });
 
+    }
+    public void goback(View v){
+        finish();
     }
 
 
@@ -102,6 +106,7 @@ public class druginfo extends AppCompatActivity{
 
         task.execute(id);
     }
+
 
 
 }
