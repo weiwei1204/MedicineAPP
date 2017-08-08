@@ -9,8 +9,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
-
 import java.util.List;
 
 /**
@@ -18,9 +16,9 @@ import java.util.List;
  */
 public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder>{
     private Context context;
-    private List<MyData> my_data;
+    private List<MyMonitorData> my_data;
 
-    public CustomAdapter(Context context, List<MyData> my_data) {
+    public CustomAdapter(Context context, List<MyMonitorData> my_data) {
         this.context = context;
         this.my_data = my_data;
 
@@ -31,7 +29,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
-        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.content_card,parent,false);
+        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.cardmonitor,parent,false);
 
         return new ViewHolder(itemView);
     }
@@ -39,9 +37,12 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
 
+
     //  holder.chineseName.setText(my_data.get(position).getchineseName());
 
-        Glide.with(context).load(my_data.get(position).getImage_link()).into(holder.imageView);
+        holder.description.setText(my_data.get(position).getName());
+        //Glide.with(context).load(my_data.get(position).getImage_link()).into(holder.imageView);
+
 
 
     }
@@ -57,12 +58,17 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
         public TextView chineseName;
         public ImageView imageView;
         public TextView indication;
+        public TextView description;
 
         public ViewHolder(View itemView) {
             super(itemView);
+
             chineseName = (TextView) itemView.findViewById(R.id.chineseName);
             imageView = (ImageView) itemView.findViewById(R.id.image);
             indication = (TextView) itemView.findViewById(R.id.indication);
-        }
+            description = (TextView) itemView.findViewById(R.id.description);
+            imageView = (ImageView) itemView.findViewById(R.id.monitor_image);
+
+    }
     }
 }

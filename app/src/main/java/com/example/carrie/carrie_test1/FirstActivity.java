@@ -2,14 +2,12 @@ package com.example.carrie.carrie_test1;
 
 import android.app.SearchManager;
 import android.content.Context;
-
 import android.content.Intent;
 
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.StrictMode;
-import android.widget.TextView;
 import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
@@ -19,6 +17,7 @@ import android.view.MenuInflater;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -27,20 +26,18 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
-
-//測試換行
 
 // 注意這裡, Android Studio 預設會幫您引入 import android.widget.SearchView
 // 但我們要的是 android.support.v7.widget.SearchView;
-
-import java.util.HashMap;
-import java.util.List;
 
 
 

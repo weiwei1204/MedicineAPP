@@ -27,7 +27,7 @@
         android:text="Yuan"
         android:onClick="gotoBpBsPlot"/>
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/recycler_view"
+        android:id="@+id/recycler_view1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         card_view:cardUseCompatPadding="true"

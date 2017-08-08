@@ -4,6 +4,7 @@ import android.Manifest;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -16,118 +17,120 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+
 import android.widget.Button;
 import android.widget.Toast;
 
-import com.android.volley.AuthFailureError;
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
 import com.google.android.gms.vision.barcode.Barcode;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.io.IOException;
 import java.util.List;
-import java.util.Map;
+
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.MultipartBody;
+import okhttp3.Response;
 
 
-public class MonitorActivity extends AppCompatActivity{
+public class MonitorActivity extends AppCompatActivity {
     Button scanbtn;
 //    TextView result;
-    public static String my_google_id="";
-    public static String google_id="";//欲監控對象的google_id
-    public static String my_id="";
-    public static String my_mon_id="";//Supviser的id
-    public static String mon_id="";//欲監控對象的id
+    public static String my_google_id = "";
+    public static String google_id = "";//欲監控對象的google_id
+    public static String my_id = "";
+    public static String my_mon_id = "";//Supviser的id
+    public static String mon_id = "";//欲監控對象的id
     public static final int REQUEST_CODE = 100;
     public static final int PERMISSION_REQUEST = 200;
     private RecyclerView recyclerView;
     private GridLayoutManager gridLayoutManager;
     private CustomAdapter adapter;
     private List<MyMonitorData> dataList;
-
-    RequestQueue requestQueue;
-    String insertUrl = "http://54.65.194.253/Monitor/checkMonitor.php";
-
+    int lastId=0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        getMonitorId();
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_monitor);
         Bundle bundle = getIntent().getExtras();
-        my_id=bundle.getString("my_id");//get 自己 id
-        my_google_id=bundle.getString("my_google_id");//get 自己google_ id
-        my_mon_id=bundle.getString("my_supervise_id");
+        my_id = bundle.getString("my_id");//get 自己 id
+        my_google_id = bundle.getString("my_google_id");//get 自己google_ id
+        my_mon_id = bundle.getString("my_supervise_id");
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        scanbtn = (Button)findViewById(R.id.action_add);
-//        result = (TextView)findViewById(R.id.result);
-        if(ContextCompat.checkSelfPermission(this,Manifest.permission.CAMERA)!= PackageManager.PERMISSION_GRANTED) {
+        scanbtn = (Button) findViewById(R.id.action_add);
+
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA}, PERMISSION_REQUEST);
         }
-        recyclerView = (RecyclerView)findViewById(R.id.recycler_view);
+        recyclerView = (RecyclerView)findViewById(R.id.recycler_view1);
         dataList  = new ArrayList<>();
-        load_data_from_server();
+        load_data_from_server(0);
 
         gridLayoutManager = new GridLayoutManager(this,2);
         recyclerView.setLayoutManager(gridLayoutManager);
 
-  //      adapter = new CustomAdapter(this,dataList);
+        adapter = new CustomAdapter(this,dataList);
         recyclerView.setAdapter(adapter);
-    }
-    private void load_data_from_server() {
-                //getMonitorId();
-                requestQueue = Volley.newRequestQueue(getApplicationContext());
-                String insertUrl = "http://54.65.194.253/Monitor/getAllMonitor.php";
-                final StringRequest request = new StringRequest(Request.Method.POST, insertUrl, new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        try {
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
 
-                            JSONArray array = new JSONArray(response);
-
-                            for (int i=0; i<array.length(); i++){
-
-                                JSONObject object = array.getJSONObject(i);
-
-                                MyMonitorData data = new MyMonitorData(object.getInt("m_id"),object.getString("name"),
-                                        object.getString("google_id"));
-
-                                dataList.add(data);
-                            }
-
-
-
-                        }catch (JSONException e) {
-                            System.out.println("End of content");
-                        }
-                    }
-                }, new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-//                Log.d("rrr", error.toString());
-                        Toast.makeText(getApplicationContext(), "Error read getAllMonitor.php!!!", Toast.LENGTH_LONG).show();
-                    }
-                }){
-                    protected Map<String, String> getParams() throws AuthFailureError {//把值丟到php
-                        Map<String, String> parameters = new HashMap<String, String>();
-//                parameters.put("username", gname);
-//                parameters.put("password", gemail);
-                        parameters.put("supervisor_id", my_mon_id);
-                        Log.d("supervisor_id_check", parameters.toString());
-                        return parameters;
-                    }
+                if(gridLayoutManager.findLastCompletelyVisibleItemPosition() == dataList.size()-1){
+                    load_data_from_server(lastId);
                 }
-                        ;
-                RequestQueue requestQueue = Volley.newRequestQueue(this);
-                requestQueue.add(request);
+
+            }
+        });
+    }
+
+    private void load_data_from_server(int id) {
+
+        AsyncTask<Integer,Void,Void> task = new AsyncTask<Integer, Void, Void>() {
+            @Override
+            protected Void doInBackground(Integer... integers) {
+
+                OkHttpClient client = new OkHttpClient();
+                Request request = new Request.Builder()
+                        .url("http://54.65.194.253/Monitor/testGeyAllMonitor.php?id="+integers[0])
+                        .build();
+                try {
+                    Response response = client.newCall(request).execute();
+                    //\\Log.d("printResponse",response.body().string());
+                    JSONArray array = new JSONArray(response.body().string());
+                    Log.d("printArray",array.toString());
+                    for (int i=0; i<array.length(); i++){
+
+                        JSONObject object = array.getJSONObject(i);
+
+                        MyMonitorData data = new MyMonitorData(object.getInt("m_id"),object.getString("name"),
+                                "http://s3-ap-northeast-1.amazonaws.com/appmedicine/monitoricon.png");
+                        lastId=object.getInt("m_id");
+                        dataList.add(data);
+                    }
+
+
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } catch (JSONException e) {
+                    System.out.println("End of content");
+                }
+                return null;
+            }
+
+            @Override
+            protected void onPostExecute(Void aVoid) {
+                adapter.notifyDataSetChanged();
+            }
+        };
+
+        task.execute(id);
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -139,26 +142,19 @@ public class MonitorActivity extends AppCompatActivity{
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        if(id == R.id.action_add){
-            Intent intent = new Intent(MonitorActivity.this,ScanActivity.class);
-            startActivityForResult(intent,REQUEST_CODE);
-
-
+        if (id == R.id.action_add) {
+            Intent intent = new Intent(MonitorActivity.this, ScanActivity.class);
+            startActivityForResult(intent, REQUEST_CODE);
         }
         return super.onOptionsItemSelected(item);
     }
+
     @Override
-    protected void onActivityResult(int requestCode,int resultCOde,Intent data){
-        if (requestCode == REQUEST_CODE && resultCOde == RESULT_OK){
-            if(data != null){
+    protected void onActivityResult(int requestCode, int resultCOde, Intent data) {
+        if (requestCode == REQUEST_CODE && resultCOde == RESULT_OK) {
+            if (data != null) {
                 final Barcode barcode = data.getParcelableExtra("barcode");
-//                result.post(new Runnable() {
-//                    @Override
-//                    public void run() {
-//                        result.setText(barcode.displayValue);
-//                    }
-//                });
-                google_id=barcode.displayValue;
+                google_id = barcode.displayValue;
                 Log.d("monitorGoogle", google_id);
                 checkMonitorExist();
 
@@ -166,154 +162,131 @@ public class MonitorActivity extends AppCompatActivity{
         }
     }
 
+
     public void gotoBpBsPlot(View v){ //連到圖表頁面
         Intent it = new Intent(this,SwipePlot.class);
+        int day = 10;
+        int sugar[] = {80,90,100,110,120};
+        it.putExtra("血糖療程天數",day);
+        it.putExtra("血糖值",sugar);
         startActivity(it);
+
     }
-    public void checkMonitorExist(){
-        requestQueue = Volley.newRequestQueue(getApplicationContext());
-        final StringRequest request = new StringRequest(Request.Method.POST, insertUrl, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-//                Log.d("rrr", "1");
-//                Log.d("rrr", response);
-                Log.d("monitor_response",response);
 
-                if(response.contains("nodata")){//檢查是否為新會員
-                    Log.d("monitor_check", "success");
-                    normalDialogEvent();
-
-                }
-                else{
-                    //Log.d("monitor_response",response);
-                    mon_id=response;
-                    Log.d("mon_id", mon_id);
-                    addMonitor();
-                }
-            }
-        }, new Response.ErrorListener() {
+    public void checkMonitorExist() {
+        AsyncTask<Integer, Void, Void> task = new AsyncTask<Integer, Void, Void>() {
             @Override
-            public void onErrorResponse(VolleyError error) {
-//                Log.d("rrr", error.toString());
-                Toast.makeText(getApplicationContext(), "Error read checkMonitors.php!!!", Toast.LENGTH_LONG).show();
+            protected Void doInBackground(Integer... integers) {
+                String insertUrl = "http://54.65.194.253/Monitor/checkMonitor.php?google_id_monitor=";
+                OkHttpClient client = new OkHttpClient();
+                Log.d("111112323", google_id);
+                okhttp3.Request request = new okhttp3.Request.Builder()
+                        .url("http://54.65.194.253/Monitor/checkMonitor.php?google_id_monitor=" + google_id)
+                        .build();
+                Log.d("okhttp", "2222");
+                try {
+                    okhttp3.Response response = client.newCall(request).execute();
+                    Log.d("okhttp", "1111");
+                    JSONArray array = new JSONArray(response.body().string());
+                    Log.d("okhttp", "33333");
+                    JSONObject object = array.getJSONObject(0);
+                    Log.d("okhttp", "16666");
+                    Log.d("okhttp", object.getString("id"));
+                    if ((object.getString("id")).equals("nodata")) {
+                        Log.d("okht2tp", "4442222");
+                        //normalDialogEvent();
+                    } else {
+
+                        mon_id=object.getString("id");
+                        Log.d("mon_idtest", "1221");
+                        addMonitor();
+                        //addNormalDialogEvent();
+                        Log.d("mon_idtest", "12221231");
+                    }
+
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                return null;
             }
-        }){
-            protected Map<String, String> getParams() throws AuthFailureError {//把值丟到php
-                Map<String, String> parameters = new HashMap<String, String>();
-//                parameters.put("username", gname);
-//                parameters.put("password", gemail);
-                parameters.put("google_id_monitor", google_id);
-                Log.d("monitor", parameters.toString());
-                return parameters;
+
+            @Override
+            protected void onPostExecute(Void aVoid) {
+
             }
+        };
+        task.execute();
+    }
+
+    public void addMonitor() {
+        AsyncTask<Integer, Void, Void> task = new AsyncTask<Integer, Void, Void>() {
+            @Override
+            protected Void doInBackground(Integer... integers) {
+                RequestBody formBody = new MultipartBody.Builder()
+                        .setType(MultipartBody.FORM)
+                        .addFormDataPart("my_mon_id1", my_mon_id)
+                        .addFormDataPart("mon_id1", mon_id)
+                        .build();
+        OkHttpClient client = new OkHttpClient();
+        okhttp3.Request request = new okhttp3.Request.Builder()
+                .url("http://54.65.194.253/Monitor/addMember.php")
+                .post(formBody)
+                .build();
+        try {
+            okhttp3.Response response = client.newCall(request).execute();
+            Log.d("mon_idte213st", "12212321231");
+            Log.d("mon_idte213st", "http://54.65.194.253/Monitor/addMember.php?my_mon_id1=" + my_mon_id + "&mon_id1=" + mon_id);
+            Log.d("mon_idte213st", "122");
+
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-                ;
-        RequestQueue requestQueue = Volley.newRequestQueue(this);
-        requestQueue.add(request);
-    }
-    public void getMonitorId(){//取得監控者的id
-        requestQueue = Volley.newRequestQueue(getApplicationContext());
-        String getMonitorIdUrl = "http://54.65.194.253/Monitor/getMonitorId.php";
-        final StringRequest request = new StringRequest(Request.Method.POST, getMonitorIdUrl, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-//                Log.d("rrr", "1");
-//                Log.d("rrr", response);
-                Log.d("my_mon_id",response);
+                return null;
+            }
 
-                if(response.contains("nodata")){
-                    Log.d("monitorId_check", "success");
-                    //normalDialogEvent();
-
-                }
-                else{
-                    //Log.d("monitor_response",response);
-                    my_mon_id=response;
-                    Log.d("my_mon_id222", my_mon_id);
-                    //addMonitor();//新增監控者至監視列表
-                }
-            }
-        }, new Response.ErrorListener() {
             @Override
-            public void onErrorResponse(VolleyError error) {
-//                Log.d("rrr", error.toString());
-                Toast.makeText(getApplicationContext(), "Error read getMonitorId.php!!!", Toast.LENGTH_LONG).show();
-//                refreshNormalDialogEvent();
-            }
-        }){
-            protected Map<String, String> getParams() throws AuthFailureError {//把值丟到php
-                Map<String, String> parameters = new HashMap<String, String>();
-//                parameters.put("username", gname);
-//                parameters.put("password", gemail);
-                parameters.put("google_id_mymonitor", my_google_id);
-                Log.d("google_id_monitor", parameters.toString());
-                return parameters;
-            }
-        }
-                ;
-        RequestQueue requestQueue = Volley.newRequestQueue(this);
-        requestQueue.add(request);
-    }
-    public void addMonitor(){
-        String addMemberUrl = "http://54.65.194.253/Monitor/addMember.php";
-        requestQueue = Volley.newRequestQueue(getApplicationContext());
-        final StringRequest request = new StringRequest(Request.Method.POST, addMemberUrl, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                addNormalDialogEvent();
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Log.d("rrr111", error.toString());
-                Toast.makeText(getApplicationContext(), "Error read addMember.php!!!", Toast.LENGTH_LONG).show();
-            }
-        })
-        {
-            protected Map<String, String> getParams() throws AuthFailureError {//把值丟到php
-                Map<String, String> parameters = new HashMap<String, String>();
-                parameters.put("my_mon_id1", my_mon_id);
-                parameters.put("mon_id1", mon_id);
-                Log.d("my_mon_id123", parameters.toString());
-                return parameters;
+            protected void onPostExecute(Void aVoid) {
 
             }
-        }
-                ;
-        RequestQueue requestQueue = Volley.newRequestQueue(this);
-        requestQueue.add(request);
+        };
+        task.execute();
     }
-    public void  normalDialogEvent(){
+
+    public void normalDialogEvent() {
         new AlertDialog.Builder(MonitorActivity.this)
                 .setMessage(R.string.notFindMonitor)
-                .setPositiveButton(R.string.ok,new DialogInterface.OnClickListener() {
+                .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         Toast.makeText(getApplicationContext(), "請重新新增", Toast.LENGTH_SHORT).show();
                     }
                 })
                 .show();
     }
-    public void  addNormalDialogEvent(){
+
+    public void addNormalDialogEvent() {
         new AlertDialog.Builder(MonitorActivity.this)
                 .setMessage("新增好友成功")
-                .setPositiveButton(R.string.ok,new DialogInterface.OnClickListener() {
+                .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         Toast.makeText(getApplicationContext(), "已完成新增", Toast.LENGTH_SHORT).show();
                     }
                 })
                 .show();
     }
-    public void  refreshNormalDialogEvent(){
+
+    public void refreshNormalDialogEvent() {
         new AlertDialog.Builder(MonitorActivity.this)
                 .setMessage("請重新掃描")
-                .setPositiveButton(R.string.ok,new DialogInterface.OnClickListener() {
+                .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         Toast.makeText(getApplicationContext(), "掃描again", Toast.LENGTH_SHORT).show();
                     }
                 })
                 .show();
     }
-
 
 
 }

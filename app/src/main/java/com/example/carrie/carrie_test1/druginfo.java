@@ -1,6 +1,7 @@
 package com.example.carrie.carrie_test1;
 
  import android.os.AsyncTask;
+
  import android.support.v7.app.AppCompatActivity;
  import android.os.Bundle;
  import android.support.v7.widget.GridLayoutManager;
@@ -18,6 +19,25 @@ package com.example.carrie.carrie_test1;
  import okhttp3.OkHttpClient;
  import okhttp3.Request;
  import okhttp3.Response;
+
+import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.view.View;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
+
 
 /**
  * Created by shana on 2017/8/7.
