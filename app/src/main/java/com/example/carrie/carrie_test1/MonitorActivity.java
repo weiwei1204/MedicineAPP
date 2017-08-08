@@ -78,7 +78,7 @@ public class MonitorActivity extends AppCompatActivity{
         gridLayoutManager = new GridLayoutManager(this,2);
         recyclerView.setLayoutManager(gridLayoutManager);
 
-        adapter = new CustomAdapter(this,dataList);
+  //      adapter = new CustomAdapter(this,dataList);
         recyclerView.setAdapter(adapter);
     }
     private void load_data_from_server() {

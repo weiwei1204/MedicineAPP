@@ -2,6 +2,11 @@ package com.example.carrie.carrie_test1;
 
 import android.app.SearchManager;
 import android.content.Context;
+
+import android.content.Intent;
+import android.graphics.Canvas;
+import android.graphics.Paint;
+
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -33,6 +38,19 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+
+//測試換行
+import android.content.Context;
+import android.graphics.Paint;
+import android.text.TextUtils;
+import android.util.AttributeSet;
+import android.widget.TextView;
+import android.app.Activity;
+import android.os.Bundle;
+
+// 注意這裡, Android Studio 預設會幫您引入 import android.widget.SearchView
+// 但我們要的是 android.support.v7.widget.SearchView;
+
 import java.util.HashMap;
 import java.util.List;
 
@@ -44,7 +62,7 @@ public class FirstActivity extends AppCompatActivity {
 
 
     private String TAG = FirstActivity.class.getSimpleName();
-//    private String getdata;
+    //    private String getdata;
     private ListView lv;
 //    private EditText sendchname;
 //    private EditText sendengname;
@@ -97,10 +115,10 @@ public class FirstActivity extends AppCompatActivity {
                 Log.d("123","1");
                 try {
                     Log.d("123","1.5");
-                       Log.d("123","1");
+                    Log.d("123","1");
                     // Getting JSON Array node
                     JSONArray  drugs = new JSONArray(jsonStr);
-                       Log.d("123","2");
+                    Log.d("123","2");
                     // looping through All Contacts
                     for (int i = 0; i < drugs.length(); i++) {
 
@@ -178,7 +196,7 @@ public class FirstActivity extends AppCompatActivity {
 
 
 
-        public void gotoFourthActivity(View v){ //連到搜尋藥品資訊頁面
+    public void gotoFourthActivity(View v){ //連到搜尋藥品資訊頁面
         Intent it = new Intent(this,FourthActivity.class);
         startActivity(it);
     }

@@ -103,10 +103,7 @@ public class MainActivity extends LoginActivity {
 
     }
 
-    public void gotoFirstActivity(View v){ //連到聊天機器人頁面
-        Intent it = new Intent(this,DrugListActivity.class);
-        startActivity(it);
-    }
+
     public void gotoSecondActivity(View v){ //連到iBeacon頁面
         Intent it = new Intent(this,SecondActivity.class);
         startActivity(it);
@@ -128,6 +125,15 @@ public class MainActivity extends LoginActivity {
         bundle.putString("memberid", memberid);
         Log.d("fffaaa",memberid);
         it.putExtras(bundle);   // 記得put進去，不然資料不會帶過去哦
+        startActivity(it);
+    }
+
+    public void gotodruginfo(View v){ //連到搜尋藥品資訊頁面
+        Intent it = new Intent(this,druginfo.class);
+        startActivity(it);
+    }
+    public void gotoFirstctivity(View v){ //連到搜尋藥品資訊頁面
+        Intent it = new Intent(this,FirstActivity.class);
         startActivity(it);
     }
     public void gotoFourthActivity(View v){ //連到搜尋藥品資訊頁面

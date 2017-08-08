@@ -121,10 +121,19 @@
         <activity android:name=".testview" />
         <activity android:name=".SwipeView" />
         <activity
+            android:name=".druginfo"
+            android:label="@string/title_activity_druginfo"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".card"
+            android:label="@string/title_activity_card"
+            android:theme="@style/AppTheme" />
+        <activity
             android:name=".SwipePlot"
             android:label="@string/title_activity_swipe_plot"
             android:theme="@style/AppTheme" />
         <activity android:name=".DrugListActivity"></activity>
+
     </application>
 
 </manifest>
