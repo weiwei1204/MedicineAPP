@@ -52,7 +52,6 @@ public class MonitorActivity extends AppCompatActivity{
     private GridLayoutManager gridLayoutManager;
     private CustomAdapter adapter;
     private List<MyMonitorData> dataList;
-
     RequestQueue requestQueue;
     String insertUrl = "http://54.65.194.253/Monitor/checkMonitor.php";
 
@@ -168,7 +167,12 @@ public class MonitorActivity extends AppCompatActivity{
 
     public void gotoBpBsPlot(View v){ //連到圖表頁面
         Intent it = new Intent(this,SwipePlot.class);
+        int day = 10;
+        int sugar[] = {80,90,100,110,120};
+        it.putExtra("血糖療程天數",day);
+        it.putExtra("血糖值",sugar);
         startActivity(it);
+
     }
     public void checkMonitorExist(){
         requestQueue = Volley.newRequestQueue(getApplicationContext());

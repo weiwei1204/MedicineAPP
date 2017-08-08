@@ -3,6 +3,7 @@ package com.example.carrie.carrie_test1;
 /**
  * Created by jonathan on 2017/8/6.
  */
+import android.content.Intent;
 import android.support.design.widget.TabLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -26,7 +27,6 @@ public class BpPlotTab extends Fragment{
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.tab2_bloodpressure, container, false);
-
         return rootView;
     }
 }

@@ -1,5 +1,6 @@
 package com.example.carrie.carrie_test1;
 
+import android.content.Intent;
 import android.support.design.widget.TabLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -36,11 +37,16 @@ public class SwipePlot extends AppCompatActivity {
      */
     private ViewPager mViewPager;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_swipe_plot);
-
+        Intent it = getIntent();
+        int day = it.getIntExtra("血糖療程天數",0);
+        int sugar[] = it.getIntArrayExtra("血糖值");
+        System.out.print(day);
+         System.out.print(sugar[0]);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         // Create the adapter that will return a fragment for each of the three
@@ -83,7 +89,6 @@ public class SwipePlot extends AppCompatActivity {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
@@ -141,6 +146,9 @@ public class SwipePlot extends AppCompatActivity {
                     return "用藥排程紀錄";
             }
             return null;
+        }
+        public void goback(View v){
+            finish();
         }
     }
 }
