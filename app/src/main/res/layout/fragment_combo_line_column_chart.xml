@@ -6,14 +6,13 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.example.carrie.carrie_test1.SwipePlot$PlaceholderFragment">
+    tools:context="com.example.carrie.carrie_test1.SwipePlot" >
 
-    <TextView
-        android:id="@+id/section_label"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="tab2 text"/>
-
-
+    <lecho.lib.hellocharts.view.ComboLineColumnChartView
+        android:id="@+id/chart"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="45dp">
+    </lecho.lib.hellocharts.view.ComboLineColumnChartView>
 
 </RelativeLayout>

@@ -74,101 +74,101 @@ public class BsPlotTab extends Fragment{
         resetViewport();
         return rootView;
     }
-//    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-//        inflater.inflate(R.menu.line_chart, menu);
-//    }
-//    @Override
-//    public boolean onOptionsItemSelected(MenuItem item) {
-//        int id = item.getItemId();
-//        if (id == R.id.action_reset) {
-//            reset();
-//            generateData();
-//            return true;
-//        }
-//        if (id == R.id.action_add_line) {
-//            addLineToData();
-//            return true;
-//        }
-//        if (id == R.id.action_toggle_lines) {
-//            toggleLines();
-//            return true;
-//        }
-//        if (id == R.id.action_toggle_points) {
-//            togglePoints();
-//            return true;
-//        }
-//        if (id == R.id.action_toggle_gradient) {
-//            toggleGradient();
-//            return true;
-//        }
-//        if (id == R.id.action_toggle_cubic) {
-//            toggleCubic();
-//            return true;
-//        }
-//        if (id == R.id.action_toggle_area) {
-//            toggleFilled();
-//            return true;
-//        }
-//        if (id == R.id.action_point_color) {
-//            togglePointColor();
-//            return true;
-//        }
-//        if (id == R.id.action_shape_circles) {
-//            setCircles();
-//            return true;
-//        }
-//        if (id == R.id.action_shape_square) {
-//            setSquares();
-//            return true;
-//        }
-//        if (id == R.id.action_shape_diamond) {
-//            setDiamonds();
-//            return true;
-//        }
-//        if (id == R.id.action_toggle_labels) {
-//            toggleLabels();
-//            return true;
-//        }
-//        if (id == R.id.action_toggle_axes) {
-//            toggleAxes();
-//            return true;
-//        }
-//        if (id == R.id.action_toggle_axes_names) {
-//            toggleAxesNames();
-//            return true;
-//        }
-//        if (id == R.id.action_animate) {
-//            prepareDataAnimation();
-//            chart.startDataAnimation();
-//            return true;
-//        }
-//        if (id == R.id.action_toggle_selection_mode) {
-//            toggleLabelForSelected();
-//
-//            Toast.makeText(getActivity(),
-//                    "Selection mode set to " + chart.isValueSelectionEnabled() + " select any point.",
-//                    Toast.LENGTH_SHORT).show();
-//            return true;
-//        }
-//        if (id == R.id.action_toggle_touch_zoom) {
-//            chart.setZoomEnabled(!chart.isZoomEnabled());
-//            Toast.makeText(getActivity(), "IsZoomEnabled " + chart.isZoomEnabled(), Toast.LENGTH_SHORT).show();
-//            return true;
-//        }
-//        if (id == R.id.action_zoom_both) {
-//            chart.setZoomType(ZoomType.HORIZONTAL_AND_VERTICAL);
-//            return true;
-//        }
-//        if (id == R.id.action_zoom_horizontal) {
-//            chart.setZoomType(ZoomType.HORIZONTAL);
-//            return true;
-//        }
-//        if (id == R.id.action_zoom_vertical) {
-//            chart.setZoomType(ZoomType.VERTICAL);
-//            return true;
-//        }
-//        return super.onOptionsItemSelected(item);
-//    }
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.line_chart, menu);
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if (id == R.id.action_reset) {
+            reset();
+            generateData();
+            return true;
+        }
+        if (id == R.id.action_add_line) {
+            addLineToData();
+            return true;
+        }
+        if (id == R.id.action_toggle_lines) {
+            toggleLines();
+            return true;
+        }
+        if (id == R.id.action_toggle_points) {
+            togglePoints();
+            return true;
+        }
+        if (id == R.id.action_toggle_gradient) {
+            toggleGradient();
+            return true;
+        }
+        if (id == R.id.action_toggle_cubic) {
+            toggleCubic();
+            return true;
+        }
+        if (id == R.id.action_toggle_area) {
+            toggleFilled();
+            return true;
+        }
+        if (id == R.id.action_point_color) {
+            togglePointColor();
+            return true;
+        }
+        if (id == R.id.action_shape_circles) {
+            setCircles();
+            return true;
+        }
+        if (id == R.id.action_shape_square) {
+            setSquares();
+            return true;
+        }
+        if (id == R.id.action_shape_diamond) {
+            setDiamonds();
+            return true;
+        }
+        if (id == R.id.action_toggle_labels) {
+            toggleLabels();
+            return true;
+        }
+        if (id == R.id.action_toggle_axes) {
+            toggleAxes();
+            return true;
+        }
+        if (id == R.id.action_toggle_axes_names) {
+            toggleAxesNames();
+            return true;
+        }
+        if (id == R.id.action_animate) {
+            prepareDataAnimation();
+            chart.startDataAnimation();
+            return true;
+        }
+        if (id == R.id.action_toggle_selection_mode) {
+            toggleLabelForSelected();
+
+            Toast.makeText(getActivity(),
+                    "Selection mode set to " + chart.isValueSelectionEnabled() + " select any point.",
+                    Toast.LENGTH_SHORT).show();
+            return true;
+        }
+        if (id == R.id.action_toggle_touch_zoom) {
+            chart.setZoomEnabled(!chart.isZoomEnabled());
+            Toast.makeText(getActivity(), "IsZoomEnabled " + chart.isZoomEnabled(), Toast.LENGTH_SHORT).show();
+            return true;
+        }
+        if (id == R.id.action_zoom_both) {
+            chart.setZoomType(ZoomType.HORIZONTAL_AND_VERTICAL);
+            return true;
+        }
+        if (id == R.id.action_zoom_horizontal) {
+            chart.setZoomType(ZoomType.HORIZONTAL);
+            return true;
+        }
+        if (id == R.id.action_zoom_vertical) {
+            chart.setZoomType(ZoomType.VERTICAL);
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
 
     private void generateValues() {
         for (int i = 0; i < maxNumberOfLines; ++i) {
@@ -419,6 +419,10 @@ public class BsPlotTab extends Fragment{
 
         }
 
+    }
+    public void goback(View v)
+    {
+        getActivity().onBackPressed();
     }
 
 }
