@@ -1,11 +1,14 @@
 package com.example.carrie.carrie_test1;
 
 import android.Manifest;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.util.SparseArray;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -81,13 +84,26 @@ public class ScanActivity extends AppCompatActivity {
                 if(barcodes.size() > 0){
                     Intent intent = new Intent();
                     intent.putExtra("barcode",barcodes.valueAt(0));
+                    Log.d("barrrr",barcodes.valueAt(0).displayValue);
                     setResult(RESULT_OK,intent);
+//                    cameraSource.stop();
+//                    addNormalDialogEvent();
                     finish();
 
                 }
             }
         });
 
+    }
+    public void addNormalDialogEvent() {
+        new AlertDialog.Builder(ScanActivity.this)
+                .setMessage("新增好友成功")
+                .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        Toast.makeText(getApplicationContext(), "已完成新增", Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .show();
     }
 
 }
