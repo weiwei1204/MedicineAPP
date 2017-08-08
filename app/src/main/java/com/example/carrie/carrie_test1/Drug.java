@@ -21,7 +21,7 @@ public class Drug {
     public String QRCode;
     public int searchTimes;
 
-    public Drug(int id, String chineseName, String licenseNumber, String indication, String englishName, String category, String image, String delivery, String maker_Name, String maker_Country, String applicant) {
+    public Drug(int id, String chineseName, String licenseNumber, String indication, String englishName) {
         this.id = id;
         this.chineseName = chineseName;
         this.licenseNumber = licenseNumber;
@@ -37,6 +37,10 @@ public class Drug {
         //this.sideEffect = sideEffect;
         //this.QRCode = QRCode;
         //this.searchTimes = searchTimes;
+    }
+
+    public Drug(int id, String chineseName, String indication, String image) {
+
     }
 
     public int getId() {

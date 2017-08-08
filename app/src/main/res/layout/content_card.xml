@@ -28,7 +28,7 @@
                 android:scaleType="centerCrop" />
 
             <TextView
-                android:id="@+id/description"
+                android:id="@+id/chineseName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/image"
@@ -42,10 +42,24 @@
                 android:typeface="sans" />
 
             <TextView
+                android:id="@+id/englishName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/chineseName"
+                android:paddingLeft="5dp"
+                android:paddingRight="5dp"
+                android:paddingTop="5dp"
+                android:textColor="#FFFFFF"
+                android:text="test"
+                android:textSize="12sp"
+                android:textStyle="normal"
+                android:typeface="sans" />
+
+            <TextView
                 android:id="@+id/indication"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/description"
+                android:layout_below="@id/englishName"
                 android:paddingLeft="5dp"
                 android:paddingRight="5dp"
                 android:paddingTop="5dp"

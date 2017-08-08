@@ -4,8 +4,6 @@ import android.app.SearchManager;
 import android.content.Context;
 
 import android.content.Intent;
-import android.graphics.Canvas;
-import android.graphics.Paint;
 
 import android.os.AsyncTask;
 import android.os.Build;
@@ -20,16 +18,13 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.widget.ArrayAdapter;
-import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
-import android.content.Intent;
+
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.HttpClientStack;
-import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import org.json.JSONArray;
@@ -40,13 +35,6 @@ import java.util.ArrayList;
 
 
 //測試換行
-import android.content.Context;
-import android.graphics.Paint;
-import android.text.TextUtils;
-import android.util.AttributeSet;
-import android.widget.TextView;
-import android.app.Activity;
-import android.os.Bundle;
 
 // 注意這裡, Android Studio 預設會幫您引入 import android.widget.SearchView
 // 但我們要的是 android.support.v7.widget.SearchView;
@@ -272,7 +260,7 @@ public class FirstActivity extends AppCompatActivity {
 //                        String chinesename = drug.getString("chineseName");
 //                        String indication = drug.getString("indication");
 //                        String id = drug.getString("id");
-                        Drug Adrug = new Drug( id,  chineseName,  licenseNumber,  indication,  englishName,  category,  image,  delivery,  maker_Name,  maker_Country,  applicant);
+                        Drug Adrug = new Drug( id,  chineseName,  licenseNumber,  indication,  englishName);
                         DrugList.add(Adrug);
 //                        drugaidrray[i] = id;
 //                            drugarray[i] = chineseName;

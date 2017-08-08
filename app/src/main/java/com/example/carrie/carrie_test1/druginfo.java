@@ -1,8 +1,6 @@
 package com.example.carrie.carrie_test1;
 
  import android.os.AsyncTask;
- import android.os.Build;
- import android.support.annotation.RequiresApi;
  import android.support.v7.app.AppCompatActivity;
  import android.os.Bundle;
  import android.support.v7.widget.GridLayoutManager;
@@ -83,10 +81,10 @@ public class druginfo extends AppCompatActivity{
 
                         JSONObject object = array.getJSONObject(i);
 
-                        MyData data = new MyData(object.getInt("id"),object.getString("chineseName"),
-                                object.getString("image"));
+                        MyData mydata = new MyData(object.getInt("id"),object.getString("chineseName"),
+                                object.getString("indication"),object.getString("englishName"),object.getString("image"));
 
-                        data_list.add(data);
+                        data_list.add(mydata);
                     }
 
 

@@ -66,7 +66,7 @@ public class DrugListActivity extends AppCompatActivity {
                         JSONObject object = array.getJSONObject(i);
 
                         Drug data = new Drug(object.getInt("id"),object.getString("chineseName"),
-                                object.getString("licenseNumber"),object.getString("indication"),object.getString("englishName"),object.getString("category"),object.getString("image"),object.getString("delivery"),object.getString("maker_Name"),object.getString("maker_Country"),object.getString("applicant"));
+                                object.getString("licenseNumber"),object.getString("indication"),object.getString("englishName"));
 
                         data_list.add(data);
                     }

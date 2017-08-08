@@ -6,16 +6,21 @@ package com.example.carrie.carrie_test1;
 
 class MyData {
 
-    private int id;
-    private String description,image_link;
+    public int id;
+    public String image_link;
+   public String indication, englishName, chineseName;
 
 
-    public MyData(int id, String description, String image_link) {
+
+    public MyData(int id, String chineseName, String image_link, String indication, String englishName) {
         this.id = id;
-        this.description = description;
+        this.chineseName= chineseName;
         this.image_link = image_link;
+        this.indication= indication;
+        this.englishName= englishName;
       //  this.indication= indication;
     }
+
 
     int getId() {
         return id;
@@ -25,13 +30,13 @@ class MyData {
         this.id = id;
     }
 
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
+//    public String getDescription() {
+//        return description;
+//    }
+//
+//    public void setDescription(String description) {
+//        this.description = description;
+//    }
 
     public String getImage_link() {
         return image_link;
@@ -41,11 +46,23 @@ class MyData {
         this.image_link = image_link;
     }
 
-//    public String getIndication() {
-//        return indication;
-//    }
+    public String getIndication() {
+        return indication;
+    }
 
- //   public void setIndication(String indication) {
- //       this.indication= indication;
- //   }
+    public void setIndication(String indication) {
+        this.indication= indication;
+    }
+    public  String getEnglishName(){
+        return englishName;
+    }
+    public void setEnglishName(String englishName){
+        this.englishName= englishName;
+    }
+    public String getChineseName(){
+        return chineseName;
+    }
+    public void setChineseName(String chineseName){
+        this.chineseName= chineseName;
+    }
 }

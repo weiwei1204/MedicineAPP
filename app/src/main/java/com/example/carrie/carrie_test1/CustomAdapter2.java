@@ -37,8 +37,10 @@ public class CustomAdapter2 extends RecyclerView.Adapter<CustomAdapter2.ViewHold
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
 
-        holder.description.setText(my_data.get(position).getDescription());
-     //   holder.indication.setText(my_data.get(position).getIndication());
+     //   holder.description.setText(my_data.get(position).getDescription());
+        holder.indication.setText(my_data.get(position).getIndication());
+        holder.englishName.setText(my_data.get(position).getEnglishName());
+        holder.chineseName.setText(my_data.get(position).getChineseName());
        Glide.with(context).load(my_data.get(position).getImage_link()).into(holder.imageView);
 
     }
@@ -50,15 +52,21 @@ public class CustomAdapter2 extends RecyclerView.Adapter<CustomAdapter2.ViewHold
 
     public  class ViewHolder extends  RecyclerView.ViewHolder{
 
-        public TextView description;
+      //  public TextView description;
         public ImageView imageView;
-        //public TextView indication;
+        public TextView indication;
+        public TextView englishName;
+        public TextView chineseName;
+
 
         public ViewHolder(View itemView) {
             super(itemView);
-            description = (TextView) itemView.findViewById(R.id.description);
+      //      description = (TextView) itemView.findViewById(R.id.description);
             imageView = (ImageView) itemView.findViewById(R.id.image);
-          //  indication= (TextView) itemView.findViewById(R.id.indication);
+            indication= (TextView) itemView.findViewById(R.id.indication);
+            englishName= (TextView) itemView.findViewById(R.id.englishName);
+            chineseName= (TextView) itemView.findViewById((R.id.chineseName));
+
         }
     }
 }
