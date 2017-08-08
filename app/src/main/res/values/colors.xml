@@ -13,4 +13,6 @@
     <color name="bright_blue">#5555FF</color>
     <color name="button_blue">#9999FF</color>
     <color name="blue_temp">#00BBFF</color>
+    <color name="colorWhite">#fff</color>
+    <color name="colorGrey">#c3c3c3 </color>
 </resources>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+    android:id ="@+id/firstbtn"
+    android:icon="@drawable/ic_2"
+    android:title="go">
+    <item
+        android:id ="@+id/secondbtn"
+        android:icon="@drawable/ic_1"
+        android:title="setting"/>
+    <item
+        android:id ="@+id/thirdbtn"
+        android:icon="@drawable/ic_3"
+        android:title="help"/>
+    <item
+        android:id ="@+id/fourthbtn"
+        android:icon="@drawable/ic_4"
+        android:title="back"/>
+    <item
+            android:id ="@+id/fifthbtn"
+            android:icon="@drawable/ic_5"
+            android:title="out"/>
+
+    </item>
+</menu>

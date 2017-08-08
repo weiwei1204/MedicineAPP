@@ -212,6 +212,7 @@ public class ThirdActivity extends AppCompatActivity {
     }
 
 
+
     public void gotohistoryrecord(View v){ //連到親友認證頁面
         Intent it = new Intent(this,historyrecord.class);
         startActivity(it);

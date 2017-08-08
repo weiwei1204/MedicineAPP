@@ -2,11 +2,11 @@ package com.example.carrie.carrie_test1;
 
 import android.app.SearchManager;
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.StrictMode;
-import android.widget.TextView;
 import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
@@ -15,26 +15,28 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.widget.ArrayAdapter;
-import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
-import android.content.Intent;
+
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.HttpClientStack;
-import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-
 import java.util.HashMap;
 import java.util.List;
+
+//測試換行
+// 注意這裡, Android Studio 預設會幫您引入 import android.widget.SearchView
+// 但我們要的是 android.support.v7.widget.SearchView;
 
 
 
@@ -44,7 +46,7 @@ public class FirstActivity extends AppCompatActivity {
 
 
     private String TAG = FirstActivity.class.getSimpleName();
-//    private String getdata;
+    //    private String getdata;
     private ListView lv;
 //    private EditText sendchname;
 //    private EditText sendengname;
@@ -97,10 +99,10 @@ public class FirstActivity extends AppCompatActivity {
                 Log.d("123","1");
                 try {
                     Log.d("123","1.5");
-                       Log.d("123","1");
+                    Log.d("123","1");
                     // Getting JSON Array node
                     JSONArray  drugs = new JSONArray(jsonStr);
-                       Log.d("123","2");
+                    Log.d("123","2");
                     // looping through All Contacts
                     for (int i = 0; i < drugs.length(); i++) {
 
@@ -178,7 +180,7 @@ public class FirstActivity extends AppCompatActivity {
 
 
 
-        public void gotoFourthActivity(View v){ //連到搜尋藥品資訊頁面
+    public void gotoFourthActivity(View v){ //連到搜尋藥品資訊頁面
         Intent it = new Intent(this,FourthActivity.class);
         startActivity(it);
     }

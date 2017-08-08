@@ -1,35 +1,34 @@
 package com.example.carrie.carrie_test1;
 
-
-import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+
 import java.util.List;
 
 /**
- * Created by filipp on 9/16/2016.
+ * Created by jonathan on 2017/8/7.
  */
-public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder>{
-    private Context context;
-    private List<MyMonitorData> my_data;
 
-    public CustomAdapter(Context context, List<MyMonitorData> my_data) {
+public class DrugAdapter extends RecyclerView.Adapter<DrugAdapter.ViewHolder> {
+    private Context context;
+    private List<Drug> my_data;
+
+    public DrugAdapter(Context context, List<Drug> my_data) {
         this.context = context;
         this.my_data = my_data;
-
     }
-
-
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
-        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.cardmonitor,parent,false);
+        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.drugcard,parent,false);
 
         return new ViewHolder(itemView);
     }
@@ -37,16 +36,14 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
 
-        holder.description.setText(my_data.get(position).getName());
-        //Glide.with(context).load(my_data.get(position).getImage_link()).into(holder.imageView);
-
-
+        holder.description.setText(my_data.get(position).getChineseName());
+        Glide.with(context).load(my_data.get(position).getImage()).into(holder.imageView);
+        holder.indication.setText(my_data.get(position).getIndication());
 
     }
 
     @Override
     public int getItemCount() {
-
         return my_data.size();
     }
 
@@ -59,7 +56,8 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
         public ViewHolder(View itemView) {
             super(itemView);
             description = (TextView) itemView.findViewById(R.id.description);
-            imageView = (ImageView) itemView.findViewById(R.id.monitor_image);
+            imageView = (ImageView) itemView.findViewById(R.id.image);
+            indication = (TextView) itemView.findViewById(R.id.indication);
         }
     }
 }
