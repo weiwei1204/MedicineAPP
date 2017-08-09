@@ -132,8 +132,11 @@
             android:name=".SwipePlot"
             android:label="@string/title_activity_swipe_plot"
             android:theme="@style/AppTheme" />
-        <activity android:name=".DrugListActivity"></activity>
-
+        <activity android:name=".DrugListActivity" />
+        <activity
+            android:name=".ChartActivity"
+            android:label="@string/title_activity_chart"
+            android:theme="@style/AppTheme"></activity>
     </application>
 
 </manifest>
