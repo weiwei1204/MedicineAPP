@@ -36,9 +36,9 @@ public class DrugAdapter extends RecyclerView.Adapter<DrugAdapter.ViewHolder> {
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
 
-        holder.description.setText(my_data.get(position).getChineseName());
-        Glide.with(context).load(my_data.get(position).getImage()).into(holder.imageView);
-        holder.indication.setText(my_data.get(position).getIndication());
+        holder.description2.setText(my_data.get(position).getChineseName());
+        Glide.with(context).load(my_data.get(position).getImage()).into(holder.imageView2);
+        holder.indication2.setText(my_data.get(position).getIndication());
 
     }
 
@@ -49,15 +49,15 @@ public class DrugAdapter extends RecyclerView.Adapter<DrugAdapter.ViewHolder> {
 
     public  class ViewHolder extends  RecyclerView.ViewHolder{
 
-        public TextView description;
-        public ImageView imageView;
-        public TextView indication;
+        public TextView description2;
+        public ImageView imageView2;
+        public TextView indication2;
 
         public ViewHolder(View itemView) {
             super(itemView);
-            description = (TextView) itemView.findViewById(R.id.description);
-            imageView = (ImageView) itemView.findViewById(R.id.image);
-            indication = (TextView) itemView.findViewById(R.id.indication);
+            description2 = (TextView) itemView.findViewById(R.id.description2);
+            imageView2 = (ImageView) itemView.findViewById(R.id.image2);
+            indication2 = (TextView) itemView.findViewById(R.id.indication2);
         }
     }
 }

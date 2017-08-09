@@ -102,7 +102,7 @@ public class druginfo extends AppCompatActivity{
                         JSONObject object = array.getJSONObject(i);
 
                         MyData mydata = new MyData(object.getInt("id"),object.getString("chineseName"),
-                                object.getString("indication"),object.getString("englishName"),object.getString("image"));
+                                object.getString("image") ,object.getString("indication"),object.getString("englishName"));
 
                         data_list.add(mydata);
                     }
