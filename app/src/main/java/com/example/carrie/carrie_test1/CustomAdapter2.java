@@ -46,27 +46,40 @@ public class CustomAdapter2 extends RecyclerView.Adapter<CustomAdapter2.ViewHold
         holder.indication.setText(my_data.get(position).getIndication());
         holder.englishName.setText(my_data.get(position).getEnglishName());
         holder.chineseName.setText(my_data.get(position).getChineseName());
+      //  holder.licenseNumber.setText(my_data.get(position).getLicenseNumber());
        Glide.with(context).load(my_data.get(position).getImage_link()).into(holder.imageView);
 
-//        holder.drugButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Toast.makeText(context,"Click positioin"+ position,Toast.LENGTH_LONG).show();
-//                Log.d("customadapter2","1");
-//                Intent it =new Intent(context,FourthActivity.class);
-//                Log.d("customadapter2","2");
-//                Bundle bundle = new Bundle();
-//                Log.d("customadapter2","3");
-//                bundle.putInt("monitor_who", my_data.get(position).getId());
-//                Log.d("customadapter2","4");
-//                Log.d("customadapter2", String.valueOf(my_data.get(position).getId()));
-//                it.putExtras(bundle);
-//                Log.d("customadapter2","5");
-//                holder.licenseNumber.setText(my_data.get(position).getLicenseNumber());
-//                context.startActivity(it);
-//                Log.d("customadapter2","6");
-//            }
-//        });
+
+
+        holder.drugButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(context,"Click positioin"+ position,Toast.LENGTH_LONG).show();
+                Log.d("customadapter2","1");
+                Intent it =new Intent(context,FourthActivity.class);
+                Log.d("customadapter2","2");
+                Bundle bundle = new Bundle();
+                Log.d("customadapter2","3");
+                bundle.putInt("id", my_data.get(position).getId());
+                Log.d("customadapter2","4");
+                bundle.putString("image", my_data.get(position).getImage_link());
+                bundle.putString("chineseName", my_data.get(position).getChineseName());
+                bundle.putString("indication", my_data.get(position).getIndication());
+                bundle.putString("englishName", my_data.get(position).getEnglishName());
+                bundle.putString("licenseNumber", my_data.get(position).getLicenseNumber());
+                bundle.putString("category", my_data.get(position).getCategory());
+                bundle.putString("component", my_data.get(position).getComponent());
+                bundle.putString("maker_Country", my_data.get(position).getMaker_Country());
+                bundle.putString("applicant", my_data.get(position).getApplicant());
+                bundle.putString("maker_Name", my_data.get(position).getMaker_Name());
+
+                Log.d("customadapter2","5");
+                it.putExtras(bundle);
+
+                context.startActivity(it);
+                Log.d("customadapter2","6");
+            }
+        });
 
     }
 

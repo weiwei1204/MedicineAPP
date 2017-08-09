@@ -23,7 +23,7 @@
                 android:orientation="horizontal">
 
                 <ImageView
-                    android:id="@+id/image"
+                    android:id="@+id/image3"
                     android:layout_width="130dp"
                     android:layout_height="130dp"
                     android:layout_marginLeft="20dp"
@@ -77,10 +77,10 @@
 
                     <TextView
                         android:id="@+id/licenseNumber"
-                        android:layout_width="wrap_content"
+                        android:layout_width="150dp"
                         android:layout_height="20dp"
-                        android:layout_marginLeft="-130dp"
-                        android:layout_marginRight="90sp"
+                        android:layout_marginLeft="-90dp"
+                        android:layout_marginRight="-20sp"
                         android:layout_marginTop="10dp"
                         android:layout_weight="1"
                         android:textColor="#6C6C6C"
@@ -105,7 +105,7 @@
 
                     <TextView
                         android:id="@+id/textView21"
-                        android:layout_width="100dp"
+                        android:layout_width="140dp"
                         android:layout_height="20dp"
                         android:layout_marginLeft="-40dp"
                         android:layout_marginTop="7dp"
@@ -115,11 +115,11 @@
                         android:textSize="8pt" />
 
                     <TextView
-                        android:id="@+id/chineseName"
-                        android:layout_width="wrap_content"
+                        android:id="@+id/chineseName3"
+                        android:layout_width="160dp"
                         android:layout_height="20dp"
-                        android:layout_marginLeft="-130dp"
-                        android:layout_marginRight="90sp"
+                        android:layout_marginLeft="-140dp"
+                        android:layout_marginRight="-20sp"
                         android:layout_marginTop="10dp"
                         android:layout_weight="1"
                         android:textColor="#6C6C6C"
@@ -143,7 +143,7 @@
 
                     <TextView
                         android:id="@+id/textView22"
-                        android:layout_width="100dp"
+                        android:layout_width="140dp"
                         android:layout_height="20dp"
                         android:layout_marginLeft="-40dp"
                         android:layout_marginTop="7dp"
@@ -153,11 +153,11 @@
                         android:textSize="8pt" />
 
                     <TextView
-                        android:id="@+id/englishName"
-                        android:layout_width="wrap_content"
+                        android:id="@+id/englishName3"
+                        android:layout_width="160dp"
                         android:layout_height="20dp"
-                        android:layout_marginLeft="-130dp"
-                        android:layout_marginRight="90sp"
+                        android:layout_marginLeft="-140dp"
+                        android:layout_marginRight="-20sp"
                         android:layout_marginTop="10dp"
                         android:layout_weight="1"
                         android:textColor="#6C6C6C"
@@ -182,7 +182,7 @@
 
                     <TextView
                         android:id="@+id/textView23"
-                        android:layout_width="100dp"
+                        android:layout_width="190dp"
                         android:layout_height="20dp"
                         android:layout_marginLeft="-40dp"
                         android:layout_marginTop="7dp"
@@ -194,10 +194,10 @@
 
                     <TextView
                         android:id="@+id/indication"
-                        android:layout_width="wrap_content"
+                        android:layout_width="150dp"
                         android:layout_height="20dp"
-                        android:layout_marginLeft="-130dp"
-                        android:layout_marginRight="90sp"
+                        android:layout_marginLeft="-200dp"
+                        android:layout_marginRight="-0sp"
                         android:layout_marginTop="10dp"
                         android:layout_weight="1"
                         android:textColor="#6C6C6C"
@@ -221,9 +221,9 @@
 
                     <TextView
                         android:id="@+id/textView24"
-                        android:layout_width="100dp"
+                        android:layout_width="60dp"
                         android:layout_height="20dp"
-                        android:layout_marginLeft="-40dp"
+                        android:layout_marginLeft="-30dp"
                         android:layout_marginTop="7dp"
                         android:layout_weight="1"
                         android:text="劑型："
@@ -231,11 +231,11 @@
                         android:textSize="8pt" />
 
                     <TextView
-                        android:id="@+id/textContent5"
-                        android:layout_width="wrap_content"
+                        android:id="@+id/category"
+                        android:layout_width="150dp"
                         android:layout_height="20dp"
-                        android:layout_marginLeft="-130dp"
-                        android:layout_marginRight="90sp"
+                        android:layout_marginLeft="-80dp"
+                        android:layout_marginRight="20sp"
                         android:layout_marginTop="10dp"
                         android:layout_weight="1"
                         android:textColor="#6C6C6C"
@@ -270,10 +270,10 @@
 
                     <TextView
                         android:id="@+id/component"
-                        android:layout_width="wrap_content"
+                        android:layout_width="150dp"
                         android:layout_height="20dp"
-                        android:layout_marginLeft="-130dp"
-                        android:layout_marginRight="90sp"
+                        android:layout_marginLeft="-85dp"
+                        android:layout_marginRight="-20sp"
                         android:layout_marginTop="10dp"
                         android:layout_weight="1"
                         android:textColor="#6C6C6C"
@@ -309,10 +309,10 @@
 
                     <TextView
                         android:id="@+id/maker_Country"
-                        android:layout_width="wrap_content"
+                        android:layout_width="150dp"
                         android:layout_height="20dp"
-                        android:layout_marginLeft="-130dp"
-                        android:layout_marginRight="90sp"
+                        android:layout_marginLeft="-85dp"
+                        android:layout_marginRight="-20sp"
                         android:layout_marginTop="10dp"
                         android:layout_weight="1"
                         android:textColor="#6C6C6C"
@@ -347,14 +347,14 @@
 
                     <TextView
                         android:id="@+id/applicant"
-                        android:layout_width="wrap_content"
+                        android:layout_width="150dp"
                         android:layout_height="20dp"
-                        android:layout_marginLeft="-130dp"
-                        android:layout_marginRight="90sp"
+                        android:layout_marginLeft="-85dp"
+                        android:layout_marginRight="-20sp"
                         android:layout_marginTop="10dp"
                         android:layout_weight="1"
                         android:textColor="#6C6C6C"
-                        android:textSize="8pt" />
+                        android:textSize="8pt"/>
                 </LinearLayout>
 
                 <LinearLayout
@@ -385,10 +385,10 @@
 
                     <TextView
                         android:id="@+id/maker_Name"
-                        android:layout_width="wrap_content"
+                        android:layout_width="150dp"
                         android:layout_height="20dp"
-                        android:layout_marginLeft="-130dp"
-                        android:layout_marginRight="90sp"
+                        android:layout_marginLeft="-85dp"
+                        android:layout_marginRight="-20sp"
                         android:layout_marginTop="10dp"
                         android:layout_weight="1"
                         android:textColor="#6C6C6C"

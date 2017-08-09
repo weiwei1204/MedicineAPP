@@ -81,6 +81,11 @@ public class druginfo extends AppCompatActivity{
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_druginfo);
+
+
+
+
+        //search
         listView=(ListView)findViewById(R.id.listview);
         editText=(EditText)findViewById(R.id.textsearch);
         initList();
@@ -175,7 +180,9 @@ public class druginfo extends AppCompatActivity{
                         JSONObject object = array.getJSONObject(i);
 
                         MyData mydata = new MyData(object.getInt("id"),object.getString("chineseName"),
-                                object.getString("image") ,object.getString("indication"),object.getString("englishName"),object.getString("licenseNumber"));
+                                object.getString("image") ,object.getString("indication"),object.getString("englishName"),object.getString("licenseNumber")
+                                ,object.getString("category"), object.getString("component"), object.getString("maker_Country"), object.getString("applicant")
+                                ,object.getString("maker_Name"));
 
                         data_list.add(mydata);
                     }
