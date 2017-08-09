@@ -162,7 +162,6 @@ public class MonitorActivity extends AppCompatActivity {
         }
     }
 
-
     public void gotoBpBsPlot(View v){ //連到圖表頁面
         Intent it = new Intent(this,SwipePlot.class);
         int day = 10;
