@@ -1,11 +1,19 @@
 package com.example.carrie.carrie_test1;
 
+ import android.app.LauncherActivity;
+ import android.content.Intent;
+ import android.graphics.Color;
  import android.os.AsyncTask;
 
  import android.support.v7.app.AppCompatActivity;
  import android.os.Bundle;
+ import android.support.v7.view.menu.ExpandedMenuView;
  import android.support.v7.widget.GridLayoutManager;
  import android.support.v7.widget.RecyclerView;
+ import android.support.v7.widget.Toolbar;
+ import android.text.Editable;
+ import android.text.TextWatcher;
+ import android.view.Menu;
  import android.view.View;
 
  import org.json.JSONArray;
@@ -13,7 +21,9 @@ package com.example.carrie.carrie_test1;
  import org.json.JSONObject;
 
  import java.io.IOException;
+ import java.lang.reflect.Array;
  import java.util.ArrayList;
+ import java.util.Arrays;
  import java.util.List;
 
  import okhttp3.OkHttpClient;
@@ -25,8 +35,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+ import android.widget.ArrayAdapter;
+ import android.widget.EditText;
+ import android.widget.ListView;
 
-import org.json.JSONArray;
+ import com.google.zxing.client.android.Intents;
+
+ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -45,10 +60,20 @@ import okhttp3.Response;
 
 public class druginfo extends AppCompatActivity{
 
+    String insertUrl = "http://54.65.194.253/Drug/search.php";
+    String [] items;
+    ArrayList<String> listitems;
+    ArrayAdapter<String> adapter1;
+    ListView listView;
+    EditText editText;
+
+
+
     private RecyclerView recyclerView;
     private GridLayoutManager gridLayoutManager;
     private CustomAdapter2 adapter;
     private List<MyData> data_list;
+
 
 
     @Override
@@ -56,6 +81,36 @@ public class druginfo extends AppCompatActivity{
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_druginfo);
+        listView=(ListView)findViewById(R.id.listview);
+        editText=(EditText)findViewById(R.id.textsearch);
+        initList();
+        editText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if(s.toString().equals("")){
+                    //reset listview
+                    initList();
+                }
+                else {
+                    //preform search
+                    searchItem(s.toString());
+                }
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+
+
 
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
         data_list  = new ArrayList<>();
@@ -79,6 +134,24 @@ public class druginfo extends AppCompatActivity{
         });
 
     }
+    public void searchItem(String textToSearch){
+        for(String item: items){
+            if(!item.contains(textToSearch)){
+                listitems.remove(item);
+            }
+        }
+
+        adapter1.notifyDataSetChanged();
+    }
+
+    public void initList(){
+        items=  new String[]{"Canada","Taiwan","Japan"};
+        listitems= new ArrayList<>(Arrays.asList(items));
+        adapter1 = new ArrayAdapter<String>(this, R.layout.list_item2, R.id.txtitem, listitems);
+        listView.setAdapter(adapter1);
+    }
+
+
     public void goback(View v){
         finish();
     }
@@ -124,7 +197,10 @@ public class druginfo extends AppCompatActivity{
 
         task.execute(id);
     }
-
+    public void gotodscanner(View v){ //連到搜尋藥品資訊頁面
+        Intent it = new Intent(this,Scanner.class);
+        startActivity(it);
+    }
 
 
 }

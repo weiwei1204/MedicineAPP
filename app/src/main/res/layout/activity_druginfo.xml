@@ -11,8 +11,14 @@
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:background="?attr/colorPrimary">
+
+        <!--<com.miguelcatalan.materialsearchview.MaterialSearchView-->
+            <!--android:id="@+id/search_view"-->
+            <!--android:layout_width="300sp"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--/>-->
         <EditText
-            android:id="@+id/searchText2"
+            android:id="@+id/textsearch"
             android:layout_width="220dp"
             android:layout_height="40dp"
             android:layout_weight="1"
@@ -38,14 +44,23 @@
             android:layout_marginLeft="30dp"
             android:background="@drawable/qrcode"
 
-            android:onClick="gotoScanner" />
+            android:onClick="gotodscanner" />
+        <ListView
+            android:id="@+id/listview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            >
+            </ListView>
 
 
     </android.support.v7.widget.Toolbar>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recycler_view"
             android:layout_width="match_parent"
