@@ -53,6 +53,7 @@ public class druginfo extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_druginfo);
+
         listView = (ListView) findViewById(R.id.listview);
         editText = (EditText) findViewById(R.id.textsearch);
 
@@ -190,8 +191,11 @@ public class druginfo extends AppCompatActivity {
 
                         JSONObject object = array.getJSONObject(i);
 
-                        MyData mydata = new MyData(object.getInt("id"), object.getString("chineseName"),
-                                object.getString("image"), object.getString("indication"), object.getString("englishName"));
+
+                        MyData mydata = new MyData(object.getInt("id"),object.getString("chineseName"),
+                                object.getString("image") ,object.getString("indication"),object.getString("englishName"),object.getString("licenseNumber")
+                                ,object.getString("category"), object.getString("component"), object.getString("maker_Country"), object.getString("applicant")
+                                ,object.getString("maker_Name"));
 
                         data_list.add(mydata);
                     }
@@ -230,8 +234,12 @@ public class druginfo extends AppCompatActivity {
 
                         JSONObject object = array.getJSONObject(i);
 
-                        MyData mydata = new MyData(object.getInt("id"), object.getString("chineseName"),
-                                object.getString("image"), object.getString("indication"), object.getString("englishName"));
+
+                        MyData mydata = new MyData(object.getInt("id"),object.getString("chineseName"),
+                                object.getString("image") ,object.getString("indication"),object.getString("englishName"),object.getString("licenseNumber")
+                                ,object.getString("category"), object.getString("component"), object.getString("maker_Country"), object.getString("applicant")
+                                ,object.getString("maker_Name"));
+
 
                         data_list1.add(mydata);
                     }
@@ -272,8 +280,12 @@ public class druginfo extends AppCompatActivity {
 
                         JSONObject object = array.getJSONObject(i);
 
-                        MyData mydata = new MyData(object.getInt("id"), object.getString("chineseName"),
-                                object.getString("image"), object.getString("indication"), object.getString("englishName"));
+                        
+                        MyData mydata = new MyData(object.getInt("id"),object.getString("chineseName"),
+                                object.getString("image") ,object.getString("indication"),object.getString("englishName"),object.getString("licenseNumber")
+                                ,object.getString("category"), object.getString("component"), object.getString("maker_Country"), object.getString("applicant")
+                                ,object.getString("maker_Name"));
+
 
                         data_list2.add(mydata);
                     }
@@ -298,6 +310,10 @@ public class druginfo extends AppCompatActivity {
 
     public void gotodscanner(View v) { //連到搜尋藥品資訊頁面
         Intent it = new Intent(this, Scanner.class);
+        startActivity(it);
+    }
+    public void gotofourth(View v){ //連到搜尋藥品資訊頁面
+        Intent it = new Intent(this,FourthActivity.class);
         startActivity(it);
     }
 

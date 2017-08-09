@@ -70,6 +70,14 @@
                 android:typeface="sans" />
 
 
+            <Button
+                android:id="@+id/drugButton"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:layout_below="@id/indication"
+                android:onClick="gotofourth"
+                android:text="more..." />
+
 
         </RelativeLayout>
 
