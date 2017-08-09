@@ -8,16 +8,17 @@ class MyData {
 
     public int id;
     public String image_link;
-   public String indication, englishName, chineseName;
+   public String indication, englishName, chineseName,licenseNumber;
 
 
 
-    public MyData(int id, String chineseName, String image_link, String indication, String englishName) {
+    public MyData(int id, String chineseName, String image_link, String indication, String englishName, String licenseNumber) {
         this.id = id;
         this.chineseName= chineseName;
         this.image_link = image_link;
         this.indication= indication;
         this.englishName= englishName;
+        this.licenseNumber=licenseNumber;
       //  this.indication= indication;
     }
 
@@ -64,5 +65,11 @@ class MyData {
     }
     public void setChineseName(String chineseName){
         this.chineseName= chineseName;
+    }
+    public void setLicenseNumber(String licenseNumber){
+        this.licenseNumber=licenseNumber;
+    }
+    public  String getLicenseNumber(){
+        return licenseNumber;
     }
 }

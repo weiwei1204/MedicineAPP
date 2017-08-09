@@ -175,7 +175,7 @@ public class druginfo extends AppCompatActivity{
                         JSONObject object = array.getJSONObject(i);
 
                         MyData mydata = new MyData(object.getInt("id"),object.getString("chineseName"),
-                                object.getString("image") ,object.getString("indication"),object.getString("englishName"));
+                                object.getString("image") ,object.getString("indication"),object.getString("englishName"),object.getString("licenseNumber"));
 
                         data_list.add(mydata);
                     }
@@ -199,6 +199,10 @@ public class druginfo extends AppCompatActivity{
     }
     public void gotodscanner(View v){ //連到搜尋藥品資訊頁面
         Intent it = new Intent(this,Scanner.class);
+        startActivity(it);
+    }
+    public void gotofourth(View v){ //連到搜尋藥品資訊頁面
+        Intent it = new Intent(this,FourthActivity.class);
         startActivity(it);
     }
 
