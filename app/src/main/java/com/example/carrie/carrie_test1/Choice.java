@@ -27,6 +27,14 @@ public class Choice extends Activity {
         it.putExtras(bundle);   // 記得put進去，不然資料不會帶過去哦
         startActivity(it);
     }
+    public void gotoEnterBsBpActivity(View v){
+        Intent it = new Intent(this, EnterBsBpActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putString("memberid", memberid);
+        it.putExtras(bundle);
+        startActivity(it);
+    }
+
     public void goback(View v){
         finish();
     }

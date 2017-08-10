@@ -36,6 +36,7 @@ public class SwipePlot extends AppCompatActivity {
      * The {@link ViewPager} that will host the section contents.
      */
     private ViewPager mViewPager;
+    MenuItem menuItem;
 
 
     @Override
@@ -55,6 +56,7 @@ public class SwipePlot extends AppCompatActivity {
 
         // Set up the ViewPager with the sections adapter.
         mViewPager = (ViewPager) findViewById(R.id.container);
+
         mViewPager.setAdapter(mSectionsPagerAdapter);
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
@@ -62,6 +64,11 @@ public class SwipePlot extends AppCompatActivity {
         tabLayout.getTabAt(0).setIcon(R.drawable.analytics);
         tabLayout.getTabAt(1).setIcon(R.drawable.presentation);
         tabLayout.getTabAt(2).setIcon(R.drawable.drugs);
+
+
+
+
+
 
 //        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
 //        fab.setOnClickListener(new View.OnClickListener() {
@@ -80,7 +87,8 @@ public class SwipePlot extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_swipe_plot, menu);
-        return true;
+        menuItem = menu.findItem(R.id.action_myschedule);
+        return super.onCreateOptionsMenu(menu);
     }
 
     @Override

@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.TabLayout;
-import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -16,7 +15,7 @@ import android.view.MenuItem;
 public class Navigation extends AppCompatActivity {
     private static final String TAG = "Navigation";
 
-    private SectionsPageAdapter mSectionsPageAdapter;
+    private SectionsPagerAdapter mSectionsPagerAdapter;
 
     private ViewPager mViewPager;
     @Override
@@ -24,7 +23,7 @@ public class Navigation extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mSectionsPageAdapter = new SectionsPageAdapter(getSupportFragmentManager());
+        mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
 
         // Set up the ViewPager with the sections adapter.
         mViewPager = (ViewPager) findViewById(R.id.container);
@@ -81,7 +80,7 @@ public class Navigation extends AppCompatActivity {
 
 
     private void setupViewPager(ViewPager viewPager) {
-        SectionsPageAdapter adapter = new SectionsPageAdapter(getSupportFragmentManager());
+        SectionsPagerAdapter adapter = new SectionsPagerAdapter(getSupportFragmentManager());
 //        adapter.addFragment(new Tab1Fragment());
 //        adapter.addFragment(new Tab2Fragment());
 //        adapter.addFragment(new Tab3Fragment());

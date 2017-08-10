@@ -9,7 +9,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
-public class SectionsPageAdapter extends FragmentPagerAdapter{
+public class SectionsPagerAdapter extends FragmentPagerAdapter{
     private final List<Fragment> mFragmentList = new ArrayList<>();
 
 
@@ -17,7 +17,7 @@ public class SectionsPageAdapter extends FragmentPagerAdapter{
         mFragmentList.add(fragment);
     }
 
-    public SectionsPageAdapter(FragmentManager fm) {
+    public SectionsPagerAdapter(FragmentManager fm) {
         super(fm);
     }
 

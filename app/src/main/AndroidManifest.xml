@@ -136,6 +136,10 @@
         <activity
             android:name=".ChartActivity"
             android:label="@string/title_activity_chart"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".EnterBsBpActivity"
+            android:label="@string/title_activity_enter_bs_bp"
             android:theme="@style/AppTheme"></activity>
     </application>
 
