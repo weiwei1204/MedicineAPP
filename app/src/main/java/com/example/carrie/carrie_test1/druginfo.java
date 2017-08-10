@@ -102,25 +102,15 @@ public class druginfo extends AppCompatActivity {
                 }
                 else {
                     recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
-                    data_list1 = new ArrayList<>();
-                    load_data_from_server_notsearch(0);
+                    
 
                     gridLayoutManager = new GridLayoutManager(getBaseContext(), 2);
                     recyclerView.setLayoutManager(gridLayoutManager);
 
-                    adapter = new CustomAdapter2(getBaseContext(), data_list1);
+                    adapter = new CustomAdapter2(getBaseContext(), data_list);
                     recyclerView.setAdapter(adapter);
 
-                    recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-                        @Override
-                        public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
 
-                            if (gridLayoutManager.findLastCompletelyVisibleItemPosition() == data_list1.size() - 1) {
-                                load_data_from_server_notsearch(data_list1.get(data_list1.size() - 1).getId());
-                            }
-
-                        }
-                    });
                 }
 
             }
@@ -280,7 +270,7 @@ public class druginfo extends AppCompatActivity {
 
                         JSONObject object = array.getJSONObject(i);
 
-                        
+
                         MyData mydata = new MyData(object.getInt("id"),object.getString("chineseName"),
                                 object.getString("image") ,object.getString("indication"),object.getString("englishName"),object.getString("licenseNumber")
                                 ,object.getString("category"), object.getString("component"), object.getString("maker_Country"), object.getString("applicant")
