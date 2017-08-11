@@ -2,6 +2,9 @@
   <dictionary name="mindy">
     <words>
       <w>barrrr</w>
+      <w>fifthbtn</w>
+      <w>firstbtn</w>
+      <w>fourthbtn</w>
       <w>gemail</w>
       <w>getallmonitor</w>
       <w>gname</w>
@@ -11,6 +14,8 @@
       <w>okht</w>
       <w>okhttp</w>
       <w>scanbtn</w>
+      <w>secondbtn</w>
+      <w>thirdbtn</w>
     </words>
   </dictionary>
 </component>

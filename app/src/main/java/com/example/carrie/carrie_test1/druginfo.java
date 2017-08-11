@@ -102,7 +102,7 @@ public class druginfo extends AppCompatActivity {
                 }
                 else {
                     recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
-                    
+
 
                     gridLayoutManager = new GridLayoutManager(getBaseContext(), 2);
                     recyclerView.setLayoutManager(gridLayoutManager);

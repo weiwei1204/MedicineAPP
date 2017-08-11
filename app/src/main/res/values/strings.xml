@@ -58,6 +58,7 @@
     <string name="title_dashboard">dashboard</string>
     <string name="title_notifications">notifications</string>
     <string name="title_activity_chart">ChartActivity</string>
+    <string name="title_activity_bottom_bar">BottomBarActivity</string>
 
 
 </resources>
