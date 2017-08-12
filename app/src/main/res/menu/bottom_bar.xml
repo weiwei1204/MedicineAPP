@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/ic_list"
+        android:icon="@drawable/clipboard"
+        android:title="Lists"
+        />
+    <item
+        android:id="@+id/ic_eye"
+        android:icon="@drawable/eye"
+        android:title="Monitor"
+        />
+    <item
+        android:id="@+id/ic_home"
+        android:icon="@drawable/home"
+        android:title="Home"
+        />
+    <item
+        android:id="@+id/ic_information"
+        android:icon="@drawable/information"
+        android:title="Information"
+        />
+    <item
+        android:id="@+id/ic_beacon"
+        android:icon="@drawable/beacon"
+        android:title="Beacon"
+        />
+
+
+
+</menu>

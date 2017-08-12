@@ -220,7 +220,7 @@ public class MonitorActivity extends AppCompatActivity {
         task.execute();
     }
 
-    public void addMonitor() {
+    public void addMonitor() {//新增監視者至監視列表 使用insert sql
         AsyncTask<Integer, Void, Void> task = new AsyncTask<Integer, Void, Void>() {
             @Override
             protected Void doInBackground(Integer... integers) {

@@ -11,7 +11,11 @@
     <TableLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:gravity="center_vertical">
+        android:gravity="center_vertical"
+        android:layout_above="@+id/bottomBar"
+        tools:layout_editor_absoluteY="0dp"
+        tools:layout_editor_absoluteX="0dp"
+        android:id="@+id/container_table">
 
         <TableRow
             android:layout_width="match_parent"
@@ -128,7 +132,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <LinearLayout android:orientation="vertical">
+            <LinearLayout android:orientation="vertical"
+                android:layout_above="@+id/bottomBar">
 
                 <ImageButton
                     android:id="@+id/imageButton3"
@@ -144,6 +149,7 @@
                 <TextView
                     android:id="@+id/textView3"
                     android:layout_width="151sp"
+                    android:layout_above="@+id/bottomBar"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="5sp"
                     android:layout_marginLeft="25sp"
@@ -159,7 +165,8 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:layout_above="@+id/bottomBar">
 
                 <ImageButton
                     android:id="@+id/imageButton2"
@@ -171,6 +178,7 @@
 
                 <TextView
                     android:id="@+id/textView2"
+
                     android:layout_width="150sp"
                     android:layout_height="wrap_content"
                     android:layout_margin="5sp"
@@ -188,6 +196,25 @@
 
         </TableRow>
     </TableLayout>
+
+    <RelativeLayout
+        android:id="@+id/bottomBar"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="true"
+        android:layout_below="@+id/container_table"
+        android:layout_marginTop="500dp">
+
+        <android.support.design.widget.BottomNavigationView
+            android:id="@+id/bottomNavView_Bar"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#218790"
+            app:menu="@menu/bottom_bar">
+
+
+        </android.support.design.widget.BottomNavigationView>
+    </RelativeLayout>
 
 
 </android.support.constraint.ConstraintLayout>

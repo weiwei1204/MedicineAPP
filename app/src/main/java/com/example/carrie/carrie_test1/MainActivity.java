@@ -3,7 +3,10 @@ package com.example.carrie.carrie_test1;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.BottomNavigationView;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -76,7 +79,57 @@ public class MainActivity extends LoginActivity {
 
             }
         });
+        BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomNavView_Bar);
+        BottomNavigationViewHelper.disableShiftMode(bottomNavigationView);
+        Menu menu = bottomNavigationView.getMenu();
+        MenuItem menuItem = menu.getItem(0);
+        menuItem.setChecked(true);
+        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                switch (item.getItemId()){
+                    case R.id.ic_list:
+                        Intent intent0 = new Intent(MainActivity.this,Choice.class);
+                        Bundle bundle0 = new Bundle();
+                        bundle0.putString("memberid", memberid);
+                        Log.d("fffaaa",memberid);
+                        intent0.putExtras(bundle0);   // 記得put進去，不然資料不會帶過去哦
+                        startActivity(intent0);
+                        break;
 
+                    case R.id.ic_eye:
+                        Intent intent1 = new Intent(MainActivity.this,MonitorActivity.class);
+                        Bundle bundle1 = new Bundle();
+                        bundle1.putString("my_id", memberid);
+                        bundle1.putString("my_google_id", googleid);
+                        bundle1.putString("my_supervise_id", my_mon_id);
+                        intent1.putExtras(bundle1);
+                        startActivity(intent1);
+                        break;
+
+                    case R.id.ic_home:
+                        Intent intent2 = new Intent(MainActivity.this, MainActivity.class);
+                        Bundle bundle2 = new Bundle();
+                        bundle2.putString("googleid", googleid);
+                        intent2.putExtras(bundle2);
+                        startActivity(intent2);
+                        break;
+
+                    case R.id.ic_information:
+                        Intent intent3 = new Intent(MainActivity.this, druginfo.class);
+                        startActivity(intent3);
+                        break;
+
+                    case R.id.ic_beacon:
+                        Intent intent4 = new Intent(MainActivity.this, Beacon.class);
+                        startActivity(intent4);
+                        break;
+                }
+
+
+                return false;
+            }
+        });
     }
 
 
