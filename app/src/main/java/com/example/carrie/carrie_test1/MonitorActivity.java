@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
@@ -17,7 +19,6 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-
 import android.widget.Button;
 import android.widget.Toast;
 
@@ -26,14 +27,15 @@ import com.google.android.gms.vision.barcode.Barcode;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import java.util.ArrayList;
+
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
+import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
-import okhttp3.MultipartBody;
 import okhttp3.Response;
 
 
@@ -53,7 +55,7 @@ public class MonitorActivity extends AppCompatActivity {
     private List<MyMonitorData> dataList;
     int lastId=0;
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(@NonNull Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_monitor);
@@ -63,6 +65,69 @@ public class MonitorActivity extends AppCompatActivity {
         my_mon_id = bundle.getString("my_supervise_id");
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomNavView_Bar);
+        BottomNavigationViewHelper.disableShiftMode(bottomNavigationView);
+        Menu menu = bottomNavigationView.getMenu();
+        MenuItem menuItem = menu.getItem(1);
+        menuItem.setChecked(true);
+
+        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                switch (item.getItemId()){
+                    case R.id.ic_list:
+                        Intent intent0 = new Intent(MonitorActivity.this,Choice.class);
+                        Bundle bundle0 = new Bundle();
+                        bundle0.putString("memberid", my_id);
+                        bundle0.putString("my_google_id", my_google_id);
+                        bundle0.putString("my_supervise_id", my_mon_id);
+                        intent0.putExtras(bundle0);   // 記得put進去，不然資料不會帶過去哦
+                        startActivity(intent0);
+                        break;
+
+                    case R.id.ic_eye:
+                        Intent intent1 = new Intent(MonitorActivity.this,MonitorActivity.class);
+                        Bundle bundle1 = new Bundle();
+                        bundle1.putString("my_id", my_id);
+                        bundle1.putString("my_google_id", my_google_id);
+                        bundle1.putString("my_supervise_id", my_mon_id);
+                        intent1.putExtras(bundle1);
+                        startActivity(intent1);
+                        break;
+
+                    case R.id.ic_home:
+                        Intent intent2 = new Intent(MonitorActivity.this, MainActivity.class);
+                        Bundle bundle2 = new Bundle();
+                        bundle2.putString("googleid", my_google_id);
+                        intent2.putExtras(bundle2);
+                        startActivity(intent2);
+                        break;
+
+                    case R.id.ic_information:
+                        Intent intent3 = new Intent(MonitorActivity.this, druginfo.class);
+                        Bundle bundle3 = new Bundle();
+                        bundle3.putString("my_id", my_id);
+                        bundle3.putString("my_google_id", my_google_id);
+                        bundle3.putString("my_supervise_id", my_mon_id);
+                        intent3.putExtras(bundle3);
+                        startActivity(intent3);
+                        break;
+
+                    case R.id.ic_beacon:
+                        Intent intent4 = new Intent(MonitorActivity.this, Beacon.class);
+                        Bundle bundle4 = new Bundle();
+                        bundle4.putString("my_id", my_id);
+                        bundle4.putString("my_google_id", my_google_id);
+                        bundle4.putString("my_supervise_id", my_mon_id);
+                        intent4.putExtras(bundle4);
+                        startActivity(intent4);
+                        break;
+                }
+
+
+                return false;
+            }
+        });
         scanbtn = (Button) findViewById(R.id.action_add);
 
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
@@ -87,6 +152,7 @@ public class MonitorActivity extends AppCompatActivity {
 
             }
         });
+
     }
 
     private void load_data_from_server(int id) {
@@ -220,7 +286,7 @@ public class MonitorActivity extends AppCompatActivity {
         task.execute();
     }
 
-    public void addMonitor() {
+    public void addMonitor() {//新增監視者至監視列表 使用insert sql
         AsyncTask<Integer, Void, Void> task = new AsyncTask<Integer, Void, Void>() {
             @Override
             protected Void doInBackground(Integer... integers) {
