@@ -1,5 +1,6 @@
 package com.example.carrie.carrie_test1;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -17,11 +18,14 @@ import android.view.View;
 public class EnterBsBpActivity extends AppCompatActivity {
     private PagerAdapter BsBpPagerAdapter;
     private ViewPager BsBpViewPager;
-
+    String insertbpvalue = "http://54.65.194.253/Health_Calendar/insertbloodpressure.php";
+    String insertbsvalue = "http://54.65.194.253/Health_Calendar/insertbloodsugar.php";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_enter_bs_bp);
+        Bundle bundle = getIntent().getExtras();
+        String memberid=bundle.getString("memberid");
 
         BsBpPagerAdapter = new PagerAdapter(getSupportFragmentManager());
 
@@ -64,6 +68,8 @@ public class EnterBsBpActivity extends AppCompatActivity {
 
 
     public class PagerAdapter extends FragmentPagerAdapter {
+        Bundle bundle = getIntent().getExtras();
+        String memberid=bundle.getString("memberid");
 
         public PagerAdapter(FragmentManager fm) {
             super(fm);
@@ -74,9 +80,13 @@ public class EnterBsBpActivity extends AppCompatActivity {
             switch (position) {
                 case 0:
                     BsTab tab1 = new BsTab();
+                    Intent it1 = new Intent();
+                    it1.putExtra("memberid",memberid);
                     return tab1;
                 case 1:
                     BpTab tab2 = new BpTab();
+                    Intent it = new Intent();
+                    it.putExtra("memberid",memberid);
                     return tab2;
                 default:
                     return null;
@@ -99,9 +109,10 @@ public class EnterBsBpActivity extends AppCompatActivity {
             }
             return null;
         }
-        public void goback(View v){
-            finish();
-        }
+
+    }
+    public void goback(View v){
+        finish();
     }
     }
 
