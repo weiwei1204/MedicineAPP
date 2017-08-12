@@ -3,12 +3,16 @@ package com.example.carrie.carrie_test1;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
@@ -47,15 +51,84 @@ public class druginfo extends AppCompatActivity {
     private List<MyData> data_list;
     private List<MyData> data_list1;
     private List<MyData> data_list2;
-
+    public  String my_google_id = "";
+    public  String my_id = "";
+    public  String my_mon_id = "";//Supviser的id
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate( Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_druginfo);
+        Bundle bundle = getIntent().getExtras();
+        my_id = bundle.getString("my_id");//get 自己 id
+        my_google_id = bundle.getString("my_google_id");//get 自己google_ id
+        my_mon_id = bundle.getString("my_supervise_id");
+        BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomNavView_Bar);
+        BottomNavigationViewHelper.disableShiftMode(bottomNavigationView);
+        Menu menu = bottomNavigationView.getMenu();
+        MenuItem menuItem = menu.getItem(3);
+        menuItem.setChecked(true);
 
+        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                switch (item.getItemId()){
+                    case R.id.ic_list:
+                        Intent intent0 = new Intent(druginfo.this,Choice.class);
+                        Bundle bundle0 = new Bundle();
+                        bundle0.putString("my_id", my_id);
+                        bundle0.putString("my_google_id", my_google_id);
+                        bundle0.putString("my_supervise_id", my_mon_id);
+                        intent0.putExtras(bundle0);   // 記得put進去，不然資料不會帶過去哦
+                        startActivity(intent0);
+                        break;
+
+                    case R.id.ic_eye:
+                        Intent intent1 = new Intent(druginfo.this,MonitorActivity.class);
+                        Bundle bundle1 = new Bundle();
+                        bundle1.putString("my_id", my_id);
+                        bundle1.putString("my_google_id", my_google_id);
+                        bundle1.putString("my_supervise_id", my_mon_id);
+                        intent1.putExtras(bundle1);
+                        startActivity(intent1);
+                        break;
+
+                    case R.id.ic_home:
+                        Intent intent2 = new Intent(druginfo.this, MainActivity.class);
+                        Bundle bundle2 = new Bundle();
+                        bundle2.putString("googleid", my_google_id);
+                        intent2.putExtras(bundle2);
+                        startActivity(intent2);
+                        break;
+
+                    case R.id.ic_information:
+                        Intent intent3 = new Intent(druginfo.this, druginfo.class);
+                        Bundle bundle3 = new Bundle();
+                        bundle3.putString("my_id", my_id);
+                        bundle3.putString("my_google_id", my_google_id);
+                        bundle3.putString("my_supervise_id", my_mon_id);
+                        intent3.putExtras(bundle3);
+                        startActivity(intent3);
+                        break;
+
+                    case R.id.ic_beacon:
+                        Intent intent4 = new Intent(druginfo.this, Beacon.class);
+                        Bundle bundle4 = new Bundle();
+                        bundle4.putString("my_id", my_id);
+                        bundle4.putString("my_google_id", my_google_id);
+                        bundle4.putString("my_supervise_id", my_mon_id);
+                        intent4.putExtras(bundle4);
+                        startActivity(intent4);
+                        break;
+                }
+
+
+                return false;
+            }
+        });
         listView = (ListView) findViewById(R.id.listview);
         editText = (EditText) findViewById(R.id.textsearch);
+
 
         editText.addTextChangedListener(new TextWatcher() {
             @Override
