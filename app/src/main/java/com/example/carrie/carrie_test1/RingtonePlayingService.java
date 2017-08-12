@@ -22,6 +22,7 @@ public class RingtonePlayingService extends Service {
     MediaPlayer media_song;
     int startId;
     boolean isRunning;
+    int count;
 
     @Nullable
     @Override
@@ -38,6 +39,9 @@ public class RingtonePlayingService extends Service {
         Log.i("LocalService", "Received start id " + startId + ": " + intent);
 
         String state = intent.getExtras().getString("extra");
+        count = intent.getExtras().getInt("count");
+        Log.d("nonono2", String.valueOf(count));
+
 
         Log.e("Ringtone state is ",state);
 
@@ -58,22 +62,38 @@ public class RingtonePlayingService extends Service {
             Log.e("there is no music","and you want start");
             media_song=MediaPlayer.create(this,R.raw.water);//raw裡的音樂
             media_song.start();
+            Log.d("nonono","2");
 
-            this.isRunning=true;
+            this.isRunning=false;
             this.startId=0;
+            try {
+                Log.d("nonono","3");
 
-            NotificationManager notify_manager=(NotificationManager)getSystemService(NOTIFICATION_SERVICE);
-            Intent intent_alarm=new Intent(this.getApplicationContext(),ThirdActivity.class);
-            PendingIntent pending_intent_alarm=PendingIntent.getActivity(this,0,intent_alarm,0);
-            Notification notification_popup=new Notification.Builder(this)
-                    .setSmallIcon(R.drawable.add)
-                    .setContentTitle("an alarm is goin off!!")
-                    .setContentText("click me")
-                    .setContentIntent(pending_intent_alarm)
-                    .setAutoCancel(true)
-                    .build();
+                NotificationManager notify_manager=(NotificationManager)getSystemService(NOTIFICATION_SERVICE);
+                Log.d("nonono","4");
 
-            notify_manager.notify(0,notification_popup);
+                Intent intent_alarm=new Intent(this.getApplicationContext(),alarm.class);
+                Log.d("nonono","5");
+
+                PendingIntent pending_intent_alarm=PendingIntent.getActivity(this,count,intent_alarm,0);
+                Log.d("nonono3", String.valueOf(count));
+
+                Log.d("nonono","6");
+
+                Notification notification_popup=new Notification.Builder(this)
+                        .setSmallIcon(R.drawable.add)
+                        .setContentTitle("an alarm is goin off!!")
+                        .setContentText("click me")
+                        .setContentIntent(pending_intent_alarm)
+                        .setAutoCancel(true)
+                        .build();
+
+                notify_manager.notify(0,notification_popup);
+
+            }catch (Exception e){
+                Log.d("nonono",e.toString());
+            }
+
         }
         else if (this.isRunning && startId ==0){
             Log.e("there is music","and you want end");
@@ -96,7 +116,7 @@ public class RingtonePlayingService extends Service {
             Log.e("there is music","and you want start");
 
             this.isRunning=true;
-            this.startId=0;
+            this.startId=1;
 
         }
         else {

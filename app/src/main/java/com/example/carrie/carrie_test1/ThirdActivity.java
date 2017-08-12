@@ -59,7 +59,7 @@ public class ThirdActivity extends AppCompatActivity {
     String memberid,beaconUUID,beaconid,m_calendarid;
     RequestQueue requestQueue;
     int counttime;
-    java.util.ArrayList<String> msg = new ArrayList<String>();
+    final java.util.ArrayList<String> msg = new ArrayList<String>();
     java.util.ArrayList<String> timearray = new ArrayList<String>();
     Context context;
     PendingIntent pending_intent;
@@ -300,6 +300,9 @@ public class ThirdActivity extends AppCompatActivity {
 //        t.show();
 
     }
+//    public ArrayList<String> gettimestring(){
+//        return msg;
+//    }
 
 
 
@@ -352,7 +355,7 @@ public class ThirdActivity extends AppCompatActivity {
             @Override
             public void onResponse(String response) {
                 Log.d("nnnmmmm",response);
-                if(response.equals(null)){
+                if(response.equals("noid")){
                     get_M_calendart_id();
                 }
                 else {
@@ -361,6 +364,10 @@ public class ThirdActivity extends AppCompatActivity {
                     for (int j=0;j<msg.size();j++){ //一個一個設鬧鐘
                         setAlerttime(j);
                     }
+//                    alarm a=new alarm(getApplicationContext());
+//                    a.alarmclock(msg);
+
+
                     for (int i=0;i<timearray.size();i++){      //一個一個存時間
                         insertAlert_time(i);
                     }
@@ -396,10 +403,24 @@ public class ThirdActivity extends AppCompatActivity {
     public void setAlerttime(int j){         //設鬧鐘
         final Intent my_intent=new Intent(this.context,Alarm_Receiver.class);
         my_intent.putExtra("extra","alarm on");
-        pending_intent= PendingIntent.getBroadcast(ThirdActivity.this,j,
+        my_intent.putExtra("count",j);
+        notification notification1=new notification();
+        Context context3=notification1.getContext();
+
+        pending_intent= PendingIntent.getBroadcast(this,j,
                 my_intent,PendingIntent.FLAG_CANCEL_CURRENT);
-        alarm_manager.set(AlarmManager.RTC_WAKEUP, Long.parseLong(msg.get(j)),pending_intent);
+        alarm_manager.setExact(AlarmManager.RTC_WAKEUP, Long.parseLong(msg.get(j)),pending_intent);
+
+//        alarm_manager.set(AlarmManager.RTC_WAKEUP, Long.parseLong(msg.get(j)),pending_intent);
         Log.d("sss", String.valueOf(msg.get(j)));
+//        notification1.checkalarm(msg);
+//        AlarmManager.AlarmClockInfo info =
+//                new AlarmManager.AlarmClockInfo(Long.parseLong(msg.get(j)), pending_intent);
+//        alarm_manager.setAlarmClock(info,pending_intent);
+//        intentArray.add(pending_intent);
+
+
+
 
 
 
@@ -441,5 +462,6 @@ public class ThirdActivity extends AppCompatActivity {
 
 
 }
+
 
 }
