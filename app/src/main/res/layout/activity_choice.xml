@@ -22,7 +22,7 @@
             android:layout_marginTop="50dp"
             android:background="@drawable/choiceboder"
             android:onClick="gotoThirdActivity"
-            app:srcCompat="@drawable/medicinebottle" />
+            android:src="@drawable/medicinebottle" />
 
         <TextView
             android:id="@+id/textView45"
@@ -41,7 +41,9 @@
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="20dp"
             android:background="@drawable/choiceboder"
-            app:srcCompat="@drawable/heart" />
+            android:onClick="gotoEnterBsBpActivity"
+            android:src="@drawable/heart"
+            android:contentDescription="" />
 
         <TextView
             android:id="@+id/textView47"

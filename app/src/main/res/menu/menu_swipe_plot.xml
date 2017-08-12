@@ -5,6 +5,18 @@
     <item
         android:id="@+id/action_settings"
         android:orderInCategory="100"
-        android:title="@string/action_settings"
+        android:title="設定"
         app:showAsAction="never" />
+    <item
+        android:id="@+id/action_myinfo"
+        android:orderInCategory="100"
+        android:title="個人資訊"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_myschedule"
+        android:orderInCategory="100"
+        android:title="我的排程"
+        app:showAsAction="never" />
+
+
 </menu>

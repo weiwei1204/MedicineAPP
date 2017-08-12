@@ -1,26 +1,23 @@
-package com.example.carrie.carrie_test1;
 
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.net.Uri;
+
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.util.StringBuilderPrinter;
-import android.view.Menu;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import com.google.android.gms.cast.framework.media.RemoteMediaClient;
 import com.google.android.gms.games.multiplayer.ParticipantEntityCreator;
 
 import org.xml.sax.Parser;
+import com.bumptech.glide.Glide;
+
 
 public class FourthActivity extends AppCompatActivity {
     String id;
@@ -112,6 +109,11 @@ public class FourthActivity extends AppCompatActivity {
 //        ImageView image=(ImageView) findViewById(R.id.image);
 //        image.setImageURI(Uri.parse(string9));
 //        Log.d("drug","9");
+
+        String string9= getIntent().getExtras().getString("image", "not found");
+        ima = bundle.getString("image");//get 中文名字
+        ImageView image=(ImageView) findViewById(R.id.image3);
+        Glide.with(getBaseContext()).load(string9).into(image);
 
 
 

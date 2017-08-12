@@ -36,7 +36,8 @@ dependencies {
 //    compile 'com.android.volley:volley:1.0.0'
 
 
-    testCompile 'junit:junit:4.12'
+    
+
 
     compile 'com.android.support:appcompat-v7:25.3.1'
     compile 'com.android.support:mediarouter-v7:25.3.1'
