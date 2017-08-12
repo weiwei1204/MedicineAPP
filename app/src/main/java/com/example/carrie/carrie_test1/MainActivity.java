@@ -82,7 +82,7 @@ public class MainActivity extends LoginActivity {
         BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomNavView_Bar);
         BottomNavigationViewHelper.disableShiftMode(bottomNavigationView);
         Menu menu = bottomNavigationView.getMenu();
-        MenuItem menuItem = menu.getItem(0);
+        MenuItem menuItem = menu.getItem(2);
         menuItem.setChecked(true);
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -92,7 +92,8 @@ public class MainActivity extends LoginActivity {
                         Intent intent0 = new Intent(MainActivity.this,Choice.class);
                         Bundle bundle0 = new Bundle();
                         bundle0.putString("memberid", memberid);
-                        Log.d("fffaaa",memberid);
+                        bundle0.putString("my_google_id", googleid);
+                        bundle0.putString("my_supervise_id", my_mon_id);
                         intent0.putExtras(bundle0);   // 記得put進去，不然資料不會帶過去哦
                         startActivity(intent0);
                         break;
@@ -117,11 +118,19 @@ public class MainActivity extends LoginActivity {
 
                     case R.id.ic_information:
                         Intent intent3 = new Intent(MainActivity.this, druginfo.class);
+                        Bundle bundle3 = new Bundle();
+                        bundle3.putString("memberid", memberid);
+                        bundle3.putString("my_google_id", googleid);
+                        bundle3.putString("my_supervise_id", my_mon_id);
                         startActivity(intent3);
                         break;
 
                     case R.id.ic_beacon:
                         Intent intent4 = new Intent(MainActivity.this, Beacon.class);
+                        Bundle bundle4 = new Bundle();
+                        bundle4.putString("memberid", memberid);
+                        bundle4.putString("my_google_id", googleid);
+                        bundle4.putString("my_supervise_id", my_mon_id);
                         startActivity(intent4);
                         break;
                 }
