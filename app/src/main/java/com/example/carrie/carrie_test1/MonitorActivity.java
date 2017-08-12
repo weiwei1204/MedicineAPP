@@ -62,23 +62,23 @@ public class MonitorActivity extends AppCompatActivity {
         Bundle bundle = getIntent().getExtras();
         my_id = bundle.getString("my_id");//get 自己 id
         my_google_id = bundle.getString("my_google_id");//get 自己google_ id
-        my_mon_id = bundle.getString("my_supervise_id");
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        my_mon_id = bundle.getString("my_supervise_id");//取得自己supervise id
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);//find the tooolbar id
+        setSupportActionBar(toolbar);//set toolbar
         BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomNavView_Bar);
         BottomNavigationViewHelper.disableShiftMode(bottomNavigationView);
         Menu menu = bottomNavigationView.getMenu();
-        MenuItem menuItem = menu.getItem(1);
+        MenuItem menuItem = menu.getItem(1);//control which button is active
         menuItem.setChecked(true);
 
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                switch (item.getItemId()){
+                switch (item.getItemId()){//define which view need to be direct
                     case R.id.ic_list:
                         Intent intent0 = new Intent(MonitorActivity.this,Choice.class);
                         Bundle bundle0 = new Bundle();
-                        bundle0.putString("memberid", my_id);
+                        bundle0.putString("memberid", my_id);//put the parameter to bundle,so it can get this value
                         bundle0.putString("my_google_id", my_google_id);
                         bundle0.putString("my_supervise_id", my_mon_id);
                         intent0.putExtras(bundle0);   // 記得put進去，不然資料不會帶過去哦
@@ -128,14 +128,14 @@ public class MonitorActivity extends AppCompatActivity {
                 return false;
             }
         });
-        scanbtn = (Button) findViewById(R.id.action_add);
+        scanbtn = (Button) findViewById(R.id.action_add);//find menu's add button id
 
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA}, PERMISSION_REQUEST);
         }
-        recyclerView = (RecyclerView)findViewById(R.id.recycler_view1);
-        dataList  = new ArrayList<>();
-        load_data_from_server(0);
+        recyclerView = (RecyclerView)findViewById(R.id.recycler_view1);//find recycle view id
+        dataList  = new ArrayList<>();//create a arraylist to save the object
+        load_data_from_server(0);//call method to show monitor's friend
 
         gridLayoutManager = new GridLayoutManager(this,2);
         recyclerView.setLayoutManager(gridLayoutManager);
@@ -164,7 +164,7 @@ public class MonitorActivity extends AppCompatActivity {
                 OkHttpClient client = new OkHttpClient();
                 Request request = new Request.Builder()
                         .url("http://54.65.194.253/Monitor/testGeyAllMonitor.php?id="+integers[0])
-                        .build();
+                        .build();//get all the monitor
                 try {
                     Response response = client.newCall(request).execute();
                     //\\Log.d("printResponse",response.body().string());
@@ -175,7 +175,7 @@ public class MonitorActivity extends AppCompatActivity {
                         JSONObject object = array.getJSONObject(i);
 
                         MyMonitorData data = new MyMonitorData(object.getInt("m_id"),object.getString("name"),
-                                "http://s3-ap-northeast-1.amazonaws.com/appmedicine/monitoricon.png");
+                                "http://s3-ap-northeast-1.amazonaws.com/appmedicine/monitoricon.png");//set default image
                         lastId=object.getInt("m_id");
                         dataList.add(data);
                     }
@@ -210,7 +210,7 @@ public class MonitorActivity extends AppCompatActivity {
         int id = item.getItemId();
         if (id == R.id.action_add) {
             Intent intent = new Intent(MonitorActivity.this, ScanActivity.class);
-            startActivityForResult(intent, REQUEST_CODE);
+            startActivityForResult(intent, REQUEST_CODE);//when click add button ,it turn to scanactivity
         }
         return super.onOptionsItemSelected(item);
     }
@@ -222,7 +222,7 @@ public class MonitorActivity extends AppCompatActivity {
                 final Barcode barcode = data.getParcelableExtra("barcode");
                 google_id = barcode.displayValue;
                 Log.d("monitorGoogle", google_id);
-                checkMonitorExist();
+                checkMonitorExist();//check the monitor exist
 
             }
         }
