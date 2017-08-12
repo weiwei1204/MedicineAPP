@@ -21,7 +21,7 @@ public class Choice extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_choice);
         Bundle bundle = getIntent().getExtras();
-        memberid=bundle.getString("my_id");
+        memberid=bundle.getString("memberid");
         my_google_id = bundle.getString("my_google_id");//get 自己google_ id
         my_mon_id = bundle.getString("my_supervise_id");
         Log.d("qwe123455",memberid);
@@ -38,7 +38,7 @@ public class Choice extends Activity {
                     case R.id.ic_list:
                         Intent intent0 = new Intent(Choice.this,Choice.class);
                         Bundle bundle0 = new Bundle();
-                        bundle0.putString("my_id", memberid);
+                        bundle0.putString("memberid", memberid);
                         bundle0.putString("my_google_id", my_google_id);
                         bundle0.putString("my_supervise_id", my_mon_id);
                         intent0.putExtras(bundle0);   // 記得put進去，不然資料不會帶過去哦

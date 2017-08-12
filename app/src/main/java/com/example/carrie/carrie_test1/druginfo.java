@@ -76,7 +76,7 @@ public class druginfo extends AppCompatActivity {
                     case R.id.ic_list:
                         Intent intent0 = new Intent(druginfo.this,Choice.class);
                         Bundle bundle0 = new Bundle();
-                        bundle0.putString("my_id", my_id);
+                        bundle0.putString("memberid", my_id);
                         bundle0.putString("my_google_id", my_google_id);
                         bundle0.putString("my_supervise_id", my_mon_id);
                         intent0.putExtras(bundle0);   // 記得put進去，不然資料不會帶過去哦

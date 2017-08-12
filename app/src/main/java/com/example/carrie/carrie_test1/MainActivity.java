@@ -90,7 +90,7 @@ public class MainActivity extends LoginActivity {
                     case R.id.ic_list:
                         Intent intent0 = new Intent(MainActivity.this,Choice.class);
                         Bundle bundle0 = new Bundle();
-                        bundle0.putString("my_id", memberid);
+                        bundle0.putString("memberid", memberid);
                         bundle0.putString("my_google_id", googleid);
                         bundle0.putString("my_supervise_id", my_mon_id);
                         intent0.putExtras(bundle0);   // 記得put進去，不然資料不會帶過去哦
@@ -185,6 +185,8 @@ public class MainActivity extends LoginActivity {
     public void gotoChoice(View v){  //連到排程選擇頁面
         Intent it = new Intent(this,Choice.class);
         Bundle bundle = new Bundle();
+        bundle.putString("my_google_id", googleid);
+        bundle.putString("my_supervise_id", my_mon_id);
         bundle.putString("memberid", memberid);
         Log.d("fffaaa",memberid);
         it.putExtras(bundle);   // 記得put進去，不然資料不會帶過去哦
@@ -193,6 +195,11 @@ public class MainActivity extends LoginActivity {
 
     public void gotodruginfo(View v){ //連到搜尋藥品資訊頁面
         Intent it = new Intent(this,druginfo.class);
+        Bundle bundle3 = new Bundle();
+        bundle3.putString("my_id", memberid);
+        bundle3.putString("my_google_id", googleid);
+        bundle3.putString("my_supervise_id", my_mon_id);
+        it.putExtras(bundle3);
         startActivity(it);
     }
     public void gotoFirstctivity(View v){ //連到搜尋藥品資訊頁面
