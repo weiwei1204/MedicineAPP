@@ -6,214 +6,224 @@
     android:layout_height="match_parent"
     android:background="#70CECE"
     tools:context="com.example.carrie.carrie_test1.MainActivity">
-
-
-    <TableLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="center_vertical"
-        android:layout_above="@+id/bottomBar"
-        tools:layout_editor_absoluteY="0dp"
-        tools:layout_editor_absoluteX="0dp"
-        android:id="@+id/container_table">
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="10dp">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal">
-
-                <ImageButton
-                    android:id="@+id/bkimg"
-                    android:layout_width="60sp"
-                    android:layout_height="50sp"
-                    android:layout_marginLeft="10dp"
-                    android:background="@drawable/bkicon"
-                    android:onClick="gotoLoginActivity"/>
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal">
-
-                <!--<ImageButton-->
-                    <!--android:id="@+id/setbtn"-->
-                    <!--android:layout_width="35sp"-->
-                    <!--android:layout_height="35sp"-->
-                    <!--android:layout_marginLeft="130dp"-->
-                    <!--android:background="@drawable/settings"-->
-                    <!--android:onClick="gotoLoginActivity" />-->
-
-                <Spinner
-                    android:id="@+id/spinner"
-                    android:layout_width="35sp"
-                    android:layout_height="35sp"
-                    android:layout_marginLeft="130dp"
-                    android:background="@drawable/settings"
-
-
-                    ></Spinner>
-            </LinearLayout>
-
-        </TableRow>
-
-        <TableRow
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-
-            <LinearLayout android:orientation="vertical">
-
-                <ImageButton
-                    android:id="@+id/imageButton"
-                    android:layout_width="150sp"
-                    android:layout_height="150sp"
-                    android:layout_marginBottom="5sp"
-                    android:layout_marginLeft="25sp"
-                    android:layout_marginRight="5sp"
-                    android:layout_marginTop="20sp"
-                    android:background="@drawable/robot"
-                    android:onClick="gotoFirstctivity" />
-
-                <TextView
-                    android:id="@+id/textView"
-                    android:layout_width="150sp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="20sp"
-                    android:layout_marginLeft="25sp"
-                    android:layout_marginRight="5sp"
-                    android:layout_marginTop="5sp"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:text="用藥諮詢"
-                    android:textColor="@android:color/background_light"
-                    android:textSize="18sp" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
-
-                <ImageButton
-                    android:id="@+id/imageButton4"
-                    android:layout_width="151sp"
-                    android:layout_height="151sp"
-                    android:layout_marginBottom="5sp"
-                    android:layout_marginLeft="5sp"
-                    android:layout_marginRight="5sp"
-                    android:layout_marginTop="20sp"
-                    android:background="@drawable/medicine"
-                    android:onClick="gotodruginfo" />
-
-                <TextView
-                    android:id="@+id/textView4"
-                    android:layout_width="151sp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="20sp"
-                    android:layout_marginLeft="5sp"
-                    android:layout_marginRight="5sp"
-                    android:layout_marginTop="5sp"
-                    android:gravity="center"
-                    android:text="藥品資訊"
-                    android:textColor="@android:color/background_light"
-                    android:textSize="18sp" />
-
-            </LinearLayout>
-
-        </TableRow>
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <LinearLayout android:orientation="vertical"
-                android:layout_above="@+id/bottomBar">
-
-                <ImageButton
-                    android:id="@+id/imageButton3"
-                    android:layout_width="151sp"
-                    android:layout_height="151sp"
-                    android:layout_marginBottom="5sp"
-                    android:layout_marginLeft="25sp"
-                    android:layout_marginRight="5sp"
-                    android:layout_marginTop="5sp"
-                    android:background="@drawable/calendar"
-                    android:onClick="gotoChoice" />
-
-                <TextView
-                    android:id="@+id/textView3"
-                    android:layout_width="151sp"
-                    android:layout_above="@+id/bottomBar"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="5sp"
-                    android:layout_marginLeft="25sp"
-                    android:layout_marginRight="5sp"
-                    android:layout_marginTop="5sp"
-                    android:gravity="center"
-                    android:text="用藥排程"
-                    android:textColor="@android:color/background_light"
-                    android:textSize="18sp" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:layout_above="@+id/bottomBar">
-
-                <ImageButton
-                    android:id="@+id/imageButton2"
-                    android:layout_width="150sp"
-                    android:layout_height="150sp"
-                    android:layout_margin="5sp"
-                    android:background="@drawable/monitor"
-                    android:onClick="gotoMonitorActivity" />
-
-                <TextView
-                    android:id="@+id/textView2"
-
-                    android:layout_width="150sp"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="5sp"
-                    android:gravity="center"
-                    android:text="監控模式"
-                    android:textColor="@android:color/background_light"
-                    android:textSize="18sp" />
-            </LinearLayout>
-
-        </TableRow>
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-        </TableRow>
-    </TableLayout>
-
     <RelativeLayout
-        android:id="@+id/bottomBar"
-        android:layout_width="wrap_content"
-        android:layout_height="50dp"
-        android:layout_alignParentBottom="true"
-        android:layout_below="@+id/container_table"
-        android:layout_marginTop="500dp">
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+       >
 
-        <android.support.design.widget.BottomNavigationView
-            android:id="@+id/bottomNavView_Bar"
+
+        <RelativeLayout
+            android:id="@+id/container_table"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="#218790"
-            app:menu="@menu/bottom_bar">
+            android:layout_above="@+id/bottomBar"
+            >
+            <TableLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                >
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    >
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal">
+
+                        <ImageButton
+                            android:id="@+id/bkimg"
+                            android:layout_width="60sp"
+                            android:layout_height="50sp"
+                            android:layout_marginLeft="10dp"
+                            android:background="@drawable/bkicon"
+                            android:onClick="gotoLoginActivity"/>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal">
+
+                        <!--<ImageButton-->
+                        <!--android:id="@+id/setbtn"-->
+                        <!--android:layout_width="35sp"-->
+                        <!--android:layout_height="35sp"-->
+                        <!--android:layout_marginLeft="130dp"-->
+                        <!--android:background="@drawable/settings"-->
+                        <!--android:onClick="gotoLoginActivity" />-->
+
+                        <Spinner
+                            android:id="@+id/spinner"
+                            android:layout_width="35sp"
+                            android:layout_height="35sp"
+                            android:layout_marginLeft="130dp"
+                            android:background="@drawable/settings"
 
 
-        </android.support.design.widget.BottomNavigationView>
+                            ></Spinner>
+                    </LinearLayout>
+
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <LinearLayout android:orientation="vertical">
+
+                        <ImageButton
+                            android:id="@+id/imageButton"
+                            android:layout_width="150sp"
+                            android:layout_height="150sp"
+                            android:layout_marginBottom="5sp"
+                            android:layout_marginLeft="25sp"
+                            android:layout_marginRight="5sp"
+                            android:layout_marginTop="20sp"
+                            android:background="@drawable/robot"
+                            android:onClick="gotoFirstctivity" />
+
+                        <TextView
+                            android:id="@+id/textView"
+                            android:layout_width="150sp"
+                            android:layout_height="match_parent"
+                            android:layout_marginBottom="20sp"
+                            android:layout_marginLeft="25sp"
+                            android:layout_marginRight="5sp"
+                            android:layout_marginTop="5sp"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:text="用藥諮詢"
+                            android:textColor="@android:color/background_light"
+                            android:textSize="18sp" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+
+                        <ImageButton
+                            android:id="@+id/imageButton4"
+                            android:layout_width="151sp"
+                            android:layout_height="151sp"
+                            android:layout_marginBottom="5sp"
+                            android:layout_marginLeft="5sp"
+                            android:layout_marginRight="5sp"
+                            android:layout_marginTop="20sp"
+                            android:background="@drawable/medicine"
+                            android:onClick="gotodruginfo" />
+
+                        <TextView
+                            android:id="@+id/textView4"
+                            android:layout_width="151sp"
+                            android:layout_height="match_parent"
+                            android:layout_marginBottom="20sp"
+                            android:layout_marginLeft="5sp"
+                            android:layout_marginRight="5sp"
+                            android:layout_marginTop="5sp"
+                            android:gravity="center"
+                            android:text="藥品資訊"
+                            android:textColor="@android:color/background_light"
+                            android:textSize="18sp" />
+
+                    </LinearLayout>
+
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <LinearLayout android:orientation="vertical"
+                        >
+
+                        <ImageButton
+                            android:id="@+id/imageButton3"
+                            android:layout_width="151sp"
+                            android:layout_height="151sp"
+                            android:layout_marginBottom="5sp"
+                            android:layout_marginLeft="25sp"
+                            android:layout_marginRight="5sp"
+                            android:layout_marginTop="5sp"
+                            android:background="@drawable/calendar"
+                            android:onClick="gotoChoice" />
+
+                        <TextView
+                            android:id="@+id/textView3"
+                            android:layout_width="151sp"
+                            android:layout_height="match_parent"
+                            android:layout_marginBottom="5sp"
+                            android:layout_marginLeft="25sp"
+                            android:layout_marginRight="5sp"
+                            android:layout_marginTop="5sp"
+                            android:gravity="center"
+                            android:text="用藥排程"
+                            android:textColor="@android:color/background_light"
+                            android:textSize="18sp" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+
+                        <ImageButton
+                            android:id="@+id/imageButton2"
+                            android:layout_width="150sp"
+                            android:layout_height="150sp"
+                            android:layout_margin="5sp"
+                            android:background="@drawable/monitor"
+                            android:onClick="gotoMonitorActivity" />
+
+                        <TextView
+                            android:id="@+id/textView2"
+
+                            android:layout_width="150sp"
+                            android:layout_height="match_parent"
+                            android:layout_margin="5sp"
+                            android:gravity="center"
+                            android:text="監控模式"
+                            android:textColor="@android:color/background_light"
+                            android:textSize="18sp" />
+                    </LinearLayout>
+
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                </TableRow>
+            </TableLayout>
+
+        </RelativeLayout>
+
+
+        <RelativeLayout
+            android:id="@+id/bottomBar"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_alignParentBottom="true"
+            >
+
+            <android.support.design.widget.BottomNavigationView
+                android:id="@+id/bottomNavView_Bar"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:elevation="2dp"
+                app:menu="@menu/bottom_bar"
+                android:background="#218790">
+
+
+            </android.support.design.widget.BottomNavigationView>
+        </RelativeLayout>
+
     </RelativeLayout>
 
 
