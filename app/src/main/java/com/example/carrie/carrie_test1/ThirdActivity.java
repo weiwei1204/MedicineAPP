@@ -117,6 +117,7 @@ public class ThirdActivity extends AppCompatActivity {
             @Override
             public void onResponse(JSONObject response) {
                 try {
+
                     JSONArray beacons = response.getJSONArray("Beacons");
                     int count=0;
                     for (int i=0 ; i<beacons.length() ; i++){
@@ -209,6 +210,7 @@ public class ThirdActivity extends AppCompatActivity {
         Intent it = new Intent(this,alarm.class);
         startActivity(it);
     }
+
 
 
     public void gotohistoryrecord(View v){ //連到親友認證頁面

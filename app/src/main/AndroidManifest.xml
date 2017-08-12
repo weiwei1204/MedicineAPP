@@ -3,7 +3,7 @@
     package="com.example.carrie.carrie_test1">
 
     <uses-sdk
-        android:minSdkVersion="8"
+        android:minSdkVersion="9"
         android:targetSdkVersion="17" />
 
     <uses-permission android:name="android.permission.INTERNET" />
@@ -115,10 +115,36 @@
         <activity
             android:name=".MonitorActivity"
             android:label="@string/title_activity_monitor" />
-
-        <activity android:name=".notification"/>
-
-        <activity android:name=".ScanActivity"/>
+        <!-- <activity android:name=".notification" /> -->
+        <activity android:name=".ScanActivity" />
+        <activity android:name=".BpBsPlot" />
+        <activity android:name=".testview" />
+        <activity android:name=".SwipeView" />
+        <activity
+            android:name=".druginfo"
+            android:label="@string/title_activity_druginfo"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".card"
+            android:label="@string/title_activity_card"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".SwipePlot"
+            android:label="@string/title_activity_swipe_plot"
+            android:theme="@style/AppTheme" />
+        <activity android:name=".DrugListActivity" />
+        <activity
+            android:name=".ChartActivity"
+            android:label="@string/title_activity_chart"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".BottomBarActivity"
+            android:label="@string/title_activity_bottom_bar" />
+        <activity
+            android:name=".EnterBsBpActivity"
+            android:label="@string/title_activity_enter_bs_bp"
+            android:theme="@style/AppTheme" />
+        <activity android:name=".BpRecord"></activity>
     </application>
 
 </manifest>
