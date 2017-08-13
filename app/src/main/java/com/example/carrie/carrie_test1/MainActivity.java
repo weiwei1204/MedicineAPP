@@ -203,7 +203,7 @@ public class MainActivity extends LoginActivity {
         startActivity(it);
     }
     public void gotoFirstctivity(View v){ //連到搜尋藥品資訊頁面
-        Intent it = new Intent(this,FirstActivity.class);
+        Intent it = new Intent(this,DrugListActivity.class);
         startActivity(it);
     }
     public void gotoFourthActivity(View v){ //連到搜尋藥品資訊頁面

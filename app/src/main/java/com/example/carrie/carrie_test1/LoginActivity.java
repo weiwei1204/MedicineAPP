@@ -250,7 +250,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     }
 
     public void gotoFirstAvtivity(View v){ //連到搜尋藥品資訊頁面
-        Intent it = new Intent(this,FirstActivity.class);
+        Intent it = new Intent(this,druginfo.class);
         startActivity(it);
     }
 
