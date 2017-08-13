@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import java.io.IOException;
 
@@ -69,8 +70,10 @@ public class BsTab extends Fragment {
                     }
                 };
                 task.execute();
-
-                Intent it = new Intent(v.getContext(),BpRecord.class);
+                Toast.makeText(getActivity().getApplicationContext(),"成功送出",Toast.LENGTH_SHORT).show();
+                Intent it = new Intent(v.getContext(),BsRecord.class);
+                it.putExtra("memberid",memberid);
+                it.putExtra("sugarvalue",sugarvalue);
                 startActivity(it);
 
 
