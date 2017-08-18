@@ -20,7 +20,8 @@
         android:icon="@mipmap/ic_launcher"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme"
+       >
         <meta-data
             android:name="com.google.android.gms.vision.DEPENDENCIES"
             android:value="barcode" />
@@ -144,7 +145,11 @@
             android:name=".EnterBsBpActivity"
             android:label="@string/title_activity_enter_bs_bp"
             android:theme="@style/AppTheme" />
-        <activity android:name=".BpRecord"></activity>
+        <activity android:name=".BpRecord" />
+        <activity
+            android:name=".m_calendarlist"
+            android:label="@string/title_activity_m_calendarlist"
+            android:theme="@style/AppTheme"></activity>
     </application>
 
 </manifest>
