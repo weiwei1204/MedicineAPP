@@ -150,6 +150,7 @@
         "when a user tries to pick up one of cards.\n\n"
     </string>
     <string name="title_activity_m_calendarlist">用藥排程清單</string>
+    <string name="title_activity_bs_record">BsRecord</string>
 
 
 </resources>

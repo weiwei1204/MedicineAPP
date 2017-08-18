@@ -11,6 +11,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.content.Intent;
+import android.widget.Toast;
+
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -101,8 +103,13 @@ public class BpTab extends Fragment {
                     }
                 };
                 task.execute();
+                Toast.makeText(getActivity().getApplicationContext(),"成功送出",Toast.LENGTH_SHORT).show();
 
                     Intent it = new Intent(v.getContext(),BpRecord.class);
+                    it.putExtra("memberid",memberid);
+                    it.putExtra("highmmhg",highmmhg);
+                    it.putExtra("lowmmhg",lowmmhg);
+                    it.putExtra("bpm",bpm);
                     startActivity(it);
 
 

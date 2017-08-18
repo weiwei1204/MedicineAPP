@@ -5,13 +5,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.example.carrie.carrie_test1.BpRecord"
-    tools:showIn="@layout/activity_bp_record">
-
+    tools:context="com.example.carrie.carrie_test1.BsRecord"
+    tools:showIn="@layout/activity_bs_record">
     <ListView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/list_view"/>
-
 
 </android.support.v4.widget.NestedScrollView>

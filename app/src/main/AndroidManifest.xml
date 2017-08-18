@@ -118,9 +118,7 @@
             android:label="@string/title_activity_monitor" />
         <!-- <activity android:name=".notification" /> -->
         <activity android:name=".ScanActivity" />
-        <activity android:name=".BpBsPlot" />
         <activity android:name=".testview" />
-        <activity android:name=".SwipeView" />
         <activity
             android:name=".druginfo"
             android:label="@string/title_activity_druginfo"
@@ -147,8 +145,13 @@
             android:theme="@style/AppTheme" />
         <activity android:name=".BpRecord" />
         <activity
+
             android:name=".m_calendarlist"
-            android:label="@string/title_activity_m_calendarlist"
+            android:label="@string/title_activity_m_calendarlist"/>
+<activity
+            android:name=".BsRecord"
+            android:label="@string/title_activity_bs_record"
+
             android:theme="@style/AppTheme"></activity>
     </application>
 
