@@ -3,6 +3,8 @@ package com.example.carrie.carrie_test1;
 /**
  * Created by jonathan on 2017/8/6.
  */
+import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.support.design.widget.TabLayout;
 import android.support.design.widget.FloatingActionButton;
@@ -15,6 +17,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -59,12 +62,36 @@ public class BpPlotTab extends Fragment{
 
 
 
+    private List<BloodPressure>bloodPressureList;
+    private String memberid; //從資料庫抓的
+    private String highmmhg;
+    private String lowmmhg;
+    private String bpm;
+    private String sugarvalue;
+    private String savetime;
+
+
+
+
+
+
     @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         setHasOptionsMenu(true);
         View rootView = inflater.inflate(R.layout.fragment_combo_line_column_chart, container, false);
         chart = (ComboLineColumnChartView) rootView.findViewById(R.id.chart);
         chart.setOnValueTouchListener(new ValueTouchListener());
+        Bundle bundle = this.getArguments();
+       memberid = bundle.getString("memberid");
+        Log.d("9999","memberid:"+memberid);
+       highmmhg = bundle.getString("highmmhg");
+        Log.d("9999","highmmhg:"+highmmhg);
+       lowmmhg = bundle.getString("lowmmhg");
+        Log.d("9999","lowmmhg:"+lowmmhg);
+        bpm = bundle.getString("bpm");
+        Log.d("9999","bpm:"+bpm);
+       sugarvalue = bundle.getString("sugarvalue");
+        savetime = bundle.getString("savetime");
         generateValues();
         generateData();
         return rootView;
@@ -142,8 +169,8 @@ public class BpPlotTab extends Fragment{
             Axis axisX = new Axis();
             Axis axisY = new Axis().setHasLines(true);
             if (hasAxesNames) {
-                axisX.setName("Axis X");
-                axisY.setName("Axis Y");
+                axisX.setName("8/13");
+                axisY.setName("血壓平均mmhg");
             }
             data.setAxisXBottom(axisX);
             data.setAxisYLeft(axisY);
