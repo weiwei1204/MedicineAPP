@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -26,7 +28,7 @@ import static com.example.carrie.carrie_test1.R.id.list;
 public class BpRecord extends AppCompatActivity {
     private ListView listView;
     private ArrayAdapter<String> listAdapter;
-    private String[]list = {"1","2","3","4","5"};
+    private String[] list1 = {"Mindy","Rita","Jonathan","Shana","Carrie"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,14 +39,17 @@ public class BpRecord extends AppCompatActivity {
         String lowmmhg = bundle.getString("lowmmhg");
         String bpm = bundle.getString("bpm");
         setContentView(R.layout.activity_bp_record);
+
+
         listView = (ListView)findViewById(R.id.list_view);
         getdata(0);
-        listAdapter = new ArrayAdapter(this,android.R.layout.simple_list_item_1,list);
+        listAdapter = new ArrayAdapter(this,android.R.layout.simple_selectable_list_item,list1);
         listView.setAdapter(listAdapter);
+
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(getApplicationContext(), "你選擇的是" + list[position], Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "你選擇的是" + list1[position], Toast.LENGTH_SHORT).show();
 
             }
         });
