@@ -60,6 +60,7 @@ public class BsPlotTab extends Fragment{
     private boolean hasLabelForSelected = false;
     private boolean pointsHaveDifferentColor;
     private boolean hasGradientToTransparent = false;
+    public static String memberid;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -68,6 +69,8 @@ public class BsPlotTab extends Fragment{
         View rootView = inflater.inflate(R.layout.tab1_bloodsugar, container, false);
         chart = (LineChartView) rootView.findViewById(R.id.chart);
         chart.setOnValueTouchListener(new ValueTouchListener());
+        Bundle bundle = new Bundle();
+        memberid = bundle.getString("memberid");
         generateValues();
         generateData();
         chart.setViewportCalculationEnabled(false);
@@ -236,8 +239,8 @@ public class BsPlotTab extends Fragment{
             Axis axisX = new Axis();
             Axis axisY = new Axis().setHasLines(true);
             if (hasAxesNames) {
-                axisX.setName("Axis X");
-                axisY.setName("Axis Y");
+                axisX.setName("8/13");
+                axisY.setName("血糖BPM");
             }
             data.setAxisXBottom(axisX);
             data.setAxisYLeft(axisY);
