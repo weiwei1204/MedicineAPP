@@ -1,0 +1,14 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context="好友">
+    <!-- 有位置的話在上方顯示為圖示-->
+
+
+    <!--&lt;!&ndash; 一律顯示在選單裡&ndash;&gt;-->
+    <!--<item-->
+    <!--android:id="@+id/action_settings"-->
+    <!--android:orderInCategory="100"-->
+    <!--android:title="settings"-->
+    <!--app:showAsAction="never" />-->
+</menu>
