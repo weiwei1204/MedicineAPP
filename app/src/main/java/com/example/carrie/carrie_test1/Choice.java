@@ -92,7 +92,7 @@ public class Choice extends Activity {
     }
 
     public void gotoThirdActivity(View v){  //連到用藥排成設定頁面
-        Intent it = new Intent(this,ThirdActivity.class);
+        Intent it = new Intent(this,m_calendarlist.class);
         Bundle bundle = new Bundle();
         bundle.putString("memberid", memberid);
         it.putExtras(bundle);   // 記得put進去，不然資料不會帶過去哦
