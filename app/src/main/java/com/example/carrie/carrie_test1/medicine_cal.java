@@ -2,6 +2,7 @@ package com.example.carrie.carrie_test1;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
@@ -254,8 +255,15 @@ public class medicine_cal extends AppCompatActivity {
                     }
                 };
                 RequestQueue requestQueue = Volley.newRequestQueue(medicine_cal.this);
-                requestQueue.add(request);}
+                requestQueue.add(request);
+                Intent it = new Intent(medicine_cal.this,m_calendarlist.class);
+                Bundle bundle = new Bundle();
+                bundle.putString("memberid", memberid);
+                it.putExtras(bundle);   // 記得put進去，不然資料不會帶過去哦
+                startActivity(it);}
         });
+
+
     }
 
 }

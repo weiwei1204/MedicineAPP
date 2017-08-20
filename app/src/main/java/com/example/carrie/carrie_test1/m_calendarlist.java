@@ -53,7 +53,7 @@ public class m_calendarlist extends Activity{
         final Intent it = new Intent(this,ThirdActivity.class);
         Bundle bundle1 = new Bundle();
         bundle1.putString("memberid", memberid);
-        it.putExtras(bundle);   // 記得put進去，不然資料不會帶過去哦
+        it.putExtras(bundle1);   // 記得put進去，不然資料不會帶過去哦
         fabmcal.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -374,6 +374,8 @@ public class ThirdActivity extends AppCompatActivity {
                     for (int i=0;i<timearray.size();i++){      //一個一個存時間
                         insertAlert_time(i);
                     }
+
+                    gotom_calendarlist();//儲存完後至用藥排成清單
                 }
 
             }
@@ -459,10 +461,15 @@ public class ThirdActivity extends AppCompatActivity {
         };
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         requestQueue.add(request);
+    }
 
 
-
-}
-
+    public void gotom_calendarlist(){
+        Intent it = new Intent(ThirdActivity.this,m_calendarlist.class);
+        Bundle bundle = new Bundle();
+        bundle.putString("memberid", memberid);
+        it.putExtras(bundle);   // 記得put進去，不然資料不會帶過去哦
+        startActivity(it);
+    }
 
 }
