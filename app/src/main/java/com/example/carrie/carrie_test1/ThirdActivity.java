@@ -310,8 +310,8 @@ public class ThirdActivity extends AppCompatActivity {
 
     public void insertm_calendar(View view) {
         gettime(ThirdActivity.this);
-        int inttxtday = Integer.parseInt(txtday.getText().toString());
-        final int day = inttxtday*counttime;
+        final int day = Integer.parseInt(txtday.getText().toString());
+        final int count = day*counttime;
         requestQueue = Volley.newRequestQueue(getApplicationContext());
 
         final StringRequest request = new StringRequest(Request.Method.POST, m_caledarUrl, new Response.Listener<String>() {
@@ -332,6 +332,7 @@ public class ThirdActivity extends AppCompatActivity {
                 parameters.put("member_id",memberid);
                 parameters.put("startDate", txtdate.getText().toString());
                 parameters.put("day", String.valueOf(day));
+                parameters.put("count", String.valueOf(count));
                 parameters.put("name",m_cal_name.getText().toString());
                 parameters.put("beacon_id",beaconid);
                 parameters.put("finish","0");
@@ -432,9 +433,7 @@ public class ThirdActivity extends AppCompatActivity {
 //    }
 
     public void insertAlert_time(final int i){//時間存到資料庫
-        Log.d("nnnaaa","1");
         requestQueue = Volley.newRequestQueue(getApplicationContext());
-            Log.d("nnnaaa","2");
             final StringRequest request = new StringRequest(Request.Method.POST, m_alerttimeUrl, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {

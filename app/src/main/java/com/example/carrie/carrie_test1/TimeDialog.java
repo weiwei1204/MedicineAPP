@@ -1,6 +1,7 @@
 
 package com.example.carrie.carrie_test1;
 
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.app.TimePickerDialog;
@@ -19,6 +20,7 @@ import java.util.Calendar;
 /**
  * Created by rita on 2017/5/20.
  */
+@SuppressLint("ValidFragment")
 @RequiresApi(api = Build.VERSION_CODES.HONEYCOMB)
 public class TimeDialog extends DialogFragment implements TimePickerDialog.OnTimeSetListener {
     EditText txtTime;
