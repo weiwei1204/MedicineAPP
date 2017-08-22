@@ -54,6 +54,14 @@ public class MonitorActivity extends AppCompatActivity {
     private CustomAdapter adapter;
     private List<MyMonitorData> dataList;
     int lastId=0;
+//    private List<BloodPressure> data_list;
+//    public static int userid;
+//    public static String member_id; //從資料庫抓的
+//    public static String highmmhg="";
+//    public static String lowmmhg="";
+//    public static String bpm="";
+//    public static String sugarvalue="";
+//    public static String savetime="";
     @Override
     protected void onCreate(@NonNull Bundle savedInstanceState) {
 
@@ -63,6 +71,7 @@ public class MonitorActivity extends AppCompatActivity {
         my_id = bundle.getString("my_id");//get 自己 id
         my_google_id = bundle.getString("my_google_id");//get 自己google_ id
         my_mon_id = bundle.getString("my_supervise_id");//取得自己supervise id
+//        data_list = new ArrayList<>();
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);//find the tooolbar id
         setSupportActionBar(toolbar);//set toolbar
         BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomNavView_Bar);
@@ -227,10 +236,63 @@ public class MonitorActivity extends AppCompatActivity {
             }
         }
     }
+//    private void getValue(int id) {
+//        AsyncTask<Integer, Void, Void> task = new AsyncTask<Integer, Void, Void>() {
+//            @Override
+//            protected Void doInBackground(Integer... params) {
+//                String url = "http://54.65.194.253/Health_Calendar/ShowBp.php";
+//                OkHttpClient client = new OkHttpClient();
+//                okhttp3.Request request = new okhttp3.Request.Builder()
+//                        .url("http://54.65.194.253/Health_Calendar/ShowBp.php?id=" + params[0])
+//                        .build();
+//                try {
+//                    Response response = client.newCall(request).execute();
+//                    JSONArray array = new JSONArray(response.body().string());
+//                    for (int i = 0; i < array.length(); i++) {
+//                        JSONObject object = array.getJSONObject(i);
+//                        BloodPressure data = new BloodPressure(object.getInt("id"), object.getString("member_id"), object.getString("highmmhg"), object.getString("lowmmhg"), object.getString("bpm"), object.getString("sugarvalue"), object.getString("savetime"));
+//                        data_list.add(data);
+//                        userid = data.getId();
+//                        member_id = data.getMember_id();
+//                        if (member_id.equals(my_id)) {
+//                            highmmhg = data.getHighmmhg();
+//                            lowmmhg = data.getLowmmhg();
+//                            bpm = data.getBpm();
+//                            sugarvalue = data.getSugarvalue();
+//                            savetime = data.getSavetime();
+//                            Log.d("0000", "member_id:" + member_id);
+//                            Log.d("0000", "highmmhg:" + highmmhg);
+//                            Log.d("0000", "lowmmhg:" + lowmmhg);
+//                            Log.d("0000", "bpm:" + bpm);
+//                            Log.d("0000", "sugarvalue:" + sugarvalue);
+//                            Log.d("0000", "savetime:" + savetime);
+//                        }
+//                    }
+//
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                } catch (JSONException e) {
+//                    System.out.println("End of content");
+//                }
+//                return null;
+//            }
+//
+//            protected void onPostExecute(Void aVoid) {
+//
+//            }
+//        };
+//        task.execute(id);
+//    }
 
     public void gotoBpBsPlot(View v){ //連到圖表頁面
+//        getValue(0);
         Bundle bundle = new Bundle();
         bundle.putString("memberid", my_id);
+//        bundle.putString("highmmhg", highmmhg);
+//        bundle.putString("lowmmhg", lowmmhg);
+//        bundle.putString("bpm", bpm);
+//        bundle.putString("sugarvalue", sugarvalue);
+//        bundle.putString("savetime", savetime);
         Intent it = new Intent(this,SwipePlot.class);
         it.putExtras(bundle);
         startActivity(it);

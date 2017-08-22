@@ -278,7 +278,6 @@ public class SwipePlot extends AppCompatActivity {
 //                    Log.d("777",array.toString());
                     for (int i = 0; i < response.length(); i++) {
                         JSONObject object = response.getJSONObject(i);
-
                             userid = object.getInt("id");
                             member_id = object.getString("member_id");
                         if (member_id.equals(memberid)) {
@@ -295,6 +294,7 @@ public class SwipePlot extends AppCompatActivity {
                             Log.d("5555", "savetime:" + savetime);
                         }
                     }
+
 
 
                 }catch (JSONException e){
