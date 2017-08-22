@@ -208,18 +208,25 @@
                     android:textColor="#272727"
                     android:textSize="10pt" />
 
-                <EditText
-                    android:id="@+id/drugnameid"
-                    android:layout_width="150dp"
-                    android:layout_height="35sp"
-                    android:layout_marginTop="20dp"
-                    android:layout_weight="1"
-                    android:background="@drawable/thirdsettext"
-                    android:textColor="#272727"
-                    android:ems="10"
-                    android:inputType="textPersonName"
-                    android:text="" />
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/drugnameid1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:errorTextAppearance="@style/error_appearance">
 
+                    <EditText
+                        android:id="@+id/drugnameid"
+                        android:layout_width="150dp"
+                        android:layout_height="35sp"
+                        android:layout_marginTop="20dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/thirdsettext"
+                        android:ems="10"
+                        android:hint=" "
+                        android:inputType="text"
+                        android:text=""
+                        android:textColor="#272727" />
+                </android.support.design.widget.TextInputLayout>
                 <Button
                     android:id="@+id/button2id"
                     android:layout_width="18dp"

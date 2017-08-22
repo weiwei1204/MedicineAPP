@@ -20,14 +20,14 @@ public class Alarm_Receiver extends BroadcastReceiver{
         Log.e("We are in there","yap");
 
         String get_your_string=intent.getExtras().getString("extra");
-        int count=intent.getExtras().getInt("count");
-        Log.d("nonono1", String.valueOf(count));
+        String alarmid=intent.getExtras().getString("alarmid");
+        Log.d("nonono1", alarmid);
 
         Log.e("What is the key",get_your_string);
 
         Intent service_intent=new Intent(context,RingtonePlayingService.class);
         service_intent.putExtra("extra",get_your_string);
-        service_intent.putExtra("count",count);
+        service_intent.putExtra("alarmid",alarmid);
         context.startService(service_intent);
     }
 }

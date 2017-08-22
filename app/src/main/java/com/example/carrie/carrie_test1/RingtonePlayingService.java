@@ -8,6 +8,7 @@ import android.app.Service;
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Build;
+import android.os.Bundle;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
@@ -22,7 +23,7 @@ public class RingtonePlayingService extends Service {
     MediaPlayer media_song;
     int startId;
     boolean isRunning;
-    int count;
+    String alarmid;
 
     @Nullable
     @Override
@@ -39,8 +40,8 @@ public class RingtonePlayingService extends Service {
         Log.i("LocalService", "Received start id " + startId + ": " + intent);
 
         String state = intent.getExtras().getString("extra");
-        count = intent.getExtras().getInt("count");
-        Log.d("nonono2", String.valueOf(count));
+        alarmid = intent.getExtras().getString("alarmid");
+        Log.d("nonono2", String.valueOf(alarmid));
 
 
         Log.e("Ringtone state is ",state);
@@ -74,9 +75,12 @@ public class RingtonePlayingService extends Service {
 
                 Intent intent_alarm=new Intent(this.getApplicationContext(),alarm.class);
                 Log.d("nonono","5");
+                Bundle bundle = new Bundle();
+                bundle.putString("alarmid", String.valueOf(alarmid));
+                intent_alarm.putExtras(bundle);   // 記得put進去，不然資料不會帶過去哦
 
-                PendingIntent pending_intent_alarm=PendingIntent.getActivity(this,count,intent_alarm,0);
-                Log.d("nonono3", String.valueOf(count));
+                PendingIntent pending_intent_alarm=PendingIntent.getActivity(this, Integer.parseInt(alarmid),intent_alarm,0);
+                Log.d("nonono3", String.valueOf(alarmid));
 
                 Log.d("nonono","6");
 
