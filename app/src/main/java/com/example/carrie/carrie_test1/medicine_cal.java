@@ -2,14 +2,20 @@ package com.example.carrie.carrie_test1;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Vibrator;
 import android.support.annotation.RequiresApi;
+import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -37,7 +43,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class medicine_cal extends AppCompatActivity {
-    private EditText m_cal_nameid,txtdayid;
+    private EditText m_cal_nameid,txtdayid,drugnameid;
     private TextView txtdateid;
 
     RequestQueue requestQueue;
@@ -49,7 +55,11 @@ public class medicine_cal extends AppCompatActivity {
     private Spinner spinnerbeaconid;
     private ArrayAdapter<CharSequence> adapterbeacon;
     int calbid,calbeacon;
-    private Button m_delete;
+    private Button m_delete,m_modify;
+
+    private Vibrator vib;
+    Animation animShake;
+    private TextInputLayout drugnameid1;
 
 
 
@@ -63,6 +73,24 @@ public class medicine_cal extends AppCompatActivity {
         btnAddid = (ImageButton)findViewById(R.id.btnAddid);
         spinnerbeaconid = (Spinner)findViewById(R.id.spinnerbeaconid);
         m_delete = (Button)findViewById(R.id.m_delete);
+        m_modify = (Button)findViewById(R.id.m_modify);
+        drugnameid = (EditText)findViewById(R.id.drugnameid);
+        drugnameid1 = (TextInputLayout)findViewById(R.id.drugnameid1);
+        animShake = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.shake);
+        vib = (Vibrator)getSystemService(Context.VIBRATOR_SERVICE);
+
+
+        m_modify.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(!checkdrug()){
+                    drugnameid.setAnimation(animShake);
+                    drugnameid.startAnimation(animShake);
+                    vib.vibrate(120);
+                }
+//                drugnameid1.setErrorEnabled(false);
+            }
+        });
 
         add(this,btnAddid);
 
@@ -264,6 +292,24 @@ public class medicine_cal extends AppCompatActivity {
         });
 
 
+    }
+    public boolean  checkdrug(){
+        if (drugnameid.getText().toString().isEmpty()){
+            drugnameid1.setErrorEnabled(true);
+            drugnameid1.setError("Please Enter medicine");
+            drugnameid.setError("Vaild Input Required");
+            requestFocus(drugnameid);
+
+            return false;
+        }
+//        drugnameid1.setErrorEnabled(false);
+        return true;
+    }
+
+    private void requestFocus(View view){
+        if (view.requestFocus()){
+            getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
+        }
     }
 
 }

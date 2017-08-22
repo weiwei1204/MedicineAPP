@@ -19,6 +19,7 @@ public class alarm extends AppCompatActivity {
     TextView alarmset;
     Context context;
     PendingIntent pending_intent;
+    int alarmid;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +33,8 @@ public class alarm extends AppCompatActivity {
         final Calendar calendar=Calendar.getInstance();
 //        final Button alarmon=(Button)findViewById(R.id.alarmon);
         final Intent my_intent=new Intent(this.context,Alarm_Receiver.class);
+        Bundle bundle = getIntent().getExtras();
+        alarmid= Integer.parseInt(bundle.getString("alarmid"));
 //        alarmon.setOnClickListener(new View.OnClickListener() {
 //            @RequiresApi(api = Build.VERSION_CODES.M)
 //            @Override
@@ -66,7 +69,7 @@ public class alarm extends AppCompatActivity {
             public void onClick(View v) {
                 set_alarm_text("Alarm off!");
                 my_intent.putExtra("extra","alarm off");
-                pending_intent= PendingIntent.getBroadcast(alarm.this,0,
+                pending_intent= PendingIntent.getBroadcast(alarm.this,alarmid,
                         my_intent,PendingIntent.FLAG_CANCEL_CURRENT);
                 alarm_manager.cancel(pending_intent);
                 sendBroadcast(my_intent);

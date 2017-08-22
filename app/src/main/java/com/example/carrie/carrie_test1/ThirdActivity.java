@@ -54,6 +54,7 @@ public class ThirdActivity extends AppCompatActivity {
     String m_caledarUrl = "http://54.65.194.253/Medicine_Calendar/m_calendar.php";
     String get_m_caledar_idUrl = "http://54.65.194.253/Medicine_Calendar/getm_calendarid.php";
     String m_alerttimeUrl = "http://54.65.194.253/Medicine_Calendar/m_alerttime.php";
+    String getm_alerttimeUrl = "http://54.65.194.253/Medicine_Calendar/getm_alerttime.php";
     ArrayAdapter<CharSequence> adapterbeacon;
     Spinner spinnerbeacon;
     String memberid,beaconUUID,beaconid,m_calendarid;
@@ -64,10 +65,6 @@ public class ThirdActivity extends AppCompatActivity {
     Context context;
     PendingIntent pending_intent;
     AlarmManager alarm_manager;
-
-
-
-
 
 
 
@@ -353,7 +350,6 @@ public class ThirdActivity extends AppCompatActivity {
 
     public void get_M_calendart_id(){
         requestQueue = Volley.newRequestQueue(getApplicationContext());
-
         final StringRequest request = new StringRequest(Request.Method.POST, get_m_caledar_idUrl, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -364,20 +360,18 @@ public class ThirdActivity extends AppCompatActivity {
                 else {
                     m_calendarid = response;
                     Log.d("nnn123456",m_calendarid);
-                    for (int j=0;j<msg.size();j++){ //一個一個設鬧鐘
-                        setAlerttime(j);
-                    }
+//                    for (int j=0;j<msg.size();j++){ //一個一個設鬧鐘
+//                        setAlerttime(j);
+//                    }
 //                    alarm a=new alarm(getApplicationContext());
 //                    a.alarmclock(msg);
-
 
                     for (int i=0;i<timearray.size();i++){      //一個一個存時間
                         insertAlert_time(i);
                     }
-
+                    Alert_time();
                     gotom_calendarlist();//儲存完後至用藥排成清單
                 }
-
             }
         }, new Response.ErrorListener() {
             @Override
@@ -397,37 +391,20 @@ public class ThirdActivity extends AppCompatActivity {
         };
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         requestQueue.add(request);
-
-
-
-
-
-
     }
+
+
 
     public void setAlerttime(int j){         //設鬧鐘
         final Intent my_intent=new Intent(this.context,Alarm_Receiver.class);
         my_intent.putExtra("extra","alarm on");
         my_intent.putExtra("count",j);
-        notification notification1=new notification();
-        Context context3=notification1.getContext();
-
         pending_intent= PendingIntent.getBroadcast(this,j,
                 my_intent,PendingIntent.FLAG_CANCEL_CURRENT);
         alarm_manager.setExact(AlarmManager.RTC_WAKEUP, Long.parseLong(msg.get(j)),pending_intent);
 
 //        alarm_manager.set(AlarmManager.RTC_WAKEUP, Long.parseLong(msg.get(j)),pending_intent);
         Log.d("sss", String.valueOf(msg.get(j)));
-//        notification1.checkalarm(msg);
-//        AlarmManager.AlarmClockInfo info =
-//                new AlarmManager.AlarmClockInfo(Long.parseLong(msg.get(j)), pending_intent);
-//        alarm_manager.setAlarmClock(info,pending_intent);
-//        intentArray.add(pending_intent);
-
-
-
-
-
 
     }
 //    private void set_alarm_text(String output) {
@@ -444,7 +421,6 @@ public class ThirdActivity extends AppCompatActivity {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.d("rrr", error.toString());
                 Toast.makeText(getApplicationContext(), "Error read insertAlerttime.php!!!", Toast.LENGTH_LONG).show();
             }
         })
@@ -453,6 +429,7 @@ public class ThirdActivity extends AppCompatActivity {
                 Map<String, String> parameters = new HashMap<String, String>();
                 parameters.put("Medicine_calendar_id",m_calendarid);
                 parameters.put("time", timearray.get(i));
+                parameters.put("TimeInMillis", msg.get(i));
                 Log.d("nnnaaa",timearray.get(i));
                 Log.d("nnnaaa",parameters.toString());
                 return parameters;
@@ -461,6 +438,57 @@ public class ThirdActivity extends AppCompatActivity {
         };
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         requestQueue.add(request);
+    }
+
+    public void Alert_time(){
+        requestQueue = Volley.newRequestQueue(getApplicationContext());
+        final JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, getm_alerttimeUrl, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                try {
+                    Log.d("qqq","1");
+                    JSONArray m_alerttimes = response.getJSONArray("Medicine_Alert_Time");
+                    Log.d("qqq","3");
+                    final String[] malertid=new String[m_alerttimes.length()];
+                    final String[] timeInmill=new String[m_alerttimes.length()];
+                    int count=0;
+                    for (int i=0 ; i<m_alerttimes.length() ; i++){
+                        JSONObject m_alerttime = m_alerttimes.getJSONObject(i);
+                        String id = m_alerttime.getString("id");
+                        String mcalid = m_alerttime.getString("Medicine_calendar_id");
+                        String name = m_alerttime.getString("TimeInMillis");
+                        Log.d("sss","1");
+                        if (mcalid.equals(m_calendarid)){
+                            Log.d("sss","2");
+                            malertid[count] = id;
+                            timeInmill[count] = name;
+                            Log.d("sss",malertid[count].toString());
+                            final Intent my_intent=new Intent(ThirdActivity.this.context,Alarm_Receiver.class);
+                            my_intent.putExtra("extra","alarm on");
+                            my_intent.putExtra("alarmid",malertid[count].toString());
+                            pending_intent= PendingIntent.getBroadcast(ThirdActivity.this,Integer.parseInt(malertid[count]),
+                                    my_intent,PendingIntent.FLAG_CANCEL_CURRENT);
+                            alarm_manager.setExact(AlarmManager.RTC_WAKEUP, Long.parseLong(timeInmill[count]),pending_intent);
+
+//        alarm_manager.set(AlarmManager.RTC_WAKEUP, Long.parseLong(msg.get(j)),pending_intent);
+                            Log.d("sss", timeInmill[count]);
+                            count++;
+                        };
+                    }
+                    if(count==0){
+                        Alert_time();
+                    }
+                }catch (JSONException e){
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+            }
+        });
+        requestQueue.add(jsonObjectRequest);
+
     }
 
 

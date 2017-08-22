@@ -1,55 +1,31 @@
 package com.example.carrie.carrie_test1;
 
-import android.content.Intent;
-import android.os.AsyncTask;
+import android.os.Bundle;
 import android.support.design.widget.TabLayout;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 
-import android.widget.TextView;
-
-import com.android.volley.RequestQueue;
-import com.android.volley.toolbox.JsonArrayRequest;
-import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.Volley;
-import com.kosalgeek.asynctask.AsyncResponse;
-import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
-
-import okhttp3.Call;
-import okhttp3.Callback;
-import okhttp3.OkHttpClient;
 
 
 
@@ -81,6 +57,7 @@ public class SwipePlot extends AppCompatActivity {
     public static String bpm="";
     public static String sugarvalue="";
     public static String savetime="";
+    private boolean getdb=false;
 
 
 
@@ -105,14 +82,8 @@ public class SwipePlot extends AppCompatActivity {
         // Set up the ViewPager with the sections adapter.
         mViewPager = (ViewPager) findViewById(R.id.container);
 
-        mViewPager.setAdapter(mSectionsPagerAdapter);
-        TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
-        tabLayout.setupWithViewPager(mViewPager);
-        tabLayout.getTabAt(0).setIcon(R.drawable.analytics);
-        tabLayout.getTabAt(1).setIcon(R.drawable.presentation);
-        tabLayout.getTabAt(2).setIcon(R.drawable.drugs);
-        getData();
 
+        getData();
 //        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
 //        fab.setOnClickListener(new View.OnClickListener() {
 //            @Override
@@ -124,6 +95,15 @@ public class SwipePlot extends AppCompatActivity {
         Log.d("8888","highmmhg:"+highmmhg);
         Log.d("8888","lowmmhg:"+lowmmhg);
         Log.d("8888","bpm:"+bpm);
+    }
+
+    public void start(){
+        mViewPager.setAdapter(mSectionsPagerAdapter);
+        TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
+        tabLayout.setupWithViewPager(mViewPager);
+        tabLayout.getTabAt(0).setIcon(R.drawable.analytics);
+        tabLayout.getTabAt(1).setIcon(R.drawable.presentation);
+        tabLayout.getTabAt(2).setIcon(R.drawable.drugs);
     }
 
 
@@ -188,7 +168,10 @@ public class SwipePlot extends AppCompatActivity {
                     bundle2.putString("sugarvalue", sugarvalue);
                     bundle2.putString("savetime", savetime);
                     tab2.setArguments(bundle2);
+                    Log.d("1111:",bundle2.toString());
                     return tab2;
+
+
                 case 2:
                     PillPlot tab3 = new PillPlot();
                     Bundle bundle3 = new Bundle();
@@ -276,6 +259,8 @@ public class SwipePlot extends AppCompatActivity {
                 try {
 //                    JSONArray array = new JSONArray(response);
 //                    Log.d("777",array.toString());
+                    getdb=true;
+
                     for (int i = 0; i < response.length(); i++) {
                         JSONObject object = response.getJSONObject(i);
                             userid = object.getInt("id");
@@ -296,6 +281,10 @@ public class SwipePlot extends AppCompatActivity {
                     }
 
 
+
+
+
+                    start();
 
                 }catch (JSONException e){
                     e.printStackTrace();
