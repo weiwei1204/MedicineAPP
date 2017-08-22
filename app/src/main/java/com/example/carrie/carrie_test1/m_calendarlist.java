@@ -35,7 +35,7 @@ public class m_calendarlist extends Activity{
     private ArrayList<String> calarray = new ArrayList<String>();
     String memberid;
     RequestQueue requestQueue;
-    String getm_calendarUrl = "http://54.65.194.253/Medicine_Calendar/getm_calendar.php";
+    private String getm_calendarUrl = "http://54.65.194.253/Medicine_Calendar/getm_calendar.php";
     private FloatingActionButton fabmcal;
 
 
@@ -49,10 +49,11 @@ public class m_calendarlist extends Activity{
         memberid=bundle.getString("memberid");
         fabmcal = (FloatingActionButton)findViewById(R.id.fabmcal);
 
+
         final Intent it = new Intent(this,ThirdActivity.class);
         Bundle bundle1 = new Bundle();
         bundle1.putString("memberid", memberid);
-        it.putExtras(bundle);   // 記得put進去，不然資料不會帶過去哦
+        it.putExtras(bundle1);   // 記得put進去，不然資料不會帶過去哦
         fabmcal.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -128,11 +129,17 @@ public class m_calendarlist extends Activity{
     public void madapter(){
         adapter = new mcallistAdapter(getApplicationContext(),m_calendararray);
         m_callist.setAdapter(adapter);
+        final Intent it1 = new Intent(this,medicine_cal.class);
 
         m_callist.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Toast.makeText(getApplicationContext(),"id = "+view.getTag(),Toast.LENGTH_LONG).show();
+                Bundle bundle = new Bundle();
+                bundle.putString("m_calid",view.getTag().toString() );
+                bundle.putString("memberid", memberid);
+                it1.putExtras(bundle);   // 記得put進去，不然資料不會帶過去哦
+                startActivity(it1);
             }
         });
 

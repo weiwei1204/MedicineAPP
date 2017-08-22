@@ -310,8 +310,8 @@ public class ThirdActivity extends AppCompatActivity {
 
     public void insertm_calendar(View view) {
         gettime(ThirdActivity.this);
-        int inttxtday = Integer.parseInt(txtday.getText().toString());
-        final int day = inttxtday*counttime;
+        final int day = Integer.parseInt(txtday.getText().toString());
+        final int count = day*counttime;
         requestQueue = Volley.newRequestQueue(getApplicationContext());
 
         final StringRequest request = new StringRequest(Request.Method.POST, m_caledarUrl, new Response.Listener<String>() {
@@ -332,6 +332,7 @@ public class ThirdActivity extends AppCompatActivity {
                 parameters.put("member_id",memberid);
                 parameters.put("startDate", txtdate.getText().toString());
                 parameters.put("day", String.valueOf(day));
+                parameters.put("count", String.valueOf(count));
                 parameters.put("name",m_cal_name.getText().toString());
                 parameters.put("beacon_id",beaconid);
                 parameters.put("finish","0");
@@ -373,6 +374,8 @@ public class ThirdActivity extends AppCompatActivity {
                     for (int i=0;i<timearray.size();i++){      //一個一個存時間
                         insertAlert_time(i);
                     }
+
+                    gotom_calendarlist();//儲存完後至用藥排成清單
                 }
 
             }
@@ -432,9 +435,7 @@ public class ThirdActivity extends AppCompatActivity {
 //    }
 
     public void insertAlert_time(final int i){//時間存到資料庫
-        Log.d("nnnaaa","1");
         requestQueue = Volley.newRequestQueue(getApplicationContext());
-            Log.d("nnnaaa","2");
             final StringRequest request = new StringRequest(Request.Method.POST, m_alerttimeUrl, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -460,10 +461,15 @@ public class ThirdActivity extends AppCompatActivity {
         };
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         requestQueue.add(request);
+    }
 
 
-
-}
-
+    public void gotom_calendarlist(){
+        Intent it = new Intent(ThirdActivity.this,m_calendarlist.class);
+        Bundle bundle = new Bundle();
+        bundle.putString("memberid", memberid);
+        it.putExtras(bundle);   // 記得put進去，不然資料不會帶過去哦
+        startActivity(it);
+    }
 
 }

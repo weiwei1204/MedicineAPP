@@ -57,5 +57,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:contentDescription="@string/btnRemove"
+            android:background="#FAFAFA"
             android:src="@android:drawable/ic_delete" />
     </LinearLayout>
