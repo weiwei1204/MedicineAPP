@@ -28,8 +28,22 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import lecho.lib.hellocharts.listener.ComboLineColumnChartOnValueSelectListener;
 import lecho.lib.hellocharts.model.Axis;
@@ -60,11 +74,13 @@ public class BpPlotTab extends Fragment{
     private boolean isCubic = false;
     private boolean hasLabels = false;
 
-
-
+    RequestQueue requestQueue;
+    public String url = "http://54.65.194.253/Health_Calendar/ShowBp.php";
     private List<BloodPressure>bloodPressureList;
+    public static String member_id; //從上頁傳進來的
+    public static int userid;
     private String memberid; //從資料庫抓的
-    private String highmmhg;
+    private String highmmhg ;
     private String lowmmhg;
     private String bpm;
     private String sugarvalue;
@@ -82,8 +98,8 @@ public class BpPlotTab extends Fragment{
         chart = (ComboLineColumnChartView) rootView.findViewById(R.id.chart);
         chart.setOnValueTouchListener(new ValueTouchListener());
         Bundle bundle = this.getArguments();
-       memberid = bundle.getString("memberid");
-        Log.d("9999","memberid:"+memberid);
+        member_id = bundle.getString("memberid");
+        Log.d("9999","memberid:"+member_id);
        highmmhg = bundle.getString("highmmhg");
         Log.d("9999","highmmhg:"+highmmhg);
        lowmmhg = bundle.getString("lowmmhg");
@@ -92,10 +108,85 @@ public class BpPlotTab extends Fragment{
         Log.d("9999","bpm:"+bpm);
        sugarvalue = bundle.getString("sugarvalue");
         savetime = bundle.getString("savetime");
+//        getData();
+        bloodPressureList = new ArrayList<>();
+        Log.d("0909","high:"+highmmhg);
+        Log.d("0909","low:"+lowmmhg);
+//        for(int i =0;i<bloodPressureList.size();i++) {
+//          String high = bloodPressureList.get(i).getHighmmhg();
+//            Log.d("3456","high:"+high);
+//          String low  = bloodPressureList.get(i).getLowmmhg();
+//            Log.d("3456","low:"+low);
+//        }
         generateValues();
         generateData();
         return rootView;
         }
+
+//    public void getData(){
+//        Log.d("777","in method");
+//        requestQueue = Volley.newRequestQueue(getActivity().getApplicationContext());
+//        Log.d("777","1");
+//        final JsonArrayRequest jsonObjectRequest = new JsonArrayRequest(Request.Method.GET, url, new Response.Listener<JSONArray>() {
+//            @Override
+//            public void onResponse(JSONArray response) {
+//                Log.d("777","in response");
+//                try {
+////                    JSONArray array = new JSONArray(response);
+////                    Log.d("777",array.toString());
+//                    for (int i = 0; i < response.length(); i++) {
+//                        JSONObject object = response.getJSONObject(i);
+//                        BloodPressure bp = new BloodPressure(object.getInt("id"),object.getString("member_id"),object.getString("highmmhg"),object.getString("lowmmhg"),object.getString("bpm"),object.getString("sugarvalue"),object.getString("savetime"));
+//                        bloodPressureList.add(bp);
+//                        userid = object.getInt("id");
+//                        memberid = object.getString("member_id");
+//                        if (member_id.equals(memberid)) {
+//                            highmmhg = object.getString("highmmhg");
+//                            lowmmhg = object.getString("lowmmhg");
+//                            bpm = object.getString("bpm");
+//                            sugarvalue = object.getString("sugarvalue");
+//                            savetime = object.getString("savetime");
+//                            Log.d("55556", "member_id:" + member_id);
+//                            Log.d("55556", "highmmhg:" + highmmhg);
+//                            Log.d("55556", "lowmmhg:" + lowmmhg);
+//                            Log.d("55556", "bpm:" + bpm);
+//                            Log.d("55556", "sugarvalue:" + sugarvalue);
+//                            Log.d("55556", "savetime:" + savetime);
+//                        }
+//                    }
+//
+//
+//
+//                }catch (JSONException e){
+//                    e.printStackTrace();
+//                }
+//
+//            }
+//        },
+//                new Response.ErrorListener() {
+//                    @Override
+//                    public void onErrorResponse(VolleyError error) {
+//                        Log.d("777",error.toString());
+//                    }
+//                }){
+//            protected Map<String, String> getParams(){
+//                Map<String, String> parameters = new HashMap<>();
+//                parameters.put("highmmhg", highmmhg);
+//                parameters.put("lowmmhg", lowmmhg);
+//                parameters.put("bpm", bpm);
+//                parameters.put("sugarvalue", sugarvalue);
+//                parameters.put("savetime", savetime);
+//                Log.d("highmmhg", parameters.toString());
+//                return parameters;
+//            }
+//        };
+//
+//
+//        RequestQueue requestQueue = Volley.newRequestQueue(this.getActivity());
+//        requestQueue.add(jsonObjectRequest);
+//
+//
+//    }
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.combo_line_column_chart, menu);
