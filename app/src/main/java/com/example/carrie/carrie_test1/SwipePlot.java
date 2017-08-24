@@ -1,6 +1,7 @@
 package com.example.carrie.carrie_test1;
 
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -55,9 +56,10 @@ public class SwipePlot extends AppCompatActivity {
     public static String highmmhg="";
     public static String lowmmhg="";
     public static String bpm="";
-    public static String sugarvalue="";
     public static String savetime="";
     private boolean getdb=false;
+    private BloodPressure data ;
+    public final static String key ="bp";
 
 
 
@@ -156,17 +158,18 @@ public class SwipePlot extends AppCompatActivity {
                     BsPlotTab tab1 = new BsPlotTab();
                     Bundle bundle1 = new Bundle();
                     bundle1.putString("memberid", memberid);
+                    tab1.setArguments(bundle1);
                     return tab1;
                 case 1:
                     Log.d("1111", "highmmhg:" + highmmhg);
                     Bundle bundle2 = new Bundle();
                     BpPlotTab tab2 = new BpPlotTab();
                     bundle2.putString("memberid", memberid);
-                    bundle2.putString("highmmhg", highmmhg);
-                    bundle2.putString("lowmmhg", lowmmhg);
-                    bundle2.putString("bpm", bpm);
-                    bundle2.putString("sugarvalue", sugarvalue);
-                    bundle2.putString("savetime", savetime);
+//                    bundle2.putString("highmmhg", highmmhg);
+//                    bundle2.putString("lowmmhg", lowmmhg);
+//                    bundle2.putString("bpm", bpm);
+//                    bundle2.putString("savetime", savetime);
+                    bundle2.putParcelableArrayList("data_list", (ArrayList<? extends Parcelable>) data_list);
                     tab2.setArguments(bundle2);
                     Log.d("1111:",bundle2.toString());
                     return tab2;
@@ -263,19 +266,19 @@ public class SwipePlot extends AppCompatActivity {
 
                     for (int i = 0; i < response.length(); i++) {
                         JSONObject object = response.getJSONObject(i);
+                        data = new BloodPressure(object.getInt("id"), object.getString("member_id"), object.getString("highmmhg"), object.getString("lowmmhg"), object.getString("bpm"), object.getString("savetime"));
+                            data_list.add(data);
                             userid = object.getInt("id");
                             member_id = object.getString("member_id");
                         if (member_id.equals(memberid)) {
                             highmmhg = object.getString("highmmhg");
                             lowmmhg = object.getString("lowmmhg");
                             bpm = object.getString("bpm");
-                            sugarvalue = object.getString("sugarvalue");
                             savetime = object.getString("savetime");
                             Log.d("5555", "member_id:" + member_id);
                             Log.d("5555", "highmmhg:" + highmmhg);
                             Log.d("5555", "lowmmhg:" + lowmmhg);
                             Log.d("5555", "bpm:" + bpm);
-                            Log.d("5555", "sugarvalue:" + sugarvalue);
                             Log.d("5555", "savetime:" + savetime);
                         }
                     }
