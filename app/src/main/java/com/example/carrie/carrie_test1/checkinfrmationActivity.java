@@ -30,6 +30,7 @@ public class checkinfrmationActivity extends Activity {
     String email,name,height,weight,age,effect,gender;
     RequestQueue requestQueue;
     String insertUrl = "http://54.65.194.253/Member/insert.php";
+    String inserMonitortUrl = "http://54.65.194.253/Monitor/addMonitor.php";
 
 
     @Override
@@ -114,6 +115,43 @@ public class checkinfrmationActivity extends Activity {
         requestQueue.add(request);
 
     }
+    public void insertMonitor() {
+
+        requestQueue = Volley.newRequestQueue(getApplicationContext());
+
+        final StringRequest request = new StringRequest(Request.Method.POST, inserMonitortUrl, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.d("rrr", error.toString());
+                Toast.makeText(getApplicationContext(), "Error read addMonitor.php!!!", Toast.LENGTH_LONG).show();
+            }
+        })
+        {
+            protected Map<String, String> getParams() throws AuthFailureError {//把值丟到php
+                Map<String, String> parameters = new HashMap<String, String>();
+                parameters.put("Mname", name);
+                parameters.put("Memail", email);
+                parameters.put("Mgender_man",gender);
+                parameters.put("Mweight",weight);
+                parameters.put("Mheight",height);
+                parameters.put("Mbirth",age);
+                parameters.put("Mgoogle_id", googleid);
+                Log.d("monitoradd", parameters.toString());
+                Log.d("monitoraddCheck","checck!!!");
+                return parameters;
+
+            }
+        }
+                ;
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(request);
+
+    }
 
     public void gotoinActivity(View v){ //連到個人資訊頁面
         Intent it = new Intent(this,informationActivity.class);
@@ -134,6 +172,7 @@ public class checkinfrmationActivity extends Activity {
 
     public void gotoMainActivity(View v){ //連到首頁
         insertmember();
+        insertMonitor();
         Intent it = new Intent(this,MainActivity.class);
         Bundle bundle = new Bundle();
         bundle.putString("googleid", googleid);
@@ -144,4 +183,5 @@ public class checkinfrmationActivity extends Activity {
     public void goback(View v){
         finish();
     }
+
 }

@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FAFAFA"
+    tools:context="com.example.carrie.carrie_test1.RobotActivity">
+
+    <TableLayout
+        android:layout_width="344dp"
+        android:layout_height="495dp"
+        tools:layout_editor_absoluteX="20dp"
+        tools:layout_editor_absoluteY="8dp">
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <TableRow
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <EditText
+                    android:id="@+id/e1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/back"
+                    android:ems="10"
+                    android:inputType="textPersonName"
+                    android:textColor="#000000"
+                    android:text="Name" />
+
+                <EditText
+                    android:id="@+id/e2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/back"
+                    android:ems="10"
+                    android:inputType="textPersonName"
+                    android:textColor="#000000"
+                    android:text="Name" />
+
+
+                <Button
+                    android:id="@+id/insert"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Button" />
+            </LinearLayout>
+
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_width="330dp"
+                android:layout_height="match_parent"
+                android:layout_marginTop="30dp"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/button8"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:onClick="gotochat"
+                    android:text="聊天機器人" />
+
+                <EditText
+                    android:id="@+id/editText2"
+                    android:layout_width="130dp"
+                    android:layout_height="50dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/back"
+                    android:ems="10"
+                    android:inputType="textPersonName"
+                    android:text="輸入..."
+                    android:textColor="#000000"
+                    android:textColorHint="#BEBEBE"
+                    tools:layout_editor_absoluteX="28dp"
+                    tools:layout_editor_absoluteY="407dp" />
+
+                <ImageButton
+                    android:id="@+id/imageButton7"
+                    android:layout_width="1dp"
+                    android:layout_height="80dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_weight="1"
+
+                    android:onClick="gotologinActivity"
+                    app:srcCompat="@drawable/search" />
+
+                <ImageView
+                    android:id="@+id/imageView19"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    app:srcCompat="@drawable/search" />
+            </LinearLayout>
+
+        </TableRow>
+    </TableLayout>
+
+</android.support.constraint.ConstraintLayout>

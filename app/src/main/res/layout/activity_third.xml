@@ -200,17 +200,17 @@
                         android:src="@android:drawable/ic_input_add" />
                 </RelativeLayout>
 
-                <ScrollView
+                <LinearLayout
                     android:id="@+id/scrollView1"
                     android:layout_width="match_parent"
-                    android:layout_height="275dp">
+                    android:layout_height="match_parent">
 
                     <LinearLayout
                         android:id="@+id/linearLayoutForm"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         android:orientation="vertical"></LinearLayout>
-                </ScrollView>
+                </LinearLayout>
 
                 <Button
                     android:id="@+id/btnDisplay"
@@ -286,6 +286,10 @@
                 android:layout_height="35sp"
                 android:layout_marginTop="20dp"
                 android:layout_marginRight="70dp"
+                android:background="@drawable/thirdsettext"
+                android:textColor="#272727"
+
+
 
                 ></Spinner>
         </TableRow>

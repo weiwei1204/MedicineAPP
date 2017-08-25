@@ -2,6 +2,9 @@ package com.example.carrie.carrie_test1;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -41,7 +44,7 @@ import java.util.Map;
 public class ThirdActivity extends AppCompatActivity {
 
 
-    Button btnDisplay,m_store;
+    Button btnDisplay,m_store,alarmoff;
     ImageButton btnAdd;
     EditText txtTime;
     EditText m_cal_name;
@@ -51,14 +54,17 @@ public class ThirdActivity extends AppCompatActivity {
     String m_caledarUrl = "http://54.65.194.253/Medicine_Calendar/m_calendar.php";
     String get_m_caledar_idUrl = "http://54.65.194.253/Medicine_Calendar/getm_calendarid.php";
     String m_alerttimeUrl = "http://54.65.194.253/Medicine_Calendar/m_alerttime.php";
+    String getm_alerttimeUrl = "http://54.65.194.253/Medicine_Calendar/getm_alerttime.php";
     ArrayAdapter<CharSequence> adapterbeacon;
     Spinner spinnerbeacon;
     String memberid,beaconUUID,beaconid,m_calendarid;
     RequestQueue requestQueue;
     int counttime;
-    java.util.ArrayList<String> msg = new ArrayList<String>();
+    final java.util.ArrayList<String> msg = new ArrayList<String>();
     java.util.ArrayList<String> timearray = new ArrayList<String>();
-
+    Context context;
+    PendingIntent pending_intent;
+    AlarmManager alarm_manager;
 
 
 
@@ -75,6 +81,7 @@ public class ThirdActivity extends AppCompatActivity {
         m_cal_name = (EditText)findViewById(R.id.m_cal_name);
         btnAdd = (ImageButton) findViewById(R.id.btnAdd);
         btnDisplay = (Button) findViewById(R.id.btnDisplay);
+        alarmoff = (Button) findViewById(R.id.alarmoff);
         m_store = (Button)findViewById(R.id.m_store);
         txtdate = (EditText) findViewById(R.id.txtdate);
         txtday = (EditText)findViewById(R.id.txtday);
@@ -84,6 +91,8 @@ public class ThirdActivity extends AppCompatActivity {
         Log.d("ssdf",this.toString());
         spinnerbeacon = (Spinner)findViewById(R.id.spinnerbeacon);
         getBeacon();
+        this.context=this;
+        alarm_manager=(AlarmManager)getSystemService(ALARM_SERVICE);
 
 
     }
@@ -105,6 +114,7 @@ public class ThirdActivity extends AppCompatActivity {
             @Override
             public void onResponse(JSONObject response) {
                 try {
+
                     JSONArray beacons = response.getJSONArray("Beacons");
                     int count=0;
                     for (int i=0 ; i<beacons.length() ; i++){
@@ -130,7 +140,7 @@ public class ThirdActivity extends AppCompatActivity {
                             Log.d("vvvvv",beaconarray[count]);
                             count++;
                         };
-                    }
+                    }//取值結束
                     adapterbeacon = new ArrayAdapter(ThirdActivity.this,android.R.layout.simple_spinner_item,beaconarray);
                     adapterbeacon.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                     spinnerbeacon.setSelection(0,false);
@@ -148,7 +158,7 @@ public class ThirdActivity extends AppCompatActivity {
                             }
                         }
                         @Override
-                        public void onNothingSelected(AdapterView<?> parent) {}
+                        public void onNothingSelected(AdapterView<?> parent) {}//~~~~
                     });
                 }catch (JSONException e){
                     e.printStackTrace();
@@ -156,7 +166,8 @@ public class ThirdActivity extends AppCompatActivity {
             }
         }, new Response.ErrorListener() {
             @Override
-            public void onErrorResponse(VolleyError error) {}
+            public void onErrorResponse(VolleyError error) {
+            }
         });
         requestQueue.add(jsonObjectRequest);
     }
@@ -196,6 +207,7 @@ public class ThirdActivity extends AppCompatActivity {
         Intent it = new Intent(this,alarm.class);
         startActivity(it);
     }
+
 
 
     public void gotohistoryrecord(View v){ //連到親友認證頁面
@@ -287,12 +299,16 @@ public class ThirdActivity extends AppCompatActivity {
 //        t.show();
 
     }
+//    public ArrayList<String> gettimestring(){
+//        return msg;
+//    }
 
 
 
     public void insertm_calendar(View view) {
         gettime(ThirdActivity.this);
-//        final int day = Integer.parseInt(String.valueOf(txtday))*counttime;
+        final int day = Integer.parseInt(txtday.getText().toString());
+        final int count = day*counttime;
         requestQueue = Volley.newRequestQueue(getApplicationContext());
         Log.d("bcon1",getApplicationContext().toString());
 
@@ -313,7 +329,8 @@ public class ThirdActivity extends AppCompatActivity {
                 Map<String, String> parameters = new HashMap<String, String>();
                 parameters.put("member_id",memberid);
                 parameters.put("startDate", txtdate.getText().toString());
-                parameters.put("day", String.valueOf(counttime));
+                parameters.put("day", String.valueOf(day));
+                parameters.put("count", String.valueOf(count));
                 parameters.put("name",m_cal_name.getText().toString());
                 parameters.put("beacon_id",beaconid);
                 parameters.put("finish","0");
@@ -335,13 +352,28 @@ public class ThirdActivity extends AppCompatActivity {
 
     public void get_M_calendart_id(){
         requestQueue = Volley.newRequestQueue(getApplicationContext());
-
         final StringRequest request = new StringRequest(Request.Method.POST, get_m_caledar_idUrl, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 Log.d("nnnmmmm",response);
-                m_calendarid = response;
+                if(response.equals("noid")){
+                    get_M_calendart_id();
+                }
+                else {
+                    m_calendarid = response;
+                    Log.d("nnn123456",m_calendarid);
+//                    for (int j=0;j<msg.size();j++){ //一個一個設鬧鐘
+//                        setAlerttime(j);
+//                    }
+//                    alarm a=new alarm(getApplicationContext());
+//                    a.alarmclock(msg);
 
+                    for (int i=0;i<timearray.size();i++){      //一個一個存時間
+                        insertAlert_time(i);
+                    }
+                    Alert_time();
+                    gotom_calendarlist();//儲存完後至用藥排成清單
+                }
             }
         }, new Response.ErrorListener() {
             @Override
@@ -361,17 +393,28 @@ public class ThirdActivity extends AppCompatActivity {
         };
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         requestQueue.add(request);
-
-        for (int i=0;i<timearray.size();i++){
-            insertAlert_time(i);
-        }
-
     }
 
-    public void insertAlert_time(final int i){
-        Log.d("nnnaaa","1");
+
+
+    public void setAlerttime(int j){         //設鬧鐘
+        final Intent my_intent=new Intent(this.context,Alarm_Receiver.class);
+        my_intent.putExtra("extra","alarm on");
+        my_intent.putExtra("count",j);
+        pending_intent= PendingIntent.getBroadcast(this,j,
+                my_intent,PendingIntent.FLAG_CANCEL_CURRENT);
+        alarm_manager.setExact(AlarmManager.RTC_WAKEUP, Long.parseLong(msg.get(j)),pending_intent);
+
+//        alarm_manager.set(AlarmManager.RTC_WAKEUP, Long.parseLong(msg.get(j)),pending_intent);
+        Log.d("sss", String.valueOf(msg.get(j)));
+
+    }
+//    private void set_alarm_text(String output) {
+//        alarmset.setText(output);
+//    }
+
+    public void insertAlert_time(final int i){//時間存到資料庫
         requestQueue = Volley.newRequestQueue(getApplicationContext());
-            Log.d("nnnaaa","2");
             final StringRequest request = new StringRequest(Request.Method.POST, m_alerttimeUrl, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -380,7 +423,6 @@ public class ThirdActivity extends AppCompatActivity {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.d("rrr", error.toString());
                 Toast.makeText(getApplicationContext(), "Error read insertAlerttime.php!!!", Toast.LENGTH_LONG).show();
             }
         })
@@ -389,6 +431,7 @@ public class ThirdActivity extends AppCompatActivity {
                 Map<String, String> parameters = new HashMap<String, String>();
                 parameters.put("Medicine_calendar_id",m_calendarid);
                 parameters.put("time", timearray.get(i));
+                parameters.put("TimeInMillis", msg.get(i));
                 Log.d("nnnaaa",timearray.get(i));
                 Log.d("nnnaaa",parameters.toString());
                 return parameters;
@@ -397,8 +440,66 @@ public class ThirdActivity extends AppCompatActivity {
         };
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         requestQueue.add(request);
-        
+    }
 
-}
+    public void Alert_time(){
+        requestQueue = Volley.newRequestQueue(getApplicationContext());
+        final JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, getm_alerttimeUrl, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                try {
+                    Log.d("qqq","1");
+                    JSONArray m_alerttimes = response.getJSONArray("Medicine_Alert_Time");
+                    Log.d("qqq","3");
+                    final String[] malertid=new String[m_alerttimes.length()];
+                    final String[] timeInmill=new String[m_alerttimes.length()];
+                    int count=0;
+                    for (int i=0 ; i<m_alerttimes.length() ; i++){
+                        JSONObject m_alerttime = m_alerttimes.getJSONObject(i);
+                        String id = m_alerttime.getString("id");
+                        String mcalid = m_alerttime.getString("Medicine_calendar_id");
+                        String name = m_alerttime.getString("TimeInMillis");
+                        Log.d("sss","1");
+                        if (mcalid.equals(m_calendarid)){
+                            Log.d("sss","2");
+                            malertid[count] = id;
+                            timeInmill[count] = name;
+                            Log.d("sss",malertid[count].toString());
+                            final Intent my_intent=new Intent(ThirdActivity.this.context,Alarm_Receiver.class);
+                            my_intent.putExtra("extra","alarm on");
+                            my_intent.putExtra("alarmid",malertid[count].toString());
+                            pending_intent= PendingIntent.getBroadcast(ThirdActivity.this,Integer.parseInt(malertid[count]),
+                                    my_intent,PendingIntent.FLAG_CANCEL_CURRENT);
+                            alarm_manager.setExact(AlarmManager.RTC_WAKEUP, Long.parseLong(timeInmill[count]),pending_intent);
+
+//        alarm_manager.set(AlarmManager.RTC_WAKEUP, Long.parseLong(msg.get(j)),pending_intent);
+                            Log.d("sss", timeInmill[count]);
+                            count++;
+                        };
+                    }
+                    if(count==0){
+                        Alert_time();
+                    }
+                }catch (JSONException e){
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+            }
+        });
+        requestQueue.add(jsonObjectRequest);
+
+    }
+
+
+    public void gotom_calendarlist(){
+        Intent it = new Intent(ThirdActivity.this,m_calendarlist.class);
+        Bundle bundle = new Bundle();
+        bundle.putString("memberid", memberid);
+        it.putExtras(bundle);   // 記得put進去，不然資料不會帶過去哦
+        startActivity(it);
+    }
 
 }
