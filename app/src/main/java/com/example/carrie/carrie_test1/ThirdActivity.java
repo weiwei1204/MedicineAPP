@@ -294,6 +294,7 @@ public class ThirdActivity extends AppCompatActivity {
         gettime(ThirdActivity.this);
 //        final int day = Integer.parseInt(String.valueOf(txtday))*counttime;
         requestQueue = Volley.newRequestQueue(getApplicationContext());
+        Log.d("bcon1",getApplicationContext().toString());
 
         final StringRequest request = new StringRequest(Request.Method.POST, m_caledarUrl, new Response.Listener<String>() {
             @Override
@@ -326,6 +327,7 @@ public class ThirdActivity extends AppCompatActivity {
         }
                 ;
         RequestQueue requestQueue = Volley.newRequestQueue(this);
+        Log.d("bcon1",this.toString());
         requestQueue.add(request);
         get_M_calendart_id();
 

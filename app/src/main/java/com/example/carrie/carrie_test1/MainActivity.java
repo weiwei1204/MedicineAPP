@@ -104,7 +104,11 @@ public class MainActivity extends LoginActivity {
 
     public void gotoFirstActivity(View v){ //連到聊天機器人頁面
 
-        Intent it = new Intent(this,RobotActivity.class);
+        Intent it = new Intent(this,MyBeaconActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putString("memberid", memberid);
+        Log.d("fffaaa",memberid);
+        it.putExtras(bundle);   // 記得put進去，不然資料不會帶過去哦
         startActivity(it);
     }
     public void gotoSecondActivity(View v){ //連到iBeacon頁面
