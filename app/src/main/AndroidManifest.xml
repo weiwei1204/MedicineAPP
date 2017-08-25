@@ -40,9 +40,6 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".FirstActivity"
-            android:label="@string/title_activity_first" />
-        <activity
             android:name=".SecondActivity"
             android:label="@string/title_activity_second" />
         <activity

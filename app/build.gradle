@@ -5,7 +5,7 @@ android {
     defaultConfig {
         applicationId "com.example.carrie.carrie_test1"
 //        minSdkVersion 9
-        minSdkVersion 24
+        minSdkVersion 23
 //        minSdkVersion 13
         targetSdkVersion 25
         versionCode 1
