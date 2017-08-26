@@ -110,6 +110,7 @@ public class BsPlotTab extends Fragment{
             @Override
             public void onResponse(JSONArray response) {
                 Log.d("689","in response");
+
                 try {
 //                    JSONArray array = new JSONArray(response);
 //                    Log.d("777",array.toString());
@@ -120,27 +121,26 @@ public class BsPlotTab extends Fragment{
                         JSONObject object = response.getJSONObject(i);
                         record = new BloodSugar(object.getInt("id"), object.getString("member_id"), object.getString("bloodsugar"), object.getString("savetime"));
 //                        data_list.add(record);
-                        bsarray = new int[response.length()];
-                        datearray =new String[response.length()];
+                        int counter = 0;
                         userid = object.getInt("id");
                         member_id = object.getString("member_id");
                         Log.d("689","saw id:" +member_id);
                         if (member_id.equals(memberid)){
                             bloodsugar= object.getString("bloodsugar");
                             savetime = object.getString("savetime");
+                            bsarray = new int[response.length()];
+                            datearray =new String[response.length()];
+                            counter++;
+
                             Log.d("689", "member_id:" + member_id);
                             Log.d("689", "bloodsugar:" + bloodsugar);
                             Log.d("689", "savetime:" + savetime);
-                            bsarray[i] = Integer.parseInt(bloodsugar);
-                            int counter = 0;
-                            datearray[i] = savetime;
-                            Log.d("2345","higharray:" + Arrays.toString(bsarray));
-                            for(int j =0;j<datearray.length;j++){
-                                if(datearray[j]!=null){
-                                    counter++;
-                                    Log.d("9998","count:"+counter);
-                                }
-                            }
+
+                            bsarray[counter] = Integer.parseInt(bloodsugar);
+                            datearray[counter] = savetime;
+
+                            Log.d("689","bsarray:" + bsarray[counter]);
+                            Log.d("689","datearray:" +datearray[counter]);
 
                         }
                     }

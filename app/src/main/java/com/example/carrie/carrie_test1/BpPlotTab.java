@@ -64,11 +64,11 @@ public class BpPlotTab extends Fragment{
     private ComboLineColumnChartView chart;
     private ComboLineColumnChartData data;
 
-    private int numberOfLines = 1;
-    private int maxNumberOfLines = 4;
-    private int numberOfPoints = 12;
+    private static int numberOfLines = 1;
+    private static int maxNumberOfLines = 4;
+    private static int numberOfPoints ;
 
-    float[][] randomNumbersTab = new float[maxNumberOfLines][numberOfPoints];
+    static float[][] randomNumbersTab = new float[maxNumberOfLines][numberOfPoints];
 
     private boolean hasAxes = true;
     private boolean hasAxesNames = true;
@@ -108,8 +108,8 @@ public class BpPlotTab extends Fragment{
     public static int [] bpmvaluearray ;
     public static String [] datearray;
 //抓下來塞進去
-
-
+    boolean rd = false;
+    public int count;
 
     @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -117,6 +117,7 @@ public class BpPlotTab extends Fragment{
         View rootView = inflater.inflate(R.layout.fragment_combo_line_column_chart, container, false);
         chart = (ComboLineColumnChartView) rootView.findViewById(R.id.chart);
         chart.setOnValueTouchListener(new ValueTouchListener());
+        getRecord();
         Bundle bundle = this.getArguments();
         sentmember_id = bundle.getString("memberid");
         Log.d("9999","memberid:"+sentmember_id);
@@ -139,10 +140,10 @@ public class BpPlotTab extends Fragment{
             time = new String[bloodPressureList.size()];
 
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
+
             for(int i =0;i<bloodPressureList.size();i++) {
                 memberid = bloodPressureList.get(i).getMember_id();
                 if(memberid.equals(sentmember_id)) {
-                    getRecord();
                         try {
                             savetime = bloodPressureList.get(i).getSavetime();
                             Log.d("8787", "id:" + memberid);
@@ -181,9 +182,9 @@ public class BpPlotTab extends Fragment{
                 else{
             bloodPressureList = new ArrayList<BloodPressure>();
         }
-        generateValues();
-        generateData();
-        addLineToData();
+//        generateValues();
+//        generateData();
+//        addLineToData();
         return rootView;
 
         }
@@ -215,7 +216,7 @@ public class BpPlotTab extends Fragment{
 
         }
     }
-    public void getRecord(){
+    public  void getRecord(){
         Log.d("777","in method");
         requestQueue = Volley.newRequestQueue(getActivity().getApplicationContext());
         Log.d("777","1");
@@ -223,7 +224,9 @@ public class BpPlotTab extends Fragment{
             @Override
             public void onResponse(JSONArray response) {
                 Log.d("777","in response");
+                count = -1;
                 try {
+                    rd = true;
 //                    JSONArray array = new JSONArray(response);
 //                    Log.d("777",array.toString());
 
@@ -233,10 +236,10 @@ public class BpPlotTab extends Fragment{
                         JSONObject object = response.getJSONObject(i);
                         record = new BloodPressure(object.getInt("id"), object.getString("member_id"), object.getString("highmmhg"), object.getString("lowmmhg"), object.getString("bpm"), object.getString("savetime"));
 //                        data_list.add(record);
-                        highvaluearray = new int[response.length()];
-                        lowvaluearray = new int[response.length()];
-                        bpmvaluearray = new int[response.length()];
-                        datearray =new String[response.length()];
+//                        highvaluearray = new int[response.length()];
+//                        lowvaluearray = new int[response.length()];
+//                        bpmvaluearray = new int[response.length()];
+//                        datearray =new String[response.length()];
                         userid = object.getInt("id");
                         member_id = object.getString("member_id");
                         Log.d("1234","saw id:" +member_id);
@@ -245,28 +248,54 @@ public class BpPlotTab extends Fragment{
                             usrlowmmhg = object.getString("lowmmhg");
                             usrbpm = object.getString("bpm");
                             usrsavetime = object.getString("savetime");
+
+                            highvaluearray = new int[response.length()];
+                            lowvaluearray = new int[response.length()];
+                            bpmvaluearray = new int[response.length()];
+                            datearray = new String[response.length()];
+
+
+                            count++;
+                            Log.d("8777","response"+response.length());
+                            Log.d("8777","count"+count);
                             Log.d("6969", "member_id:" + member_id);
                             Log.d("6969", "highmmhg:" + usrhighmmhg);
                             Log.d("6969", "lowmmhg:" + usrlowmmhg);
                             Log.d("6969", "bpm:" + usrbpm);
-                            Log.d("6999", "savetime:" + usrsavetime);
-                            highvaluearray[i] = Integer.parseInt(usrhighmmhg);
-                            lowvaluearray[i] = Integer.parseInt(usrlowmmhg);
-                            bpmvaluearray[i] = Integer.parseInt(usrbpm);
-                            int counter = 0;
-                            datearray[i] = usrsavetime;
-                            Log.d("2345","higharray:" +Arrays.toString(highvaluearray));
-                            Log.d("2345","lowarray:" +Arrays.toString(lowvaluearray));
-                            Log.d("2345","bpmarray:" +Arrays.toString(bpmvaluearray));
-                            for(int j =0;j<datearray.length;j++){
-                                if(datearray[j]!=null){
-                                    counter++;
-                                    Log.d("9997","count:"+counter);
+                            Log.d("9999", "savetime:" + usrsavetime);
+
+                            highvaluearray[count] = Integer.parseInt(usrhighmmhg);
+                            lowvaluearray[count] = Integer.parseInt(usrlowmmhg);
+                            bpmvaluearray[count] = Integer.parseInt(usrbpm);
+                            datearray[count] = usrsavetime;
+
+
+                            Log.d("2345","higharray:"+highvaluearray[count]);
+                            Log.d("3456","lowarray:" +lowvaluearray[count]);
+                            Log.d("4567","bpmarray:" +bpmvaluearray[count]);
+                            Log.d("1112","datearray:"+datearray[count]);
+
+                            numberOfPoints = count+1;
+                            randomNumbersTab = new float[maxNumberOfLines][numberOfPoints];
+
+                            for (int k = 0; k < maxNumberOfLines; ++k) {
+                                Log.d("9996","number of lines:"+maxNumberOfLines);
+                                for (int j = 0; j < numberOfPoints; ++j) {
+                                    Log.d("9996","number of points:"+numberOfPoints);
+                                    randomNumbersTab[k][j] = highvaluearray[count];
                                 }
                             }
 
+
                         }
                     }
+
+                    Log.d("9995","num:"+numberOfPoints);
+                    Log.d("8721","count:"+count);
+                    Log.d("9995","higharray"+highvaluearray[count]);
+
+//                  generateValues();
+                    generateData();
                 }catch (JSONException e){
                     e.printStackTrace();
                 }
@@ -281,6 +310,7 @@ public class BpPlotTab extends Fragment{
                 });
         RequestQueue requestQueue = Volley.newRequestQueue(this.getActivity());
         requestQueue.add(jsonObjectRequest);
+
 
 
     }
@@ -334,13 +364,17 @@ public class BpPlotTab extends Fragment{
         }
         return super.onOptionsItemSelected(item);
     }
-    private void generateValues() {
-        for (int i = 0; i < maxNumberOfLines; ++i) {
-            for (int j = 0; j < numberOfPoints; ++j) {
-                randomNumbersTab[i][j] = (float) Math.random() * 100f + 5;
-            }
-        }
-    }
+//    private static void generateValues() {
+//        Log.d("9995","number of points:"+numberOfPoints);
+//        for (int i = 0; i < maxNumberOfLines; ++i) {
+//            Log.d("9996","number of lines:"+maxNumberOfLines);
+//            for (int j = 0; j < numberOfPoints; ++j) {
+//                Log.d("9996","number of points:"+numberOfPoints);
+////                randomNumbersTab[i][j] = (float) Math.random() * 100f + 5;
+//                randomNumbersTab[i][j] = highvaluearray[j];
+//            }
+//        }
+//    }
     private void reset() {
         numberOfLines = 1;
 
@@ -398,15 +432,16 @@ public class BpPlotTab extends Fragment{
     }
     private ColumnChartData generateColumnData() {
         int numSubcolumns = 1;
-        int numColumns = 12;
+        int numColumns ;
         // Column can have many subcolumns, here by default I use 1 subcolumn in each of 8 columns.
         List<Column> columns = new ArrayList<Column>();
         List<SubcolumnValue> values;
+        numColumns = numberOfPoints;
         for (int i = 0; i < numColumns; ++i) {
 
             values = new ArrayList<SubcolumnValue>();
             for (int j = 0; j < numSubcolumns; ++j) {
-                values.add(new SubcolumnValue((float) Math.random() * 100 + 5, ChartUtils.COLOR_GREEN));
+                values.add(new SubcolumnValue(highvaluearray[count], ChartUtils.COLOR_GREEN));
             }
 
             columns.add(new Column(values));
