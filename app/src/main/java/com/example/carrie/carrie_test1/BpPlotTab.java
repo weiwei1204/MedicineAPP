@@ -6,6 +6,7 @@ package com.example.carrie.carrie_test1;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Parcel;
 import android.support.design.widget.TabLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -24,11 +25,9 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -40,11 +39,15 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import lecho.lib.hellocharts.listener.ComboLineColumnChartOnValueSelectListener;
 import lecho.lib.hellocharts.model.Axis;
 import lecho.lib.hellocharts.model.Column;
@@ -73,21 +76,38 @@ public class BpPlotTab extends Fragment{
     private boolean hasLines = true;
     private boolean isCubic = false;
     private boolean hasLabels = false;
-
+    public String url = "http://54.65.194.253/Health_Calendar/getBpRecordDate.php";
+    private BloodPressure record ;
+    private List<BloodPressure> data_list;
     RequestQueue requestQueue;
-    public String url = "http://54.65.194.253/Health_Calendar/ShowBp.php";
-    private List<BloodPressure>bloodPressureList;
-    public static String member_id; //從上頁傳進來的
+    private boolean getdb = false;
+    public static ArrayList<BloodPressure>bloodPressureList;
+    public static String sentmember_id; //從上頁傳進來的
+    public static String member_id;//getRecord抓的
     public static int userid;
     private String memberid; //從資料庫抓的
-    private String highmmhg ;
-    private String lowmmhg;
-    private String bpm;
-    private String sugarvalue;
-    private String savetime;
+    public static String highmmhg ="";
+    public static String lowmmhg ="";
+    public static String bpm ="";
+    public static String savetime ="";
+//上面是傳過來的
+    public static String usrhighmmhg ="";
+    public static String usrlowmmhg ="";
+    public static String usrbpm ="";
+    public static String usrsavetime ="";
+//上面是自己從資料庫抓的
+    public static int [] higharray ;
+    public static int [] lowarray ;
+    public static int [] bpmarray ;
+//傳過來塞進去
+    public static String [] time ;
+    public static ArrayList<Date> dateList = new ArrayList<Date>();
 
-
-
+    public static int [] highvaluearray ;
+    public static int [] lowvaluearray ;
+    public static int [] bpmvaluearray ;
+    public static String [] datearray;
+//抓下來塞進去
 
 
 
@@ -98,95 +118,175 @@ public class BpPlotTab extends Fragment{
         chart = (ComboLineColumnChartView) rootView.findViewById(R.id.chart);
         chart.setOnValueTouchListener(new ValueTouchListener());
         Bundle bundle = this.getArguments();
-        member_id = bundle.getString("memberid");
-        Log.d("9999","memberid:"+member_id);
-       highmmhg = bundle.getString("highmmhg");
-        Log.d("9999","highmmhg:"+highmmhg);
-       lowmmhg = bundle.getString("lowmmhg");
-        Log.d("9999","lowmmhg:"+lowmmhg);
-        bpm = bundle.getString("bpm");
-        Log.d("9999","bpm:"+bpm);
-       sugarvalue = bundle.getString("sugarvalue");
-        savetime = bundle.getString("savetime");
-//        getData();
-        bloodPressureList = new ArrayList<>();
-        Log.d("0909","high:"+highmmhg);
-        Log.d("0909","low:"+lowmmhg);
-//        for(int i =0;i<bloodPressureList.size();i++) {
-//          String high = bloodPressureList.get(i).getHighmmhg();
-//            Log.d("3456","high:"+high);
-//          String low  = bloodPressureList.get(i).getLowmmhg();
-//            Log.d("3456","low:"+low);
-//        }
+        sentmember_id = bundle.getString("memberid");
+        Log.d("9999","memberid:"+sentmember_id);
+//        highmmhg = bundle.getString("highmmhg");
+//        Log.d("9999","highmmhg:"+highmmhg);
+//        lowmmhg = bundle.getString("lowmmhg");
+//        Log.d("9999","lowmmhg:"+lowmmhg);
+//        bpm = bundle.getString("bpm");
+//        Log.d("9999","bpm:"+bpm);
+//        sugarvalue = bundle.getString("sugarvalue");
+//        Log.d("9999","sugarvalue:"+sugarvalue);
+//        savetime = bundle.getString("savetime");
+//        Log.d("9999","savetime:"+savetime);
+        if(bundle!=null) {
+
+            bloodPressureList = bundle.getParcelableArrayList("data_list");
+            higharray = new int[bloodPressureList.size()];
+            lowarray = new int[bloodPressureList.size()];
+            bpmarray = new int[bloodPressureList.size()];
+            time = new String[bloodPressureList.size()];
+
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
+            for(int i =0;i<bloodPressureList.size();i++) {
+                memberid = bloodPressureList.get(i).getMember_id();
+                if(memberid.equals(sentmember_id)) {
+                    getRecord();
+                        try {
+                            savetime = bloodPressureList.get(i).getSavetime();
+                            Log.d("8787", "id:" + memberid);
+                            highmmhg = bloodPressureList.get(i).getHighmmhg();
+                            Log.d("8787", "highmmhg:" + highmmhg);
+                            lowmmhg = bloodPressureList.get(i).getLowmmhg();
+                            Log.d("8787", "lowmmhg:" + lowmmhg);
+                            bpm = bloodPressureList.get(i).getBpm();
+                            Log.d("8787", "bpm:" + bpm);
+                            Log.d("8787", "savetime:" + savetime);
+                            higharray[i] = Integer.parseInt(highmmhg);
+                            lowarray[i] = Integer.parseInt(lowmmhg);
+                            bpmarray[i] = Integer.parseInt(bpm);
+                            time[i] = savetime;
+                            Log.d("3333","test:" +Arrays.toString(higharray));
+                            Log.d("3333","test:" +Arrays.toString(lowarray));
+                            Log.d("3333","test:" +Arrays.toString(bpmarray));
+                            Log.d("3333","test:" +Arrays.toString(time));
+                            Date date = simpleDateFormat.parse(savetime);
+                            System.out.println("date : "+simpleDateFormat.format(date));
+                            Calendar threeday = Calendar.getInstance();
+                            threeday.add(Calendar.DATE, -3);
+                            if(date.after(threeday.getTime())){
+                                dateList.add(date);
+                                System.out.println("list : "+simpleDateFormat.format(dateList));
+                            }
+                        }
+                        catch (ParseException ex) {
+                            System.out.println("Exception "+ex);
+                        }
+
+                    }
+                }
+            Log.d("4444","test:" +Arrays.toString(higharray));
+            }
+                else{
+            bloodPressureList = new ArrayList<BloodPressure>();
+        }
         generateValues();
         generateData();
+        addLineToData();
         return rootView;
-        }
 
-//    public void getData(){
-//        Log.d("777","in method");
-//        requestQueue = Volley.newRequestQueue(getActivity().getApplicationContext());
-//        Log.d("777","1");
-//        final JsonArrayRequest jsonObjectRequest = new JsonArrayRequest(Request.Method.GET, url, new Response.Listener<JSONArray>() {
-//            @Override
-//            public void onResponse(JSONArray response) {
-//                Log.d("777","in response");
-//                try {
-////                    JSONArray array = new JSONArray(response);
-////                    Log.d("777",array.toString());
-//                    for (int i = 0; i < response.length(); i++) {
-//                        JSONObject object = response.getJSONObject(i);
-//                        BloodPressure bp = new BloodPressure(object.getInt("id"),object.getString("member_id"),object.getString("highmmhg"),object.getString("lowmmhg"),object.getString("bpm"),object.getString("sugarvalue"),object.getString("savetime"));
-//                        bloodPressureList.add(bp);
-//                        userid = object.getInt("id");
-//                        memberid = object.getString("member_id");
-//                        if (member_id.equals(memberid)) {
-//                            highmmhg = object.getString("highmmhg");
-//                            lowmmhg = object.getString("lowmmhg");
-//                            bpm = object.getString("bpm");
-//                            sugarvalue = object.getString("sugarvalue");
-//                            savetime = object.getString("savetime");
-//                            Log.d("55556", "member_id:" + member_id);
-//                            Log.d("55556", "highmmhg:" + highmmhg);
-//                            Log.d("55556", "lowmmhg:" + lowmmhg);
-//                            Log.d("55556", "bpm:" + bpm);
-//                            Log.d("55556", "sugarvalue:" + sugarvalue);
-//                            Log.d("55556", "savetime:" + savetime);
-//                        }
-//                    }
-//
-//
-//
-//                }catch (JSONException e){
-//                    e.printStackTrace();
-//                }
-//
-//            }
-//        },
-//                new Response.ErrorListener() {
-//                    @Override
-//                    public void onErrorResponse(VolleyError error) {
-//                        Log.d("777",error.toString());
-//                    }
-//                }){
-//            protected Map<String, String> getParams(){
-//                Map<String, String> parameters = new HashMap<>();
-//                parameters.put("highmmhg", highmmhg);
-//                parameters.put("lowmmhg", lowmmhg);
-//                parameters.put("bpm", bpm);
-//                parameters.put("sugarvalue", sugarvalue);
-//                parameters.put("savetime", savetime);
-//                Log.d("highmmhg", parameters.toString());
-//                return parameters;
-//            }
-//        };
-//
-//
-//        RequestQueue requestQueue = Volley.newRequestQueue(this.getActivity());
-//        requestQueue.add(jsonObjectRequest);
-//
-//
-//    }
+        }
+        //onCreateView區域在上面
+
+
+    public static boolean isCurrentThreedays(String dateFormat) {
+        SimpleDateFormat sdf = new SimpleDateFormat(dateFormat);
+        Date usrRecord = new Date();
+        sdf.setLenient(false);
+        try {
+            for(int i =0 ;i< dateList.size();i++){
+                usrRecord = dateList.get(i);
+            }
+            Calendar threeday = Calendar.getInstance();
+            threeday.add(Calendar.DATE, -3);
+
+//            return now.get(Calendar.YEAR) == cdate.get(Calendar.YEAR)
+//                    && now.get(Calendar.MONTH) == cdate.get(Calendar.MONTH)
+//                    && now.get(Calendar.DATE) == cdate.get(Calendar.DATE);
+            if(usrRecord.before(threeday.getTime())){
+                 return true;
+            }else{
+                 return false;
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+            return false;
+
+        }
+    }
+    public void getRecord(){
+        Log.d("777","in method");
+        requestQueue = Volley.newRequestQueue(getActivity().getApplicationContext());
+        Log.d("777","1");
+        final JsonArrayRequest jsonObjectRequest = new JsonArrayRequest(Request.Method.POST, url, new Response.Listener<JSONArray>() {
+            @Override
+            public void onResponse(JSONArray response) {
+                Log.d("777","in response");
+                try {
+//                    JSONArray array = new JSONArray(response);
+//                    Log.d("777",array.toString());
+
+
+
+                    for (int i = 0; i < response.length(); i++) {
+                        JSONObject object = response.getJSONObject(i);
+                        record = new BloodPressure(object.getInt("id"), object.getString("member_id"), object.getString("highmmhg"), object.getString("lowmmhg"), object.getString("bpm"), object.getString("savetime"));
+//                        data_list.add(record);
+                        highvaluearray = new int[response.length()];
+                        lowvaluearray = new int[response.length()];
+                        bpmvaluearray = new int[response.length()];
+                        datearray =new String[response.length()];
+                        userid = object.getInt("id");
+                        member_id = object.getString("member_id");
+                        Log.d("1234","saw id:" +member_id);
+                        if (member_id.equals(sentmember_id)) {
+                            usrhighmmhg = object.getString("highmmhg");
+                            usrlowmmhg = object.getString("lowmmhg");
+                            usrbpm = object.getString("bpm");
+                            usrsavetime = object.getString("savetime");
+                            Log.d("6969", "member_id:" + member_id);
+                            Log.d("6969", "highmmhg:" + usrhighmmhg);
+                            Log.d("6969", "lowmmhg:" + usrlowmmhg);
+                            Log.d("6969", "bpm:" + usrbpm);
+                            Log.d("6999", "savetime:" + usrsavetime);
+                            highvaluearray[i] = Integer.parseInt(usrhighmmhg);
+                            lowvaluearray[i] = Integer.parseInt(usrlowmmhg);
+                            bpmvaluearray[i] = Integer.parseInt(usrbpm);
+                            int counter = 0;
+                            datearray[i] = usrsavetime;
+                            Log.d("2345","higharray:" +Arrays.toString(highvaluearray));
+                            Log.d("2345","lowarray:" +Arrays.toString(lowvaluearray));
+                            Log.d("2345","bpmarray:" +Arrays.toString(bpmvaluearray));
+                            for(int j =0;j<datearray.length;j++){
+                                if(datearray[j]!=null){
+                                    counter++;
+                                    Log.d("9997","count:"+counter);
+                                }
+                            }
+
+                        }
+                    }
+                }catch (JSONException e){
+                    e.printStackTrace();
+                }
+
+            }
+        },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.d("777",error.toString());
+                    }
+                });
+        RequestQueue requestQueue = Volley.newRequestQueue(this.getActivity());
+        requestQueue.add(jsonObjectRequest);
+
+
+    }
+
+
+
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.combo_line_column_chart, menu);
@@ -237,7 +337,7 @@ public class BpPlotTab extends Fragment{
     private void generateValues() {
         for (int i = 0; i < maxNumberOfLines; ++i) {
             for (int j = 0; j < numberOfPoints; ++j) {
-                randomNumbersTab[i][j] = (float) Math.random() * 50f + 5;
+                randomNumbersTab[i][j] = (float) Math.random() * 100f + 5;
             }
         }
     }
@@ -260,8 +360,8 @@ public class BpPlotTab extends Fragment{
             Axis axisX = new Axis();
             Axis axisY = new Axis().setHasLines(true);
             if (hasAxesNames) {
-                axisX.setName("8/13");
-                axisY.setName("血壓平均mmhg");
+                axisX.setName("3日內變化");
+                axisY.setName("血壓平均  mmhg");
             }
             data.setAxisXBottom(axisX);
             data.setAxisYLeft(axisY);
@@ -306,7 +406,7 @@ public class BpPlotTab extends Fragment{
 
             values = new ArrayList<SubcolumnValue>();
             for (int j = 0; j < numSubcolumns; ++j) {
-                values.add(new SubcolumnValue((float) Math.random() * 50 + 5, ChartUtils.COLOR_GREEN));
+                values.add(new SubcolumnValue((float) Math.random() * 100 + 5, ChartUtils.COLOR_GREEN));
             }
 
             columns.add(new Column(values));
@@ -366,14 +466,14 @@ public class BpPlotTab extends Fragment{
         for (Line line : data.getLineChartData().getLines()) {
             for (PointValue value : line.getValues()) {
                 // Here I modify target only for Y values but it is OK to modify X targets as well.
-                value.setTarget(value.getX(), (float) Math.random() * 50 + 5);
+                value.setTarget(value.getX(), (float) Math.random() * 100 + 5);
             }
         }
 
         // Columns animations
         for (Column column : data.getColumnChartData().getColumns()) {
             for (SubcolumnValue value : column.getValues()) {
-                value.setTarget((float) Math.random() * 50 + 5);
+                value.setTarget((float) Math.random() * 100 + 5);
             }
         }
     }
