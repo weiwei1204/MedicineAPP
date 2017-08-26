@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+    <RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:padding="3dip"
+        android:descendantFocusability="blocksDescendants" >
+
+        <ImageView
+            android:id="@+id/ItemImage"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:padding="2dip"
+            />
+
+        <LinearLayout android:layout_toRightOf="@id/ItemImage"
+            android:layout_toLeftOf="@+id/ItemButton"
+            android:layout_alignTop="@+id/ItemImage"
+            android:layout_alignBottom="@+id/ItemImage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/ItemName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="left|center_vertical"
+                android:textColor="#272727"
+                android:textSize="20dip"
+                />
+
+            <TextView
+                android:id="@+id/ItemAddress"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="left|center_vertical"
+                android:textColor="#272727"
+                android:textSize="20dip"
+                />
+            <TextView
+                android:id="@+id/ItemUUID"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="left|center_vertical"
+                android:textColor="#272727"
+                android:textSize="20dip"
+                />
+            <TextView
+            android:id="@+id/ItemRSSI"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="left|center_vertical"
+            android:textColor="#272727"
+            android:textSize="20dip"
+            />
+            <TextView
+                android:id="@+id/ItemID"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="left|center_vertical"
+                android:textColor="#FAFAFA"
+                android:textSize="20dip"
+                />
+        </LinearLayout>
+
+        <Button android:id="@+id/ItemButton"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:background="@drawable/add"
+            android:focusable="false"
+            />
+    //android:contentDescription="@string/adapter_btnText"
+    </RelativeLayout>
