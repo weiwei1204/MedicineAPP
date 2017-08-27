@@ -16,6 +16,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 
 import org.json.JSONArray;
@@ -44,7 +45,7 @@ public class druginfo extends AppCompatActivity {
     ListView listView;
     EditText editText;
 
-
+    private LinearLayout btmbar;
     private RecyclerView recyclerView;
     private GridLayoutManager gridLayoutManager;
     private CustomAdapter2 adapter;
@@ -63,69 +64,77 @@ public class druginfo extends AppCompatActivity {
         my_id = bundle.getString("my_id");//get 自己 id
         my_google_id = bundle.getString("my_google_id");//get 自己google_ id
         my_mon_id = bundle.getString("my_supervise_id");
-        BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomNavView_Bar);
-        BottomNavigationViewHelper.disableShiftMode(bottomNavigationView);
-        Menu menu = bottomNavigationView.getMenu();
-        MenuItem menuItem = menu.getItem(3);
-        menuItem.setChecked(true);
+        btmbar = (LinearLayout) findViewById(R.id.btmbar);
+        if (my_id.equals("0") && my_google_id.equals("0") && my_mon_id.equals("0")){
+            //如果從藥袋跳頁過來就不顯示頁面下面的跳頁鈕
+            btmbar.setVisibility(View.GONE);
+        }
+        else {
+            BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomNavView_Bar);
+            BottomNavigationViewHelper.disableShiftMode(bottomNavigationView);
+            Menu menu = bottomNavigationView.getMenu();
+            MenuItem menuItem = menu.getItem(3);
+            menuItem.setChecked(true);
 
-        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                switch (item.getItemId()){
-                    case R.id.ic_list:
-                        Intent intent0 = new Intent(druginfo.this,Choice.class);
-                        Bundle bundle0 = new Bundle();
-                        bundle0.putString("memberid", my_id);
-                        bundle0.putString("my_google_id", my_google_id);
-                        bundle0.putString("my_supervise_id", my_mon_id);
-                        intent0.putExtras(bundle0);   // 記得put進去，不然資料不會帶過去哦
-                        startActivity(intent0);
-                        break;
+            bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+                @Override
+                public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                    switch (item.getItemId()){
+                        case R.id.ic_list:
+                            Intent intent0 = new Intent(druginfo.this,Choice.class);
+                            Bundle bundle0 = new Bundle();
+                            bundle0.putString("memberid", my_id);
+                            bundle0.putString("my_google_id", my_google_id);
+                            bundle0.putString("my_supervise_id", my_mon_id);
+                            intent0.putExtras(bundle0);   // 記得put進去，不然資料不會帶過去哦
+                            startActivity(intent0);
+                            break;
 
-                    case R.id.ic_eye:
-                        Intent intent1 = new Intent(druginfo.this,MonitorActivity.class);
-                        Bundle bundle1 = new Bundle();
-                        bundle1.putString("my_id", my_id);
-                        bundle1.putString("my_google_id", my_google_id);
-                        bundle1.putString("my_supervise_id", my_mon_id);
-                        intent1.putExtras(bundle1);
-                        startActivity(intent1);
-                        break;
+                        case R.id.ic_eye:
+                            Intent intent1 = new Intent(druginfo.this,MonitorActivity.class);
+                            Bundle bundle1 = new Bundle();
+                            bundle1.putString("my_id", my_id);
+                            bundle1.putString("my_google_id", my_google_id);
+                            bundle1.putString("my_supervise_id", my_mon_id);
+                            intent1.putExtras(bundle1);
+                            startActivity(intent1);
+                            break;
 
-                    case R.id.ic_home:
-                        Intent intent2 = new Intent(druginfo.this, MainActivity.class);
-                        Bundle bundle2 = new Bundle();
-                        bundle2.putString("googleid", my_google_id);
-                        intent2.putExtras(bundle2);
-                        startActivity(intent2);
-                        break;
+                        case R.id.ic_home:
+                            Intent intent2 = new Intent(druginfo.this, MainActivity.class);
+                            Bundle bundle2 = new Bundle();
+                            bundle2.putString("googleid", my_google_id);
+                            intent2.putExtras(bundle2);
+                            startActivity(intent2);
+                            break;
 
-                    case R.id.ic_information:
-                        Intent intent3 = new Intent(druginfo.this, druginfo.class);
-                        Bundle bundle3 = new Bundle();
-                        bundle3.putString("my_id", my_id);
-                        bundle3.putString("my_google_id", my_google_id);
-                        bundle3.putString("my_supervise_id", my_mon_id);
-                        intent3.putExtras(bundle3);
-                        startActivity(intent3);
-                        break;
+                        case R.id.ic_information:
+                            Intent intent3 = new Intent(druginfo.this, druginfo.class);
+                            Bundle bundle3 = new Bundle();
+                            bundle3.putString("my_id", my_id);
+                            bundle3.putString("my_google_id", my_google_id);
+                            bundle3.putString("my_supervise_id", my_mon_id);
+                            intent3.putExtras(bundle3);
+                            startActivity(intent3);
+                            break;
 
-                    case R.id.ic_beacon:
-                        Intent intent4 = new Intent(druginfo.this, Beacon.class);
-                        Bundle bundle4 = new Bundle();
-                        bundle4.putString("my_id", my_id);
-                        bundle4.putString("my_google_id", my_google_id);
-                        bundle4.putString("my_supervise_id", my_mon_id);
-                        intent4.putExtras(bundle4);
-                        startActivity(intent4);
-                        break;
+                        case R.id.ic_beacon:
+                            Intent intent4 = new Intent(druginfo.this, Beacon.class);
+                            Bundle bundle4 = new Bundle();
+                            bundle4.putString("my_id", my_id);
+                            bundle4.putString("my_google_id", my_google_id);
+                            bundle4.putString("my_supervise_id", my_mon_id);
+                            intent4.putExtras(bundle4);
+                            startActivity(intent4);
+                            break;
+                    }
+
+
+                    return false;
                 }
+            });
+        }
 
-
-                return false;
-            }
-        });
         listView = (ListView) findViewById(R.id.listview);
         editText = (EditText) findViewById(R.id.textsearch);
 

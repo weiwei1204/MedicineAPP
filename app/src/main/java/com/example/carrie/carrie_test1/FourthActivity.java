@@ -1,5 +1,6 @@
 package com.example.carrie.carrie_test1;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
@@ -9,6 +10,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+
+import java.util.ArrayList;
 
 public class FourthActivity extends AppCompatActivity {
     String id;
@@ -21,6 +24,11 @@ public class FourthActivity extends AppCompatActivity {
     String appli;
     String maker_Nam;
     String ima;
+    private int drugid;
+    private String drugname;
+    private FloatingActionButton addnmcal;
+    private ArrayList<ArrayList<String>> mydrugs = new ArrayList<ArrayList<String>>();
+
     //String chineseName;
 
     @Override
@@ -30,13 +38,20 @@ public class FourthActivity extends AppCompatActivity {
         setContentView(R.layout.activity_fourth);
         Log.d("drug","2");
 
+        addnmcal = (FloatingActionButton)findViewById(R.id.addmcal);
+        inserttomcal();
        // setContentView(R.layout.activity_fourth);
        // Log.d("chart","2");
         //Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
       //  setSupportActionBar(toolbar);
 
         Bundle bundle = getIntent().getExtras();
+        drugid = bundle.getInt("id");
+        Log.d("drugooo", String.valueOf(drugid));
+
+
         id = bundle.getString("chineseName");//get 中文名字
+        drugname=id;
         Log.d("drug","4");
         TextView chineseName=(TextView) findViewById(R.id.chineseName3);
         Log.d("drug","5");
@@ -104,6 +119,39 @@ public class FourthActivity extends AppCompatActivity {
 //            }
 //        });
 
+
+    }
+
+    public void inserttomcal(){
+        addnmcal.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+//                int i= mcaldata.getMcaldrugs().size();
+//                Log.d("drugarray",String.valueOf(i));
+//                mdrugs = mcaldata.getMcaldrugs();
+//                Log.d("drug","100");
+//                mdrugs.add(new ArrayList<String>());
+//                Log.d("drug","200");
+//                mdrugs.get(i).add(drugname);
+//                Log.d("drug","300");
+//                mdrugs.get(i).add(String.valueOf(drugid));
+//                Log.d("drug","400");
+//                mcaldata.setMcaldrugs(mdrugs);
+                mydrugs.add(new ArrayList<String>());
+                mydrugs.get(0).add(drugname);
+                mydrugs.get(0).add(String.valueOf(drugid));
+                Log.d("drug","500");
+                Intent it =new Intent(FourthActivity.this,ThirdActivity.class);
+                Bundle bundle1 = new Bundle();
+                bundle1.putString("drugid", String.valueOf(drugid));
+                bundle1.putString("chineseName",drugname);
+                bundle1.putInt("entertype",1);
+                it.putExtras(bundle1);
+                startActivity(it);
+
+
+            }
+        });
     }
     public void goback(View v){
         finish();

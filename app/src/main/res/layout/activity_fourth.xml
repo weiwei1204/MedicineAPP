@@ -8,8 +8,8 @@
     tools:context="com.example.carrie.carrie_test1.FourthActivity">
 
     <TableLayout
-        android:layout_width="344dp"
-        android:layout_height="495dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         tools:layout_editor_absoluteX="8dp"
         tools:layout_editor_absoluteY="8dp">
 
@@ -41,7 +41,7 @@
 
         <TableRow
             android:layout_width="match_parent"
-            android:layout_height="match_parent" >
+            android:layout_height="match_parent">
 
             <LinearLayout
                 android:layout_width="100dp"
@@ -61,8 +61,7 @@
                         android:layout_height="18dp"
                         android:layout_marginLeft="-20dp"
                         android:layout_marginTop="10dp"
-                        android:layout_weight="1"
-                        />
+                        android:layout_weight="1" />
 
                     <TextView
                         android:id="@+id/textView20"
@@ -354,7 +353,7 @@
                         android:layout_marginTop="10dp"
                         android:layout_weight="1"
                         android:textColor="#6C6C6C"
-                        android:textSize="8pt"/>
+                        android:textSize="8pt" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -400,10 +399,9 @@
         </TableRow>
 
 
-
         <TableRow
             android:layout_width="match_parent"
-            android:layout_height="match_parent" >
+            android:layout_height="match_parent">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -416,5 +414,21 @@
 
             </FrameLayout>
         </TableRow>
+
+        <android.support.design.widget.CoordinatorLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <android.support.design.widget.FloatingActionButton
+                android:id="@+id/addmcal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|end"
+                android:layout_margin="@dimen/fab_margin"
+                android:src="@drawable/ic_action_add1"
+                app:backgroundTint="@color/colorAccent"
+                app:fabSize="normal" />
+        </android.support.design.widget.CoordinatorLayout>
     </TableLayout>
+
 </ScrollView>

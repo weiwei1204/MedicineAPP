@@ -228,30 +228,47 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="horizontal">
+                android:orientation="vertical">
 
-                <TextView
-                    android:id="@+id/textView18"
-                    android:layout_width="85dp"
-                    android:layout_height="30dp"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginTop="20dp"
-                    android:layout_weight="1"
-                    android:text="藥品項目"
-                    android:textColor="#272727"
-                    android:textSize="10pt" />
 
-                <EditText
-                    android:id="@+id/editText5"
-                    android:layout_width="150dp"
-                    android:layout_height="35sp"
-                    android:layout_marginTop="20dp"
-                    android:layout_weight="1"
-                    android:background="@drawable/thirdsettext"
-                    android:textColor="#272727"
-                    android:ems="10"
-                    android:inputType="textPersonName"
-                    android:text="" />
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/textView18"
+                        android:layout_width="85dp"
+                        android:layout_height="30dp"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginTop="20dp"
+                        android:layout_weight="1"
+                        android:text="藥品項目"
+                        android:textColor="#272727"
+                        android:textSize="10pt" />
+
+                    <ImageButton
+                        android:id="@+id/adddrug"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_alignParentTop="true"
+                        android:contentDescription="@string/btnAdd"
+                        android:src="@android:drawable/ic_input_add" />
+
+                </RelativeLayout>
+
+                <LinearLayout
+                    android:id="@+id/scrollView2"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <LinearLayout
+                        android:id="@+id/newdrug"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical"></LinearLayout>
+                </LinearLayout>
+
 
                 <Button
                     android:id="@+id/button2"
