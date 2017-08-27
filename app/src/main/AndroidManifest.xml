@@ -1,7 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.carrie.carrie_test1">
+    <!--藍芽權限-->
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
+    <!--  -->
     <uses-sdk
         android:minSdkVersion="9"
         android:targetSdkVersion="17" />
@@ -34,9 +40,6 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".FirstActivity"
-            android:label="@string/title_activity_first" />
-        <activity
             android:name=".SecondActivity"
             android:label="@string/title_activity_second" />
         <activity
@@ -52,14 +55,17 @@
             android:name=".thirdverify"
             android:label="@string/title_activity_thirdverify" />
         <activity
-            android:name=".RobotActivity"
-            android:label="@string/title_activity_robot" />
+            android:name=".MyBeaconActivity"
+            android:label="@string/title_activity_beacon" />
         <activity
             android:name=".MainActivity"
             android:label="用藥小幫手" />
         <activity
-            android:name=".beaconActivity"
-            android:label="@string/title_activity_beacon" />
+        android:name=".ScanBeaconActivity"
+        android:label="@string/title_activity_scandevice" />
+        <activity
+            android:name=".MyAPActivity"
+            android:label="@string/title_activity_ap" />
         <activity
             android:name=".medicinevertify"
             android:label="@string/title_activity_medicinevertify" />

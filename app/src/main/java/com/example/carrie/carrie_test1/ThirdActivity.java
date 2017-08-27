@@ -506,6 +506,7 @@ public class ThirdActivity extends AppCompatActivity {
             }
         };
         RequestQueue requestQueue = Volley.newRequestQueue(this);
+        Log.d("bcon1",this.toString());
         requestQueue.add(request);
     }
 

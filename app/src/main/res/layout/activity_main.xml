@@ -9,9 +9,7 @@
     <RelativeLayout
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-       >
-
-
+        >
         <RelativeLayout
             android:id="@+id/container_table"
             android:layout_width="match_parent"
@@ -83,20 +81,20 @@
                             android:layout_marginLeft="25sp"
                             android:layout_marginRight="5sp"
                             android:layout_marginTop="20sp"
-                            android:background="@drawable/robot"
-                            android:onClick="gotoFirstctivity" />
+                            android:background="@drawable/wifi"
+                            android:onClick="gotoFirstActivity" />
 
                         <TextView
                             android:id="@+id/textView"
                             android:layout_width="150sp"
-                            android:layout_height="match_parent"
+                            android:layout_height="wrap_content"
                             android:layout_marginBottom="20sp"
                             android:layout_marginLeft="25sp"
                             android:layout_marginRight="5sp"
                             android:layout_marginTop="5sp"
                             android:layout_weight="1"
                             android:gravity="center"
-                            android:text="用藥諮詢"
+                            android:text="我的Beacon"
                             android:textColor="@android:color/background_light"
                             android:textSize="18sp" />
 
@@ -223,8 +221,5 @@
 
             </android.support.design.widget.BottomNavigationView>
         </RelativeLayout>
-
     </RelativeLayout>
-
-
 </android.support.constraint.ConstraintLayout>

@@ -14,6 +14,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -24,7 +25,19 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import lecho.lib.hellocharts.animation.ChartAnimationListener;
@@ -61,6 +74,16 @@ public class BsPlotTab extends Fragment{
     private boolean pointsHaveDifferentColor;
     private boolean hasGradientToTransparent = false;
     public static String memberid;
+    private BloodSugar record ;
+    RequestQueue requestQueue;
+    public String url = "http://54.65.194.253/Health_Calendar/getBsRecordDate.php";
+    public static String member_id;//getRecord抓的
+    public static int userid;
+    public static String bloodsugar="";
+    public static String savetime="";
+    public static int [] bsarray ;
+    public static String [] datearray;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -69,13 +92,73 @@ public class BsPlotTab extends Fragment{
         View rootView = inflater.inflate(R.layout.tab1_bloodsugar, container, false);
         chart = (LineChartView) rootView.findViewById(R.id.chart);
         chart.setOnValueTouchListener(new ValueTouchListener());
-        Bundle bundle = new Bundle();
+        Bundle bundle = this.getArguments();
         memberid = bundle.getString("memberid");
+        Log.d("689","sent id"+memberid);
+        getRecord();
         generateValues();
         generateData();
         chart.setViewportCalculationEnabled(false);
         resetViewport();
         return rootView;
+    }
+
+    public void getRecord(){
+        requestQueue = Volley.newRequestQueue(getActivity().getApplicationContext());
+        Log.d("689","1");
+        final JsonArrayRequest jsonObjectRequest = new JsonArrayRequest(Request.Method.POST, url, new Response.Listener<JSONArray>() {
+            @Override
+            public void onResponse(JSONArray response) {
+                Log.d("689","in response");
+
+                try {
+//                    JSONArray array = new JSONArray(response);
+//                    Log.d("777",array.toString());
+
+
+
+                    for (int i = 0; i < response.length(); i++) {
+                        JSONObject object = response.getJSONObject(i);
+                        record = new BloodSugar(object.getInt("id"), object.getString("member_id"), object.getString("bloodsugar"), object.getString("savetime"));
+//                        data_list.add(record);
+                        int counter = 0;
+                        userid = object.getInt("id");
+                        member_id = object.getString("member_id");
+                        Log.d("689","saw id:" +member_id);
+                        if (member_id.equals(memberid)){
+                            bloodsugar= object.getString("bloodsugar");
+                            savetime = object.getString("savetime");
+                            bsarray = new int[response.length()];
+                            datearray =new String[response.length()];
+                            counter++;
+
+                            Log.d("689", "member_id:" + member_id);
+                            Log.d("689", "bloodsugar:" + bloodsugar);
+                            Log.d("689", "savetime:" + savetime);
+
+                            bsarray[counter] = Integer.parseInt(bloodsugar);
+                            datearray[counter] = savetime;
+
+                            Log.d("689","bsarray:" + bsarray[counter]);
+                            Log.d("689","datearray:" +datearray[counter]);
+
+                        }
+                    }
+                }catch (JSONException e){
+                    e.printStackTrace();
+                }
+
+            }
+        },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.d("777",error.toString());
+                    }
+                });
+        RequestQueue requestQueue = Volley.newRequestQueue(this.getActivity());
+        requestQueue.add(jsonObjectRequest);
+
     }
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.line_chart, menu);
@@ -239,8 +322,8 @@ public class BsPlotTab extends Fragment{
             Axis axisX = new Axis();
             Axis axisY = new Axis().setHasLines(true);
             if (hasAxesNames) {
-                axisX.setName("8/13");
-                axisY.setName("血糖BPM");
+                axisX.setName("3日內變化");
+                axisY.setName("血糖  BPM");
             }
             data.setAxisXBottom(axisX);
             data.setAxisYLeft(axisY);

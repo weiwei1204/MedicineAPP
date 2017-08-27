@@ -166,9 +166,12 @@ public class MainActivity extends LoginActivity {
 
     }
 
-
-    public void gotoSecondActivity(View v){ //連到iBeacon頁面
-        Intent it = new Intent(this,SecondActivity.class);
+    public void gotoFirstActivity(View v){ //連到MyBeacon頁面
+        Intent it = new Intent(this,MyBeaconActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putString("memberid", memberid);
+        Log.d("fffaaa",memberid);
+        it.putExtras(bundle);   // 記得put進去，不然資料不會帶過去哦
         startActivity(it);
     }
 
