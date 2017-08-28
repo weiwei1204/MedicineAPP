@@ -16,6 +16,16 @@ public class BloodPressure implements Parcelable{
     public String highmmhg;
     public String lowmmhg;
     public String bpm;
+
+    @Override
+    public String toString() {
+        return
+                "收縮壓(高)：" + highmmhg + "mmhg"+
+                ", 舒張壓(低)：" + lowmmhg + "mmhg"+ "\n" +
+                "心跳：" + bpm  + "bpm" + "\n" +
+                "記錄時間：" + savetime  ;
+    }
+
     public String savetime;
     public BloodPressure(int id, String member_id, String highmmhg, String lowmmhg, String bpm,  String savetime) {
         this.id = id;
@@ -111,4 +121,5 @@ public class BloodPressure implements Parcelable{
         dest.writeString(bpm);
         dest.writeString(savetime);
     }
+
 }

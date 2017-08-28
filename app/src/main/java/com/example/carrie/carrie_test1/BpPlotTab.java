@@ -3,21 +3,8 @@ package com.example.carrie.carrie_test1;
 /**
  * Created by jonathan on 2017/8/6.
  */
-import android.annotation.SuppressLint;
-import android.content.Context;
-import android.content.Intent;
-import android.os.Parcel;
-import android.support.design.widget.TabLayout;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.view.ViewPager;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -25,7 +12,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -45,9 +31,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+
 import lecho.lib.hellocharts.listener.ComboLineColumnChartOnValueSelectListener;
 import lecho.lib.hellocharts.model.Axis;
 import lecho.lib.hellocharts.model.Column;
@@ -224,7 +209,7 @@ public class BpPlotTab extends Fragment{
             @Override
             public void onResponse(JSONArray response) {
                 Log.d("777","in response");
-                count = -1;
+                count = 0;
                 try {
                     rd = true;
 //                    JSONArray array = new JSONArray(response);
@@ -249,43 +234,45 @@ public class BpPlotTab extends Fragment{
                             usrbpm = object.getString("bpm");
                             usrsavetime = object.getString("savetime");
 
-                            highvaluearray = new int[response.length()];
-                            lowvaluearray = new int[response.length()];
-                            bpmvaluearray = new int[response.length()];
-                            datearray = new String[response.length()];
-
-
-                            count++;
-                            Log.d("8777","response"+response.length());
-                            Log.d("8777","count"+count);
                             Log.d("6969", "member_id:" + member_id);
                             Log.d("6969", "highmmhg:" + usrhighmmhg);
                             Log.d("6969", "lowmmhg:" + usrlowmmhg);
                             Log.d("6969", "bpm:" + usrbpm);
                             Log.d("9999", "savetime:" + usrsavetime);
 
+                            highvaluearray = new int[response.length()];
+                            lowvaluearray = new int[response.length()];
+                            bpmvaluearray = new int[response.length()];
+                            datearray = new String[response.length()];
+
+                            count++;
+
                             highvaluearray[count] = Integer.parseInt(usrhighmmhg);
                             lowvaluearray[count] = Integer.parseInt(usrlowmmhg);
                             bpmvaluearray[count] = Integer.parseInt(usrbpm);
                             datearray[count] = usrsavetime;
 
+                            Log.d("8777","response"+response.length());
+                            Log.d("8777","count"+count);
 
                             Log.d("2345","higharray:"+highvaluearray[count]);
                             Log.d("3456","lowarray:" +lowvaluearray[count]);
                             Log.d("4567","bpmarray:" +bpmvaluearray[count]);
                             Log.d("1112","datearray:"+datearray[count]);
 
-                            numberOfPoints = count+1;
+                            numberOfPoints = count;
                             randomNumbersTab = new float[maxNumberOfLines][numberOfPoints];
 
+                        for(int a =0;a<highvaluearray.length;a++){
                             for (int k = 0; k < maxNumberOfLines; ++k) {
                                 Log.d("9996","number of lines:"+maxNumberOfLines);
                                 for (int j = 0; j < numberOfPoints; ++j) {
                                     Log.d("9996","number of points:"+numberOfPoints);
                                     randomNumbersTab[k][j] = highvaluearray[count];
+//                                    Log.d("0008","array:"+randomNumbersTab[k][j]);
                                 }
                             }
-
+                        }
 
                         }
                     }
