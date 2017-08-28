@@ -16,8 +16,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -45,7 +45,7 @@ public class druginfo extends AppCompatActivity {
     ListView listView;
     EditText editText;
 
-    private LinearLayout btmbar;
+    private RelativeLayout btmbar;
     private RecyclerView recyclerView;
     private GridLayoutManager gridLayoutManager;
     private CustomAdapter2 adapter;
@@ -64,7 +64,7 @@ public class druginfo extends AppCompatActivity {
         my_id = bundle.getString("my_id");//get 自己 id
         my_google_id = bundle.getString("my_google_id");//get 自己google_ id
         my_mon_id = bundle.getString("my_supervise_id");
-        btmbar = (LinearLayout) findViewById(R.id.btmbar);
+        btmbar = (RelativeLayout) findViewById(R.id.btmbar);
         if (my_id.equals("0") && my_google_id.equals("0") && my_mon_id.equals("0")){
             //如果從藥袋跳頁過來就不顯示頁面下面的跳頁鈕
             btmbar.setVisibility(View.GONE);
