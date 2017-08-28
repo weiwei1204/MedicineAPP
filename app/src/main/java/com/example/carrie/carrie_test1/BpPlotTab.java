@@ -224,7 +224,7 @@ public class BpPlotTab extends Fragment{
             @Override
             public void onResponse(JSONArray response) {
                 Log.d("777","in response");
-                count = -1;
+                count = 0;
                 try {
                     rd = true;
 //                    JSONArray array = new JSONArray(response);
@@ -249,43 +249,45 @@ public class BpPlotTab extends Fragment{
                             usrbpm = object.getString("bpm");
                             usrsavetime = object.getString("savetime");
 
-                            highvaluearray = new int[response.length()];
-                            lowvaluearray = new int[response.length()];
-                            bpmvaluearray = new int[response.length()];
-                            datearray = new String[response.length()];
-
-
-                            count++;
-                            Log.d("8777","response"+response.length());
-                            Log.d("8777","count"+count);
                             Log.d("6969", "member_id:" + member_id);
                             Log.d("6969", "highmmhg:" + usrhighmmhg);
                             Log.d("6969", "lowmmhg:" + usrlowmmhg);
                             Log.d("6969", "bpm:" + usrbpm);
                             Log.d("9999", "savetime:" + usrsavetime);
 
+                            highvaluearray = new int[response.length()];
+                            lowvaluearray = new int[response.length()];
+                            bpmvaluearray = new int[response.length()];
+                            datearray = new String[response.length()];
+
+                            count++;
+
                             highvaluearray[count] = Integer.parseInt(usrhighmmhg);
                             lowvaluearray[count] = Integer.parseInt(usrlowmmhg);
                             bpmvaluearray[count] = Integer.parseInt(usrbpm);
                             datearray[count] = usrsavetime;
 
+                            Log.d("8777","response"+response.length());
+                            Log.d("8777","count"+count);
 
                             Log.d("2345","higharray:"+highvaluearray[count]);
                             Log.d("3456","lowarray:" +lowvaluearray[count]);
                             Log.d("4567","bpmarray:" +bpmvaluearray[count]);
                             Log.d("1112","datearray:"+datearray[count]);
 
-                            numberOfPoints = count+1;
+                            numberOfPoints = count;
                             randomNumbersTab = new float[maxNumberOfLines][numberOfPoints];
 
+                        for(int a =0;a<highvaluearray.length;a++){
                             for (int k = 0; k < maxNumberOfLines; ++k) {
                                 Log.d("9996","number of lines:"+maxNumberOfLines);
                                 for (int j = 0; j < numberOfPoints; ++j) {
                                     Log.d("9996","number of points:"+numberOfPoints);
                                     randomNumbersTab[k][j] = highvaluearray[count];
+//                                    Log.d("0008","array:"+randomNumbersTab[k][j]);
                                 }
                             }
-
+                        }
 
                         }
                     }

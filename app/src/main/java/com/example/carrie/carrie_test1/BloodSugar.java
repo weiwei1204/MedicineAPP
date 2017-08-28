@@ -40,6 +40,13 @@ public class BloodSugar {
         this.savetime = savetime;
     }
 
+    @Override
+    public String toString() {
+        return
+                "血糖:" + bloodsugar + "mg/dL" + "\n" +
+                "記錄時間:" + savetime ;
+    }
+
     public String bloodsugar;
     public String savetime;
     public BloodSugar(int id, String member_id, String bloodsugar, String savetime) {
