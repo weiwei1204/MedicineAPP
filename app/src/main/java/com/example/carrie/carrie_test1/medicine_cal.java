@@ -10,6 +10,7 @@ import android.os.Vibrator;
 import android.support.annotation.RequiresApi;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Html;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -296,7 +297,7 @@ public class medicine_cal extends AppCompatActivity {
     public boolean  checkdrug(){
         if (drugnameid.getText().toString().isEmpty()){
             drugnameid1.setErrorEnabled(true);
-            drugnameid1.setError("Please Enter medicine");
+            drugnameid1.setError(Html.fromHtml("<font color='red'>Please Enter medicine</font>"));
             drugnameid.setError("Vaild Input Required");
             requestFocus(drugnameid);
 
