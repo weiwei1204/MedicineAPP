@@ -87,9 +87,9 @@ public class BpTab extends Fragment {
                         Log.d("bbbbb", "999");
                         try {
                             okhttp3.Response response = client.newCall(request).execute();
-                            Log.d("mon_idte213st", "12212321231");
-                            Log.d("mon_idte213st", "http://54.65.194.253/Health_Calendar/insertbloodpressure.php?memberid=" + memberid + "&hmmhg=" + highmmhg + "&lmmhg=" + lowmmhg + "&bpm=" + bpm);
-                            Log.d("mon_idte213st", "122");
+//                            Log.d("mon_idte213st", "12212321231");
+//                            Log.d("mon_idte213st", "http://54.65.194.253/Health_Calendar/insertbloodpressure.php?memberid=" + memberid + "&hmmhg=" + highmmhg + "&lmmhg=" + lowmmhg + "&bpm=" + bpm);
+//                            Log.d("mon_idte213st", "122");
 
                         } catch (IOException e) {
                             e.printStackTrace();
@@ -99,18 +99,19 @@ public class BpTab extends Fragment {
 
                     @Override
                     protected void onPostExecute(Void aVoid) {
+                        super.onPostExecute(aVoid);
+                        setInsertbpvalue();
+                        Toast.makeText(getActivity().getApplicationContext(),"成功送出",Toast.LENGTH_SHORT).show();
+                        Intent it = new Intent(getContext(), BpRecord.class);
+                        it.putExtra("memberid", memberid);
+                        it.putExtra("highmmhg", highmmhg);
+                        it.putExtra("lowmmhg", lowmmhg);
+                        it.putExtra("bpm", bpm);
+                        startActivity(it);
 
                     }
                 };
                 task.execute();
-                Toast.makeText(getActivity().getApplicationContext(),"成功送出",Toast.LENGTH_SHORT).show();
-
-                    Intent it = new Intent(v.getContext(),BpRecord.class);
-                    it.putExtra("memberid",memberid);
-                    it.putExtra("highmmhg",highmmhg);
-                    it.putExtra("lowmmhg",lowmmhg);
-                    it.putExtra("bpm",bpm);
-                    startActivity(it);
 
 
             }

@@ -81,6 +81,7 @@ public class BpRecord extends AppCompatActivity {
 
 
 
+
     }
     public void start(){
         listAdapter = new ArrayAdapter<BloodPressure>(this,android.R.layout.simple_selectable_list_item,record_list);
@@ -165,6 +166,7 @@ public class BpRecord extends AppCompatActivity {
                             savetime = object.getString("savetime");
 
                             record_list.add(data);
+
 
 
 

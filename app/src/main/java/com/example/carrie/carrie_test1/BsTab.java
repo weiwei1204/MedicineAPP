@@ -66,15 +66,15 @@ public class BsTab extends Fragment {
 
                     @Override
                     protected void onPostExecute(Void aVoid) {
-
+                        Toast.makeText(getActivity().getApplicationContext(),"成功送出",Toast.LENGTH_SHORT).show();
+                        Intent it = new Intent(getContext(),BsRecord.class);
+                        it.putExtra("memberid",memberid);
+                        it.putExtra("sugarvalue",sugarvalue);
+                        startActivity(it);
                     }
                 };
                 task.execute();
-                Toast.makeText(getActivity().getApplicationContext(),"成功送出",Toast.LENGTH_SHORT).show();
-                Intent it = new Intent(v.getContext(),BsRecord.class);
-                it.putExtra("memberid",memberid);
-                it.putExtra("sugarvalue",sugarvalue);
-                startActivity(it);
+
 
 
             }
