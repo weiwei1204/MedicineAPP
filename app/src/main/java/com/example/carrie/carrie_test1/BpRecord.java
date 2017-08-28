@@ -44,6 +44,9 @@ public class BpRecord extends AppCompatActivity {
     private BloodPressure data ;
     public static ArrayList<BloodPressure>bloodPressureList;
     public static String memberid;//傳進來的
+    public static String high;
+    public static String low;
+    public static String bpmm;
 
     public static int userid;
     public static String member_id; //從資料庫抓的
@@ -67,27 +70,23 @@ public class BpRecord extends AppCompatActivity {
 
         Bundle bundle = getIntent().getExtras();
         memberid = bundle.getString("memberid");
+        high = bundle.getString("highmmhg");
+        low = bundle.getString("lowmmhg");
+        bpmm = bundle.getString("bpm");
         record_list = new ArrayList<>();
         getData();
-
-
-
-//        highmmhg = bundle.getString("highmmhg");
-//        lowmmhg = bundle.getString("lowmmhg");
-//        bpm = bundle.getString("bpm");
-
         setContentView(R.layout.activity_bp_record);
-
-
         listView = (ListView)findViewById(R.id.list_view);
         initView();
+
 
 
     }
     public void start(){
         listAdapter = new ArrayAdapter<BloodPressure>(this,android.R.layout.simple_selectable_list_item,record_list);
-        listView.setAdapter(listAdapter);
         listAdapter.notifyDataSetChanged();
+        listView.setAdapter(listAdapter);
+
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -109,6 +108,8 @@ public class BpRecord extends AppCompatActivity {
     private SwipeRefreshLayout.OnRefreshListener onSwipeToRefresh = new SwipeRefreshLayout.OnRefreshListener() {
         @Override
         public void onRefresh() {
+            listAdapter.addAll(record_list);
+            listAdapter.notifyDataSetChanged();
             laySwipe.setRefreshing(true);
             new Handler().postDelayed(new Runnable() {
                 @Override
@@ -116,7 +117,10 @@ public class BpRecord extends AppCompatActivity {
                     laySwipe.setRefreshing(false);
                     Toast.makeText(getApplicationContext(), "Refresh done!", Toast.LENGTH_SHORT).show();
                 }
+
+
             }, 3000);
+
         }
     };
     private AbsListView.OnScrollListener onListScroll = new AbsListView.OnScrollListener() {
@@ -165,6 +169,7 @@ public class BpRecord extends AppCompatActivity {
 
 
 
+
                             higharr = new String[response.length()];
                             lowarr = new String[response.length()];
                             bpmarr = new String[response.length()];
@@ -185,6 +190,7 @@ public class BpRecord extends AppCompatActivity {
                             Log.d("5555", "savetime:" + savetime);
                         }
                     }
+
 
                     start();
 

@@ -107,9 +107,9 @@ public class BpTab extends Fragment {
 
                     Intent it = new Intent(v.getContext(),BpRecord.class);
                     it.putExtra("memberid",memberid);
-//                    it.putExtra("highmmhg",highmmhg);
-//                    it.putExtra("lowmmhg",lowmmhg);
-//                    it.putExtra("bpm",bpm);
+                    it.putExtra("highmmhg",highmmhg);
+                    it.putExtra("lowmmhg",lowmmhg);
+                    it.putExtra("bpm",bpm);
                     startActivity(it);
 
 
