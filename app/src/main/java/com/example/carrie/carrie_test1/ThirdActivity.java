@@ -530,15 +530,16 @@ public class ThirdActivity extends AppCompatActivity {
 //                    alarm a=new alarm(getApplicationContext());
 //                    a.alarmclock(msg);
 
-                    for (int i=0;i<timearray.size();i++){      //一個一個存時間
-                        insertAlert_time(i);
-                    }
                     mdrugs.clear();
                     getdrugs(ThirdActivity.this);
                     int size=mdrugs.size();
                     for (int i=0;i<size;i++){
                         insertdrug(i);
                     }
+                    for (int i=0;i<timearray.size();i++){      //一個一個存時間
+                        insertAlert_time(i);
+                    }
+
                     Alert_time();
                     gotom_calendarlist();//儲存完後至用藥排成清單
                 }
@@ -622,13 +623,13 @@ public class ThirdActivity extends AppCompatActivity {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.d("nnnmm", error.toString());
-                Toast.makeText(getApplicationContext(), "Error read insertm_calendar.php!!!", Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), "Error read insertmcaldrugs.php!!!", Toast.LENGTH_LONG).show();
             }
         })
         {
             protected Map<String, String> getParams() throws AuthFailureError {//把值丟到php
                 Map<String, String> parameters = new HashMap<String, String>();
-                parameters.put("Medicine_calendar_id",m_calendarid);
+                parameters.put("Medicine_Calendar_id",m_calendarid);
                 parameters.put("Drug_id", mdrugs.get(i).get(1));
                 Log.d("my111", parameters.toString());
                 Log.d("my","checck!!!");
