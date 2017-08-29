@@ -37,43 +37,47 @@ public class BsTab extends Fragment {
             public void onClick(View v) {
                 final String memberid = getActivity().getIntent().getExtras().getString("memberid");
                 sugarvalue = etsugarvalue.getText().toString();
-                AsyncTask<Integer, Void, Void> task = new AsyncTask<Integer, Void, Void>() {
-                    @Override
-                    protected Void doInBackground(Integer... integers) {
-                        RequestBody formBody = new MultipartBody.Builder()
-                                .setType(MultipartBody.FORM)
-                                .addFormDataPart("memberid", memberid)
-                                .addFormDataPart("sugarvalue", sugarvalue)
-                                .build();
-                        Log.d("bbbbb", "9999");
-                        OkHttpClient client = new OkHttpClient();
-                        okhttp3.Request request = new okhttp3.Request.Builder()
-                                .url("http://54.65.194.253/Health_Calendar/insertbloodsugar.php?memberid=" + memberid + "&sugarvalue=" + sugarvalue )
-                                .post(formBody)
-                                .build();
-                        Log.d("bbbbb", "999");
-                        try {
-                            okhttp3.Response response = client.newCall(request).execute();
-                            Log.d("mon_idte213st", "12212321231");
-                            Log.d("mon_idte213st", "http://54.65.194.253/Health_Calendar/insertbloodsugar.php?memberid=" + memberid + "&sugarvalue=" + sugarvalue);
-                            Log.d("mon_idte213st", "122");
+                if(sugarvalue.matches("")){
+                    Toast.makeText(getActivity().getApplicationContext(), "有地方忘了填哦", Toast.LENGTH_SHORT).show();
+                }else {
+                    AsyncTask<Integer, Void, Void> task = new AsyncTask<Integer, Void, Void>() {
+                        @Override
+                        protected Void doInBackground(Integer... integers) {
+                            RequestBody formBody = new MultipartBody.Builder()
+                                    .setType(MultipartBody.FORM)
+                                    .addFormDataPart("memberid", memberid)
+                                    .addFormDataPart("sugarvalue", sugarvalue)
+                                    .build();
+                            Log.d("bbbbb", "9999");
+                            OkHttpClient client = new OkHttpClient();
+                            okhttp3.Request request = new okhttp3.Request.Builder()
+                                    .url("http://54.65.194.253/Health_Calendar/insertbloodsugar.php?memberid=" + memberid + "&sugarvalue=" + sugarvalue)
+                                    .post(formBody)
+                                    .build();
+                            Log.d("bbbbb", "999");
+                            try {
+                                okhttp3.Response response = client.newCall(request).execute();
+                                Log.d("mon_idte213st", "12212321231");
+                                Log.d("mon_idte213st", "http://54.65.194.253/Health_Calendar/insertbloodsugar.php?memberid=" + memberid + "&sugarvalue=" + sugarvalue);
+                                Log.d("mon_idte213st", "122");
 
-                        } catch (IOException e) {
-                            e.printStackTrace();
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                            return null;
                         }
-                        return null;
-                    }
 
-                    @Override
-                    protected void onPostExecute(Void aVoid) {
-                        Toast.makeText(getActivity().getApplicationContext(),"成功送出",Toast.LENGTH_SHORT).show();
-                        Intent it = new Intent(getContext(),BsRecord.class);
-                        it.putExtra("memberid",memberid);
-                        it.putExtra("sugarvalue",sugarvalue);
-                        startActivity(it);
-                    }
-                };
-                task.execute();
+                        @Override
+                        protected void onPostExecute(Void aVoid) {
+                            Toast.makeText(getActivity().getApplicationContext(), "成功送出", Toast.LENGTH_SHORT).show();
+                            Intent it = new Intent(getContext(), BsRecord.class);
+                            it.putExtra("memberid", memberid);
+                            it.putExtra("sugarvalue", sugarvalue);
+                            startActivity(it);
+                        }
+                    };
+                    task.execute();
+                }
 
 
 
