@@ -66,53 +66,58 @@ public class BpTab extends Fragment {
                 Log.v("EditText", etlowmmhg.getText().toString());
                 Log.v("EditText", etbpm.getText().toString());
                 final String memberid = getActivity().getIntent().getExtras().getString("memberid");
+                if(highmmhg.matches("") || lowmmhg.matches("") || bpm.matches("")) {
+                    Toast.makeText(getActivity().getApplicationContext(), "有地方忘了填哦", Toast.LENGTH_SHORT).show();
+                }else{
 
+                    AsyncTask<Integer, Void, Void> task = new AsyncTask<Integer, Void, Void>() {
+                        @Override
+                        protected Void doInBackground(Integer... integers) {
+                            RequestBody formBody = new MultipartBody.Builder()
+                                    .setType(MultipartBody.FORM)
+                                    .addFormDataPart("memberid", memberid)
+                                    .addFormDataPart("highmmhg", highmmhg)
+                                    .addFormDataPart("lowmmhg", lowmmhg)
+                                    .addFormDataPart("bpm", bpm)
+                                    .build();
+                            Log.d("bbbbb", "9999");
+                            OkHttpClient client = new OkHttpClient();
+                            okhttp3.Request request = new okhttp3.Request.Builder()
+                                    .url("http://54.65.194.253/Health_Calendar/insertbloodpressure.php?memberid=" + memberid + "&hmmhg=" + highmmhg + "&lmmhg=" + lowmmhg + "&bpm=" + bpm)
+                                    .post(formBody)
+                                    .build();
+                            Log.d("bbbbb", "999");
+                            try {
+                                okhttp3.Response response = client.newCall(request).execute();
+//                            Log.d("mon_idte213st", "12212321231");
+//                            Log.d("mon_idte213st", "http://54.65.194.253/Health_Calendar/insertbloodpressure.php?memberid=" + memberid + "&hmmhg=" + highmmhg + "&lmmhg=" + lowmmhg + "&bpm=" + bpm);
+//                            Log.d("mon_idte213st", "122");
 
-                AsyncTask<Integer, Void, Void> task = new AsyncTask<Integer, Void, Void>() {
-                    @Override
-                    protected Void doInBackground(Integer... integers) {
-                        RequestBody formBody = new MultipartBody.Builder()
-                                .setType(MultipartBody.FORM)
-                                .addFormDataPart("memberid", memberid)
-                                .addFormDataPart("highmmhg", highmmhg)
-                                .addFormDataPart("lowmmhg", lowmmhg)
-                                .addFormDataPart("bpm", bpm)
-                                .build();
-                        Log.d("bbbbb", "9999");
-                        OkHttpClient client = new OkHttpClient();
-                        okhttp3.Request request = new okhttp3.Request.Builder()
-                                .url("http://54.65.194.253/Health_Calendar/insertbloodpressure.php?memberid=" + memberid + "&hmmhg=" + highmmhg + "&lmmhg=" + lowmmhg + "&bpm=" + bpm)
-                                .post(formBody)
-                                .build();
-                        Log.d("bbbbb", "999");
-                        try {
-                            okhttp3.Response response = client.newCall(request).execute();
-                            Log.d("mon_idte213st", "12212321231");
-                            Log.d("mon_idte213st", "http://54.65.194.253/Health_Calendar/insertbloodpressure.php?memberid=" + memberid + "&hmmhg=" + highmmhg + "&lmmhg=" + lowmmhg + "&bpm=" + bpm);
-                            Log.d("mon_idte213st", "122");
-
-                        } catch (IOException e) {
-                            e.printStackTrace();
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                            return null;
                         }
-                        return null;
-                    }
 
-                    @Override
-                    protected void onPostExecute(Void aVoid) {
+                        @Override
+                        protected void onPostExecute(Void aVoid) {
+                            super.onPostExecute(aVoid);
+                            setInsertbpvalue();
+                            Toast.makeText(getActivity().getApplicationContext(), "成功送出", Toast.LENGTH_SHORT).show();
+                            Intent it = new Intent(getContext(), BpRecord.class);
+                            it.putExtra("memberid", memberid);
+                            it.putExtra("highmmhg", highmmhg);
+                            it.putExtra("lowmmhg", lowmmhg);
+                            it.putExtra("bpm", bpm);
+                            startActivity(it);
 
-                    }
-                };
-                task.execute();
-                Toast.makeText(getActivity().getApplicationContext(),"成功送出",Toast.LENGTH_SHORT).show();
-
-                    Intent it = new Intent(v.getContext(),BpRecord.class);
-                    it.putExtra("memberid",memberid);
-                    it.putExtra("highmmhg",highmmhg);
-                    it.putExtra("lowmmhg",lowmmhg);
-                    it.putExtra("bpm",bpm);
-                    startActivity(it);
+                        }
+                    };
+                    task.execute();
 
 
+
+                }
             }
         });
         return rootView;
