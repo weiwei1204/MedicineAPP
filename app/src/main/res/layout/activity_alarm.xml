@@ -11,87 +11,105 @@
 
     <TableLayout
         android:layout_width="344dp"
-        android:layout_height="495dp"
+        android:layout_height="551dp"
+        android:gravity="center"
         tools:layout_editor_absoluteX="8dp"
         tools:layout_editor_absoluteY="8dp">
 
         <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_width="fill_parent"
+            android:layout_height="200dp"
+            android:gravity="center"
+            >
 
-            <TimePicker
-                android:id="@+id/timePicker"
-                android:layout_width="wrap_content"
+            <!--<TimePicker-->
+            <!--android:id="@+id/timePicker"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:clickable="true"-->
+            <!--tools:layout_editor_absoluteX="0dp"-->
+            <!--tools:layout_editor_absoluteY="0dp" />-->
+
+            <TextClock
+                android:id="@+id/textClock"
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:clickable="true"
-                tools:layout_editor_absoluteX="0dp"
-                tools:layout_editor_absoluteY="0dp" />
+                android:layout_gravity="center"
+                android:background="@drawable/alarmtime"
+                android:format12Hour="hh:mm:ss a"
+                android:textColor="#272727"
+                android:textSize="20pt"
+                android:textStyle="bold" />
+
+        </TableRow>
+
+        <TableRow
+            android:layout_width="fill_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:layout_marginTop="50dp">
+
+            <TextView
+                android:id="@+id/alarmset"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="10dp"
+                android:gravity="center"
+                android:text=""
+                android:textColor="#272727"
+                android:textSize="15pt" />
+
+        </TableRow>
+
+        <TableRow
+            android:layout_width="fill_parent"
+            android:layout_height="match_parent"
+            android:gravity="center">
+
+            <TextView
+                android:id="@+id/alarmdrug"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="10dp"
+                android:gravity="center"
+                android:text=""
+                android:textColor="#272727"
+                android:textSize="15pt" />
         </TableRow>
 
         <TableRow
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:layout_marginTop="50dp"
+            android:gravity="center">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="horizontal">
 
-                <!--<Button-->
-                    <!--android:id="@+id/alarmon"-->
-                    <!--android:layout_width="130dp"-->
-                    <!--android:layout_height="match_parent"-->
-                    <!--android:layout_marginRight="30dp"-->
-                    <!--android:layout_weight="1"-->
-                    <!--android:text="Turn on"-->
-                    <!--android:textSize="10pt"-->
-                    <!--tools:layout_editor_absoluteX="0dp"-->
-                    <!--tools:layout_editor_absoluteY="0dp" />-->
                 <Button
-                    android:id="@+id/alarmoff"
-                    android:layout_width="wrap_content"
+                    android:id="@+id/button7"
+                    android:layout_width="30dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Turn Off"
-                    android:textSize="10pt"
-                    android:layout_marginLeft="20dp"
-                    tools:layout_editor_absoluteX="0dp"
-                    tools:layout_editor_absoluteY="0dp"
-                    />
+                    android:gravity="center"
+                    android:text="延遲"
+                    android:textSize="10pt" />
 
-                <!--<Button-->
-                    <!--android:id="@+id/alarmoff"-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:layout_weight="1"-->
-                    <!--android:text="Turn Off"-->
-                    <!--android:textSize="10pt"-->
-                    <!--android:layout_marginLeft="20dp"-->
-                    <!--tools:layout_editor_absoluteX="0dp"-->
-                    <!--tools:layout_editor_absoluteY="0dp"-->
-                    <!--/>-->
+                <Button
+                    android:id="@+id/alarmoff"
+                    android:layout_width="30dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="完成"
+                    android:textSize="10pt"
+                    tools:layout_editor_absoluteX="0dp"
+                    tools:layout_editor_absoluteY="0dp" />
             </LinearLayout>
 
         </TableRow>
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" >
-
-            <TextView
-                android:id="@+id/alarmset"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:layout_marginLeft="30dp"
-                android:text="Did you set the alarm?"
-                android:textColor="#272727"
-                android:textSize="15pt"/>
-        </TableRow>
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
     </TableLayout>
     <!--<LinearLayout-->
         <!--android:layout_width="match_parent"-->

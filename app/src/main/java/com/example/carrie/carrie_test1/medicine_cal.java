@@ -113,6 +113,7 @@ public class medicine_cal extends AppCompatActivity {
 
                     for (int i=0 ; i<mcalendars.length() ; i++){
                         JSONObject mcalendar = mcalendars.getJSONObject(i);
+                        Log.d("nnnmmmmo",mcalendar.toString());
                         String id = mcalendar.getString("id");
                         String name = mcalendar.getString("name");
                         String startDate = mcalendar.getString("startDate");
