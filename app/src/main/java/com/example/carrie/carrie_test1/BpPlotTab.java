@@ -5,6 +5,7 @@ package com.example.carrie.carrie_test1;
  */
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.res.TypedArrayUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -35,6 +36,7 @@ import java.util.List;
 
 import lecho.lib.hellocharts.listener.ComboLineColumnChartOnValueSelectListener;
 import lecho.lib.hellocharts.model.Axis;
+import lecho.lib.hellocharts.model.AxisValue;
 import lecho.lib.hellocharts.model.Column;
 import lecho.lib.hellocharts.model.ColumnChartData;
 import lecho.lib.hellocharts.model.ComboLineColumnChartData;
@@ -94,8 +96,10 @@ public class BpPlotTab extends Fragment{
     public static String [] datearray;
 //抓下來塞進去
     boolean rd = false;
-    public int count;
-
+    private static int count;
+    private List<PointValue> mPointValues = new ArrayList<PointValue>();
+    private List<AxisValue> mAxisXValues = new ArrayList<AxisValue>();
+    ArrayList harr = new ArrayList<Integer>();
     @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         setHasOptionsMenu(true);
@@ -105,7 +109,12 @@ public class BpPlotTab extends Fragment{
         getRecord();
         Bundle bundle = this.getArguments();
         sentmember_id = bundle.getString("memberid");
+        int[]arr = bundle.getIntArray("high");
+        harr = bundle.getIntegerArrayList("higharr");
+        Log.d("7676","arr:  "+harr);
+
         Log.d("9999","memberid:"+sentmember_id);
+        Log.d("9999","arr:  "+Arrays.toString(arr));
 //        highmmhg = bundle.getString("highmmhg");
 //        Log.d("9999","highmmhg:"+highmmhg);
 //        lowmmhg = bundle.getString("lowmmhg");
@@ -209,7 +218,7 @@ public class BpPlotTab extends Fragment{
             @Override
             public void onResponse(JSONArray response) {
                 Log.d("777","in response");
-                count = 0;
+                 int count = 0;
                 try {
                     rd = true;
 //                    JSONArray array = new JSONArray(response);
@@ -240,49 +249,44 @@ public class BpPlotTab extends Fragment{
                             Log.d("6969", "bpm:" + usrbpm);
                             Log.d("9999", "savetime:" + usrsavetime);
 
-                            highvaluearray = new int[response.length()];
-                            lowvaluearray = new int[response.length()];
-                            bpmvaluearray = new int[response.length()];
-                            datearray = new String[response.length()];
-
                             count++;
 
-                            highvaluearray[count] = Integer.parseInt(usrhighmmhg);
-                            lowvaluearray[count] = Integer.parseInt(usrlowmmhg);
-                            bpmvaluearray[count] = Integer.parseInt(usrbpm);
-                            datearray[count] = usrsavetime;
-
-                            Log.d("8777","response"+response.length());
-                            Log.d("8777","count"+count);
-
-                            Log.d("2345","higharray:"+highvaluearray[count]);
-                            Log.d("3456","lowarray:" +lowvaluearray[count]);
-                            Log.d("4567","bpmarray:" +bpmvaluearray[count]);
-                            Log.d("1112","datearray:"+datearray[count]);
+                            highvaluearray = new int[count];
+                            lowvaluearray = new int[count];
+                            bpmvaluearray = new int[count];
+                            datearray = new String[count];
 
                             numberOfPoints = count;
                             randomNumbersTab = new float[maxNumberOfLines][numberOfPoints];
 
-                        for(int a =0;a<highvaluearray.length;a++){
-                            for (int k = 0; k < maxNumberOfLines; ++k) {
-                                Log.d("9996","number of lines:"+maxNumberOfLines);
-                                for (int j = 0; j < numberOfPoints; ++j) {
-                                    Log.d("9996","number of points:"+numberOfPoints);
-                                    randomNumbersTab[k][j] = highvaluearray[count];
-//                                    Log.d("0008","array:"+randomNumbersTab[k][j]);
-                                }
-                            }
-                        }
 
                         }
                     }
+                    for (int k = 0; k < maxNumberOfLines; k++) {
+                        Log.d("9996", "number of lines:" + maxNumberOfLines);
+                        for (int j = 0; j < highvaluearray.length; j++) {
+                            Log.d("9996", "number of points:" + numberOfPoints);
+                            JSONObject object2 = response.getJSONObject(j);
+                            highvaluearray[j] = Integer.parseInt(object2.getString("highmmhg"));
+                            Log.d("7654","array:  "+highvaluearray[j]);
 
+                            randomNumbersTab[k][j] = highvaluearray[j];
+
+
+//                                    System.out.print(+randomNumbersTab[k][j]+" ");
+//                                    System.out.println();
+//                                    System.out.println(Arrays.deepToString(randomNumbersTab).replace("], ", "]\n"));
+                        }
+                    }
+                    generateLineData();
+                    generateData();
+                    System.out.println(Arrays.deepToString(randomNumbersTab).replace("], ", "]\n"));
                     Log.d("9995","num:"+numberOfPoints);
                     Log.d("8721","count:"+count);
-                    Log.d("9995","higharray"+highvaluearray[count]);
+//                    Log.d("9995","higharray"+highvaluearray[count]);
 
 //                  generateValues();
-                    generateData();
+//                    generateData();
                 }catch (JSONException e){
                     e.printStackTrace();
                 }
@@ -376,7 +380,6 @@ public class BpPlotTab extends Fragment{
     private void generateData() {
         // Chart looks the best when line data and column data have similar maximum viewports.
         data = new ComboLineColumnChartData(generateColumnData(), generateLineData());
-
         if (hasAxes) {
             Axis axisX = new Axis();
             Axis axisY = new Axis().setHasLines(true);
@@ -400,9 +403,10 @@ public class BpPlotTab extends Fragment{
 
             List<PointValue> values = new ArrayList<PointValue>();
             for (int j = 0; j < numberOfPoints; ++j) {
+                Log.d("0909","numberofpoint: "+numberOfPoints);
                 values.add(new PointValue(j, randomNumbersTab[i][j]));
             }
-
+            Log.d("5567","values: "+values);
             Line line = new Line(values);
             line.setColor(ChartUtils.COLORS[i]);
             line.setCubic(isCubic);

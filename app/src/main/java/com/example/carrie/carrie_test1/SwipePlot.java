@@ -25,7 +25,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 
@@ -61,6 +63,19 @@ public class SwipePlot extends AppCompatActivity {
     private BloodPressure data ;
     public final static String key ="bp";
 
+    /////////////////////////////////
+    public static String usrhighmmhg ="";
+    public static String usrlowmmhg ="";
+    public static String usrbpm ="";
+    public static String usrsavetime ="";
+    public String urls = "http://54.65.194.253/Health_Calendar/getBpRecordDate.php";
+    private BloodPressure record ;
+    public static int [] highvaluearray ;
+    public static int [] lowvaluearray ;
+    public static int [] bpmvaluearray ;
+    public static String [] datearray;
+    ArrayList list1=new ArrayList<Integer>();
+    ArrayList list2=new ArrayList<Integer>();
 
 
 
@@ -83,7 +98,7 @@ public class SwipePlot extends AppCompatActivity {
 
         // Set up the ViewPager with the sections adapter.
         mViewPager = (ViewPager) findViewById(R.id.container);
-
+        getRecord();
 
         getData();
 //        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -170,6 +185,8 @@ public class SwipePlot extends AppCompatActivity {
 //                    bundle2.putString("bpm", bpm);
 //                    bundle2.putString("savetime", savetime);
                     bundle2.putParcelableArrayList("data_list", (ArrayList<? extends Parcelable>) data_list);
+                    bundle2.putIntArray("high",highvaluearray);
+                    bundle2.putIntegerArrayList("higharr", list2);
                     tab2.setArguments(bundle2);
                     Log.d("1111:",bundle2.toString());
                     return tab2;
@@ -305,6 +322,85 @@ public class SwipePlot extends AppCompatActivity {
         requestQueue.add(jsonObjectRequest);
 
     }
+    public  void getRecord(){
+        Log.d("777","in method");
+        requestQueue = Volley.newRequestQueue(getApplicationContext());
+        Log.d("777","1");
+        final JsonArrayRequest jsonObjectRequest = new JsonArrayRequest(Request.Method.POST, urls, new Response.Listener<JSONArray>() {
+            @Override
+            public void onResponse(JSONArray response) {
+                Log.d("777","in response");
+                int count = 0;
+                try {
+//                    JSONArray array = new JSONArray(response);
+//                    Log.d("777",array.toString());
+
+
+
+                    for (int i = 0; i < response.length(); i++) {
+                        JSONObject object = response.getJSONObject(i);
+                        record = new BloodPressure(object.getInt("id"), object.getString("member_id"), object.getString("highmmhg"), object.getString("lowmmhg"), object.getString("bpm"), object.getString("savetime"));
+                        userid = object.getInt("id");
+                        member_id = object.getString("member_id");
+                        Log.d("1234","saw id:" +member_id);
+                        if (member_id.equals(memberid)) {
+                            usrhighmmhg = object.getString("highmmhg");
+                            usrlowmmhg = object.getString("lowmmhg");
+                            usrbpm = object.getString("bpm");
+                            usrsavetime = object.getString("savetime");
+
+                            Log.d("6969", "member_id:" + member_id);
+                            Log.d("6969", "highmmhg:" + usrhighmmhg);
+                            Log.d("6969", "lowmmhg:" + usrlowmmhg);
+                            Log.d("6969", "bpm:" + usrbpm);
+                            Log.d("9999", "savetime:" + usrsavetime);
+
+                            count++;
+
+                            highvaluearray = new int[count];
+                            lowvaluearray = new int[count];
+                            bpmvaluearray = new int[count];
+                            datearray = new String[count];
+
+
+
+                        }
+
+
+                    }
+                    for (int j = 0; j < highvaluearray.length; j++) {
+                        JSONObject object2 = response.getJSONObject(j);
+                        highvaluearray[j] = Integer.parseInt(object2.getString("highmmhg"));
+                        list1.add(highvaluearray[j]);
+                        Log.d("3434","arr:  "+highvaluearray[j]);
+                        Log.d("5678","arr:  "+list1);
+
+                    }
+
+
+                    list2.add(list1);
+                    Log.d("9909","list1:  "+list1);
+                    start();
+
+                } catch (JSONException e){
+                    e.printStackTrace();
+                }
+
+            }
+        },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.d("777",error.toString());
+                    }
+                });
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(jsonObjectRequest);
+
+
+
+    }
+
 
 
 
