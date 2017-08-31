@@ -641,15 +641,13 @@ public class ThirdActivity extends AppCompatActivity {
     }
 
 
-    public void Alert_time(){
+    public void Alert_time(){   //從資料庫取值設鬧鐘
         requestQueue = Volley.newRequestQueue(getApplicationContext());
         final JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, getm_alerttimeUrl, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 try {
-                    Log.d("qqq","1");
                     JSONArray m_alerttimes = response.getJSONArray("Medicine_Alert_Time");
-                    Log.d("qqq","3");
                     final String[] malertid=new String[m_alerttimes.length()];
                     final String[] timeInmill=new String[m_alerttimes.length()];
                     int count=0;
@@ -658,15 +656,14 @@ public class ThirdActivity extends AppCompatActivity {
                         String id = m_alerttime.getString("id");
                         String mcalid = m_alerttime.getString("Medicine_calendar_id");
                         String name = m_alerttime.getString("TimeInMillis");
-                        Log.d("sss","1");
                         if (mcalid.equals(m_calendarid)){
-                            Log.d("sss","2");
                             malertid[count] = id;
                             timeInmill[count] = name;
                             Log.d("sss",malertid[count].toString());
                             final Intent my_intent=new Intent(ThirdActivity.this.context,Alarm_Receiver.class);
                             my_intent.putExtra("extra","alarm on");
                             my_intent.putExtra("alarmid",malertid[count].toString());
+                            my_intent.putExtra("mcalid",m_calendarid);
                             pending_intent= PendingIntent.getBroadcast(ThirdActivity.this,Integer.parseInt(malertid[count]),
                                     my_intent,PendingIntent.FLAG_CANCEL_CURRENT);
                             alarm_manager.setExact(AlarmManager.RTC_WAKEUP, Long.parseLong(timeInmill[count]),pending_intent);
@@ -676,9 +673,9 @@ public class ThirdActivity extends AppCompatActivity {
                             count++;
                         };
                     }
-//                    if(count==0){
-//                        Alert_time();
-//                    }
+                    if(count==0){
+                        Alert_time();
+                    }
                 }catch (JSONException e){
                     e.printStackTrace();
                 }

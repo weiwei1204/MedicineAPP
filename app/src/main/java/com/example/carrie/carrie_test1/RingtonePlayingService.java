@@ -23,7 +23,7 @@ public class RingtonePlayingService extends Service {
     MediaPlayer media_song;
     int startId;
     boolean isRunning;
-    String alarmid;
+    String alarmid,mcalid;
 
     @Nullable
     @Override
@@ -41,6 +41,8 @@ public class RingtonePlayingService extends Service {
 
         String state = intent.getExtras().getString("extra");
         alarmid = intent.getExtras().getString("alarmid");
+        mcalid = intent.getExtras().getString("mcalid");
+
         Log.d("nonono2", String.valueOf(alarmid));
 
 
@@ -63,26 +65,21 @@ public class RingtonePlayingService extends Service {
             Log.e("there is no music","and you want start");
             media_song=MediaPlayer.create(this,R.raw.water);//raw裡的音樂
             media_song.start();
-            Log.d("nonono","2");
 
             this.isRunning=false;
             this.startId=0;
             try {
-                Log.d("nonono","3");
 
                 NotificationManager notify_manager=(NotificationManager)getSystemService(NOTIFICATION_SERVICE);
-                Log.d("nonono","4");
-
                 Intent intent_alarm=new Intent(this.getApplicationContext(),alarm.class);
-                Log.d("nonono","5");
                 Bundle bundle = new Bundle();
                 bundle.putString("alarmid", String.valueOf(alarmid));
+                bundle.putString("mcalid",mcalid);
                 intent_alarm.putExtras(bundle);   // 記得put進去，不然資料不會帶過去哦
 
                 PendingIntent pending_intent_alarm=PendingIntent.getActivity(this, Integer.parseInt(alarmid),intent_alarm,0);
                 Log.d("nonono3", String.valueOf(alarmid));
 
-                Log.d("nonono","6");
 
                 Notification notification_popup=new Notification.Builder(this)
                         .setSmallIcon(R.drawable.add)
