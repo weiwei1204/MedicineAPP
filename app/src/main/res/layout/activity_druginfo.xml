@@ -5,7 +5,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:card_view="http://schemas.android.com/tools">
     <RelativeLayout
-        android:layout_above="@+id/bottomBar2"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
         <android.support.v7.widget.Toolbar
@@ -54,8 +53,7 @@
                 android:layout_height="35dp"
                 android:layout_marginLeft="30dp"
                 android:background="@drawable/qrcode"
-
-                android:onClick="gotodscanner" />
+                android:onClick="gotoscandrug" />
             <ListView
                 android:id="@+id/listview"
                 android:layout_width="match_parent"
