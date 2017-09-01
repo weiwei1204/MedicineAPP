@@ -1,7 +1,12 @@
 package com.example.carrie.carrie_test1;
 
+import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.net.Uri;
+
 import android.content.Intent;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -9,9 +14,15 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.carrie.carrie_test1.R;
+import com.google.android.gms.cast.framework.media.RemoteMediaClient;
+import com.google.android.gms.games.multiplayer.ParticipantEntityCreator;
+
+import org.xml.sax.Parser;
 import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
+
 
 public class FourthActivity extends AppCompatActivity {
     String id;
@@ -63,6 +74,7 @@ public class FourthActivity extends AppCompatActivity {
         TextView indication=(TextView) findViewById(R.id.indication);
         indication.setText(string1);
 
+
         String string2= getIntent().getExtras().getString("englishName", "not found");
         eng = bundle.getString("englishName");//get 中文名字
         TextView englishName=(TextView) findViewById(R.id.englishName3);
@@ -101,10 +113,26 @@ public class FourthActivity extends AppCompatActivity {
         TextView maker_Name=(TextView) findViewById(R.id.maker_Name);
         maker_Name.setText(string8);
 
+
+        //String string9= getIntent().getExtras().getString("image", "not found");
+//            Bitmap bitmap = getIntent().getParcelableExtra("image");
+//            ImageView image_link = (ImageView) findViewById(R.id.image3);
+//            image_link.setImageBitmap(bitmap);
+//            Log.d("drug","9");
+
+
+//        String string9= getIntent().getExtras().getString("image", "not found");
+//        Bitmap bitmap = getIntent().getParcelableExtra("image");
+//        ima = bundle.getString("image");//get 中文名字
+//        ImageView image=(ImageView) findViewById(R.id.image);
+//        image.setImageURI(Uri.parse(string9));
+//        Log.d("drug","9");
+
         String string9= getIntent().getExtras().getString("image", "not found");
         ima = bundle.getString("image");//get 中文名字
         ImageView image=(ImageView) findViewById(R.id.image3);
         Glide.with(getBaseContext()).load(string9).into(image);
+
 
 
 //    chineseName.setText(String.valueOf(id));
@@ -158,7 +186,6 @@ public class FourthActivity extends AppCompatActivity {
     }
 
 
-
-    }
+}
 
 

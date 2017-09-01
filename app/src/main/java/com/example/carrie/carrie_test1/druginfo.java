@@ -380,8 +380,8 @@ public class druginfo extends AppCompatActivity {
         task.execute(1);
     }
 
-    public void gotodscanner(View v) { //連到搜尋藥品資訊頁面
-        Intent it = new Intent(this, Scanner.class);
+    public void gotoscandrug(View v) { //連到搜尋藥品資訊頁面
+        Intent it = new Intent(this, scandrug.class);
         startActivity(it);
     }
     public void gotofourth(View v){ //連到搜尋藥品資訊頁面
