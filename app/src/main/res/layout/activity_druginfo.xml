@@ -17,6 +17,13 @@
             <!--android:layout_width="300sp"-->
             <!--android:layout_height="wrap_content"-->
             <!--/>-->
+
+        <!--<item-->
+            <!--android:id="@+id/search"-->
+            <!--android:itle="Search"-->
+            <!--android:icon="@drawable/search"-->
+            <!--app:actionViewClass="android.widget.SearchView"-->
+            <!--app:showAsAction="always"></item>-->
         <EditText
             android:id="@+id/textsearch"
             android:layout_width="220dp"

@@ -1,3 +1,4 @@
+package com.example.carrie.carrie_test1;
 
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
@@ -12,6 +13,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.carrie.carrie_test1.R;
 import com.google.android.gms.cast.framework.media.RemoteMediaClient;
 import com.google.android.gms.games.multiplayer.ParticipantEntityCreator;
 
@@ -56,6 +58,7 @@ public class FourthActivity extends AppCompatActivity {
         indi = bundle.getString("indication");//get 中文名字
         TextView indication=(TextView) findViewById(R.id.indication);
         indication.setText(string1);
+
 
         String string2= getIntent().getExtras().getString("englishName", "not found");
         eng = bundle.getString("englishName");//get 中文名字
