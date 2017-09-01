@@ -8,6 +8,7 @@ import android.app.Service;
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Build;
+import android.os.Bundle;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
@@ -22,6 +23,7 @@ public class RingtonePlayingService extends Service {
     MediaPlayer media_song;
     int startId;
     boolean isRunning;
+    String alarmid,mcalid;
 
     @Nullable
     @Override
@@ -38,6 +40,11 @@ public class RingtonePlayingService extends Service {
         Log.i("LocalService", "Received start id " + startId + ": " + intent);
 
         String state = intent.getExtras().getString("extra");
+        alarmid = intent.getExtras().getString("alarmid");
+        mcalid = intent.getExtras().getString("mcalid");
+
+        Log.d("nonono2", String.valueOf(alarmid));
+
 
         Log.e("Ringtone state is ",state);
 
@@ -59,21 +66,35 @@ public class RingtonePlayingService extends Service {
             media_song=MediaPlayer.create(this,R.raw.water);//raw裡的音樂
             media_song.start();
 
-            this.isRunning=true;
+            this.isRunning=false;
             this.startId=0;
+            try {
 
-            NotificationManager notify_manager=(NotificationManager)getSystemService(NOTIFICATION_SERVICE);
-            Intent intent_alarm=new Intent(this.getApplicationContext(),ThirdActivity.class);
-            PendingIntent pending_intent_alarm=PendingIntent.getActivity(this,0,intent_alarm,0);
-            Notification notification_popup=new Notification.Builder(this)
-                    .setSmallIcon(R.drawable.add)
-                    .setContentTitle("an alarm is goin off!!")
-                    .setContentText("click me")
-                    .setContentIntent(pending_intent_alarm)
-                    .setAutoCancel(true)
-                    .build();
+                NotificationManager notify_manager=(NotificationManager)getSystemService(NOTIFICATION_SERVICE);
+                Intent intent_alarm=new Intent(this.getApplicationContext(),alarm.class);
+                Bundle bundle = new Bundle();
+                bundle.putString("alarmid", String.valueOf(alarmid));
+                bundle.putString("mcalid",mcalid);
+                intent_alarm.putExtras(bundle);   // 記得put進去，不然資料不會帶過去哦
 
-            notify_manager.notify(0,notification_popup);
+                PendingIntent pending_intent_alarm=PendingIntent.getActivity(this, Integer.parseInt(alarmid),intent_alarm,0);
+                Log.d("nonono3", String.valueOf(alarmid));
+
+
+                Notification notification_popup=new Notification.Builder(this)
+                        .setSmallIcon(R.drawable.add)
+                        .setContentTitle("an alarm is goin off!!")
+                        .setContentText("click me")
+                        .setContentIntent(pending_intent_alarm)
+                        .setAutoCancel(true)
+                        .build();
+
+                notify_manager.notify(0,notification_popup);
+
+            }catch (Exception e){
+                Log.d("nonono",e.toString());
+            }
+
         }
         else if (this.isRunning && startId ==0){
             Log.e("there is music","and you want end");
@@ -96,7 +117,7 @@ public class RingtonePlayingService extends Service {
             Log.e("there is music","and you want start");
 
             this.isRunning=true;
-            this.startId=0;
+            this.startId=1;
 
         }
         else {

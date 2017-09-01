@@ -23,7 +23,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
         <EditText
-            android:id="@+id/editText1"
+            android:id="@+id/highmmhg"
             android:layout_width="250dp"
             android:layout_height="wrap_content"
             android:layout_below="@+id/textView1"
@@ -48,7 +48,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
         <EditText
-            android:id="@+id/editText2"
+            android:id="@+id/lowmmhg"
             android:layout_width="250dp"
             android:layout_height="wrap_content"
             android:layout_below="@+id/textView1"
@@ -73,7 +73,7 @@
         android:layout_height="wrap_content">
 
         <EditText
-            android:id="@+id/editText3"
+            android:id="@+id/bpm"
             android:layout_width="250dp"
             android:layout_height="wrap_content"
             android:layout_below="@+id/textView1"
@@ -107,7 +107,8 @@
             android:id="@+id/button1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="確認送出" />
+            android:text="確認送出"
+            android:onClick="setInsertbpvalue"/>
 
 
     </LinearLayout>

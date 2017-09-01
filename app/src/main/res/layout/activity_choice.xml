@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#FAFAFA"
     tools:context="com.example.carrie.carrie_test1.Choice">
-
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
     <LinearLayout
         android:layout_width="395dp"
         android:layout_height="587dp"
@@ -19,7 +21,7 @@
             android:layout_width="200dp"
             android:layout_height="190dp"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="50dp"
+            android:layout_marginTop="30dp"
             android:background="@drawable/choiceboder"
             android:onClick="gotoThirdActivity"
             android:src="@drawable/medicinebottle" />
@@ -39,7 +41,7 @@
             android:layout_width="200dp"
             android:layout_height="190dp"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="8dp"
             android:background="@drawable/choiceboder"
             android:onClick="gotoEnterBsBpActivity"
             android:src="@drawable/heart"
@@ -55,4 +57,24 @@
             android:textSize="25dp"
             android:layout_marginTop="5dp"/>
     </LinearLayout>
-</android.support.constraint.ConstraintLayout>
+</RelativeLayout>
+    <RelativeLayout
+        android:id="@+id/bottomBar2"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_alignParentBottom="true"
+        >
+
+        <android.support.design.widget.BottomNavigationView
+            android:id="@+id/bottomNavView_Bar"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:elevation="2dp"
+            app:menu="@menu/bottom_bar"
+            android:background="#218790">
+
+
+        </android.support.design.widget.BottomNavigationView>
+    </RelativeLayout>
+
+</RelativeLayout>

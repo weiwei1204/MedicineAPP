@@ -3,7 +3,10 @@ package com.example.carrie.carrie_test1;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.BottomNavigationView;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -47,7 +50,6 @@ public class MainActivity extends LoginActivity {
 
         Bundle bundle = getIntent().getExtras();
         googleid=bundle.getString("googleid");
-
         getMonitorId();
         getid();
 //        SignOut = (ImageButton) findViewById(R.id.bkimg);
@@ -76,7 +78,68 @@ public class MainActivity extends LoginActivity {
 
             }
         });
+        BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomNavView_Bar);
+        BottomNavigationViewHelper.disableShiftMode(bottomNavigationView);
+        Menu menu = bottomNavigationView.getMenu();
+        MenuItem menuItem = menu.getItem(2);
+        menuItem.setChecked(true);
+        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                switch (item.getItemId()){
+                    case R.id.ic_list:
+                        Intent intent0 = new Intent(MainActivity.this,Choice.class);
+                        Bundle bundle0 = new Bundle();
+                        bundle0.putString("memberid", memberid);
+                        bundle0.putString("my_google_id", googleid);
+                        bundle0.putString("my_supervise_id", my_mon_id);
+                        intent0.putExtras(bundle0);   // 記得put進去，不然資料不會帶過去哦
+                        startActivity(intent0);
+                        break;
 
+                    case R.id.ic_eye:
+                        Intent intent1 = new Intent(MainActivity.this,MonitorActivity.class);
+                        Bundle bundle1 = new Bundle();
+                        bundle1.putString("my_id", memberid);
+                        bundle1.putString("my_google_id", googleid);
+                        bundle1.putString("my_supervise_id", my_mon_id);
+                        intent1.putExtras(bundle1);
+                        startActivity(intent1);
+                        break;
+
+                    case R.id.ic_home:
+                        Intent intent2 = new Intent(MainActivity.this, MainActivity.class);
+                        Bundle bundle2 = new Bundle();
+                        bundle2.putString("googleid", googleid);
+                        intent2.putExtras(bundle2);
+                        startActivity(intent2);
+                        break;
+
+                    case R.id.ic_information:
+                        Intent intent3 = new Intent(MainActivity.this, druginfo.class);
+                        Bundle bundle3 = new Bundle();
+                        bundle3.putString("my_id", memberid);
+                        bundle3.putString("my_google_id", googleid);
+                        bundle3.putString("my_supervise_id", my_mon_id);
+                        intent3.putExtras(bundle3);
+                        startActivity(intent3);
+                        break;
+
+                    case R.id.ic_beacon:
+                        Intent intent4 = new Intent(MainActivity.this, Beacon.class);
+                        Bundle bundle4 = new Bundle();
+                        bundle4.putString("my_id", memberid);
+                        bundle4.putString("my_google_id", googleid);
+                        bundle4.putString("my_supervise_id", my_mon_id);
+                        intent4.putExtras(bundle4);
+                        startActivity(intent4);
+                        break;
+                }
+
+
+                return false;
+            }
+        });
     }
 
 
@@ -103,9 +166,12 @@ public class MainActivity extends LoginActivity {
 
     }
 
-
-    public void gotoSecondActivity(View v){ //連到iBeacon頁面
-        Intent it = new Intent(this,SecondActivity.class);
+    public void gotoFirstActivity(View v){ //連到MyBeacon頁面
+        Intent it = new Intent(this,MyBeaconActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putString("memberid", memberid);
+        Log.d("fffaaa",memberid);
+        it.putExtras(bundle);   // 記得put進去，不然資料不會帶過去哦
         startActivity(it);
     }
 
@@ -122,6 +188,8 @@ public class MainActivity extends LoginActivity {
     public void gotoChoice(View v){  //連到排程選擇頁面
         Intent it = new Intent(this,Choice.class);
         Bundle bundle = new Bundle();
+        bundle.putString("my_google_id", googleid);
+        bundle.putString("my_supervise_id", my_mon_id);
         bundle.putString("memberid", memberid);
         Log.d("fffaaa",memberid);
         it.putExtras(bundle);   // 記得put進去，不然資料不會帶過去哦
@@ -130,10 +198,15 @@ public class MainActivity extends LoginActivity {
 
     public void gotodruginfo(View v){ //連到搜尋藥品資訊頁面
         Intent it = new Intent(this,druginfo.class);
+        Bundle bundle3 = new Bundle();
+        bundle3.putString("my_id", memberid);
+        bundle3.putString("my_google_id", googleid);
+        bundle3.putString("my_supervise_id", my_mon_id);
+        it.putExtras(bundle3);
         startActivity(it);
     }
     public void gotoFirstctivity(View v){ //連到搜尋藥品資訊頁面
-        Intent it = new Intent(this,FirstActivity.class);
+        Intent it = new Intent(this,DrugListActivity.class);
         startActivity(it);
     }
     public void gotoFourthActivity(View v){ //連到搜尋藥品資訊頁面

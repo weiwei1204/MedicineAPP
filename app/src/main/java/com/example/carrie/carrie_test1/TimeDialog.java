@@ -1,6 +1,7 @@
 
 package com.example.carrie.carrie_test1;
 
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.app.TimePickerDialog;
@@ -19,11 +20,13 @@ import java.util.Calendar;
 /**
  * Created by rita on 2017/5/20.
  */
+@SuppressLint("ValidFragment")
 @RequiresApi(api = Build.VERSION_CODES.HONEYCOMB)
 public class TimeDialog extends DialogFragment implements TimePickerDialog.OnTimeSetListener {
     EditText txtTime;
     TextView settimetxt;
     long settime;
+    int year,month,day;
 
     public TimeDialog(View view,TextView textview){
 //        final LinearLayout newView = (LinearLayout)activity.getLayoutInflater().inflate(R.layout.activity_edt, null);
@@ -37,14 +40,26 @@ public class TimeDialog extends DialogFragment implements TimePickerDialog.OnTim
 
     public Dialog onCreateDialog(Bundle savedInstanceState){
         final Calendar c=Calendar.getInstance();
+        year=c.get(Calendar.YEAR);
+        month=c.get(Calendar.MONTH);
+        day=c.get(Calendar.DAY_OF_MONTH);
         int hour=c.get(Calendar.HOUR_OF_DAY);
         int minute=c.get(Calendar.MINUTE);
-        settime=c.getTimeInMillis();
+        Log.d("now", String.valueOf(year));
+        Log.d("now", String.valueOf(month));
+        Log.d("now", String.valueOf(day));
+        Log.d("now", String.valueOf(c.getTime()));
         return new TimePickerDialog(getActivity(), this,hour,minute, DateFormat.is24HourFormat(getActivity()));
 
     }
     public void onTimeSet(TimePicker view, int hour, int minute){
         String time;
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(year, month, day, hour, minute,0);
+        Log.d("now",calendar.toString());
+        Log.d("now",calendar.getTime().toString());
+        settime=calendar.getTimeInMillis();
+        Log.d("now", String.valueOf(settime));
         if (hour < 10 && minute < 10){
             time="0"+hour+":"+"0"+minute;
         }
@@ -58,7 +73,9 @@ public class TimeDialog extends DialogFragment implements TimePickerDialog.OnTim
             time=hour+":"+minute;
         }
         txtTime.setText(time);
+        Log.d("aaa", String.valueOf(settime));
         String set = String.valueOf(settime);
+        Log.d("aaa",set);
         settimetxt.setText(set);
     }
 

@@ -14,6 +14,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -24,13 +25,26 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import lecho.lib.hellocharts.animation.ChartAnimationListener;
 import lecho.lib.hellocharts.gesture.ZoomType;
 import lecho.lib.hellocharts.listener.LineChartOnValueSelectListener;
 import lecho.lib.hellocharts.model.Axis;
+import lecho.lib.hellocharts.model.AxisValue;
 import lecho.lib.hellocharts.model.Line;
 import lecho.lib.hellocharts.model.LineChartData;
 import lecho.lib.hellocharts.model.PointValue;
@@ -43,11 +57,11 @@ import lecho.lib.hellocharts.view.LineChartView;
 public class BsPlotTab extends Fragment{
     private LineChartView chart;
     private LineChartData data;
-    private int numberOfLines = 1;
-    private int maxNumberOfLines = 4;
-    private int numberOfPoints = 12;
+    private static int numberOfLines = 1;
+    private static int maxNumberOfLines = 4;
+    private static int numberOfPoints ;
 
-    float[][] randomNumbersTab = new float[maxNumberOfLines][numberOfPoints];
+    static float[][] randomNumbersTab = new float[maxNumberOfLines][numberOfPoints];
 
     private boolean hasAxes = true;
     private boolean hasAxesNames = true;
@@ -60,6 +74,17 @@ public class BsPlotTab extends Fragment{
     private boolean hasLabelForSelected = false;
     private boolean pointsHaveDifferentColor;
     private boolean hasGradientToTransparent = false;
+    public static String memberid;
+    private BloodSugar record ;
+    RequestQueue requestQueue;
+    public String url = "http://54.65.194.253/Health_Calendar/getBsRecordDate.php";
+    public static String member_id;//getRecord抓的
+    public static int userid;
+    public static String bloodsugar="";
+    public static String savetime="";
+    public static int [] bsarray ;
+    public static String [] datearray;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -68,11 +93,85 @@ public class BsPlotTab extends Fragment{
         View rootView = inflater.inflate(R.layout.tab1_bloodsugar, container, false);
         chart = (LineChartView) rootView.findViewById(R.id.chart);
         chart.setOnValueTouchListener(new ValueTouchListener());
-        generateValues();
-        generateData();
+        Bundle bundle = this.getArguments();
+        memberid = bundle.getString("memberid");
+        Log.d("689","sent id"+memberid);
+        getRecord();
+//        generateValues();
+//        generateData();
         chart.setViewportCalculationEnabled(false);
-        resetViewport();
         return rootView;
+    }
+
+    public void getRecord(){
+        requestQueue = Volley.newRequestQueue(getActivity().getApplicationContext());
+        Log.d("689","1");
+        final JsonArrayRequest jsonObjectRequest = new JsonArrayRequest(Request.Method.POST, url, new Response.Listener<JSONArray>() {
+            @Override
+            public void onResponse(JSONArray response) {
+                Log.d("689","in response");
+                int counter = 0;
+                try {
+//                    JSONArray array = new JSONArray(response);
+//                    Log.d("777",array.toString());
+
+
+
+                    for (int i = 0; i < response.length(); i++) {
+                        JSONObject object = response.getJSONObject(i);
+                        record = new BloodSugar(object.getInt("id"), object.getString("member_id"), object.getString("bloodsugar"), object.getString("savetime"));
+//                        data_list.add(record);
+
+                        userid = object.getInt("id");
+                        member_id = object.getString("member_id");
+                        Log.d("689","saw id:" +member_id);
+                        if (member_id.equals(memberid)){
+                            bloodsugar= object.getString("bloodsugar");
+                            savetime = object.getString("savetime");
+                            counter++;
+                            bsarray = new int[counter];
+                            datearray =new String[counter];
+
+                            Log.d("689", "member_id:" + member_id);
+                            Log.d("689", "bloodsugar:" + bloodsugar);
+                            Log.d("689", "savetime:" + savetime);
+
+
+                            numberOfPoints = counter;
+                            randomNumbersTab = new float[maxNumberOfLines][numberOfPoints];
+
+                        }
+                    }
+                    for (int k = 0; k < maxNumberOfLines; k++) {
+                        for (int j = 0; j < bsarray.length; j++) {
+                            JSONObject object2 = response.getJSONObject(j);
+                            Log.d("5555","length:  "+bsarray.length);
+                            bsarray[j] = Integer.parseInt(object2.getString("bloodsugar"));
+                            datearray[j] = object2.getString("savetime");
+                            randomNumbersTab[k][j] = bsarray[j];
+                            Log.d("1345","bsarray:  "+bsarray[j]);
+
+                        }
+                    }
+                    System.out.println(Arrays.deepToString(randomNumbersTab).replace("], ", "]\n"));
+                    generateData();
+                    resetViewport();
+                    Log.d("1996","num:"+numberOfPoints);
+                }catch (JSONException e){
+                    e.printStackTrace();
+                }
+
+            }
+        },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.d("777",error.toString());
+                    }
+                });
+        RequestQueue requestQueue = Volley.newRequestQueue(this.getActivity());
+        requestQueue.add(jsonObjectRequest);
+
     }
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.line_chart, menu);
@@ -174,6 +273,7 @@ public class BsPlotTab extends Fragment{
         for (int i = 0; i < maxNumberOfLines; ++i) {
             for (int j = 0; j < numberOfPoints; ++j) {
                 randomNumbersTab[i][j] = (float) Math.random() * 100f;
+                System.out.println(Arrays.deepToString(randomNumbersTab).replace("], ", "]\n"));
             }
         }
     }
@@ -198,7 +298,7 @@ public class BsPlotTab extends Fragment{
         // Reset viewport height range to (0,100)
         final Viewport v = new Viewport(chart.getMaximumViewport());
         v.bottom = 0;
-        v.top = 100;
+        v.top = 180;
         v.left = 0;
         v.right = numberOfPoints - 1;
         chart.setMaximumViewport(v);
@@ -211,8 +311,10 @@ public class BsPlotTab extends Fragment{
 
             List<PointValue> values = new ArrayList<PointValue>();
             for (int j = 0; j < numberOfPoints; ++j) {
+                Log.d("2223","points"+numberOfPoints);
                 values.add(new PointValue(j, randomNumbersTab[i][j]));
             }
+            Log.d("5566","values: "+values);
 
             Line line = new Line(values);
             line.setColor(ChartUtils.COLORS[i]);
@@ -236,8 +338,8 @@ public class BsPlotTab extends Fragment{
             Axis axisX = new Axis();
             Axis axisY = new Axis().setHasLines(true);
             if (hasAxesNames) {
-                axisX.setName("Axis X");
-                axisY.setName("Axis Y");
+                axisX.setName("3日內變化");
+                axisY.setName("血糖  BPM");
             }
             data.setAxisXBottom(axisX);
             data.setAxisYLeft(axisY);
@@ -245,7 +347,6 @@ public class BsPlotTab extends Fragment{
             data.setAxisXBottom(null);
             data.setAxisYLeft(null);
         }
-
         data.setBaseValue(Float.NEGATIVE_INFINITY);
         chart.setLineChartData(data);
 
