@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.example.carrie.carrie_test1.ScanActivity">
+    tools:context="com.example.carrie.carrie_test1.scandrug">
 
     <SurfaceView
         android:id="@+id/cameraView"

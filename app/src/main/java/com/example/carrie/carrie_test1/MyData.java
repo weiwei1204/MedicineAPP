@@ -9,12 +9,12 @@ class MyData {
     public int id;
     public String image_link;
    public String indication, englishName, chineseName,licenseNumber;
-    public String category, component, maker_Country, applicant, maker_Name;
+    public String category, component, maker_Country, applicant, maker_Name,QRCode;
 
 
 
     public MyData(int id, String chineseName, String image_link, String indication, String englishName, String licenseNumber
-    , String category, String component, String maker_Country, String applicant, String maker_Name) {
+    , String category, String component, String maker_Country, String applicant, String maker_Name, String QRCode) {
         this.id = id;
         this.chineseName= chineseName;
         this.image_link = image_link;
@@ -26,6 +26,7 @@ class MyData {
         this.maker_Country=maker_Country;
         this.applicant=applicant;
         this.maker_Name=maker_Name;
+        this.QRCode=QRCode;
       //  this.indication= indication;
     }
 
@@ -108,5 +109,11 @@ class MyData {
     }
     public  String getApplicant(){
         return applicant;
+    }
+    public void setQRCode(String applicant) {
+        this.QRCode=QRCode;
+    }
+    public  String getQRCode(){
+        return QRCode;
     }
 }
