@@ -203,7 +203,8 @@
                         android:layout_marginTop="10dp"
                         android:layout_weight="1"
                         android:textColor="#6C6C6C"
-                        android:textSize="8pt" />
+                        android:textSize="8pt"
+                        />
                 </LinearLayout>
 
                 <LinearLayout
