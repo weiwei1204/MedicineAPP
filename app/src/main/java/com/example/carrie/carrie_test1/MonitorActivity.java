@@ -172,7 +172,7 @@ public class MonitorActivity extends AppCompatActivity {
 
                 OkHttpClient client = new OkHttpClient();
                 Request request = new Request.Builder()
-                        .url("http://54.65.194.253/Monitor/testGeyAllMonitor.php?id="+integers[0])
+                        .url("http://54.65.194.253/Monitor/testGeyAllMonitor.php?id="+integers[0]+"&superviser_id="+my_mon_id)
                         .build();//get all the monitor
                 try {
                     Response response = client.newCall(request).execute();
