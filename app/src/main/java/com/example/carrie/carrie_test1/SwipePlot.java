@@ -98,7 +98,7 @@ public class SwipePlot extends AppCompatActivity implements ViewPager.OnPageChan
 
         // Set up the ViewPager with the sections adapter.
         mViewPager = (ViewPager) findViewById(R.id.container);
-        getRecord();
+//        getRecord();
 
         getData();
 //        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);

@@ -139,20 +139,24 @@ public class BsPlotTab extends Fragment{
 
                             numberOfPoints = counter;
                             randomNumbersTab = new float[maxNumberOfLines][numberOfPoints];
+                            for (int k = 0; k < maxNumberOfLines; k++) {
+                                for (int j = 0; j < bsarray.length; j++) {
+                                    JSONObject object2 = response.getJSONObject(j);
+                                    if(member_id.equals(object2.getString("member_id"))) {
+                                        Log.d("5555", "length:  " + bsarray.length);
+                                        bsarray[j] = Integer.parseInt(object2.getString("bloodsugar"));
+                                        datearray[j] = object2.getString("savetime");
+                                        randomNumbersTab[k][j] = bsarray[j];
+                                        Log.d("1345", "bsarray:  " + bsarray[j]);
+                                    }
+
+
+                                }
+                            }
 
                         }
                     }
-                    for (int k = 0; k < maxNumberOfLines; k++) {
-                        for (int j = 0; j < bsarray.length; j++) {
-                            JSONObject object2 = response.getJSONObject(j);
-                            Log.d("5555","length:  "+bsarray.length);
-                            bsarray[j] = Integer.parseInt(object2.getString("bloodsugar"));
-                            datearray[j] = object2.getString("savetime");
-                            randomNumbersTab[k][j] = bsarray[j];
-                            Log.d("1345","bsarray:  "+bsarray[j]);
 
-                        }
-                    }
                     System.out.println(Arrays.deepToString(randomNumbersTab).replace("], ", "]\n"));
                     generateData();
                     resetViewport();
