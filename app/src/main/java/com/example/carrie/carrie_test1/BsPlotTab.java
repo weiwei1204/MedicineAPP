@@ -94,6 +94,7 @@ public class BsPlotTab extends Fragment{
         chart = (LineChartView) rootView.findViewById(R.id.chart);
         chart.setOnValueTouchListener(new ValueTouchListener());
         Bundle bundle = this.getArguments();
+//        Bundle bundle2 = getActivity().getIntent().getExtras();
         memberid = bundle.getString("memberid");
         Log.d("689","sent id"+memberid);
         getRecord();
@@ -132,9 +133,9 @@ public class BsPlotTab extends Fragment{
                                 bsarray = new int[counter];
                                 datearray = new String[counter];
 
-                                Log.d("689", "member_id:" + member_id);
-                                Log.d("689", "bloodsugar:" + bloodsugar);
-                                Log.d("689", "savetime:" + savetime);
+                                Log.d("6899", "member_id:" + member_id);
+                                Log.d("6899", "bloodsugar:" + bloodsugar);
+                                Log.d("6899", "savetime:" + savetime);
 
 
                                 numberOfPoints = counter;
@@ -142,18 +143,18 @@ public class BsPlotTab extends Fragment{
                                 for (int k = 0; k < maxNumberOfLines; k++) {
                                     for (int j = 0; j < bsarray.length; j++) {
                                         JSONObject object2 = response.getJSONObject(j);
-                                        if (member_id.equals(object2.getString("member_id"))) {
-                                            Log.d("5555", "length:  " + bsarray.length);
-                                            bsarray[j] = Integer.parseInt(object2.getString("bloodsugar"));
-                                            datearray[j] = object2.getString("savetime");
-                                            randomNumbersTab[k][j] = bsarray[j];
-                                            Log.d("1345", "bsarray:  " + bsarray[j]);
-                                        }
-
+                                        Log.d("5454","1:  "+object2.getString("member_id"));
+                                        Log.d("5454","2:  "+member_id);
+                                            if(object2.getString("member_id").equals(member_id)) {
+                                                Log.d("5555", "length:  " + bsarray.length);
+                                                bsarray[j] = Integer.parseInt(object2.getString("bloodsugar"));
+                                                datearray[j] = object2.getString("savetime");
+                                                randomNumbersTab[k][j] = bsarray[j];
+                                                Log.d("1345", "bsarray:  " + bsarray[j]);
+                                            }
 
                                     }
                                 }
-
                             }
                         }
 
