@@ -191,6 +191,20 @@ public class MainActivity extends LoginActivity
         it.putExtras(bundle);   // 記得put進去，不然資料不會帶過去哦
         startActivity(it);
     }
+    public void gotoPersonalInformation(){
+        Intent it = new Intent(this,PersonalInformationctivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putString("googleid", googleid);
+        it.putExtras(bundle);   // 記得put進去，不然資料不會帶過去哦
+        startActivity(it);
+    }
+    public void gotoBsBpMeasure(){
+        Intent it = new Intent(this,BsBpMeasureActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putString("googleid", googleid);
+        it.putExtras(bundle);   // 記得put進去，不然資料不會帶過去哦
+        startActivity(it);
+    }
 
     public void gotoLoginActivity(View v){ //連到搜尋藥品資訊頁面
 //        Intent it = new Intent(this,LoginActivity.class);
@@ -348,9 +362,9 @@ public class MainActivity extends LoginActivity
             // Handle the camera action
             gotoGenerate_Qrcode();
         } else if (id == R.id.nav_gallery) {
-
+            gotoPersonalInformation();
         } else if (id == R.id.nav_slideshow) {
-
+            gotoBsBpMeasure();
         } else if (id == R.id.nav_manage) {
 
         } else if (id == R.id.nav_share) {
