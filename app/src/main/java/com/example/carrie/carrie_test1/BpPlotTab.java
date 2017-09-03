@@ -106,6 +106,7 @@ public class BpPlotTab extends Fragment{
         View rootView = inflater.inflate(R.layout.fragment_combo_line_column_chart, container, false);
         chart = (ComboLineColumnChartView) rootView.findViewById(R.id.chart);
         chart.setOnValueTouchListener(new ValueTouchListener());
+        data_list = new ArrayList<>();
         getRecord();
         Bundle bundle = this.getArguments();
         sentmember_id = bundle.getString("memberid");
@@ -238,6 +239,7 @@ public class BpPlotTab extends Fragment{
                             member_id = object.getString("member_id");
                             Log.d("1234", "saw id:" + member_id);
                             if (member_id.equals(sentmember_id)) {
+                                data_list.add(record);
                                 usrhighmmhg = object.getString("highmmhg");
                                 usrlowmmhg = object.getString("lowmmhg");
                                 usrbpm = object.getString("bpm");
@@ -263,17 +265,16 @@ public class BpPlotTab extends Fragment{
                                 for (int k = 0; k < maxNumberOfLines; k++) {
                                     Log.d("9996", "number of lines:" + maxNumberOfLines);
 
-                                    for (int j = 0; j < highvaluearray.length; j++) {
+                                    for (int j = 0; j < data_list.size(); j++) {
                                         Log.d("9996", "number of points:" + numberOfPoints);
-                                        JSONObject object2 = response.getJSONObject(j);
-                                        if (member_id.equals(object2.getString("member_id"))) {
 
-                                            highvaluearray[j] = Integer.parseInt(object2.getString("highmmhg"));
+
+                                            highvaluearray[j] = Integer.parseInt(data_list.get(j).getHighmmhg());
                                             Log.d("7654", "array:  " + highvaluearray[j]);
                                             Log.d("7654", "length:  " + highvaluearray.length);
 
                                             randomNumbersTab[k][j] = highvaluearray[j];
-                                        }
+
 
 
 //                                    System.out.print(+randomNumbersTab[k][j]+" ");

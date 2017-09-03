@@ -84,6 +84,7 @@ public class BsPlotTab extends Fragment{
     public static String savetime="";
     public static int [] bsarray ;
     public static String [] datearray;
+    ArrayList<BloodSugar>sugarArrayList;
 
 
     @Override
@@ -97,6 +98,7 @@ public class BsPlotTab extends Fragment{
 //        Bundle bundle2 = getActivity().getIntent().getExtras();
         memberid = bundle.getString("memberid");
         Log.d("689","sent id"+memberid);
+        sugarArrayList = new ArrayList<>();
         getRecord();
 //        generateValues();
 //        generateData();
@@ -121,12 +123,13 @@ public class BsPlotTab extends Fragment{
                         for (int i = 0; i < response.length(); i++) {
                             JSONObject object = response.getJSONObject(i);
                             record = new BloodSugar(object.getInt("id"), object.getString("member_id"), object.getString("bloodsugar"), object.getString("savetime"));
-//                        data_list.add(record);
+
 
                             userid = object.getInt("id");
                             member_id = object.getString("member_id");
                             Log.d("689", "saw id:" + member_id);
                             if (member_id.equals(memberid)) {
+                                sugarArrayList.add(record);
                                 bloodsugar = object.getString("bloodsugar");
                                 savetime = object.getString("savetime");
                                 counter++;
@@ -141,17 +144,15 @@ public class BsPlotTab extends Fragment{
                                 numberOfPoints = counter;
                                 randomNumbersTab = new float[maxNumberOfLines][numberOfPoints];
                                 for (int k = 0; k < maxNumberOfLines; k++) {
-                                    for (int j = 0; j < bsarray.length; j++) {
-                                        JSONObject object2 = response.getJSONObject(j);
-                                        Log.d("5454","1:  "+object2.getString("member_id"));
-                                        Log.d("5454","2:  "+member_id);
-                                            if(object2.getString("member_id").equals(member_id)) {
+                                    for (int j = 0; j < sugarArrayList.size(); j++) {
+
+
                                                 Log.d("5555", "length:  " + bsarray.length);
-                                                bsarray[j] = Integer.parseInt(object2.getString("bloodsugar"));
-                                                datearray[j] = object2.getString("savetime");
+                                                bsarray[j] = Integer.parseInt(sugarArrayList.get(j).getBloodsugar());
+                                                sugarArrayList.get(j).getBloodsugar();
                                                 randomNumbersTab[k][j] = bsarray[j];
                                                 Log.d("1345", "bsarray:  " + bsarray[j]);
-                                            }
+
 
                                     }
                                 }
