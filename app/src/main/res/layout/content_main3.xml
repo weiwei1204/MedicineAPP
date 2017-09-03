@@ -5,16 +5,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.example.carrie.carrie_test1.MainActivity"
-    tools:showIn="@layout/app_bar_main3"
-    android:background="#4DB7B0">
+    tools:context="com.example.carrie.carrie_test1.Main3Activity"
+    tools:showIn="@layout/app_bar_main3">
 
     <RelativeLayout
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         tools:layout_editor_absoluteX="0dp"
-        tools:layout_editor_absoluteY="0dp"
-        android:background="#4DB7B0">
+        tools:layout_editor_absoluteY="0dp">
 
         <RelativeLayout
             android:id="@+id/relativeLayout"
