@@ -87,7 +87,10 @@ public class SwipePlot extends AppCompatActivity implements ViewPager.OnPageChan
         setContentView(R.layout.activity_swipe_plot);
 
         Bundle bundle = getIntent().getExtras();
-        memberid = bundle.getString("memberid");
+        int monid = bundle.getInt("monitor_who");
+        memberid = String.valueOf(monid);
+//        memberid = bundle.getString("memberid");
+        Log.d("6789","id: "+memberid);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -98,7 +101,7 @@ public class SwipePlot extends AppCompatActivity implements ViewPager.OnPageChan
 
         // Set up the ViewPager with the sections adapter.
         mViewPager = (ViewPager) findViewById(R.id.container);
-        getRecord();
+//        getRecord();
 
         getData();
 //        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -197,6 +200,7 @@ public class SwipePlot extends AppCompatActivity implements ViewPager.OnPageChan
                     Bundle bundle2 = new Bundle();
                     BpPlotTab tab2 = new BpPlotTab();
                     bundle2.putString("memberid", memberid);
+                    Log.d("1122","id: "+memberid);
 //                    bundle2.putString("highmmhg", highmmhg);
 //                    bundle2.putString("lowmmhg", lowmmhg);
 //                    bundle2.putString("bpm", bpm);

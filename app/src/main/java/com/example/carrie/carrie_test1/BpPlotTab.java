@@ -106,6 +106,7 @@ public class BpPlotTab extends Fragment{
         View rootView = inflater.inflate(R.layout.fragment_combo_line_column_chart, container, false);
         chart = (ComboLineColumnChartView) rootView.findViewById(R.id.chart);
         chart.setOnValueTouchListener(new ValueTouchListener());
+        data_list = new ArrayList<>();
         getRecord();
         Bundle bundle = this.getArguments();
         sentmember_id = bundle.getString("memberid");
@@ -217,8 +218,109 @@ public class BpPlotTab extends Fragment{
         final JsonArrayRequest jsonObjectRequest = new JsonArrayRequest(Request.Method.POST, url, new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray response) {
+
+                    Log.d("777", "in response");
+                    int count = 0;
+                    try {
+                        rd = true;
+//                    JSONArray array = new JSONArray(response);
+//                    Log.d("777",array.toString());
+
+
+                        for (int i = 0; i < response.length(); i++) {
+                            JSONObject object = response.getJSONObject(i);
+                            record = new BloodPressure(object.getInt("id"), object.getString("member_id"), object.getString("highmmhg"), object.getString("lowmmhg"), object.getString("bpm"), object.getString("savetime"));
+//                        data_list.add(record);
+//                        highvaluearray = new int[response.length()];
+//                        lowvaluearray = new int[response.length()];
+//                        bpmvaluearray = new int[response.length()];
+//                        datearray =new String[response.length()];
+                            userid = object.getInt("id");
+                            member_id = object.getString("member_id");
+                            Log.d("1234", "saw id:" + member_id);
+                            if (member_id.equals(sentmember_id)) {
+                                data_list.add(record);
+                                usrhighmmhg = object.getString("highmmhg");
+                                usrlowmmhg = object.getString("lowmmhg");
+                                usrbpm = object.getString("bpm");
+                                usrsavetime = object.getString("savetime");
+
+                                Log.d("6969", "member_id:" + member_id);
+                                Log.d("6969", "highmmhg:" + usrhighmmhg);
+                                Log.d("6969", "lowmmhg:" + usrlowmmhg);
+                                Log.d("6969", "bpm:" + usrbpm);
+                                Log.d("9999", "savetime:" + usrsavetime);
+
+                                count++;
+
+                                highvaluearray = new int[count];
+                                lowvaluearray = new int[count];
+                                bpmvaluearray = new int[count];
+                                datearray = new String[count];
+
+                                numberOfPoints = count;
+                                randomNumbersTab = new float[maxNumberOfLines][numberOfPoints];
+
+
+                                for (int k = 0; k < maxNumberOfLines; k++) {
+                                    Log.d("9996", "number of lines:" + maxNumberOfLines);
+
+                                    for (int j = 0; j < data_list.size(); j++) {
+                                        Log.d("9996", "number of points:" + numberOfPoints);
+
+
+                                            highvaluearray[j] = Integer.parseInt(data_list.get(j).getHighmmhg());
+                                            Log.d("7654", "array:  " + highvaluearray[j]);
+                                            Log.d("7654", "length:  " + highvaluearray.length);
+
+                                            randomNumbersTab[k][j] = highvaluearray[j];
+
+
+
+//                                    System.out.print(+randomNumbersTab[k][j]+" ");
+//                                    System.out.println();
+//                                    System.out.println(Arrays.deepToString(randomNumbersTab).replace("], ", "]\n"));
+                                    }
+                                }
+                            }
+                        }
+
+                        generateLineData();
+                        generateData();
+                        System.out.println(Arrays.deepToString(randomNumbersTab).replace("], ", "]\n"));
+                        Log.d("9995", "num:" + numberOfPoints);
+                        Log.d("8721", "count:" + count);
+//                    Log.d("9995","higharray"+highvaluearray[count]);
+
+//                  generateValues();
+//                    generateData();
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+
+            }
+        },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.d("777",error.toString());
+                    }
+                });
+        RequestQueue requestQueue = Volley.newRequestQueue(this.getActivity());
+        requestQueue.add(jsonObjectRequest);
+
+
+
+    }
+    public void getrecord2(){
+        requestQueue = Volley.newRequestQueue(getActivity().getApplicationContext());
+        Log.d("777","1");
+        final JsonArrayRequest jsonObjectRequest = new JsonArrayRequest(Request.Method.POST, url, new Response.Listener<JSONArray>() {
+            @Override
+            public void onResponse(JSONArray response) {
                 Log.d("777","in response");
-                 int count = 0;
+                int count = 0;
                 try {
                     rd = true;
 //                    JSONArray array = new JSONArray(response);
@@ -243,12 +345,6 @@ public class BpPlotTab extends Fragment{
                             usrbpm = object.getString("bpm");
                             usrsavetime = object.getString("savetime");
 
-                            Log.d("6969", "member_id:" + member_id);
-                            Log.d("6969", "highmmhg:" + usrhighmmhg);
-                            Log.d("6969", "lowmmhg:" + usrlowmmhg);
-                            Log.d("6969", "bpm:" + usrbpm);
-                            Log.d("9999", "savetime:" + usrsavetime);
-
                             count++;
 
                             highvaluearray = new int[count];
@@ -259,18 +355,18 @@ public class BpPlotTab extends Fragment{
                             numberOfPoints = count;
                             randomNumbersTab = new float[maxNumberOfLines][numberOfPoints];
 
-
                         }
                     }
+
                     for (int k = 0; k < maxNumberOfLines; k++) {
                         Log.d("9996", "number of lines:" + maxNumberOfLines);
-                        for (int j = 0; j < highvaluearray.length; j++) {
+                        for (int j = 0; j < lowvaluearray.length; j++) {
                             Log.d("9996", "number of points:" + numberOfPoints);
                             JSONObject object2 = response.getJSONObject(j);
-                            highvaluearray[j] = Integer.parseInt(object2.getString("highmmhg"));
-                            Log.d("7654","array:  "+highvaluearray[j]);
+                            lowvaluearray[j] = Integer.parseInt(object2.getString("lowmmhg"));
+                            Log.d("7654","array:  "+lowvaluearray[j]);
 
-                            randomNumbersTab[k][j] = highvaluearray[j];
+                            randomNumbersTab[k][j] = lowvaluearray[j];
 
 
 //                                    System.out.print(+randomNumbersTab[k][j]+" ");
@@ -278,6 +374,7 @@ public class BpPlotTab extends Fragment{
 //                                    System.out.println(Arrays.deepToString(randomNumbersTab).replace("], ", "]\n"));
                         }
                     }
+
                     generateLineData();
                     generateData();
                     System.out.println(Arrays.deepToString(randomNumbersTab).replace("], ", "]\n"));
@@ -301,8 +398,6 @@ public class BpPlotTab extends Fragment{
                 });
         RequestQueue requestQueue = Volley.newRequestQueue(this.getActivity());
         requestQueue.add(jsonObjectRequest);
-
-
 
     }
 
@@ -428,18 +523,35 @@ public class BpPlotTab extends Fragment{
         List<Column> columns = new ArrayList<Column>();
         List<SubcolumnValue> values;
         numColumns = numberOfPoints;
+        if(numColumns!=0) {
+            for (int i = 0; i < highvaluearray.length; ++i) {
+
+                values = new ArrayList<SubcolumnValue>();
+                for (int j = 0; j < numSubcolumns; ++j) {
+                    values.add(new SubcolumnValue(highvaluearray[i], ChartUtils.COLOR_GREEN));
+                }
+
+                columns.add(new Column(values));
+            }
+
+            ColumnChartData columnChartData = new ColumnChartData(columns);
+            return columnChartData;
+        }
+
         for (int i = 0; i < numColumns; ++i) {
 
             values = new ArrayList<SubcolumnValue>();
             for (int j = 0; j < numSubcolumns; ++j) {
-                values.add(new SubcolumnValue(highvaluearray[count], ChartUtils.COLOR_GREEN));
+                values.add(new SubcolumnValue(i, ChartUtils.COLOR_GREEN));
             }
 
             columns.add(new Column(values));
         }
 
-        ColumnChartData columnChartData = new ColumnChartData(columns);
-        return columnChartData;
+        ColumnChartData NoAnyData = new ColumnChartData(columns);
+        Toast.makeText(this.getActivity(), "您尚未新增血壓相關的紀錄哦！趕快去新增吧！", Toast.LENGTH_LONG).show();
+        return NoAnyData;
+
     }
     private void addLineToData() {
         if (data.getLineChartData().getLines().size() >= maxNumberOfLines) {
@@ -448,7 +560,7 @@ public class BpPlotTab extends Fragment{
         } else {
             ++numberOfLines;
         }
-
+        getrecord2();
         generateData();
     }
     private void toggleLines() {

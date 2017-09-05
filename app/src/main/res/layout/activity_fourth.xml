@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:autofit="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -88,7 +89,9 @@
                         android:layout_marginTop="10dp"
                         android:layout_weight="1"
                         android:textColor="#6C6C6C"
-                         />
+                        android:textSize="8pt"
+                        />
+
 
                 </LinearLayout>
 
@@ -116,7 +119,6 @@
                         android:layout_weight="1"
                         android:text="中文名稱："
                         android:textColor="#6C6C6C"
-
                         />
 
                     <TextView
@@ -205,9 +207,8 @@
                         android:layout_marginRight="0sp"
                         android:layout_marginTop="10dp"
                         android:layout_weight="1"
-                        android:textColor="#6C6C6C"
+                        android:textColor="#6C6C6C" />
 
-                        />
                 </LinearLayout>
 
                 <LinearLayout

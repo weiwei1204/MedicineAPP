@@ -9,8 +9,6 @@
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
@@ -41,7 +39,8 @@
             android:label="@string/title_activity_second" />
         <activity
             android:name=".ThirdActivity"
-            android:label="@string/title_activity_third" />
+            android:label="@string/title_activity_third"
+            android:windowSoftInputMode="adjustPan"/>
         <activity
             android:name=".FourthActivity"
             android:label="@string/title_activity_fourth" />
@@ -155,7 +154,17 @@
             android:label="@string/title_activity_bs_record"
             android:theme="@style/AppTheme" />
         <activity android:name=".medicine_cal" />
-        <activity android:name=".scandrug"></activity>
+        <activity android:name=".scandrug" />
+        <activity
+            android:name=".Main3Activity"
+            android:label="@string/title_activity_main3"
+            android:theme="@style/AppTheme" />
+        <activity android:name=".PersonalInformationctivity" />
+        <activity
+            android:name=".BsBpMeasureActivity"
+            android:label="@string/title_activity_bs_bp_measure"
+            android:theme="@style/AppTheme"
+            android:windowSoftInputMode="adjustPan"></activity>
     </application>
 
 </manifest>

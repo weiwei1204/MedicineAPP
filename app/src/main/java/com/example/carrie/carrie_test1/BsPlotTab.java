@@ -84,6 +84,7 @@ public class BsPlotTab extends Fragment{
     public static String savetime="";
     public static int [] bsarray ;
     public static String [] datearray;
+    ArrayList<BloodSugar>sugarArrayList;
 
 
     @Override
@@ -94,8 +95,10 @@ public class BsPlotTab extends Fragment{
         chart = (LineChartView) rootView.findViewById(R.id.chart);
         chart.setOnValueTouchListener(new ValueTouchListener());
         Bundle bundle = this.getArguments();
+//        Bundle bundle2 = getActivity().getIntent().getExtras();
         memberid = bundle.getString("memberid");
         Log.d("689","sent id"+memberid);
+        sugarArrayList = new ArrayList<>();
         getRecord();
 //        generateValues();
 //        generateData();
@@ -109,58 +112,69 @@ public class BsPlotTab extends Fragment{
         final JsonArrayRequest jsonObjectRequest = new JsonArrayRequest(Request.Method.POST, url, new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray response) {
-                Log.d("689","in response");
-                int counter = 0;
-                try {
+                if (response != null) {
+                    Log.d("689", "in response");
+                    int counter = 0;
+                    try {
 //                    JSONArray array = new JSONArray(response);
 //                    Log.d("777",array.toString());
 
 
-
-                    for (int i = 0; i < response.length(); i++) {
-                        JSONObject object = response.getJSONObject(i);
-                        record = new BloodSugar(object.getInt("id"), object.getString("member_id"), object.getString("bloodsugar"), object.getString("savetime"));
-//                        data_list.add(record);
-
-                        userid = object.getInt("id");
-                        member_id = object.getString("member_id");
-                        Log.d("689","saw id:" +member_id);
-                        if (member_id.equals(memberid)){
-                            bloodsugar= object.getString("bloodsugar");
-                            savetime = object.getString("savetime");
-                            counter++;
-                            bsarray = new int[counter];
-                            datearray =new String[counter];
-
-                            Log.d("689", "member_id:" + member_id);
-                            Log.d("689", "bloodsugar:" + bloodsugar);
-                            Log.d("689", "savetime:" + savetime);
+                        for (int i = 0; i < response.length(); i++) {
+                            JSONObject object = response.getJSONObject(i);
+                            record = new BloodSugar(object.getInt("id"), object.getString("member_id"), object.getString("bloodsugar"), object.getString("savetime"));
 
 
-                            numberOfPoints = counter;
-                            randomNumbersTab = new float[maxNumberOfLines][numberOfPoints];
+                            userid = object.getInt("id");
+                            member_id = object.getString("member_id");
+                            Log.d("689", "saw id:" + member_id);
+                            if (member_id.equals(memberid)) {
+                                sugarArrayList.add(record);
+                                bloodsugar = object.getString("bloodsugar");
+                                savetime = object.getString("savetime");
+                                counter++;
+                                bsarray = new int[counter];
+                                datearray = new String[counter];
 
+                                Log.d("6899", "member_id:" + member_id);
+                                Log.d("6899", "bloodsugar:" + bloodsugar);
+                                Log.d("6899", "savetime:" + savetime);
+
+
+                                numberOfPoints = counter;
+                                randomNumbersTab = new float[maxNumberOfLines][numberOfPoints];
+                                for (int k = 0; k < maxNumberOfLines; k++) {
+                                    for (int j = 0; j < sugarArrayList.size(); j++) {
+
+
+                                                Log.d("5555", "length:  " + bsarray.length);
+                                                bsarray[j] = Integer.parseInt(sugarArrayList.get(j).getBloodsugar());
+                                                sugarArrayList.get(j).getBloodsugar();
+                                                randomNumbersTab[k][j] = bsarray[j];
+                                                Log.d("1345", "bsarray:  " + bsarray[j]);
+
+
+                                    }
+                                }
+                            }
+                        }
+
+                        System.out.println(Arrays.deepToString(randomNumbersTab).replace("], ", "]\n"));
+                        generateData();
+                        resetViewport();
+                        Log.d("1996", "num:" + numberOfPoints);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+                }else{
+                    for (int i = 0; i < maxNumberOfLines; ++i) {
+                        for (int j = 0; j < numberOfPoints; ++j) {
+                            randomNumbersTab[i][j] = (float) Math.random() * 100f;
                         }
                     }
-                    for (int k = 0; k < maxNumberOfLines; k++) {
-                        for (int j = 0; j < bsarray.length; j++) {
-                            JSONObject object2 = response.getJSONObject(j);
-                            Log.d("5555","length:  "+bsarray.length);
-                            bsarray[j] = Integer.parseInt(object2.getString("bloodsugar"));
-                            datearray[j] = object2.getString("savetime");
-                            randomNumbersTab[k][j] = bsarray[j];
-                            Log.d("1345","bsarray:  "+bsarray[j]);
 
-                        }
-                    }
-                    System.out.println(Arrays.deepToString(randomNumbersTab).replace("], ", "]\n"));
-                    generateData();
-                    resetViewport();
-                    Log.d("1996","num:"+numberOfPoints);
-                }catch (JSONException e){
-                    e.printStackTrace();
                 }
-
             }
         },
                 new Response.ErrorListener() {
@@ -305,6 +319,9 @@ public class BsPlotTab extends Fragment{
         chart.setCurrentViewport(v);
     }
     private void generateData() {
+        if(numberOfPoints==0){
+            Toast.makeText(getActivity(),"您尚未新增血糖相關紀錄哦！趕快去新增吧！",Toast.LENGTH_LONG).show();
+        }
 
         List<Line> lines = new ArrayList<Line>();
         for (int i = 0; i < numberOfLines; ++i) {
@@ -521,6 +538,7 @@ public class BsPlotTab extends Fragment{
         }
 
     }
+
     public void goback(View v)
     {
         getActivity().onBackPressed();

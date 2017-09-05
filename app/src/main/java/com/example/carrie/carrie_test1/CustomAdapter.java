@@ -46,14 +46,14 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
         holder.monitorButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(context,"Click positioin"+ position,Toast.LENGTH_LONG).show();
+                Toast.makeText(context,"Click positioin"+ position,Toast.LENGTH_SHORT).show();
                 Log.d("customadapter","1");
-                Intent it =new Intent(context,ChartActivity.class);
+                Intent it =new Intent(context,SwipePlot.class);
                 Log.d("customadapter","2");
                 Bundle bundle = new Bundle();
                 Log.d("customadapter","3");
                 bundle.putInt("monitor_who", my_data.get(position).getId());
-                bundle.putString("memberid", MonitorActivity.my_id);
+                Log.d("4445","supervised_id"+my_data.get(position).getId());
                 Log.d("customadapter","4");
                 Log.d("customadapter", String.valueOf(my_data.get(position).getId()));
                 it.putExtras(bundle);

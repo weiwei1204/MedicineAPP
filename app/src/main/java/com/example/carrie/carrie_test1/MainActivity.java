@@ -4,11 +4,15 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
+import android.support.design.widget.NavigationView;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.Spinner;
@@ -28,8 +32,8 @@ import com.google.android.gms.common.api.Status;
 import java.util.HashMap;
 import java.util.Map;
 
-public class MainActivity extends LoginActivity {
-
+public class MainActivity extends LoginActivity
+        implements NavigationView.OnNavigationItemSelectedListener {
     private ImageButton SignOut;
     Spinner spinner;
     ArrayAdapter<CharSequence> adapter;
@@ -38,46 +42,26 @@ public class MainActivity extends LoginActivity {
     RequestQueue requestQueue;
     String memberid;
     String my_mon_id;
-
-
-
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-
+        setContentView(R.layout.activity_main3);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbarMain);
+        setSupportActionBar(toolbar);
         Bundle bundle = getIntent().getExtras();
         googleid=bundle.getString("googleid");
         getMonitorId();
         getid();
-//        SignOut = (ImageButton) findViewById(R.id.bkimg);
-//        SignOut.setOnClickListener(this);
-        spinner = (Spinner)findViewById(R.id.spinner);
-        adapter = ArrayAdapter.createFromResource(this,R.array.mainspinner,android.R.layout.simple_spinner_item);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner.setSelection(0,false);
-        spinner.setAdapter(adapter);
 
-        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.setDrawerListener(toggle);
+        toggle.syncState();
 
-        @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-//                Toast.makeText(getBaseContext(),parent.getItemAtPosition(position)+"selected",Toast.LENGTH_LONG).show();
-            if (parent.getItemAtPosition(position).equals("QR_Code")){
-                gotoGenerate_Qrcode();
-            }
-            else if (parent.getItemAtPosition(position).equals("SignOut")){
-                signOut();
-            }
-            }
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
 
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
         BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomNavView_Bar);
         BottomNavigationViewHelper.disableShiftMode(bottomNavigationView);
         Menu menu = bottomNavigationView.getMenu();
@@ -141,19 +125,6 @@ public class MainActivity extends LoginActivity {
             }
         });
     }
-
-
-
-//    public void onClick(View v) {
-//
-//        switch (v.getId()) {
-////            case R.id.btn_login:
-////                break;
-//            case R.id.bkimg:
-//                signOut();
-//                break;
-//        }
-//    }
     private  void  signOut() {
 
         Auth.GoogleSignInApi.signOut(googleApiCliente).setResultCallback(new ResultCallback<Status>() {
@@ -215,6 +186,20 @@ public class MainActivity extends LoginActivity {
     }
     public void gotoGenerate_Qrcode(){ //連到製造qrcode頁面
         Intent it = new Intent(this,Generate_Qrcode.class);
+        Bundle bundle = new Bundle();
+        bundle.putString("googleid", googleid);
+        it.putExtras(bundle);   // 記得put進去，不然資料不會帶過去哦
+        startActivity(it);
+    }
+    public void gotoPersonalInformation(){
+        Intent it = new Intent(this,PersonalInformationctivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putString("googleid", googleid);
+        it.putExtras(bundle);   // 記得put進去，不然資料不會帶過去哦
+        startActivity(it);
+    }
+    public void gotoBsBpMeasure(){
+        Intent it = new Intent(this,BsBpMeasureActivity.class);
         Bundle bundle = new Bundle();
         bundle.putString("googleid", googleid);
         it.putExtras(bundle);   // 記得put進去，不然資料不會帶過去哦
@@ -333,5 +318,63 @@ public class MainActivity extends LoginActivity {
 
     public void goback(View v){
         finish();
+    }
+
+    @Override
+    public void onBackPressed() {
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
+        } else {
+            super.onBackPressed();
+        }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.main3, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_settings) {
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    @SuppressWarnings("StatementWithEmptyBody")
+    @Override
+    public boolean onNavigationItemSelected(MenuItem item) {
+        // Handle navigation view item clicks here.
+        int id = item.getItemId();
+
+        if (id == R.id.nav_camera) {
+            // Handle the camera action
+            gotoGenerate_Qrcode();
+        } else if (id == R.id.nav_gallery) {
+            gotoPersonalInformation();
+        } else if (id == R.id.nav_slideshow) {
+            gotoBsBpMeasure();
+        } else if (id == R.id.nav_manage) {
+
+        } else if (id == R.id.nav_share) {
+            signOut();
+        } else if (id == R.id.nav_send) {
+
+        }
+
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawer.closeDrawer(GravityCompat.START);
+        return true;
     }
 }
