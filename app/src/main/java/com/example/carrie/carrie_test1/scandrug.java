@@ -47,6 +47,7 @@ public class scandrug extends AppCompatActivity {
     SurfaceHolder holder;
     String urlcode;
     private Context context;
+    MyData mydata;
 
 //    public String google_id;
 
@@ -54,61 +55,62 @@ public class scandrug extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_scandrug);
-        cameraView =(SurfaceView) findViewById(R.id.cameraView);
+        cameraView = (SurfaceView) findViewById(R.id.cameraView);
         cameraView.setZOrderMediaOverlay(true);
         holder = cameraView.getHolder();
         barcode = new BarcodeDetector.Builder(this)
                 .setBarcodeFormats(Barcode.QR_CODE)
                 .build();
-        if(!barcode.isOperational()){
-            Toast.makeText(getApplicationContext(),"Sorry ,Couldn't set up the detector",Toast.LENGTH_LONG).show();
+        if (!barcode.isOperational()) {
+            Toast.makeText(getApplicationContext(), "Sorry ,Couldn't set up the detector", Toast.LENGTH_LONG).show();
             this.finish();
         }
 
-        cameraSource = new CameraSource.Builder(this,barcode)
+        cameraSource = new CameraSource.Builder(this, barcode)
                 .setFacing(CameraSource.CAMERA_FACING_BACK)
                 .setRequestedFps(24)
                 .setAutoFocusEnabled(true)
-                .setRequestedPreviewSize(1920,1024)
+                .setRequestedPreviewSize(1920, 1024)
                 .build();
-        cameraView.getHolder().addCallback(new SurfaceHolder.Callback(){
+        cameraView.getHolder().addCallback(new SurfaceHolder.Callback() {
             @Override
-            public void surfaceCreated(SurfaceHolder holder){
+            public void surfaceCreated(SurfaceHolder holder) {
                 try {
-                    if(ContextCompat.checkSelfPermission(scandrug.this, android.Manifest.permission.CAMERA)== PackageManager.PERMISSION_GRANTED) {
+                    if (ContextCompat.checkSelfPermission(scandrug.this, android.Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
                         cameraSource.start(cameraView.getHolder());
                     }
-                }catch (IOException e){
+                } catch (IOException e) {
                     e.printStackTrace();
                 }
             }
+
             @Override
-            public void surfaceChanged(SurfaceHolder holder,int format,int width,int height){
+            public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
 
             }
 
             @Override
-            public void surfaceDestroyed(SurfaceHolder holder){
+            public void surfaceDestroyed(SurfaceHolder holder) {
 
             }
         });
-        barcode.setProcessor(new Detector.Processor<Barcode>(){
+        barcode.setProcessor(new Detector.Processor<Barcode>() {
             @Override
-            public void release(){
+            public void release() {
 
             }
 
             @Override
-            public void receiveDetections(Detector.Detections<Barcode> detections){
+            public void receiveDetections(Detector.Detections<Barcode> detections) {
                 final SparseArray<Barcode> barcodes = detections.getDetectedItems();
-                if(barcodes.size() > 0){
+                if (barcodes.size() > 0) {
                     Intent intent = new Intent();
-                    intent.putExtra("barcode",barcodes.valueAt(0));
-                    Log.d("code",barcodes.valueAt(0).displayValue);
-                    urlcode=barcodes.valueAt(0).displayValue;
-                    Log.d("code2",barcodes.valueAt(0).displayValue);
+                    intent.putExtra("barcode", barcodes.valueAt(0));
+                    Log.d("code", barcodes.valueAt(0).displayValue);
+                    urlcode = barcodes.valueAt(0).displayValue;
+                    Log.d("code2", barcodes.valueAt(0).displayValue);
                     geturl();
-                    setResult(RESULT_OK,intent);
+                    setResult(RESULT_OK, intent);
 //                    cameraSource.stop();
 //                    addNormalDialogEvent();
 
@@ -118,30 +120,27 @@ public class scandrug extends AppCompatActivity {
         });
 
     }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        IntentResult result = IntentIntegrator.parseActivityResult(requestCode,resultCode,data);
-        if (result != null){
-            if (result.getContents()==null){
-                Toast.makeText(this,"You cancelled the scanning",Toast.LENGTH_LONG).show();
-            }else {
-                Toast.makeText(this,result.getContents(),Toast.LENGTH_LONG).show();
+        IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
+        if (result != null) {
+            if (result.getContents() == null) {
+                Toast.makeText(this, "You cancelled the scanning", Toast.LENGTH_LONG).show();
+            } else {
+                Toast.makeText(this, result.getContents(), Toast.LENGTH_LONG).show();
                 Log.d("scannnnn", "1111");
             }
-        }
-        else {
+        } else {
             super.onActivityResult(requestCode, resultCode, data);
         }
-    }
-    public void goback(View v){
-        finish();
     }
 
     public void geturl() {
         AsyncTask<Integer, Void, Void> task = new AsyncTask<Integer, Void, Void>() {
             @Override
             protected Void doInBackground(Integer... integers) {
-                String insertUrl = "http://54.65.194.253/Drug/qrcode.php?urlcode="+urlcode;
+                String insertUrl = "http://54.65.194.253/Drug/qrcode.php?urlcode=" + urlcode;
                 OkHttpClient client = new OkHttpClient();
                 Log.d("uuuuuurl", insertUrl);
                 okhttp3.Request request = new okhttp3.Request.Builder()
@@ -161,44 +160,21 @@ public class scandrug extends AppCompatActivity {
                         //normalDialogEvent();
                     } else {
 
-                     Log.d("nodata","noooooooo");
+                        Log.d("nodata", "noooooooo");
                     }
 
-                        Log.d("searchtest", array.toString());
-                        for (int i = 0; i < array.length(); i++) {
+                    Log.d("searchtest", array.toString());
+                    for (int i = 0; i < array.length(); i++) {
 
-                           object = array.getJSONObject(i);
+                        object = array.getJSONObject(i);
 
-                            MyData mydata = new MyData(object.getInt("id"),object.getString("chineseName"),
-                                    object.getString("image") ,object.getString("indication"),object.getString("englishName"),object.getString("licenseNumber")
-                                    ,object.getString("category"), object.getString("component"), object.getString("maker_Country"), object.getString("applicant")
-                                    ,object.getString("maker_Name"),object.getString("QRCode") );
+                        mydata = new MyData(object.getInt("id"), object.getString("chineseName"),
+                                object.getString("image"), object.getString("indication"), object.getString("englishName"), object.getString("licenseNumber")
+                                , object.getString("category"), object.getString("component"), object.getString("maker_Country"), object.getString("applicant")
+                                , object.getString("maker_Name"), object.getString("QRCode"));
 
 
-                            Intent it =new Intent(scandrug.this ,FourthActivity.class);
-                            Log.d("customadapter2","2");
-                            Bundle bundle = new Bundle();
-                            Log.d("customadapter2","3");
-                            bundle.putInt("id", mydata.getId());
-                            Log.d("customadapter2","4");
-                            bundle.putString("image", mydata.getImage_link());
-                            bundle.putString("chineseName", mydata.getChineseName());
-                            bundle.putString("indication", mydata.getIndication());
-                            bundle.putString("englishName", mydata.getEnglishName());
-                            bundle.putString("licenseNumber", mydata.getLicenseNumber());
-                            bundle.putString("category", mydata.getCategory());
-                            bundle.putString("component", mydata.getComponent());
-                            bundle.putString("maker_Country", mydata.getMaker_Country());
-                            bundle.putString("applicant", mydata.getApplicant());
-                            bundle.putString("maker_Name", mydata.getMaker_Name());
-
-                            Log.d("customadapter2","5");
-                            it.putExtras(bundle);
-
-                            startActivity(it);
-                            Log.d("customadapter2","6");
-
-                        }
+                    }
 
 
                 } catch (IOException e) {
@@ -211,13 +187,39 @@ public class scandrug extends AppCompatActivity {
 
             @Override
             protected void onPostExecute(Void aVoid) {
+                Intent it = new Intent(scandrug.this, FourthActivity.class);
+                Log.d("customadapter2", "2");
+                Bundle bundle = new Bundle();
+                Log.d("customadapter2", "3");
+                bundle.putInt("id", mydata.getId());
+                Log.d("customadapter2", "4");
+                bundle.putString("image", mydata.getImage_link());
+                bundle.putString("chineseName", mydata.getChineseName());
+                bundle.putString("indication", mydata.getIndication());
+                bundle.putString("englishName", mydata.getEnglishName());
+                bundle.putString("licenseNumber", mydata.getLicenseNumber());
+                bundle.putString("category", mydata.getCategory());
+                bundle.putString("component", mydata.getComponent());
+                bundle.putString("maker_Country", mydata.getMaker_Country());
+                bundle.putString("applicant", mydata.getApplicant());
+                bundle.putString("maker_Name", mydata.getMaker_Name());
+
+                Log.d("customadapter2", "5");
+                it.putExtras(bundle);
+
+                startActivity(it);
+                Log.d("customadapter2", "6");
 
             }
         };
         task.execute();
-    }
-
 
     }
 
+    public void goback(View v) {
+        finish();
+
+
+    }
+}
 
