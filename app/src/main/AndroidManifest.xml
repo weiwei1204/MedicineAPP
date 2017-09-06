@@ -1,16 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.carrie.carrie_test1">
+    <uses-sdk
+        android:minSdkVersion="23"
+        android:targetSdkVersion="25" />
     <!--藍芽權限-->
     <uses-permission android:name="android.permission.BLUETOOTH" />
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+    <!--<uses-permission-sdk-23 android:name="android.permission.ACCESS_COARSE_LOCATION" android:required="false"/>-->
+    <!--<uses-permission-sdk-23 android:name="android.permission.ACCESS_FINE_LOCATION" android:required="false"/>-->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <!--<uses-permission android:name="android.permission.INTERNET" />-->
+    <!--<uses-feature android:name="android.hardware.location" />-->
+    <!--<uses-feature android:name="android.hardware.location.network" />-->
+    <!--<uses-feature android:name="android.hardware.location.gps" />-->
+    <!--<uses-permission android:name="android.permission.SEND_SMS"/>-->
+
 
     <!--  -->
-    <uses-sdk
-        android:minSdkVersion="9"
-        android:targetSdkVersion="17" />
+
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -31,6 +40,9 @@
         <meta-data
             android:name="com.google.android.gms.vision.DEPENDENCIES"
             android:value="barcode" />
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
 
         <activity android:name=".Main2">
             <intent-filter>
