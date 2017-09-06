@@ -40,7 +40,7 @@
         <activity
             android:name=".ThirdActivity"
             android:label="@string/title_activity_third"
-            android:windowSoftInputMode="adjustPan"/>
+            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".FourthActivity"
             android:label="@string/title_activity_fourth" />
@@ -164,7 +164,8 @@
             android:name=".BsBpMeasureActivity"
             android:label="@string/title_activity_bs_bp_measure"
             android:theme="@style/AppTheme"
-            android:windowSoftInputMode="adjustPan"></activity>
+            android:windowSoftInputMode="adjustPan" />
+        <activity android:name=".repair"></activity>
     </application>
 
 </manifest>

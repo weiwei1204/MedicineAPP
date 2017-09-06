@@ -195,6 +195,7 @@ public class MainActivity extends LoginActivity
         Intent it = new Intent(this,PersonalInformationctivity.class);
         Bundle bundle = new Bundle();
         bundle.putString("googleid", googleid);
+        bundle.putString("memberid", memberid);
         it.putExtras(bundle);   // 記得put進去，不然資料不會帶過去哦
         startActivity(it);
     }

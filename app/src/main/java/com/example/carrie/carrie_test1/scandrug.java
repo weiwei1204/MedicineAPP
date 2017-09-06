@@ -104,6 +104,7 @@ public class scandrug extends AppCompatActivity {
             public void receiveDetections(Detector.Detections<Barcode> detections) {
                 final SparseArray<Barcode> barcodes = detections.getDetectedItems();
                 if (barcodes.size() > 0) {
+                    int count;
                     Intent intent = new Intent();
                     intent.putExtra("barcode", barcodes.valueAt(0));
                     Log.d("code", barcodes.valueAt(0).displayValue);
@@ -113,6 +114,7 @@ public class scandrug extends AppCompatActivity {
                     setResult(RESULT_OK, intent);
 //                    cameraSource.stop();
 //                    addNormalDialogEvent();
+
 
 
                 }

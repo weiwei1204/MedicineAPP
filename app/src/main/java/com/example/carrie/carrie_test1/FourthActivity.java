@@ -82,8 +82,8 @@ public class FourthActivity extends AppCompatActivity {
         indi = bundle.getString("indication");//get 中文名字
         TextView indication=(TextView) findViewById(R.id.indication);
         indication.setText(string1);
-//        indi = autoSplitText(indication);
-//        indication.setText(indi);
+    //    indi = autoSplitText(indication);
+   //     indication.setText(indi);
 
 
 
@@ -186,17 +186,7 @@ public class FourthActivity extends AppCompatActivity {
         addnmcal.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                int i= mcaldata.getMcaldrugs().size();
-//                Log.d("drugarray",String.valueOf(i));
-//                mdrugs = mcaldata.getMcaldrugs();
-//                Log.d("drug","100");
-//                mdrugs.add(new ArrayList<String>());
-//                Log.d("drug","200");
-//                mdrugs.get(i).add(drugname);
-//                Log.d("drug","300");
-//                mdrugs.get(i).add(String.valueOf(drugid));
-//                Log.d("drug","400");
-//                mcaldata.setMcaldrugs(mdrugs);
+//
                 mydrugs.add(new ArrayList<String>());
                 mydrugs.get(0).add(drugname);
                 mydrugs.get(0).add(String.valueOf(drugid));
