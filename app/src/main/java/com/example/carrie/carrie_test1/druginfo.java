@@ -55,6 +55,7 @@ public class druginfo extends AppCompatActivity {
     public  String my_google_id = "";
     public  String my_id = "";
     public  String my_mon_id = "";//Supviser的id
+    private String m_calid="0";
     @Override
     protected void onCreate( Bundle savedInstanceState) {
 
@@ -64,6 +65,11 @@ public class druginfo extends AppCompatActivity {
         my_id = bundle.getString("my_id");//get 自己 id
         my_google_id = bundle.getString("my_google_id");//get 自己google_ id
         my_mon_id = bundle.getString("my_supervise_id");
+        m_calid = bundle.getString("m_calid");
+
+        Log.d("qqqqq",m_calid);
+
+
         btmbar = (RelativeLayout) findViewById(R.id.btmbar);
         if (my_id.equals("0") && my_google_id.equals("0") && my_mon_id.equals("0")){
             //如果從藥袋跳頁過來就不顯示頁面下面的跳頁鈕
@@ -179,7 +185,7 @@ public class druginfo extends AppCompatActivity {
                     gridLayoutManager = new GridLayoutManager(getBaseContext(), 2);
                     recyclerView.setLayoutManager(gridLayoutManager);
                     Log.d("searchtest", "2");
-                    adapter = new CustomAdapter2(getBaseContext(), data_list2);
+                    adapter = new CustomAdapter2(getBaseContext(), data_list2,m_calid);
                     recyclerView.setAdapter(adapter);
                 }
                 else {
@@ -189,7 +195,7 @@ public class druginfo extends AppCompatActivity {
                     gridLayoutManager = new GridLayoutManager(getBaseContext(), 2);
                     recyclerView.setLayoutManager(gridLayoutManager);
 
-                    adapter = new CustomAdapter2(getBaseContext(), data_list);
+                    adapter = new CustomAdapter2(getBaseContext(), data_list,m_calid);
                     recyclerView.setAdapter(adapter);
 
 
@@ -211,7 +217,7 @@ public class druginfo extends AppCompatActivity {
         gridLayoutManager = new GridLayoutManager(this, 2);
         recyclerView.setLayoutManager(gridLayoutManager);
 
-        adapter = new CustomAdapter2(this, data_list);
+        adapter = new CustomAdapter2(this, data_list,m_calid);
         recyclerView.setAdapter(adapter);
 
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -386,6 +392,7 @@ public class druginfo extends AppCompatActivity {
     }
     public void gotofourth(View v){ //連到搜尋藥品資訊頁面
         Intent it = new Intent(this,FourthActivity.class);
+
         startActivity(it);
     }
 

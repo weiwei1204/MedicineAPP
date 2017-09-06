@@ -8,12 +8,17 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Vibrator;
 import android.support.annotation.RequiresApi;
+import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Html;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -50,6 +55,7 @@ public class ThirdActivity extends AppCompatActivity {
     EditText m_cal_name;
     EditText txtdate;
     EditText txtday;
+    EditText notxt;
     private ArrayList<ArrayList<String>> mtimes = new ArrayList<ArrayList<String>>();
     private ArrayList<ArrayList<String>> mdrugs = new ArrayList<ArrayList<String>>();
 
@@ -72,6 +78,11 @@ public class ThirdActivity extends AppCompatActivity {
     Context context;
     PendingIntent pending_intent;
     AlarmManager alarm_manager;
+
+    //錯誤提示（防呆）
+    private Vibrator vib;
+    Animation animShake;
+    private TextInputLayout m_cal_name1,txtdate1,txtday1,time1,newdrug1;
 
 
 
@@ -97,6 +108,17 @@ public class ThirdActivity extends AppCompatActivity {
         txtdate = (EditText) findViewById(R.id.txtdate);
         txtday = (EditText)findViewById(R.id.txtday);
         adddrug = (ImageButton)findViewById(R.id.adddrug);
+        animShake = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.shake);
+        vib = (Vibrator)getSystemService(Context.VIBRATOR_SERVICE);
+        m_cal_name1 = (TextInputLayout)findViewById(R.id.m_cal_name1);
+        txtdate1 = (TextInputLayout)findViewById(R.id.txtdate1);
+        txtday1 = (TextInputLayout)findViewById(R.id.txtday1);
+        time1 = (TextInputLayout)findViewById(R.id.time1);
+
+
+
+
+
 
 
         if (entertype==1) {          //代表從藥品資訊頁面跳轉過來
@@ -235,10 +257,6 @@ public class ThirdActivity extends AppCompatActivity {
 
 
 
-    public void gotoalarm(View v){ //連到親友認證頁面
-        Intent it = new Intent(this,alarm.class);
-        startActivity(it);
-    }
 
 
 
@@ -409,6 +427,7 @@ public class ThirdActivity extends AppCompatActivity {
         bundle3.putString("my_id", "0");
         bundle3.putString("my_google_id", "0");
         bundle3.putString("my_supervise_id", "0");
+        bundle3.putString("m_calid","0");
         it.putExtras(bundle3);
         startActivity(it);
     }
@@ -418,6 +437,7 @@ public class ThirdActivity extends AppCompatActivity {
     {
         counttime=0;
 
+        timearray.clear();
         LinearLayout scrollViewlinerLayout = (LinearLayout) activity.findViewById(R.id.linearLayoutForm);
         for (int i = 0; i < scrollViewlinerLayout.getChildCount(); i++)
         {
@@ -468,7 +488,9 @@ public class ThirdActivity extends AppCompatActivity {
     }
 
 
-    public void insertm_calendar(View view) {
+    public void insertm_calendar() {
+
+//                drugnameid1.setErrorEnabled(false);
         gettime(ThirdActivity.this);
         final int day = Integer.parseInt(txtday.getText().toString());
         final int count = day*counttime;
@@ -536,6 +558,7 @@ public class ThirdActivity extends AppCompatActivity {
                     for (int i=0;i<size;i++){
                         insertdrug(i);
                     }
+                    mtimes.clear();
                     for (int i=0;i<timearray.size();i++){      //一個一個存時間
                         insertAlert_time(i);
                     }
@@ -587,7 +610,7 @@ public class ThirdActivity extends AppCompatActivity {
             final StringRequest request = new StringRequest(Request.Method.POST, m_alerttimeUrl, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                Log.d("nnnmmmmmmm",response);
+                Log.d("timeeeee",response);
             }
         }, new Response.ErrorListener() {
             @Override
@@ -697,5 +720,69 @@ public class ThirdActivity extends AppCompatActivity {
         it.putExtras(bundle);   // 記得put進去，不然資料不會帶過去哦
         startActivity(it);
     }
+
+
+    public void checkinsert(View view){
+        boolean isVaild = true;
+        m_cal_name1.setErrorEnabled(false);
+        txtdate1.setErrorEnabled(false);
+        txtday1.setErrorEnabled(false);
+        time1.setErrorEnabled(false);
+
+        if (m_cal_name.getText().toString().isEmpty()){
+            m_cal_name.setError("Vaild Input Required");
+            m_cal_name1.setError(Html.fromHtml("<font color='red'>Please Enter name</font>"));
+            m_cal_name.setAnimation(animShake);
+            m_cal_name1.setAnimation(animShake);
+            vib.vibrate(120);
+            isVaild=false;
+        }else {
+            m_cal_name1.setErrorEnabled(false);
+        }
+//        String[] s=txtdate.getText().toString().split("-");
+//        int month=Integer.valueOf(s[1]);
+//        int date=Integer.valueOf(s[2]);
+//        if (month > 13 || date >32 || txtdate.getText().toString().isEmpty()){
+        if (txtdate.getText().toString().equals("")){
+
+            txtdate.setError("Vaild Input Required");
+            txtdate1.setError(Html.fromHtml("<font color='red'>Date (YYYY-mm-dd) </font>"));
+            txtdate.setAnimation(animShake);
+            txtdate1.setAnimation(animShake);
+            vib.vibrate(120);
+            isVaild=false;
+        }
+        else {
+            txtdate1.setErrorEnabled(false);
+        }
+        if (txtday.getText().toString().isEmpty()){
+            txtday.setError("Vaild Input Required");
+            txtday1.setError(Html.fromHtml("<font color='red'>Please Enter 天數</font>"));
+            txtday.setAnimation(animShake);
+            txtday1.setAnimation(animShake);
+            vib.vibrate(120);
+            isVaild=false;
+        }
+        else {
+            txtday1.setErrorEnabled(false);
+        }
+
+        gettime(ThirdActivity.this);
+        if (counttime==0){
+            time1.setError(Html.fromHtml("<font color='red'>輸入至少一個時間</font>"));
+            time1.setAnimation(animShake);
+            vib.vibrate(120);
+            isVaild=false;
+        }
+        else {
+            time1.setErrorEnabled(false);
+        }
+        if (isVaild){
+            insertm_calendar();
+        }
+    }
+
+
+
 
 }
