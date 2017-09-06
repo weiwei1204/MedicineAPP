@@ -6,6 +6,7 @@ package com.example.carrie.carrie_test1;
 import android.support.design.widget.TabLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
@@ -55,6 +56,12 @@ import lecho.lib.hellocharts.view.Chart;
 import lecho.lib.hellocharts.view.LineChartView;
 
 public class BsPlotTab extends Fragment{
+    public BsPlotTab(){
+
+    }
+    public static BsPlotTab newInstance() {
+        return new BsPlotTab();
+    }
     private LineChartView chart;
     private LineChartData data;
     private static int numberOfLines = 1;
@@ -85,6 +92,8 @@ public class BsPlotTab extends Fragment{
     public static int [] bsarray ;
     public static String [] datearray;
     ArrayList<BloodSugar>sugarArrayList;
+    private static final String TAG = "FragmentOne";
+    FragmentManager fragmentManager;
 
 
     @Override
@@ -103,8 +112,22 @@ public class BsPlotTab extends Fragment{
 //        generateValues();
 //        generateData();
         chart.setViewportCalculationEnabled(false);
+        fragmentManager = getFragmentManager();
         return rootView;
     }
+
+    @Override
+    public void onDestroyView()
+    {
+        // TODO Auto-generated method stub
+        super.onDestroyView();
+
+        numberOfPoints = 0;
+
+        Log.e(TAG, "onDestroyView");
+    }
+
+
 
     public void getRecord(){
         requestQueue = Volley.newRequestQueue(getActivity().getApplicationContext());
@@ -152,6 +175,7 @@ public class BsPlotTab extends Fragment{
                                                 sugarArrayList.get(j).getBloodsugar();
                                                 randomNumbersTab[k][j] = bsarray[j];
                                                 Log.d("1345", "bsarray:  " + bsarray[j]);
+
 
 
                                     }
@@ -542,6 +566,7 @@ public class BsPlotTab extends Fragment{
     public void goback(View v)
     {
         getActivity().onBackPressed();
+        Log.d("1234","do this");
     }
 
 }
