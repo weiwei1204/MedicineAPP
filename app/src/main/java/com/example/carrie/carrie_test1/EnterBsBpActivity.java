@@ -14,10 +14,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 
 public class EnterBsBpActivity extends AppCompatActivity {
     private PagerAdapter BsBpPagerAdapter;
     private ViewPager BsBpViewPager;
+    public static String membercurrentid;
+    Button btn ;
     String insertbpvalue = "http://54.65.194.253/Health_Calendar/insertbloodpressure.php";
     String insertbsvalue = "http://54.65.194.253/Health_Calendar/insertbloodsugar.php";
     @Override
@@ -25,7 +28,7 @@ public class EnterBsBpActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_enter_bs_bp);
         Bundle bundle = getIntent().getExtras();
-        String memberid=bundle.getString("memberid");
+        membercurrentid = bundle.getString("memberid");
 
         BsBpPagerAdapter = new PagerAdapter(getSupportFragmentManager());
 
@@ -38,6 +41,15 @@ public class EnterBsBpActivity extends AppCompatActivity {
 
         tabLayout.getTabAt(0).setIcon(R.drawable.blood);
         tabLayout.getTabAt(1).setIcon(R.drawable.blood2);
+
+        btn = (Button) findViewById(R.id.backmain);
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                backmain();
+
+            }
+        });
 
 //        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 //        setSupportActionBar(toolbar);
@@ -79,12 +91,12 @@ public class EnterBsBpActivity extends AppCompatActivity {
         public Fragment getItem(int position) {
             switch (position) {
                 case 0:
-                    BsTab tab1 = new BsTab();
+                    BsRecord tab1 = new BsRecord();
                     Intent it1 = new Intent();
                     it1.putExtra("memberid",memberid);
                     return tab1;
                 case 1:
-                    BpTab tab2 = new BpTab();
+                    BpRecord tab2 = new BpRecord();
                     Intent it = new Intent();
                     it.putExtra("memberid",memberid);
                     return tab2;
@@ -110,6 +122,11 @@ public class EnterBsBpActivity extends AppCompatActivity {
             return null;
         }
 
+    }
+    public void backmain(){
+        Intent it = new Intent(EnterBsBpActivity.this,SwipePlot.class);
+        it.putExtra("memberid",membercurrentid);
+        startActivity(it);
     }
     public void goback(View v){
         finish();

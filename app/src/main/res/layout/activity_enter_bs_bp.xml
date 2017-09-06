@@ -30,13 +30,32 @@
                 android:layout_height="?attr/actionBarSize"
                 app:layout_collapseMode="pin"
                 app:popupTheme="@style/AppTheme.PopupOverlay" />
+            <Button
+                android:id="@+id/backmain"
+                android:layout_width="80dp"
+                android:layout_height="30dp"
+                android:layout_marginTop="7dp"
+                android:background="@android:color/transparent"
+                android:startColor="#449def"
+                android:centerColor="#2f6699"
+                android:endColor="#449def"
+                android:angle="270"
+                android:text="查看圖表"
+                android:onClick="backmain"/>
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@drawable/history"
+                android:layout_marginLeft="100dp"/>
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
+                android:layout_marginLeft="40dp"
+                android:layout_marginTop="5dp"
                 android:textSize="24dp"
                 android:textColor="#FFFFFF"
-                android:text="新增紀錄"/>
+                android:text="歷史紀錄"/>
 
 
         </android.support.design.widget.CollapsingToolbarLayout>

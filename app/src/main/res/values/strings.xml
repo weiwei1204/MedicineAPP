@@ -245,5 +245,7 @@
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
     </string>
+    <string name="title_activity_enter_bs_value">EnterBsValue</string>
+    <string name="title_activity_enter_bp_value">EnterBpValue</string>
 
 </resources>

@@ -1,5 +1,11 @@
 package com.example.carrie.carrie_test1;
 
+import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.view.View;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -18,27 +24,25 @@ import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
 import okhttp3.RequestBody;
 
-/**
- * Created by jonathan on 2017/8/10.
- */
-
-public class BsTab extends Fragment {
+public class EnterBsValue extends AppCompatActivity {
     EditText etsugarvalue;
     public static String sugarvalue;
     Button btn;
+
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.bstab, container, false);
-        etsugarvalue = (EditText) rootView.findViewById(R.id.sugar);
-        btn = (Button) rootView.findViewById(R.id.button1);
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.bstab);
+
+        etsugarvalue = (EditText) findViewById(R.id.sugar);
+        btn = (Button) findViewById(R.id.button1);
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final String memberid = getActivity().getIntent().getExtras().getString("memberid");
+                final String memberid = getIntent().getExtras().getString("memberid");
                 sugarvalue = etsugarvalue.getText().toString();
                 if(sugarvalue.matches("")){
-                    Toast.makeText(getActivity().getApplicationContext(), "有地方忘了填哦", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "有地方忘了填哦", Toast.LENGTH_SHORT).show();
                 }else {
                     AsyncTask<Integer, Void, Void> task = new AsyncTask<Integer, Void, Void>() {
                         @Override
@@ -69,8 +73,8 @@ public class BsTab extends Fragment {
 
                         @Override
                         protected void onPostExecute(Void aVoid) {
-                            Toast.makeText(getActivity().getApplicationContext(), "成功送出", Toast.LENGTH_SHORT).show();
-                            Intent it = new Intent(getContext(), BsRecord.class);
+                            Toast.makeText(getApplicationContext(), "成功送出", Toast.LENGTH_SHORT).show();
+                            Intent it = new Intent(EnterBsValue.this, EnterBsBpActivity.class);
                             it.putExtra("memberid", memberid);
                             it.putExtra("sugarvalue", sugarvalue);
                             startActivity(it);
@@ -84,20 +88,7 @@ public class BsTab extends Fragment {
 
             }
         });
-        return rootView;
-            }
-    @Override
-    public void onDestroyView(){
-        super.onDestroyView();
-
-
-
     }
 
 
-
-    }
-
-
-
-
+}

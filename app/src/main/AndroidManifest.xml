@@ -173,7 +173,15 @@
             android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".FirstSaveBsBpActivity"
-            android:label="@string/title_activity_first_save_bs_bp"></activity>
+            android:label="@string/title_activity_first_save_bs_bp" />
+        <activity
+            android:name=".EnterBsValue"
+            android:label="@string/title_activity_enter_bs_value"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".EnterBpValue"
+            android:label="@string/title_activity_enter_bp_value"
+            android:theme="@style/AppTheme"></activity>
     </application>
 
 </manifest>

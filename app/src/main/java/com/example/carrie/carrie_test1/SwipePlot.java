@@ -95,6 +95,10 @@ public class SwipePlot extends AppCompatActivity implements ViewPager.OnPageChan
         Bundle bundle = getIntent().getExtras();
         int monid = bundle.getInt("monitor_who");
         memberid = String.valueOf(monid);
+        String id = bundle.getString("memberid");
+        if(id!=null){
+            memberid = id;
+        }
 //        memberid = bundle.getString("memberid");
         Log.d("6789","id: "+memberid);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
