@@ -17,6 +17,12 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.VIBRATE" />
 
+    <!-- To auto-complete the email text field in the login form with the user's emails -->
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="android.permission.READ_PROFILE" />
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
+    <uses-permission android:name="android.permission.READ_CALL_LOG" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -39,7 +45,8 @@
             android:label="@string/title_activity_second" />
         <activity
             android:name=".ThirdActivity"
-            android:label="@string/title_activity_third" />
+            android:label="@string/title_activity_third"
+            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".FourthActivity"
             android:label="@string/title_activity_fourth" />
@@ -162,7 +169,11 @@
         <activity
             android:name=".BsBpMeasureActivity"
             android:label="@string/title_activity_bs_bp_measure"
-            android:theme="@style/AppTheme"></activity>
+            android:theme="@style/AppTheme"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".FirstSaveBsBpActivity"
+            android:label="@string/title_activity_first_save_bs_bp"></activity>
     </application>
 
 </manifest>
