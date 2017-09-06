@@ -47,7 +47,6 @@
             android:id="@+id/listPersonal"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
             android:layout_marginBottom="22dp"
             android:layout_below="@+id/gmailPersonal" >
@@ -62,6 +61,18 @@
             android:layout_marginTop="97dp"
             android:onClick="gotorepair"
             android:text="修改" />
+
+        <Button
+            android:id="@+id/button9"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Button"
+            android:layout_above="@+id/gmailPersonal"
+            android:layout_toEndOf="@+id/myimagepersonal"
+            android:layout_marginStart="17dp"
+            android:layout_marginBottom="21dp" />
+
+
 
     </RelativeLayout>
 </android.support.constraint.ConstraintLayout>

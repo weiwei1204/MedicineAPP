@@ -26,7 +26,7 @@ public class BsMeasureTab extends Fragment{
 
         View rootView = inflater.inflate(R.layout.bsmeature_tab1, container, false);
         bsmeasure = (ListView)rootView.findViewById(R.id.bsfirst);
-        BsBpMeasureObject bs = new BsBpMeasureObject(1,"1","9:00","12:00","18:00","9:00","12:00","18:00");
+        BsBpMeasureObject bs = new BsBpMeasureObject(1,"1","7:00","12:30","18:00","9:00","12:00","18:00");
         my_measure.add(bs);
         mesureAdapter=new MesureAdapter(getActivity(),my_measure);
         bsmeasure.setAdapter(mesureAdapter);

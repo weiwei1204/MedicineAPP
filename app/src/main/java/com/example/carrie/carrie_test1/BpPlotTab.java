@@ -3,8 +3,11 @@ package com.example.carrie.carrie_test1;
 /**
  * Created by jonathan on 2017/8/6.
  */
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.res.TypedArrayUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -13,6 +16,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -48,6 +52,16 @@ import lecho.lib.hellocharts.util.ChartUtils;
 import lecho.lib.hellocharts.view.ComboLineColumnChartView;
 
 public class BpPlotTab extends Fragment{
+    public BpPlotTab(){
+
+    }
+    public static BpPlotTab newInstance() {
+        return new BpPlotTab();
+    }
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+    }
     private ComboLineColumnChartView chart;
     private ComboLineColumnChartData data;
 
@@ -100,6 +114,10 @@ public class BpPlotTab extends Fragment{
     private List<PointValue> mPointValues = new ArrayList<PointValue>();
     private List<AxisValue> mAxisXValues = new ArrayList<AxisValue>();
     ArrayList harr = new ArrayList<Integer>();
+    FragmentManager manager;
+    private static final String TAG = "FragmentOne";
+    Context mContext;
+
     @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         setHasOptionsMenu(true);
@@ -113,7 +131,7 @@ public class BpPlotTab extends Fragment{
         int[]arr = bundle.getIntArray("high");
         harr = bundle.getIntegerArrayList("higharr");
         Log.d("7676","arr:  "+harr);
-
+        manager = getFragmentManager();
         Log.d("9999","memberid:"+sentmember_id);
         Log.d("9999","arr:  "+Arrays.toString(arr));
 //        highmmhg = bundle.getString("highmmhg");
@@ -183,7 +201,33 @@ public class BpPlotTab extends Fragment{
         return rootView;
 
         }
-        //onCreateView區域在上面
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        mContext = context;
+    }
+    @Override
+    public void onResume() {
+        super.onResume();
+    }
+
+    @Override
+    public void onDestroyView()
+    {
+        // TODO Auto-generated method stub
+        super.onDestroyView();
+        numberOfPoints= 0;
+        Log.e(TAG, "onDestroyView");
+
+    }
+
+    //onCreateView區域在上面
+        @Override
+        public void onDetach(){
+            super.onDetach();
+            Log.d("4343","do this");
+        }
+
 
 
     public static boolean isCurrentThreedays(String dateFormat) {
@@ -290,6 +334,7 @@ public class BpPlotTab extends Fragment{
                         System.out.println(Arrays.deepToString(randomNumbersTab).replace("], ", "]\n"));
                         Log.d("9995", "num:" + numberOfPoints);
                         Log.d("8721", "count:" + count);
+
 //                    Log.d("9995","higharray"+highvaluearray[count]);
 
 //                  generateValues();
@@ -297,6 +342,7 @@ public class BpPlotTab extends Fragment{
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
+
 
 
             }
@@ -309,7 +355,6 @@ public class BpPlotTab extends Fragment{
                 });
         RequestQueue requestQueue = Volley.newRequestQueue(this.getActivity());
         requestQueue.add(jsonObjectRequest);
-
 
 
     }
@@ -635,9 +680,11 @@ public class BpPlotTab extends Fragment{
         public void goback(View v)
         {
             getActivity().onBackPressed();
+
         }
 
     }
+
 
 
 

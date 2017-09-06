@@ -2,6 +2,8 @@
   <dictionary name="mindy">
     <words>
       <w>barrrr</w>
+      <w>bpfirstsave</w>
+      <w>bsfirstsave</w>
       <w>fifthbtn</w>
       <w>firstbtn</w>
       <w>fourthbtn</w>
@@ -19,7 +21,9 @@
       <w>okhttp</w>
       <w>scanbtn</w>
       <w>secondbtn</w>
+      <w>secondsave</w>
       <w>thirdbtn</w>
+      <w>thirdsave</w>
     </words>
   </dictionary>
 </component>

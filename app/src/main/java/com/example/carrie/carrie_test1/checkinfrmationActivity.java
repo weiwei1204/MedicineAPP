@@ -173,7 +173,7 @@ public class checkinfrmationActivity extends Activity {
     public void gotoMainActivity(View v){ //連到首頁
         insertmember();
         insertMonitor();
-        Intent it = new Intent(this,MainActivity.class);
+        Intent it = new Intent(this,FirstSaveBsBpActivity.class);
         Bundle bundle = new Bundle();
         bundle.putString("googleid", googleid);
         it.putExtras(bundle);   // 記得put進去，不然資料不會帶過去哦
