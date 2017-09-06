@@ -11,6 +11,7 @@ import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -20,11 +21,12 @@ import android.widget.Toast;
 
 import com.google.android.gms.location.LocationListener;
 
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-//import static android.Manifest.permission.ACCESS_COARSE_LOCATION;
-//import static android.Manifest.permission.ACCESS_FINE_LOCATION;
+
+
 
 public class ScanBeaconActivity extends AppCompatActivity implements  ActivityCompat.OnRequestPermissionsResultCallback{
 
@@ -56,11 +58,14 @@ public class ScanBeaconActivity extends AppCompatActivity implements  ActivityCo
         memberid = bundle.getString("memberid");
         openBluetooth();
 
-
+        Log.v("Build", String.valueOf(Build.VERSION.SDK_INT));
+        Log.v("Build", String.valueOf(Build.VERSION_CODES.M));
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             // Android M Permission check
             Log.v("aaa", "00000");
-            if (this.checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            Log.v("11111jjjjj","a : "+String.valueOf(ContextCompat.checkSelfPermission(ScanBeaconActivity.this,Manifest.permission.ACCESS_COARSE_LOCATION)));
+            Log.v("11111jjjjj","b : "+String.valueOf(PackageManager.PERMISSION_GRANTED));
+            if (ContextCompat.checkSelfPermission(ScanBeaconActivity.this,Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                 requestPermissions(new String[]{Manifest.permission.ACCESS_COARSE_LOCATION}, PERMISSION_REQUEST_COARSE_LOCATION);
                 Log.v("aaa", "0123");
             }
@@ -194,6 +199,7 @@ public class ScanBeaconActivity extends AppCompatActivity implements  ActivityCo
             //弹出对话框提示用户是后打开
             Intent enabler = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
             startActivityForResult(enabler, REQUEST_ENABLE_BT);
+            Log.d("Ble","open");
         }
     }
 

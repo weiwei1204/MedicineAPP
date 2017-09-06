@@ -9,6 +9,8 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -41,6 +43,8 @@ import okhttp3.Response;
 
 public class MonitorActivity extends AppCompatActivity {
     Button scanbtn;
+    private FragmentManager manager;
+    private FragmentTransaction transaction;
 //    TextView result;
     public static String my_google_id = "";
     public static String google_id = "";//欲監控對象的google_id
@@ -72,6 +76,7 @@ public class MonitorActivity extends AppCompatActivity {
         my_google_id = bundle.getString("my_google_id");//get 自己google_ id
         my_mon_id = bundle.getString("my_supervise_id");//取得自己supervise id
 //        data_list = new ArrayList<>();
+        manager = getSupportFragmentManager();
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);//find the tooolbar id
         setSupportActionBar(toolbar);//set toolbar
         BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomNavView_Bar);
@@ -163,7 +168,6 @@ public class MonitorActivity extends AppCompatActivity {
         });
 
     }
-
     private void load_data_from_server(int id) {
 
         AsyncTask<Integer,Void,Void> task = new AsyncTask<Integer, Void, Void>() {
@@ -172,7 +176,7 @@ public class MonitorActivity extends AppCompatActivity {
 
                 OkHttpClient client = new OkHttpClient();
                 Request request = new Request.Builder()
-                        .url("http://54.65.194.253/Monitor/testGeyAllMonitor.php?id="+integers[0])
+                        .url("http://54.65.194.253/Monitor/testGeyAllMonitor.php?id="+integers[0]+"&superviser_id="+my_mon_id)
                         .build();//get all the monitor
                 try {
                     Response response = client.newCall(request).execute();
@@ -286,13 +290,25 @@ public class MonitorActivity extends AppCompatActivity {
 
     public void gotoBpBsPlot(View v){ //連到圖表頁面
 //        getValue(0);
+//        Button btn = (Button) findViewById(R.id.button3);
+//        btn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                FragmentManager fm = getSupportFragmentManager();
+//                BsBpDialogFragment fragment = new BsBpDialogFragment();
+//                fragment.show(fm,"BsBpDialogFragment");
+//            }
+//        });
+
+//
         Bundle bundle = new Bundle();
         bundle.putString("memberid", my_id);
-//        bundle.putString("highmmhg", highmmhg);
-//        bundle.putString("lowmmhg", lowmmhg);
-//        bundle.putString("bpm", bpm);
-//        bundle.putString("sugarvalue", sugarvalue);
-//        bundle.putString("savetime", savetime);
+//
+////        bundle.putString("highmmhg", highmmhg);
+////        bundle.putString("lowmmhg", lowmmhg);
+////        bundle.putString("bpm", bpm);
+////        bundle.putString("sugarvalue", sugarvalue);
+////        bundle.putString("savetime", savetime);
         Intent it = new Intent(this,SwipePlot.class);
         it.putExtras(bundle);
         startActivity(it);

@@ -109,6 +109,7 @@ public class CustomAdapter2 extends RecyclerView.Adapter<CustomAdapter2.ViewHold
         public TextView chineseName;
         public Button drugButton;
         public  TextView licenseNumber;
+        public View repair;
 
         public ViewHolder(View itemView) {
             super(itemView);

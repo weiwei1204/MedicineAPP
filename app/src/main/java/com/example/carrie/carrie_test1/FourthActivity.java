@@ -1,17 +1,34 @@
 package com.example.carrie.carrie_test1;
 
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.Paint;
+import android.net.Uri;
+
 import android.content.Intent;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
+import android.util.AttributeSet;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.carrie.carrie_test1.R;
+import com.google.android.gms.cast.framework.media.RemoteMediaClient;
+import com.google.android.gms.games.multiplayer.ParticipantEntityCreator;
+
+import org.xml.sax.Parser;
 import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+
 
 public class FourthActivity extends AppCompatActivity {
     String id;
@@ -24,11 +41,14 @@ public class FourthActivity extends AppCompatActivity {
     String appli;
     String maker_Nam;
     String ima;
+
     private int drugid;
     private String drugname;
     private FloatingActionButton addnmcal;
     private ArrayList<ArrayList<String>> mydrugs = new ArrayList<ArrayList<String>>();
     private String m_calid;
+    private static float MAX_TEXT_SIZE = 20;
+
 
     //String chineseName;
 
@@ -67,6 +87,13 @@ public class FourthActivity extends AppCompatActivity {
         indi = bundle.getString("indication");//get 中文名字
         TextView indication=(TextView) findViewById(R.id.indication);
         indication.setText(string1);
+    //    indi = autoSplitText(indication);
+   //     indication.setText(indi);
+
+
+
+
+
 
         String string2= getIntent().getExtras().getString("englishName", "not found");
         eng = bundle.getString("englishName");//get 中文名字
@@ -106,26 +133,59 @@ public class FourthActivity extends AppCompatActivity {
         TextView maker_Name=(TextView) findViewById(R.id.maker_Name);
         maker_Name.setText(string8);
 
+
         String string9= getIntent().getExtras().getString("image", "not found");
         ima = bundle.getString("image");//get 中文名字
         ImageView image=(ImageView) findViewById(R.id.image3);
         Glide.with(getBaseContext()).load(string9).into(image);
 
-
-//    chineseName.setText(String.valueOf(id));
-//        Log.d("drug","6");
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         Log.d("drug","7");
-//        fab.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null).show();
-//            }
-//        });
-
+//
 
     }
+
+
+//
+//    将textview中的文字进行排版
+    private String autoSplitText(final TextView tv) {
+        final String rawText = tv.getText().toString(); //原始文本
+        final Paint tvPaint = tv.getPaint(); //paint，包含字体等信息
+        final float tvWidth = tv.getWidth() - tv.getPaddingLeft() - tv.getPaddingRight(); //控件可用宽度
+
+        //将原始文本按行拆分
+        String [] rawTextLines = rawText.replaceAll("\r", "").split("\n");
+        StringBuilder sbNewText = new StringBuilder();
+        for (String rawTextLine : rawTextLines) {
+            if (tvPaint.measureText(rawTextLine) <= tvWidth) {
+                //如果整行宽度在控件可用宽度之内，就不处理了
+                sbNewText.append(rawTextLine);
+            } else {
+                //如果整行宽度超过控件可用宽度，则按字符测量，在超过可用宽度的前一个字符处手动换行
+                float lineWidth = 0;
+                for (int cnt = 0; cnt != rawTextLine.length(); ++cnt) {
+                    char ch = rawTextLine.charAt(cnt);
+                    lineWidth += tvPaint.measureText(String.valueOf(ch));
+                    if (lineWidth <= tvWidth) {
+                        sbNewText.append(ch);
+                    } else {
+                        sbNewText.append("\n");
+                        lineWidth = 0;
+                        --cnt;
+                    }
+                }
+            }
+            sbNewText.append("\n");
+        }
+
+        //把结尾多余的\n去掉
+        if (!rawText.endsWith("\n")) {
+            sbNewText.deleteCharAt(sbNewText.length() - 1);
+        }
+        return sbNewText.toString();
+    }
+
+
 
     public void inserttomcal(){
         addnmcal.setOnClickListener(new View.OnClickListener() {
@@ -167,7 +227,6 @@ public class FourthActivity extends AppCompatActivity {
                 }
 
 
-
             }
         });
     }
@@ -178,7 +237,6 @@ public class FourthActivity extends AppCompatActivity {
     }
 
 
-
-    }
+}
 
 

@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.carrie.carrie_test1.PersonalInformationctivity">
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        >
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:src="@drawable/sky" />
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/myimagepersonal"
+            android:layout_width="130dp"
+            android:layout_height="130dp"
+            android:src="@drawable/monitoricon"
+            android:layout_marginTop="129dp"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            />
+
+        <TextView
+            android:id="@+id/namePerson"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/myimagepersonal"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="18dp"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/gmailPersonal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:textSize="20sp"
+            android:layout_below="@+id/namePerson"
+            android:layout_centerHorizontal="true" />
+
+        <ListView
+            android:id="@+id/listPersonal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="22dp"
+            android:layout_below="@+id/gmailPersonal" >
+
+        </ListView>
+
+        <Button
+            android:id="@+id/repair1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="97dp"
+            android:onClick="gotorepair"
+            android:text="修改" />
+
+        <Button
+            android:id="@+id/button9"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Button"
+            android:layout_above="@+id/gmailPersonal"
+            android:layout_toEndOf="@+id/myimagepersonal"
+            android:layout_marginStart="17dp"
+            android:layout_marginBottom="21dp" />
+
+
+
+    </RelativeLayout>
+</android.support.constraint.ConstraintLayout>

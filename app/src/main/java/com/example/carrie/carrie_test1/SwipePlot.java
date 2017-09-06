@@ -1,11 +1,14 @@
 package com.example.carrie.carrie_test1;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -13,6 +16,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -25,12 +29,15 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
-
-public class SwipePlot extends AppCompatActivity {
+public class SwipePlot extends AppCompatActivity implements ViewPager.OnPageChangeListener {
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -61,6 +68,20 @@ public class SwipePlot extends AppCompatActivity {
     private BloodPressure data ;
     public final static String key ="bp";
 
+    /////////////////////////////////
+    public static String usrhighmmhg ="";
+    public static String usrlowmmhg ="";
+    public static String usrbpm ="";
+    public static String usrsavetime ="";
+    public String urls = "http://54.65.194.253/Health_Calendar/getBpRecordDate.php";
+    private BloodPressure record ;
+    public static int [] highvaluearray ;
+    public static int [] lowvaluearray ;
+    public static int [] bpmvaluearray ;
+    public static String [] datearray;
+    ArrayList list1=new ArrayList<Integer>();
+    ArrayList list2=new ArrayList<Integer>();
+    FragmentManager fragmentManager;
 
 
 
@@ -72,10 +93,12 @@ public class SwipePlot extends AppCompatActivity {
         setContentView(R.layout.activity_swipe_plot);
 
         Bundle bundle = getIntent().getExtras();
-        memberid = bundle.getString("memberid");
+        int monid = bundle.getInt("monitor_who");
+        memberid = String.valueOf(monid);
+//        memberid = bundle.getString("memberid");
+        Log.d("6789","id: "+memberid);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
         data_list = new ArrayList<>();
@@ -83,7 +106,7 @@ public class SwipePlot extends AppCompatActivity {
 
         // Set up the ViewPager with the sections adapter.
         mViewPager = (ViewPager) findViewById(R.id.container);
-
+//        getRecord();
 
         getData();
 //        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -97,10 +120,34 @@ public class SwipePlot extends AppCompatActivity {
         Log.d("8888","highmmhg:"+highmmhg);
         Log.d("8888","lowmmhg:"+lowmmhg);
         Log.d("8888","bpm:"+bpm);
+        fragmentManager = getSupportFragmentManager();
     }
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent i=new Intent(this,SwipePlot.class);
+        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        finish();
+
+//        int count = getFragmentManager().getBackStackEntryCount();
+//
+//        if (count == 0) {
+//            super.onBackPressed();
+//
+//            Log.d("9876","do");
+//            //additional code
+//        } else {
+//            getFragmentManager().popBackStack();
+//            Log.d("9876","do do do");
+//        }
+
+    }
+
 
     public void start(){
         mViewPager.setAdapter(mSectionsPagerAdapter);
+        mViewPager.addOnPageChangeListener(this);
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
         tabLayout.getTabAt(0).setIcon(R.drawable.analytics);
@@ -133,6 +180,27 @@ public class SwipePlot extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+    }
+
+    @Override
+    public void onPageSelected(int position) {
+
+        Fragment fragment = mSectionsPagerAdapter.getFragment(position);
+        if (fragment != null) {
+            fragment.onResume();
+        }
+
+
+    }
+
+    @Override
+    public void onPageScrollStateChanged(int state) {
+
+    }
+
     /**
      * A placeholder fragment containing a simple view.
      */
@@ -142,11 +210,21 @@ public class SwipePlot extends AppCompatActivity {
      * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
      * one of the sections/tabs/pages.
      */
-    public class SectionsPagerAdapter extends FragmentPagerAdapter {
+    public class SectionsPagerAdapter extends FragmentStatePagerAdapter {
         private double mLattitude;
+        private Map<Integer, String> mFragmentTags;
+        private FragmentManager mFragmentManager;
+        @Override
+        public int getItemPosition(Object object) {
+            return POSITION_NONE;
+        }
+
+
 
         public SectionsPagerAdapter(FragmentManager fm) {
             super(fm);
+            mFragmentManager = fragmentManager;
+            mFragmentTags = new HashMap<Integer, String>();
 
         }
 
@@ -165,11 +243,14 @@ public class SwipePlot extends AppCompatActivity {
                     Bundle bundle2 = new Bundle();
                     BpPlotTab tab2 = new BpPlotTab();
                     bundle2.putString("memberid", memberid);
+                    Log.d("1122","id: "+memberid);
 //                    bundle2.putString("highmmhg", highmmhg);
 //                    bundle2.putString("lowmmhg", lowmmhg);
 //                    bundle2.putString("bpm", bpm);
 //                    bundle2.putString("savetime", savetime);
                     bundle2.putParcelableArrayList("data_list", (ArrayList<? extends Parcelable>) data_list);
+                    bundle2.putIntArray("high",highvaluearray);
+                    bundle2.putIntegerArrayList("higharr", list2);
                     tab2.setArguments(bundle2);
                     Log.d("1111:",bundle2.toString());
                     return tab2;
@@ -202,6 +283,25 @@ public class SwipePlot extends AppCompatActivity {
                     return "用藥排程紀錄";
             }
             return null;
+        }
+        @Override
+        public Object instantiateItem(ViewGroup container, int position) {
+            Object object = super.instantiateItem(container, position);
+            if (object instanceof Fragment) {
+                Fragment fragment = (Fragment) object;
+                String tag = fragment.getTag();
+                mFragmentTags.put(position, tag);
+            }
+            return object;
+        }
+
+        public Fragment getFragment(int position) {
+            Fragment fragment = null;
+            String tag = mFragmentTags.get(position);
+            if (tag != null) {
+                fragment = mFragmentManager.findFragmentByTag(tag);
+            }
+            return fragment;
         }
     }
 //    private void getValue(int id) {
@@ -305,6 +405,85 @@ public class SwipePlot extends AppCompatActivity {
         requestQueue.add(jsonObjectRequest);
 
     }
+    public  void getRecord(){
+        Log.d("777","in method");
+        requestQueue = Volley.newRequestQueue(getApplicationContext());
+        Log.d("777","1");
+        final JsonArrayRequest jsonObjectRequest = new JsonArrayRequest(Request.Method.POST, urls, new Response.Listener<JSONArray>() {
+            @Override
+            public void onResponse(JSONArray response) {
+                Log.d("777","in response");
+                int count = 0;
+                try {
+//                    JSONArray array = new JSONArray(response);
+//                    Log.d("777",array.toString());
+
+
+
+                    for (int i = 0; i < response.length(); i++) {
+                        JSONObject object = response.getJSONObject(i);
+                        record = new BloodPressure(object.getInt("id"), object.getString("member_id"), object.getString("highmmhg"), object.getString("lowmmhg"), object.getString("bpm"), object.getString("savetime"));
+                        userid = object.getInt("id");
+                        member_id = object.getString("member_id");
+                        Log.d("1234","saw id:" +member_id);
+                        if (member_id.equals(memberid)) {
+                            usrhighmmhg = object.getString("highmmhg");
+                            usrlowmmhg = object.getString("lowmmhg");
+                            usrbpm = object.getString("bpm");
+                            usrsavetime = object.getString("savetime");
+
+                            Log.d("6969", "member_id:" + member_id);
+                            Log.d("6969", "highmmhg:" + usrhighmmhg);
+                            Log.d("6969", "lowmmhg:" + usrlowmmhg);
+                            Log.d("6969", "bpm:" + usrbpm);
+                            Log.d("9999", "savetime:" + usrsavetime);
+
+                            count++;
+
+                            highvaluearray = new int[count];
+                            lowvaluearray = new int[count];
+                            bpmvaluearray = new int[count];
+                            datearray = new String[count];
+
+
+
+                        }
+
+
+                    }
+                    for (int j = 0; j < highvaluearray.length; j++) {
+                        JSONObject object2 = response.getJSONObject(j);
+                        highvaluearray[j] = Integer.parseInt(object2.getString("highmmhg"));
+                        list1.add(highvaluearray[j]);
+                        Log.d("3434","arr:  "+highvaluearray[j]);
+                        Log.d("5678","arr:  "+list1);
+
+                    }
+
+
+                    list2.add(list1);
+                    Log.d("9909","list1:  "+list1);
+                    start();
+
+                } catch (JSONException e){
+                    e.printStackTrace();
+                }
+
+            }
+        },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.d("777",error.toString());
+                    }
+                });
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(jsonObjectRequest);
+
+
+
+    }
+
 
 
 
@@ -314,5 +493,9 @@ public class SwipePlot extends AppCompatActivity {
 
     public void goback(View v) {
         finish();
+        FragmentManager.BackStackEntry entry = getSupportFragmentManager().getBackStackEntryAt(0);
+        getSupportFragmentManager().popBackStack(entry.getId(), FragmentManager.POP_BACK_STACK_INCLUSIVE);
+        getSupportFragmentManager().executePendingTransactions();
+        Log.d("5577","do this");
     }
 }

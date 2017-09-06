@@ -1,10 +1,14 @@
 package com.example.carrie.carrie_test1;
 
+import android.*;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -18,6 +22,7 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -44,7 +49,7 @@ public class druginfo extends AppCompatActivity {
     ArrayAdapter<String> adapter1;
     ListView listView;
     EditText editText;
-
+    public static final int PERMISSION_REQUEST = 200;
     private RelativeLayout btmbar;
     private RecyclerView recyclerView;
     private GridLayoutManager gridLayoutManager;
@@ -273,7 +278,7 @@ public class druginfo extends AppCompatActivity {
                         MyData mydata = new MyData(object.getInt("id"),object.getString("chineseName"),
                                 object.getString("image") ,object.getString("indication"),object.getString("englishName"),object.getString("licenseNumber")
                                 ,object.getString("category"), object.getString("component"), object.getString("maker_Country"), object.getString("applicant")
-                                ,object.getString("maker_Name"));
+                                ,object.getString("maker_Name"),object.getString("QRCode"));
 
                         data_list.add(mydata);
                     }
@@ -316,7 +321,7 @@ public class druginfo extends AppCompatActivity {
                         MyData mydata = new MyData(object.getInt("id"),object.getString("chineseName"),
                                 object.getString("image") ,object.getString("indication"),object.getString("englishName"),object.getString("licenseNumber")
                                 ,object.getString("category"), object.getString("component"), object.getString("maker_Country"), object.getString("applicant")
-                                ,object.getString("maker_Name"));
+                                ,object.getString("maker_Name"),object.getString("QRCode"));
 
 
                         data_list1.add(mydata);
@@ -362,7 +367,7 @@ public class druginfo extends AppCompatActivity {
                         MyData mydata = new MyData(object.getInt("id"),object.getString("chineseName"),
                                 object.getString("image") ,object.getString("indication"),object.getString("englishName"),object.getString("licenseNumber")
                                 ,object.getString("category"), object.getString("component"), object.getString("maker_Country"), object.getString("applicant")
-                                ,object.getString("maker_Name"));
+                                ,object.getString("maker_Name"),object.getString("QRCode") );
 
 
                         data_list2.add(mydata);
@@ -386,8 +391,11 @@ public class druginfo extends AppCompatActivity {
         task.execute(1);
     }
 
-    public void gotodscanner(View v) { //連到搜尋藥品資訊頁面
-        Intent it = new Intent(this, Scanner.class);
+    public void gotoscandrug(View v) { //連到搜尋藥品資訊頁面
+        if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.CAMERA}, PERMISSION_REQUEST);
+        }
+        Intent it = new Intent(this, scandrug.class);
         startActivity(it);
     }
     public void gotofourth(View v){ //連到搜尋藥品資訊頁面
