@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:autofit="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -44,6 +44,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
+
             <LinearLayout
                 android:layout_width="100dp"
                 android:layout_height="match_parent"
@@ -76,19 +77,21 @@
                         android:layout_weight="1"
                         android:text="許可證字號："
                         android:textColor="#6C6C6C"
-                        android:textSize="8pt" />
+
+                        />
 
                     <TextView
                         android:id="@+id/licenseNumber"
                         android:layout_width="150dp"
                         android:layout_height="20dp"
                         android:layout_marginLeft="-90dp"
-                        android:layout_marginRight="-20sp"
+                        android:layout_marginRight="20sp"
                         android:layout_marginTop="10dp"
                         android:layout_weight="1"
                         android:textColor="#6C6C6C"
                         android:textSize="8pt"
                         />
+
 
                 </LinearLayout>
 
@@ -116,18 +119,18 @@
                         android:layout_weight="1"
                         android:text="中文名稱："
                         android:textColor="#6C6C6C"
-                        android:textSize="8pt" />
+                        />
 
                     <TextView
                         android:id="@+id/chineseName3"
                         android:layout_width="160dp"
                         android:layout_height="20dp"
                         android:layout_marginLeft="-140dp"
-                        android:layout_marginRight="-20sp"
+                        android:layout_marginRight="20sp"
                         android:layout_marginTop="10dp"
                         android:layout_weight="1"
                         android:textColor="#6C6C6C"
-                        android:textSize="8pt" />
+                         />
                 </LinearLayout>
 
                 <LinearLayout
@@ -154,18 +157,18 @@
                         android:layout_weight="1"
                         android:text="英文名稱："
                         android:textColor="#6C6C6C"
-                        android:textSize="8pt" />
+                         />
 
                     <TextView
                         android:id="@+id/englishName3"
                         android:layout_width="160dp"
                         android:layout_height="20dp"
                         android:layout_marginLeft="-140dp"
-                        android:layout_marginRight="-20sp"
+                        android:layout_marginRight="20sp"
                         android:layout_marginTop="10dp"
                         android:layout_weight="1"
                         android:textColor="#6C6C6C"
-                        android:textSize="8pt" />
+                         />
 
                 </LinearLayout>
 
@@ -193,7 +196,7 @@
                         android:layout_weight="1"
                         android:text="適應症："
                         android:textColor="#6C6C6C"
-                        android:textSize="8pt" />
+                         />
 
 
                     <TextView
@@ -201,11 +204,11 @@
                         android:layout_width="150dp"
                         android:layout_height="20dp"
                         android:layout_marginLeft="-200dp"
-                        android:layout_marginRight="-0sp"
+                        android:layout_marginRight="0sp"
                         android:layout_marginTop="10dp"
                         android:layout_weight="1"
-                        android:textColor="#6C6C6C"
-                        android:textSize="8pt" />
+                        android:textColor="#6C6C6C" />
+
                 </LinearLayout>
 
                 <LinearLayout
@@ -232,7 +235,7 @@
                         android:layout_weight="1"
                         android:text="劑型："
                         android:textColor="#6C6C6C"
-                        android:textSize="8pt" />
+                         />
 
                     <TextView
                         android:id="@+id/category"
@@ -243,7 +246,7 @@
                         android:layout_marginTop="10dp"
                         android:layout_weight="1"
                         android:textColor="#6C6C6C"
-                        android:textSize="8pt" />
+                         />
                 </LinearLayout>
 
                 <LinearLayout
@@ -270,18 +273,18 @@
                         android:layout_weight="1"
                         android:text="主成份略述："
                         android:textColor="#6C6C6C"
-                        android:textSize="8pt" />
+                         />
 
                     <TextView
                         android:id="@+id/component"
                         android:layout_width="150dp"
                         android:layout_height="20dp"
                         android:layout_marginLeft="-85dp"
-                        android:layout_marginRight="-20sp"
+                        android:layout_marginRight="20sp"
                         android:layout_marginTop="10dp"
                         android:layout_weight="1"
                         android:textColor="#6C6C6C"
-                        android:textSize="8pt" />
+                         />
 
                 </LinearLayout>
 
@@ -309,18 +312,18 @@
                         android:layout_weight="1"
                         android:text="製造商國別："
                         android:textColor="#6C6C6C"
-                        android:textSize="8pt" />
+                         />
 
                     <TextView
                         android:id="@+id/maker_Country"
                         android:layout_width="150dp"
                         android:layout_height="20dp"
                         android:layout_marginLeft="-85dp"
-                        android:layout_marginRight="-20sp"
+                        android:layout_marginRight="20sp"
                         android:layout_marginTop="10dp"
                         android:layout_weight="1"
                         android:textColor="#6C6C6C"
-                        android:textSize="8pt" />
+                         />
                 </LinearLayout>
 
                 <LinearLayout
@@ -347,18 +350,18 @@
                         android:layout_weight="1"
                         android:text="申請商名稱："
                         android:textColor="#6C6C6C"
-                        android:textSize="8pt" />
+                        />
 
                     <TextView
                         android:id="@+id/applicant"
                         android:layout_width="150dp"
                         android:layout_height="20dp"
                         android:layout_marginLeft="-85dp"
-                        android:layout_marginRight="-20sp"
+                        android:layout_marginRight="20sp"
                         android:layout_marginTop="10dp"
                         android:layout_weight="1"
                         android:textColor="#6C6C6C"
-                        android:textSize="8pt" />
+                         />
                 </LinearLayout>
 
                 <LinearLayout
@@ -385,18 +388,18 @@
                         android:layout_weight="1"
                         android:text="製造商名稱："
                         android:textColor="#6C6C6C"
-                        android:textSize="8pt" />
+                         />
 
                     <TextView
                         android:id="@+id/maker_Name"
                         android:layout_width="150dp"
                         android:layout_height="20dp"
                         android:layout_marginLeft="-85dp"
-                        android:layout_marginRight="-20sp"
+                        android:layout_marginRight="20sp"
                         android:layout_marginTop="10dp"
                         android:layout_weight="1"
                         android:textColor="#6C6C6C"
-                        android:textSize="8pt" />
+                        />
 
 
                 </LinearLayout>
@@ -408,29 +411,29 @@
         </TableRow>
 
 
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" >
-            <Button
-                android:id="@+id/addtobag"
-                android:layout_width="15dp"
-                android:layout_height="35dp"
-                android:layout_marginTop="20dp"
-                android:layout_weight="1"
-                android:background="?attr/colorPrimary"
-                android:text="加入藥袋" />
+        <!--<TableRow-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent" >-->
+            <!--<Button-->
+                <!--android:id="@+id/addtobag"-->
+                <!--android:layout_width="15dp"-->
+                <!--android:layout_height="35dp"-->
+                <!--android:layout_marginTop="20dp"-->
+                <!--android:layout_weight="1"-->
+                <!--android:background="?attr/colorPrimary"-->
+                <!--android:text="加入藥袋" />-->
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical"></LinearLayout>
+            <!--<LinearLayout-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="match_parent"-->
+                <!--android:orientation="vertical"></LinearLayout>-->
 
-            <FrameLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
+            <!--<FrameLayout-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="match_parent">-->
 
-            </FrameLayout>
-        </TableRow>
+            <!--</FrameLayout>-->
+        <!--</TableRow>-->
 
         <android.support.design.widget.CoordinatorLayout
             android:layout_width="match_parent"
@@ -448,4 +451,4 @@
         </android.support.design.widget.CoordinatorLayout>
     </TableLayout>
 
-</ScrollView>
+</RelativeLayout>

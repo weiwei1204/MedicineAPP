@@ -32,14 +32,13 @@
             android:layout_below="@+id/myimagepersonal"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="18dp"
-            android:text="許甄珉"
             android:textSize="20sp" />
 
         <TextView
             android:id="@+id/gmailPersonal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="mindy8503020312@gmail.com"
+
             android:textSize="20sp"
             android:layout_below="@+id/namePerson"
             android:layout_centerHorizontal="true" />
@@ -49,7 +48,19 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_centerHorizontal="true"
-            android:layout_below="@+id/gmailPersonal" />
+            android:layout_marginBottom="22dp"
+            android:layout_below="@+id/gmailPersonal" >
+
+        </ListView>
+
+        <Button
+            android:id="@+id/repair1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="97dp"
+            android:onClick="gotorepair"
+            android:text="修改" />
 
         <Button
             android:id="@+id/button9"
