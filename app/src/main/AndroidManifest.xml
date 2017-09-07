@@ -181,7 +181,6 @@
 
         <activity android:name=".medicine_cal" />
         <activity android:name=".scandrug" />
-
         <activity android:name=".PersonalInformationctivity" />
         <activity
             android:name=".BsBpMeasureActivity"
