@@ -161,10 +161,6 @@
             android:theme="@style/AppTheme" />
         <activity android:name=".medicine_cal" />
         <activity android:name=".scandrug" />
-        <activity
-            android:name=".Main3Activity"
-            android:label="@string/title_activity_main3"
-            android:theme="@style/AppTheme" />
         <activity android:name=".PersonalInformationctivity" />
         <activity
             android:name=".BsBpMeasureActivity"

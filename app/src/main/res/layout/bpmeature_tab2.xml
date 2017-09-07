@@ -12,6 +12,21 @@
         android:id="@+id/section_label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="血壓yoooo"/>
+        android:text="時間列表"
+        android:textSize="20sp" />
+
+    <ListView
+        android:id="@+id/bpfirst"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/section_label"
+        android:layout_marginTop="20dp" />
+
+    <Button
+        android:id="@+id/saveBpMeasureButton"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_below="@+id/bpfirst"
+        android:text="儲存"/>
 
 </RelativeLayout>

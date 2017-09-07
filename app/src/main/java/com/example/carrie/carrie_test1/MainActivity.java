@@ -23,12 +23,17 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.text.ParseException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -42,6 +47,7 @@ public class MainActivity extends LoginActivity
     RequestQueue requestQueue;
     String memberid;
     String my_mon_id;
+    BsBpMeasureObject bsBpMeasureObject;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,7 +58,6 @@ public class MainActivity extends LoginActivity
         googleid=bundle.getString("googleid");
         getMonitorId();
         getid();
-
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -202,7 +207,9 @@ public class MainActivity extends LoginActivity
         Intent it = new Intent(this,BsBpMeasureActivity.class);
         Bundle bundle = new Bundle();
         bundle.putString("googleid", googleid);
+        bundle.putString("memberid", memberid);
         it.putExtras(bundle);   // 記得put進去，不然資料不會帶過去哦
+        it.putExtra("bsBpMeasureObject",bsBpMeasureObject);
         startActivity(it);
     }
 
@@ -226,6 +233,7 @@ public class MainActivity extends LoginActivity
             public void onResponse(String response) {
                 Log.d("rrr123", response);
                 memberid = response;
+                getMeasureInformation();
             }
         }, new Response.ErrorListener() {
             @Override
@@ -314,6 +322,44 @@ public class MainActivity extends LoginActivity
                 ;
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         requestQueue.add(request);
+    }
+    public void getMeasureInformation(){//取得血壓血糖測量時間
+        requestQueue = Volley.newRequestQueue(getApplicationContext());
+        String getMeasureInformationURL = "http://54.65.194.253/Member/getMeasureInformation.php?member_id="+memberid;
+        Map<String, String> params = new HashMap();
+
+        //params.put("member_id", memberid);
+        //Log.d("measureInfor",params.toString());
+        //JSONObject parameters = new JSONObject(params);
+        final JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, getMeasureInformationURL,new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                Log.d("measureInfor",response.toString());
+
+                if(response.toString().contains("null")){
+                    Log.d("measureInfor", "nodata");
+                }
+                else{
+                    Log.d("measureInfor", "havedata");
+                    try {
+                        bsBpMeasureObject = new BsBpMeasureObject(response.getInt("id"),response.getString("member_id"),response.getString("bs_first"),response.getString("bs_second"),response.getString("bs_third"),response.getString("bp_first"),response.getString("bp_second"),response.getString("bp_third"));
+                        Log.d("measureInfor", "object "+bsBpMeasureObject.toString());
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.d("measureInfor", error.toString());
+                Toast.makeText(getApplicationContext(), "Error read getMeasureInformation.php!!!", Toast.LENGTH_LONG).show();
+//                refreshNormalDialogEvent();
+            }
+        });
+        Volley.newRequestQueue(this).add(jsonObjectRequest);
     }
 
     public void goback(View v){
