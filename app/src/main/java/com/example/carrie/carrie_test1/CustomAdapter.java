@@ -53,6 +53,9 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
                 Bundle bundle = new Bundle();
                 Log.d("customadapter","3");
                 bundle.putInt("monitor_who", my_data.get(position).getId());
+                bundle.putString("userid",MonitorActivity.my_id);
+                bundle.putString("googleid",MonitorActivity.my_google_id);
+                bundle.putString("my_supervise_id",MonitorActivity.my_mon_id);
                 Log.d("4445","supervised_id"+my_data.get(position).getId());
                 Log.d("customadapter","4");
                 Log.d("customadapter", String.valueOf(my_data.get(position).getId()));

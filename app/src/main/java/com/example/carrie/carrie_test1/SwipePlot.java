@@ -82,6 +82,10 @@ public class SwipePlot extends AppCompatActivity implements ViewPager.OnPageChan
     ArrayList list1=new ArrayList<Integer>();
     ArrayList list2=new ArrayList<Integer>();
     FragmentManager fragmentManager;
+    public static String current_id;
+    public static String myid;
+    public static String my_google_id;
+    public static String my_supervise_id;
 
 
 
@@ -94,11 +98,17 @@ public class SwipePlot extends AppCompatActivity implements ViewPager.OnPageChan
 
         Bundle bundle = getIntent().getExtras();
         int monid = bundle.getInt("monitor_who");
-        memberid = String.valueOf(monid);
-        String id = bundle.getString("memberid");
-        if(id!=null){
-            memberid = id;
+        memberid = String.valueOf(monid);//監控頁傳監控者的id
+        current_id = bundle.getString("memberid");//從排成頁案過來看自己id也傳自己id
+        myid = bundle.getString("userid");//從監控頁傳自己的id
+        my_google_id = bundle.getString("googleid");
+        my_supervise_id = bundle.getString("my_supervise_id");
+        if(current_id!=null){
+            memberid = current_id;
         }
+
+
+
 //        memberid = bundle.getString("memberid");
         Log.d("6789","id: "+memberid);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -180,6 +190,26 @@ public class SwipePlot extends AppCompatActivity implements ViewPager.OnPageChan
         if (id == R.id.action_settings) {
             return true;
         }
+        if (id == R.id.action_myinfo){
+            return true;
+        }
+        if (id == R.id.action_myschedule){
+//            Intent it = new Intent(SwipePlot.this,Choice.class);
+//            Bundle bundle = new Bundle();
+//            if(myid!=null) {
+//                bundle.putString("memberid", myid);
+//                bundle.putString("my_google_id",my_google_id);
+//                bundle.putString("my_supervise_id",my_supervise_id);
+//            }else{
+//                bundle.putString("memberid", current_id);
+//                bundle.putString("my_google_id",my_google_id);
+//                bundle.putString("my_supervise_id",my_supervise_id);
+//            }
+//            it.putExtras(bundle);
+//            startActivity(it);
+            return true;
+        }
+
 
         return super.onOptionsItemSelected(item);
     }

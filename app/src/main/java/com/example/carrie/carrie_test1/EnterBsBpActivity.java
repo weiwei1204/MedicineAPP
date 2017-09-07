@@ -21,6 +21,8 @@ public class EnterBsBpActivity extends AppCompatActivity {
     private ViewPager BsBpViewPager;
     public static String membercurrentid;
     Button btn ;
+    public static String my_mon_id;
+    public static String my_google;
     String insertbpvalue = "http://54.65.194.253/Health_Calendar/insertbloodpressure.php";
     String insertbsvalue = "http://54.65.194.253/Health_Calendar/insertbloodsugar.php";
     @Override
@@ -29,6 +31,8 @@ public class EnterBsBpActivity extends AppCompatActivity {
         setContentView(R.layout.activity_enter_bs_bp);
         Bundle bundle = getIntent().getExtras();
         membercurrentid = bundle.getString("memberid");
+        my_mon_id = bundle.getString("my_supervise_id");
+        my_google = bundle.getString("my_google_id");
 
         BsBpPagerAdapter = new PagerAdapter(getSupportFragmentManager());
 
@@ -126,6 +130,8 @@ public class EnterBsBpActivity extends AppCompatActivity {
     public void backmain(){
         Intent it = new Intent(EnterBsBpActivity.this,SwipePlot.class);
         it.putExtra("memberid",membercurrentid);
+        it.putExtra("googleid",my_google);
+        it.putExtra("my_supervise_id",my_mon_id);
         startActivity(it);
     }
     public void goback(View v){
