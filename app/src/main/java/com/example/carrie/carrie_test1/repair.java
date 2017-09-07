@@ -163,7 +163,7 @@ public class repair extends AppCompatActivity {
                 parameters.put("memberid", n_memberid);
                 parameters.put("height", n_height);
                 parameters.put("weight",n_weight);
-                parameters.put("brth",n_birth);
+                parameters.put("birth",n_birth);
                 Log.d("dddddd", parameters.toString());
                 Log.d("=dddddd","checck!!!");
                 return parameters;
