@@ -217,6 +217,7 @@ public class BpPlotTab extends Fragment{
         // TODO Auto-generated method stub
         super.onDestroyView();
         numberOfPoints= 0;
+        numberOfLines = 1;
         Log.e(TAG, "onDestroyView");
 
     }
@@ -358,19 +359,19 @@ public class BpPlotTab extends Fragment{
 
 
     }
-    public void getrecord2(){
+    public void getRecord2(){
         requestQueue = Volley.newRequestQueue(getActivity().getApplicationContext());
         Log.d("777","1");
         final JsonArrayRequest jsonObjectRequest = new JsonArrayRequest(Request.Method.POST, url, new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray response) {
-                Log.d("777","in response");
-                int count = 0;
+
+                Log.d("777", "in response");
+                int counter = 0;
                 try {
                     rd = true;
 //                    JSONArray array = new JSONArray(response);
 //                    Log.d("777",array.toString());
-
 
 
                     for (int i = 0; i < response.length(); i++) {
@@ -383,55 +384,201 @@ public class BpPlotTab extends Fragment{
 //                        datearray =new String[response.length()];
                         userid = object.getInt("id");
                         member_id = object.getString("member_id");
-                        Log.d("1234","saw id:" +member_id);
+                        Log.d("1234", "saw id:" + member_id);
                         if (member_id.equals(sentmember_id)) {
+                            data_list.add(record);
                             usrhighmmhg = object.getString("highmmhg");
                             usrlowmmhg = object.getString("lowmmhg");
                             usrbpm = object.getString("bpm");
                             usrsavetime = object.getString("savetime");
 
-                            count++;
+                            Log.d("6969", "member_id:" + member_id);
+                            Log.d("6969", "highmmhg:" + usrhighmmhg);
+                            Log.d("6969", "lowmmhg:" + usrlowmmhg);
+                            Log.d("6969", "bpm:" + usrbpm);
+                            Log.d("9999", "savetime:" + usrsavetime);
 
-                            highvaluearray = new int[count];
-                            lowvaluearray = new int[count];
-                            bpmvaluearray = new int[count];
-                            datearray = new String[count];
+                            counter++;
 
-                            numberOfPoints = count;
+                            highvaluearray = new int[counter];
+                            lowvaluearray = new int[counter];
+                            bpmvaluearray = new int[counter];
+                            datearray = new String[counter];
+
+                            numberOfPoints = counter;
                             randomNumbersTab = new float[maxNumberOfLines][numberOfPoints];
 
-                        }
-                    }
 
-                    for (int k = 0; k < maxNumberOfLines; k++) {
-                        Log.d("9996", "number of lines:" + maxNumberOfLines);
-                        for (int j = 0; j < lowvaluearray.length; j++) {
-                            Log.d("9996", "number of points:" + numberOfPoints);
-                            JSONObject object2 = response.getJSONObject(j);
-                            lowvaluearray[j] = Integer.parseInt(object2.getString("lowmmhg"));
-                            Log.d("7654","array:  "+lowvaluearray[j]);
+                            for (int k = 0; k < maxNumberOfLines; k++) {
+                                Log.d("9996", "number of lines:" + maxNumberOfLines);
 
-                            randomNumbersTab[k][j] = lowvaluearray[j];
+                                for (int j = 0; j < data_list.size(); j++) {
+                                    Log.d("9996", "number of points:" + numberOfPoints);
+
+
+                                    lowvaluearray[j] = Integer.parseInt(data_list.get(j).getLowmmhg());
+                                    Log.d("7654", "array:  " + lowvaluearray[j]);
+                                    Log.d("7654", "length:  " + lowvaluearray.length);
+
+                                    randomNumbersTab[k][j] = lowvaluearray[j];
+
 
 
 //                                    System.out.print(+randomNumbersTab[k][j]+" ");
 //                                    System.out.println();
 //                                    System.out.println(Arrays.deepToString(randomNumbersTab).replace("], ", "]\n"));
+                                }
+                            }
                         }
                     }
 
                     generateLineData();
-                    generateData();
+                    data = new ComboLineColumnChartData(generateColumnData(), generateLineData());
+                    if (hasAxes) {
+                        Axis axisX = new Axis();
+                        Axis axisY = new Axis().setHasLines(true);
+                        if (hasAxesNames) {
+                            axisX.setName("3日內變化");
+                            axisY.setName("舒張壓  mmhg");
+                        }
+                        data.setAxisXBottom(axisX);
+                        data.setAxisYLeft(axisY);
+                    } else {
+                        data.setAxisXBottom(null);
+                        data.setAxisYLeft(null);
+                    }
+
+                    chart.setComboLineColumnChartData(data);
                     System.out.println(Arrays.deepToString(randomNumbersTab).replace("], ", "]\n"));
-                    Log.d("9995","num:"+numberOfPoints);
-                    Log.d("8721","count:"+count);
+                    Log.d("9995", "num:" + numberOfPoints);
+                    Log.d("8721", "count:" + counter);
+
 //                    Log.d("9995","higharray"+highvaluearray[count]);
 
 //                  generateValues();
 //                    generateData();
-                }catch (JSONException e){
+                } catch (JSONException e) {
                     e.printStackTrace();
                 }
+
+
+
+            }
+        },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.d("777",error.toString());
+                    }
+                });
+        RequestQueue requestQueue = Volley.newRequestQueue(this.getActivity());
+        requestQueue.add(jsonObjectRequest);
+
+    }
+    public void getRecord3(){
+        requestQueue = Volley.newRequestQueue(getActivity().getApplicationContext());
+        Log.d("777","1");
+        final JsonArrayRequest jsonObjectRequest = new JsonArrayRequest(Request.Method.POST, url, new Response.Listener<JSONArray>() {
+            @Override
+            public void onResponse(JSONArray response) {
+
+                Log.d("777", "in response");
+                int counting = 0;
+                try {
+                    rd = true;
+//                    JSONArray array = new JSONArray(response);
+//                    Log.d("777",array.toString());
+
+
+                    for (int i = 0; i < response.length(); i++) {
+                        JSONObject object = response.getJSONObject(i);
+                        record = new BloodPressure(object.getInt("id"), object.getString("member_id"), object.getString("highmmhg"), object.getString("lowmmhg"), object.getString("bpm"), object.getString("savetime"));
+//                        data_list.add(record);
+//                        highvaluearray = new int[response.length()];
+//                        lowvaluearray = new int[response.length()];
+//                        bpmvaluearray = new int[response.length()];
+//                        datearray =new String[response.length()];
+                        userid = object.getInt("id");
+                        member_id = object.getString("member_id");
+                        Log.d("1234", "saw id:" + member_id);
+                        if (member_id.equals(sentmember_id)) {
+                            data_list.add(record);
+                            usrhighmmhg = object.getString("highmmhg");
+                            usrlowmmhg = object.getString("lowmmhg");
+                            usrbpm = object.getString("bpm");
+                            usrsavetime = object.getString("savetime");
+
+                            Log.d("6969", "member_id:" + member_id);
+                            Log.d("6969", "highmmhg:" + usrhighmmhg);
+                            Log.d("6969", "lowmmhg:" + usrlowmmhg);
+                            Log.d("6969", "bpm:" + usrbpm);
+                            Log.d("9999", "savetime:" + usrsavetime);
+
+                            counting++;
+
+                            highvaluearray = new int[counting];
+                            lowvaluearray = new int[counting];
+                            bpmvaluearray = new int[counting];
+                            datearray = new String[counting];
+
+                            numberOfPoints = counting;
+                            randomNumbersTab = new float[maxNumberOfLines][numberOfPoints];
+
+
+                            for (int k = 0; k < maxNumberOfLines; k++) {
+                                Log.d("9996", "number of lines:" + maxNumberOfLines);
+
+                                for (int j = 0; j < data_list.size(); j++) {
+                                    Log.d("9996", "number of points:" + numberOfPoints);
+
+
+                                    bpmvaluearray[j] = Integer.parseInt(data_list.get(j).getBpm());
+                                    Log.d("5666", "array:  " + bpmvaluearray[j]);
+                                    Log.d("5666", "length:  " + bpmvaluearray.length);
+
+                                    randomNumbersTab[k][j] = bpmvaluearray[j];
+
+
+
+//                                    System.out.print(+randomNumbersTab[k][j]+" ");
+//                                    System.out.println();
+//                                    System.out.println(Arrays.deepToString(randomNumbersTab).replace("], ", "]\n"));
+                                }
+                            }
+                        }
+                    }
+
+
+                    generateLineData();
+                    data = new ComboLineColumnChartData(generateColumnData(), generateLineData());
+                    if (hasAxes) {
+                        Axis axisX = new Axis();
+                        Axis axisY = new Axis().setHasLines(true);
+                        if (hasAxesNames) {
+                            axisX.setName("3日內變化");
+                            axisY.setName("心跳  bpm");
+                        }
+                        data.setAxisXBottom(axisX);
+                        data.setAxisYLeft(axisY);
+                    } else {
+                        data.setAxisXBottom(null);
+                        data.setAxisYLeft(null);
+                    }
+
+                    chart.setComboLineColumnChartData(data);
+                    System.out.println(Arrays.deepToString(randomNumbersTab).replace("], ", "]\n"));
+                    Log.d("9995", "num:" + numberOfPoints);
+                    Log.d("8721", "count:" + counting);
+
+//                    Log.d("9995","higharray"+highvaluearray[count]);
+
+//                  generateValues();
+//                    generateData();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+
 
             }
         },
@@ -457,7 +604,9 @@ public class BpPlotTab extends Fragment{
         int id = item.getItemId();
         if (id == R.id.action_reset) {
             reset();
-            generateData();
+            data_list = new ArrayList<>();
+            getRecord();
+//            generateData();
             return true;
         }
         if (id == R.id.action_add_line) {
@@ -468,31 +617,31 @@ public class BpPlotTab extends Fragment{
             toggleLines();
             return true;
         }
-        if (id == R.id.action_toggle_points) {
-            togglePoints();
-            return true;
-        }
-        if (id == R.id.action_toggle_cubic) {
-            toggleCubic();
-            return true;
-        }
-        if (id == R.id.action_toggle_labels) {
-            toggleLabels();
-            return true;
-        }
-        if (id == R.id.action_toggle_axes) {
-            toggleAxes();
-            return true;
-        }
-        if (id == R.id.action_toggle_axes_names) {
-            toggleAxesNames();
-            return true;
-        }
-        if (id == R.id.action_animate) {
-            prepareDataAnimation();
-            chart.startDataAnimation();
-            return true;
-        }
+//        if (id == R.id.action_toggle_points) {
+//            togglePoints();
+//            return true;
+//        }
+//        if (id == R.id.action_toggle_cubic) {
+//            toggleCubic();
+//            return true;
+//        }
+//        if (id == R.id.action_toggle_labels) {
+//            toggleLabels();
+//            return true;
+//        }
+//        if (id == R.id.action_toggle_axes) {
+//            toggleAxes();
+//            return true;
+//        }
+//        if (id == R.id.action_toggle_axes_names) {
+//            toggleAxesNames();
+//            return true;
+//        }
+//        if (id == R.id.action_animate) {
+//            prepareDataAnimation();
+//            chart.startDataAnimation();
+//            return true;
+//        }
         return super.onOptionsItemSelected(item);
     }
 //    private static void generateValues() {
@@ -525,7 +674,7 @@ public class BpPlotTab extends Fragment{
             Axis axisY = new Axis().setHasLines(true);
             if (hasAxesNames) {
                 axisX.setName("3日內變化");
-                axisY.setName("血壓平均  mmhg");
+                axisY.setName("收縮壓  mmhg");
             }
             data.setAxisXBottom(axisX);
             data.setAxisYLeft(axisY);
@@ -599,19 +748,30 @@ public class BpPlotTab extends Fragment{
 
     }
     private void addLineToData() {
+        data_list = new ArrayList<>();
+        getRecord2();
         if (data.getLineChartData().getLines().size() >= maxNumberOfLines) {
-            Toast.makeText(getActivity(), "Samples app uses max 4 lines!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), "再看看其他的血壓資訊吧!", Toast.LENGTH_SHORT).show();
+            data_list = new ArrayList<>();
             return;
         } else {
-            ++numberOfLines;
+        numberOfLines++;
         }
-        getrecord2();
-        generateData();
+
+
     }
     private void toggleLines() {
-        hasLines = !hasLines;
+//        hasLines = !hasLines;
+        data_list = new ArrayList<>();
+        getRecord3();
+        if (data.getLineChartData().getLines().size() >= maxNumberOfLines) {
+            Toast.makeText(getActivity(), "再看看其他的血壓資訊吧!", Toast.LENGTH_SHORT).show();
+            data_list = new ArrayList<>();
+            return;
+        } else {
+            numberOfLines++;
+        }
 
-        generateData();
     }
 
     private void togglePoints() {
@@ -675,7 +835,7 @@ public class BpPlotTab extends Fragment{
 
         @Override
         public void onPointValueSelected(int lineIndex, int pointIndex, PointValue value) {
-            Toast.makeText(getActivity(), "Selected line point: " + value, Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), "Selected line point: " + value.getY(), Toast.LENGTH_SHORT).show();
         }
         public void goback(View v)
         {

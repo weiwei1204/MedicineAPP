@@ -174,17 +174,13 @@
             android:name=".EnterBsBpActivity"
             android:label="@string/title_activity_enter_bs_bp"
             android:theme="@style/AppTheme" />
-        <activity android:name=".BpRecord" />
+
         <activity
             android:name=".m_calendarlist"
             android:label="@string/title_activity_m_calendarlist" />
-        <activity
-            android:name=".BsRecord"
-            android:label="@string/title_activity_bs_record"
-            android:theme="@style/AppTheme" />
+
         <activity android:name=".medicine_cal" />
         <activity android:name=".scandrug" />
-
         <activity android:name=".PersonalInformationctivity" />
         <activity
             android:name=".BsBpMeasureActivity"
@@ -195,7 +191,17 @@
 
         <activity
             android:name=".FirstSaveBsBpActivity"
-            android:label="@string/title_activity_first_save_bs_bp"></activity>
+
+            android:label="@string/title_activity_first_save_bs_bp" />
+        <activity
+            android:name=".EnterBsValue"
+            android:label="@string/title_activity_enter_bs_value"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".EnterBpValue"
+            android:label="@string/title_activity_enter_bp_value"
+            android:theme="@style/AppTheme"></activity>
+
 
     </application>
 

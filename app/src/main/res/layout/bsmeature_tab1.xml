@@ -23,7 +23,7 @@
         android:layout_marginTop="20dp" />
 
     <Button
-        android:id="@+id/saveMeasureButton"
+        android:id="@+id/saveBsMeasureButton"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_below="@+id/bsfirst"
