@@ -1,11 +1,14 @@
 package com.example.carrie.carrie_test1;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -13,6 +16,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -28,8 +32,9 @@ import org.json.JSONObject;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
-
+import java.util.Map;
 
 
 public class SwipePlot extends AppCompatActivity implements ViewPager.OnPageChangeListener {
@@ -76,6 +81,11 @@ public class SwipePlot extends AppCompatActivity implements ViewPager.OnPageChan
     public static String [] datearray;
     ArrayList list1=new ArrayList<Integer>();
     ArrayList list2=new ArrayList<Integer>();
+    FragmentManager fragmentManager;
+    public static String current_id;
+    public static String myid;
+    public static String my_google_id;
+    public static String my_supervise_id;
 
 
 
@@ -88,12 +98,21 @@ public class SwipePlot extends AppCompatActivity implements ViewPager.OnPageChan
 
         Bundle bundle = getIntent().getExtras();
         int monid = bundle.getInt("monitor_who");
-        memberid = String.valueOf(monid);
+        memberid = String.valueOf(monid);//監控頁傳監控者的id
+        current_id = bundle.getString("memberid");//從排成頁案過來看自己id也傳自己id
+        myid = bundle.getString("userid");//從監控頁傳自己的id
+        my_google_id = bundle.getString("googleid");
+        my_supervise_id = bundle.getString("my_supervise_id");
+        if(current_id!=null){
+            memberid = current_id;
+        }
+
+
+
 //        memberid = bundle.getString("memberid");
         Log.d("6789","id: "+memberid);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
         data_list = new ArrayList<>();
@@ -115,7 +134,30 @@ public class SwipePlot extends AppCompatActivity implements ViewPager.OnPageChan
         Log.d("8888","highmmhg:"+highmmhg);
         Log.d("8888","lowmmhg:"+lowmmhg);
         Log.d("8888","bpm:"+bpm);
+        fragmentManager = getSupportFragmentManager();
     }
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent i=new Intent(this,SwipePlot.class);
+        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        finish();
+
+//        int count = getFragmentManager().getBackStackEntryCount();
+//
+//        if (count == 0) {
+//            super.onBackPressed();
+//
+//            Log.d("9876","do");
+//            //additional code
+//        } else {
+//            getFragmentManager().popBackStack();
+//            Log.d("9876","do do do");
+//        }
+
+    }
+
 
     public void start(){
         mViewPager.setAdapter(mSectionsPagerAdapter);
@@ -148,6 +190,26 @@ public class SwipePlot extends AppCompatActivity implements ViewPager.OnPageChan
         if (id == R.id.action_settings) {
             return true;
         }
+        if (id == R.id.action_myinfo){
+            return true;
+        }
+        if (id == R.id.action_myschedule){
+//            Intent it = new Intent(SwipePlot.this,Choice.class);
+//            Bundle bundle = new Bundle();
+//            if(myid!=null) {
+//                bundle.putString("memberid", myid);
+//                bundle.putString("my_google_id",my_google_id);
+//                bundle.putString("my_supervise_id",my_supervise_id);
+//            }else{
+//                bundle.putString("memberid", current_id);
+//                bundle.putString("my_google_id",my_google_id);
+//                bundle.putString("my_supervise_id",my_supervise_id);
+//            }
+//            it.putExtras(bundle);
+//            startActivity(it);
+            return true;
+        }
+
 
         return super.onOptionsItemSelected(item);
     }
@@ -159,6 +221,11 @@ public class SwipePlot extends AppCompatActivity implements ViewPager.OnPageChan
 
     @Override
     public void onPageSelected(int position) {
+
+        Fragment fragment = mSectionsPagerAdapter.getFragment(position);
+        if (fragment != null) {
+            fragment.onResume();
+        }
 
 
     }
@@ -177,11 +244,21 @@ public class SwipePlot extends AppCompatActivity implements ViewPager.OnPageChan
      * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
      * one of the sections/tabs/pages.
      */
-    public class SectionsPagerAdapter extends FragmentPagerAdapter {
+    public class SectionsPagerAdapter extends FragmentStatePagerAdapter {
         private double mLattitude;
+        private Map<Integer, String> mFragmentTags;
+        private FragmentManager mFragmentManager;
+        @Override
+        public int getItemPosition(Object object) {
+            return POSITION_NONE;
+        }
+
+
 
         public SectionsPagerAdapter(FragmentManager fm) {
             super(fm);
+            mFragmentManager = fragmentManager;
+            mFragmentTags = new HashMap<Integer, String>();
 
         }
 
@@ -240,6 +317,25 @@ public class SwipePlot extends AppCompatActivity implements ViewPager.OnPageChan
                     return "用藥排程紀錄";
             }
             return null;
+        }
+        @Override
+        public Object instantiateItem(ViewGroup container, int position) {
+            Object object = super.instantiateItem(container, position);
+            if (object instanceof Fragment) {
+                Fragment fragment = (Fragment) object;
+                String tag = fragment.getTag();
+                mFragmentTags.put(position, tag);
+            }
+            return object;
+        }
+
+        public Fragment getFragment(int position) {
+            Fragment fragment = null;
+            String tag = mFragmentTags.get(position);
+            if (tag != null) {
+                fragment = mFragmentManager.findFragmentByTag(tag);
+            }
+            return fragment;
         }
     }
 //    private void getValue(int id) {
@@ -431,5 +527,9 @@ public class SwipePlot extends AppCompatActivity implements ViewPager.OnPageChan
 
     public void goback(View v) {
         finish();
+        FragmentManager.BackStackEntry entry = getSupportFragmentManager().getBackStackEntryAt(0);
+        getSupportFragmentManager().popBackStack(entry.getId(), FragmentManager.POP_BACK_STACK_INCLUSIVE);
+        getSupportFragmentManager().executePendingTransactions();
+        Log.d("5577","do this");
     }
 }

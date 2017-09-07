@@ -1,25 +1,17 @@
 package com.example.carrie.carrie_test1;
 
-import android.app.Activity;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.content.Intent;
 import android.widget.Toast;
-
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.Volley;
-
-import org.json.JSONObject;
 
 import java.io.IOException;
 
@@ -27,11 +19,7 @@ import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
 import okhttp3.RequestBody;
 
-/**
- * Created by jonathan on 2017/8/10.
- */
-
-public class BpTab extends Fragment {
+public class EnterBpValue extends AppCompatActivity {
     String insertbpvalue = "http://54.65.194.253/Health_Calendar/insertbloodpressure.php";
     EditText ethighmmhg;
     EditText etlowmmhg;
@@ -41,19 +29,19 @@ public class BpTab extends Fragment {
     public static String bpm ="";
     Button btn;
 
+
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.bptab, container, false);
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.bptab);
+        String memberid = getIntent().getExtras().getString("memberid");
+        ethighmmhg = (EditText) findViewById(R.id.highmmhg);
 
-        String memberid = getActivity().getIntent().getExtras().getString("memberid");
-        ethighmmhg = (EditText) rootView.findViewById(R.id.highmmhg);
+        etlowmmhg = (EditText) findViewById(R.id.lowmmhg);
 
-        etlowmmhg = (EditText) rootView.findViewById(R.id.lowmmhg);
+        etbpm = (EditText) findViewById(R.id.bpm);
 
-        etbpm = (EditText) rootView.findViewById(R.id.bpm);
-
-        btn = (Button) rootView.findViewById(R.id.button1);
+        btn = (Button) findViewById(R.id.button1);
         Log.d("bbbbb", "12345");
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -65,9 +53,9 @@ public class BpTab extends Fragment {
                 Log.v("EditText", ethighmmhg.getText().toString());
                 Log.v("EditText", etlowmmhg.getText().toString());
                 Log.v("EditText", etbpm.getText().toString());
-                final String memberid = getActivity().getIntent().getExtras().getString("memberid");
+                final String memberid = getIntent().getExtras().getString("memberid");
                 if(highmmhg.matches("") || lowmmhg.matches("") || bpm.matches("")) {
-                    Toast.makeText(getActivity().getApplicationContext(), "有地方忘了填哦", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "有地方忘了填哦", Toast.LENGTH_SHORT).show();
                 }else{
 
                     AsyncTask<Integer, Void, Void> task = new AsyncTask<Integer, Void, Void>() {
@@ -103,8 +91,8 @@ public class BpTab extends Fragment {
                         protected void onPostExecute(Void aVoid) {
                             super.onPostExecute(aVoid);
                             setInsertbpvalue();
-                            Toast.makeText(getActivity().getApplicationContext(), "成功送出", Toast.LENGTH_SHORT).show();
-                            Intent it = new Intent(getContext(), BpRecord.class);
+                            Toast.makeText(getApplicationContext(), "成功送出", Toast.LENGTH_SHORT).show();
+                            Intent it = new Intent(EnterBpValue.this, EnterBsBpActivity.class);
                             it.putExtra("memberid", memberid);
                             it.putExtra("highmmhg", highmmhg);
                             it.putExtra("lowmmhg", lowmmhg);
@@ -124,17 +112,12 @@ public class BpTab extends Fragment {
                 }
             }
         });
-        return rootView;
 
-    }
-    @Override
-    public void onDestroyView(){
-        super.onDestroyView();
     }
 
     public void setInsertbpvalue() {
         Log.d("bbbbb","123456");
-        final String memberid = getActivity().getIntent().getExtras().getString("memberid");
+        final String memberid = getIntent().getExtras().getString("memberid");
 
 
         AsyncTask<Integer, Void, Void> task = new AsyncTask<Integer, Void, Void>() {
@@ -174,7 +157,4 @@ public class BpTab extends Fragment {
 
     }
 
-
-
 }
-

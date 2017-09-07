@@ -14,6 +14,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -200,6 +201,7 @@ public class MainActivity extends LoginActivity
         Intent it = new Intent(this,PersonalInformationctivity.class);
         Bundle bundle = new Bundle();
         bundle.putString("googleid", googleid);
+        bundle.putString("memberid", memberid);
         it.putExtras(bundle);   // 記得put進去，不然資料不會帶過去哦
         startActivity(it);
     }

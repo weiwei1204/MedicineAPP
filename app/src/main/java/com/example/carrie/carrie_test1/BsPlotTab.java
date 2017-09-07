@@ -6,6 +6,7 @@ package com.example.carrie.carrie_test1;
 import android.support.design.widget.TabLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
@@ -55,6 +56,12 @@ import lecho.lib.hellocharts.view.Chart;
 import lecho.lib.hellocharts.view.LineChartView;
 
 public class BsPlotTab extends Fragment{
+    public BsPlotTab(){
+
+    }
+    public static BsPlotTab newInstance() {
+        return new BsPlotTab();
+    }
     private LineChartView chart;
     private LineChartData data;
     private static int numberOfLines = 1;
@@ -85,6 +92,8 @@ public class BsPlotTab extends Fragment{
     public static int [] bsarray ;
     public static String [] datearray;
     ArrayList<BloodSugar>sugarArrayList;
+    private static final String TAG = "FragmentOne";
+    FragmentManager fragmentManager;
 
 
     @Override
@@ -103,8 +112,22 @@ public class BsPlotTab extends Fragment{
 //        generateValues();
 //        generateData();
         chart.setViewportCalculationEnabled(false);
+        fragmentManager = getFragmentManager();
         return rootView;
     }
+
+    @Override
+    public void onDestroyView()
+    {
+        // TODO Auto-generated method stub
+        super.onDestroyView();
+
+        numberOfPoints = 0;
+
+        Log.e(TAG, "onDestroyView");
+    }
+
+
 
     public void getRecord(){
         requestQueue = Volley.newRequestQueue(getActivity().getApplicationContext());
@@ -154,6 +177,7 @@ public class BsPlotTab extends Fragment{
                                                 Log.d("1345", "bsarray:  " + bsarray[j]);
 
 
+
                                     }
                                 }
                             }
@@ -193,93 +217,93 @@ public class BsPlotTab extends Fragment{
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        if (id == R.id.action_reset) {
-            reset();
-            generateData();
-            return true;
-        }
-        if (id == R.id.action_add_line) {
-            addLineToData();
-            return true;
-        }
-        if (id == R.id.action_toggle_lines) {
-            toggleLines();
-            return true;
-        }
-        if (id == R.id.action_toggle_points) {
-            togglePoints();
-            return true;
-        }
-        if (id == R.id.action_toggle_gradient) {
-            toggleGradient();
-            return true;
-        }
-        if (id == R.id.action_toggle_cubic) {
-            toggleCubic();
-            return true;
-        }
-        if (id == R.id.action_toggle_area) {
-            toggleFilled();
-            return true;
-        }
-        if (id == R.id.action_point_color) {
-            togglePointColor();
-            return true;
-        }
-        if (id == R.id.action_shape_circles) {
-            setCircles();
-            return true;
-        }
-        if (id == R.id.action_shape_square) {
-            setSquares();
-            return true;
-        }
-        if (id == R.id.action_shape_diamond) {
-            setDiamonds();
-            return true;
-        }
-        if (id == R.id.action_toggle_labels) {
-            toggleLabels();
-            return true;
-        }
-        if (id == R.id.action_toggle_axes) {
-            toggleAxes();
-            return true;
-        }
-        if (id == R.id.action_toggle_axes_names) {
-            toggleAxesNames();
-            return true;
-        }
-        if (id == R.id.action_animate) {
-            prepareDataAnimation();
-            chart.startDataAnimation();
-            return true;
-        }
-        if (id == R.id.action_toggle_selection_mode) {
-            toggleLabelForSelected();
-
-            Toast.makeText(getActivity(),
-                    "Selection mode set to " + chart.isValueSelectionEnabled() + " select any point.",
-                    Toast.LENGTH_SHORT).show();
-            return true;
-        }
-        if (id == R.id.action_toggle_touch_zoom) {
-            chart.setZoomEnabled(!chart.isZoomEnabled());
-            Toast.makeText(getActivity(), "IsZoomEnabled " + chart.isZoomEnabled(), Toast.LENGTH_SHORT).show();
-            return true;
-        }
-        if (id == R.id.action_zoom_both) {
-            chart.setZoomType(ZoomType.HORIZONTAL_AND_VERTICAL);
-            return true;
-        }
-        if (id == R.id.action_zoom_horizontal) {
-            chart.setZoomType(ZoomType.HORIZONTAL);
-            return true;
-        }
-        if (id == R.id.action_zoom_vertical) {
-            chart.setZoomType(ZoomType.VERTICAL);
-            return true;
-        }
+//        if (id == R.id.action_reset) {
+//            reset();
+//            generateData();
+//            return true;
+//        }
+//        if (id == R.id.action_add_line) {
+//            addLineToData();
+//            return true;
+//        }
+//        if (id == R.id.action_toggle_lines) {
+//            toggleLines();
+//            return true;
+//        }
+//        if (id == R.id.action_toggle_points) {
+//            togglePoints();
+//            return true;
+//        }
+//        if (id == R.id.action_toggle_gradient) {
+//            toggleGradient();
+//            return true;
+//        }
+//        if (id == R.id.action_toggle_cubic) {
+//            toggleCubic();
+//            return true;
+//        }
+//        if (id == R.id.action_toggle_area) {
+//            toggleFilled();
+//            return true;
+//        }
+//        if (id == R.id.action_point_color) {
+//            togglePointColor();
+//            return true;
+//        }
+//        if (id == R.id.action_shape_circles) {
+//            setCircles();
+//            return true;
+//        }
+//        if (id == R.id.action_shape_square) {
+//            setSquares();
+//            return true;
+//        }
+//        if (id == R.id.action_shape_diamond) {
+//            setDiamonds();
+//            return true;
+//        }
+//        if (id == R.id.action_toggle_labels) {
+//            toggleLabels();
+//            return true;
+//        }
+//        if (id == R.id.action_toggle_axes) {
+//            toggleAxes();
+//            return true;
+//        }
+//        if (id == R.id.action_toggle_axes_names) {
+//            toggleAxesNames();
+//            return true;
+//        }
+//        if (id == R.id.action_animate) {
+//            prepareDataAnimation();
+//            chart.startDataAnimation();
+//            return true;
+//        }
+//        if (id == R.id.action_toggle_selection_mode) {
+//            toggleLabelForSelected();
+//
+//            Toast.makeText(getActivity(),
+//                    "Selection mode set to " + chart.isValueSelectionEnabled() + " select any point.",
+//                    Toast.LENGTH_SHORT).show();
+//            return true;
+//        }
+//        if (id == R.id.action_toggle_touch_zoom) {
+//            chart.setZoomEnabled(!chart.isZoomEnabled());
+//            Toast.makeText(getActivity(), "IsZoomEnabled " + chart.isZoomEnabled(), Toast.LENGTH_SHORT).show();
+//            return true;
+//        }
+//        if (id == R.id.action_zoom_both) {
+//            chart.setZoomType(ZoomType.HORIZONTAL_AND_VERTICAL);
+//            return true;
+//        }
+//        if (id == R.id.action_zoom_horizontal) {
+//            chart.setZoomType(ZoomType.HORIZONTAL);
+//            return true;
+//        }
+//        if (id == R.id.action_zoom_vertical) {
+//            chart.setZoomType(ZoomType.VERTICAL);
+//            return true;
+//        }
         return super.onOptionsItemSelected(item);
     }
 
@@ -528,7 +552,7 @@ public class BsPlotTab extends Fragment{
 
         @Override
         public void onValueSelected(int lineIndex, int pointIndex, PointValue value) {
-            Toast.makeText(getActivity(), "Selected: " + value, Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), "Selected: " + value.getY(), Toast.LENGTH_SHORT).show();
         }
 
         @Override
@@ -542,6 +566,7 @@ public class BsPlotTab extends Fragment{
     public void goback(View v)
     {
         getActivity().onBackPressed();
+        Log.d("1234","do this");
     }
 
 }

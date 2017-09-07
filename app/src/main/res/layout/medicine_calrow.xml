@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/mcalrow"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal">
+
+    <TextView
+        android:id="@+id/time"
+        android:layout_width="100dp"
+        android:layout_height="35dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginTop="20dp"
+        android:layout_weight="0.62"
+        android:background="@drawable/thirdsettext"
+        android:ems="10"
+        android:inputType="time"
+        android:textColor="#272727"> <requestFocus />
+    </TextView>
+
+    <TextView
+        android:id="@+id/timeinmills"
+        android:layout_width="10dp"
+        android:layout_height="35dp"
+        android:layout_weight="0.62"
+        android:background="#FAFAFA"
+        android:text=""
+        android:textColor="#FAFAFA"
+        />
+
+</LinearLayout>

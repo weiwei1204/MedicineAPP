@@ -1,5 +1,8 @@
 //package com.example.carrie.carrie_test1;
 //
+//import android.support.v7.app.AppCompatActivity;
+
+//
 //import android.app.SearchManager;
 //import android.content.Context;
 //import android.content.Intent;

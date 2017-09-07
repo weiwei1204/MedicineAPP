@@ -7,8 +7,10 @@ import android.bluetooth.BluetoothManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -17,12 +19,16 @@ import android.view.View;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.google.android.gms.location.LocationListener;
+
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 
-public class ScanBeaconActivity extends AppCompatActivity {
+
+public class ScanBeaconActivity extends AppCompatActivity implements  ActivityCompat.OnRequestPermissionsResultCallback{
 
     private BluetoothAdapter mBluetoothAdapter;
     private static final int REQUEST_ENABLE_BT = 1;
@@ -35,6 +41,11 @@ public class ScanBeaconActivity extends AppCompatActivity {
 //    String beacon_insertUrl = "http://54.65.194.253/Beacon/beacon_insert.php";
     String memberid;
 
+    private LocationManager locationManager;
+    private LocationListener locationListener;
+
+
+    private static final int REQUEST_CODE_ACCESS_COARSE_LOCATION = 1;
 
 
     @Override
@@ -44,8 +55,9 @@ public class ScanBeaconActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         Bundle bundle = getIntent().getExtras();
-        memberid=bundle.getString("memberid");
+        memberid = bundle.getString("memberid");
         openBluetooth();
+
         Log.v("Build", String.valueOf(Build.VERSION.SDK_INT));
         Log.v("Build", String.valueOf(Build.VERSION_CODES.M));
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -58,26 +70,117 @@ public class ScanBeaconActivity extends AppCompatActivity {
                 Log.v("aaa", "0123");
             }
         }
+
+
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {//如果 API level 是大于等于 23(Android 6.0) 时
+//            //判断是否具有权限
+//            if (PermissionChecker.checkSelfPermission(this,
+//                    Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+//                //判断是否需要向用户解释为什么需要申请该权限
+//                if (ActivityCompat.shouldShowRequestPermissionRationale(this,
+//                        Manifest.permission.ACCESS_COARSE_LOCATION)) {
+//                    Log.d("aaa","自Android 6.0开始需要打开位置权限才可以搜索到Ble设备");
+//                }
+//                //请求权限
+//                ActivityCompat.requestPermissions(this,
+//                        new String[]{Manifest.permission.ACCESS_COARSE_LOCATION},
+//                        REQUEST_CODE_ACCESS_COARSE_LOCATION);
+//            }
+//            locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);    // 獲取系統位置服務
+//
+//
+//        }
+
+
+
+
+
+
+
         context = this;
         lv = (ListView) findViewById(R.id.mlistView);
         SearchForBLEDevices ();
         //putDataToListView();
         //insertbeacon();
     }
+    private void findImage()
+    {
+//        LocationRequest request = LocationRequest.create();
+//        request.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+//        request.setNumUpdates(1);
+//        request.setInterval(0);
+//        if(ContextCompat.checkSelfPermission(ScanBeaconActivity.this, ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED ||
+//                ContextCompat.checkSelfPermission(ScanBeaconActivity.this, ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED)
+//        {
+//            Log.d("aaa", "Location Permissions OK");
+//        }
+//        else
+//        {
+//            if(ContextCompat.checkSelfPermission(ScanBeaconActivity.this, ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED)
+//            {
+//                Log.d("aaa", "ACCESS_FINE_LOCATION permission error");
+//                ActivityCompat.requestPermissions(ScanBeaconActivity.this, new String[] {ACCESS_FINE_LOCATION}, PERMISSION_REQUEST_COARSE_LOCATION);
+//            }
+//            if(ContextCompat.checkSelfPermission(ScanBeaconActivity.this, ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED)
+//            {
+//                Log.d("aaa", "ACCESS_COARSE_LOCATION permission error");
+//                ActivityCompat.requestPermissions(ScanBeaconActivity.this, new String[] {ACCESS_COARSE_LOCATION}, PERMISSION_REQUEST_COARSE_LOCATION);
+//            }
+//            return;
+//        }
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
-        Log.v("aaa", "11111");
-        switch (requestCode) {
-            case PERMISSION_REQUEST_COARSE_LOCATION:
-                if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    // TODO request success
-                }
-                break;
-        }
     }
 
-    public void openBluetooth(){
+    public static boolean isLocationOpen(final Context context){
+        LocationManager manager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
+        //gps定位
+        boolean isGpsProvider = manager.isProviderEnabled(LocationManager.GPS_PROVIDER);
+        //网络定位
+        boolean isNetWorkProvider = manager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+        return isGpsProvider|| isNetWorkProvider;
+    }
+    public static final boolean isLocationEnable(Context context) {
+        LocationManager locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
+        boolean networkProvider = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+        boolean gpsProvider = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
+        if (networkProvider || gpsProvider) return true;
+        return false;
+    }
+
+//    @Override
+//    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+//        if (requestCode == REQUEST_CODE_ACCESS_COARSE_LOCATION) {
+//            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+//                //用户允许改权限，0表示允许，-1表示拒绝 PERMISSION_GRANTED = 0， PERMISSION_DENIED = -1
+//                //permission was granted, yay! Do the contacts-related task you need to do.
+//                //这里进行授权被允许的处理
+//                if (!isLocationEnable(ScanBeaconActivity.this)){
+//                  Log.d("aaa","notopen");
+//                };
+//            } else {
+//                //permission denied, boo! Disable the functionality that depends on this permission.
+//                //这里进行权限被拒绝的处理
+//            }
+//        } else {
+//            super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+//        }
+//    }
+
+
+   @Override
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+       Log.v("aaa", "11111");
+       switch (requestCode) {
+           case PERMISSION_REQUEST_COARSE_LOCATION:
+               if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                   // TODO request success
+               }
+               break;
+
+       }
+   }
+
+        public void openBluetooth(){
 
         if (getPackageManager().hasSystemFeature(PackageManager.FEATURE_BLUETOOTH_LE) == false) {
             Toast.makeText(this, "BLE not supported", Toast.LENGTH_SHORT).show();
