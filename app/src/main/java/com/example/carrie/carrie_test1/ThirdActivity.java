@@ -42,7 +42,11 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -58,6 +62,8 @@ public class ThirdActivity extends AppCompatActivity {
     EditText notxt;
     private ArrayList<ArrayList<String>> mtimes = new ArrayList<ArrayList<String>>();
     private ArrayList<ArrayList<String>> mdrugs = new ArrayList<ArrayList<String>>();
+    private ArrayList<ArrayList<String>> dbtimes = new ArrayList<ArrayList<String>>();
+
 
     //    private String[][] mtimes=new String[20][2];
 //    private String[][] mdrugs=new String[20][2];
@@ -67,6 +73,7 @@ public class ThirdActivity extends AppCompatActivity {
     String m_alerttimeUrl = "http://54.65.194.253/Medicine_Calendar/m_alerttime.php";
     String getm_alerttimeUrl = "http://54.65.194.253/Medicine_Calendar/getm_alerttime.php";
     String insertmcaldrugsUrl = "http://54.65.194.253/Drug/insertmcaldrugs.php";
+    String insertm_recordUrl = "http://54.65.194.253/Medicine_Calendar/insertm_record.php";
     ArrayAdapter<CharSequence> adapterbeacon;
     Spinner spinnerbeacon;
     String memberid,beaconUUID,beaconid,m_calendarid,drugid,drugname;
@@ -435,20 +442,18 @@ public class ThirdActivity extends AppCompatActivity {
 
     public  void gettime(final Activity activity)//取吃藥次數
     {
-        counttime=0;
-
+        counttime = 0;
         timearray.clear();
         LinearLayout scrollViewlinerLayout = (LinearLayout) activity.findViewById(R.id.linearLayoutForm);
-        for (int i = 0; i < scrollViewlinerLayout.getChildCount(); i++)
-        {
-            Log.d("nnn","3");
+        for (int i = 0; i < scrollViewlinerLayout.getChildCount(); i++) {
+            Log.d("nnn", "3");
             LinearLayout innerLayout = (LinearLayout) scrollViewlinerLayout.getChildAt(i);
             TextView edit = (TextView) innerLayout.findViewById(R.id.settimetxt);
             TextView edittime = (TextView) innerLayout.findViewById(R.id.timetxt);
-            if (edit.getText().toString().equals("")){
-                Log.d("nnn","2");
-            }else {
-                Log.d("nnn",edit.getText().toString());
+            if (edit.getText().toString().equals("")) {
+                Log.d("nnn", "2");
+            } else {
+                Log.d("nnn", edit.getText().toString());
                 mtimes.add(new ArrayList<String>());
 
                 mtimes.get(counttime).add(edittime.getText().toString());   //0
@@ -456,13 +461,9 @@ public class ThirdActivity extends AppCompatActivity {
                 msg.add(edit.getText().toString());
                 timearray.add(edittime.getText().toString());
                 counttime++;
-                Log.d("nnn","1");
+                Log.d("nnn", "1");
             }
-
         }
-//        Toast t = Toast.makeText(activity.getApplicationContext(), msg.toString(), Toast.LENGTH_SHORT);
-//        t.show();
-
     }
 
 
@@ -501,15 +502,14 @@ public class ThirdActivity extends AppCompatActivity {
                 Log.d("nnnmm",response);
                 if (response.equals("beaconed")){
                 }
-                else {get_M_calendart_id();}
+                else {get_M_calendart_id(count);}
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.d("nnnmm", error.toString());
                 Toast.makeText(getApplicationContext(), "Error read insertm_calendar.php!!!", Toast.LENGTH_LONG).show();
-            }
-        })
+            }})
         {
             protected Map<String, String> getParams() throws AuthFailureError {//把值丟到php
                 Map<String, String> parameters = new HashMap<String, String>();
@@ -534,14 +534,14 @@ public class ThirdActivity extends AppCompatActivity {
 
 
 
-    public void get_M_calendart_id(){
+    public void get_M_calendart_id(final int counttimes){   //counttimes為了記服藥次數
         requestQueue = Volley.newRequestQueue(getApplicationContext());
         final StringRequest request = new StringRequest(Request.Method.POST, get_m_caledar_idUrl, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 Log.d("nnnmmmm",response);
                 if(response.equals("noid")){
-                    get_M_calendart_id();
+                    get_M_calendart_id(counttimes);
                 }
                 else {
                     m_calendarid = response;
@@ -551,6 +551,14 @@ public class ThirdActivity extends AppCompatActivity {
 //                    }
 //                    alarm a=new alarm(getApplicationContext());
 //                    a.alarmclock(msg);
+                    mtimes.clear();
+                    for (int i=0;i<timearray.size();i++){      //一個一個存時間
+                        boolean finish=false;       //判斷執行最後一個
+                        if (i==timearray.size()-1){
+                            finish=true;
+                        }
+                        insertAlert_time(i,finish,counttimes);
+                    }
 
                     mdrugs.clear();
                     getdrugs(ThirdActivity.this);
@@ -558,12 +566,8 @@ public class ThirdActivity extends AppCompatActivity {
                     for (int i=0;i<size;i++){
                         insertdrug(i);
                     }
-                    mtimes.clear();
-                    for (int i=0;i<timearray.size();i++){      //一個一個存時間
-                        insertAlert_time(i);
-                    }
 
-                    Alert_time();
+
                     gotom_calendarlist();//儲存完後至用藥排成清單
                 }
             }
@@ -605,12 +609,15 @@ public class ThirdActivity extends AppCompatActivity {
 //        alarmset.setText(output);
 //    }
 
-    public void insertAlert_time(final int i){//時間存到資料庫
+    public void insertAlert_time(final int i,final boolean finish ,final int counttimes){//時間存到資料庫
         requestQueue = Volley.newRequestQueue(getApplicationContext());
             final StringRequest request = new StringRequest(Request.Method.POST, m_alerttimeUrl, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 Log.d("timeeeee",response);
+                if (finish==true){
+                    Alert_time(counttimes);
+                }
             }
         }, new Response.ErrorListener() {
             @Override
@@ -664,12 +671,13 @@ public class ThirdActivity extends AppCompatActivity {
     }
 
 
-    public void Alert_time(){   //從資料庫取值設鬧鐘
+    public void Alert_time(final int counttimes){   //從資料庫取值設鬧鐘 //counttimes為了記服藥次數
         requestQueue = Volley.newRequestQueue(getApplicationContext());
         final JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, getm_alerttimeUrl, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 try {
+                    dbtimes.clear();
                     JSONArray m_alerttimes = response.getJSONArray("Medicine_Alert_Time");
                     final String[] malertid=new String[m_alerttimes.length()];
                     final String[] timeInmill=new String[m_alerttimes.length()];
@@ -678,8 +686,12 @@ public class ThirdActivity extends AppCompatActivity {
                         JSONObject m_alerttime = m_alerttimes.getJSONObject(i);
                         String id = m_alerttime.getString("id");
                         String mcalid = m_alerttime.getString("Medicine_calendar_id");
+                        String time = m_alerttime.getString("time");
                         String name = m_alerttime.getString("TimeInMillis");
                         if (mcalid.equals(m_calendarid)){
+                            dbtimes.add(new ArrayList<String>());
+                            dbtimes.get(count).add(time);   //0:Medicine_Alert_Time的時間time
+                            dbtimes.get(count).add(id);   //1:Medicine_Alert_Time的id
                             malertid[count] = id;
                             timeInmill[count] = name;
                             Log.d("sss",malertid[count].toString());
@@ -697,7 +709,9 @@ public class ThirdActivity extends AppCompatActivity {
                         };
                     }
                     if(count==0){
-                        Alert_time();
+                        Alert_time(counttimes);
+                    }else {
+                        checkm_record(counttimes);
                     }
                 }catch (JSONException e){
                     e.printStackTrace();
@@ -713,6 +727,95 @@ public class ThirdActivity extends AppCompatActivity {
     }
 
 
+    //新增每次吃藥狀況 Medicinhe_Calendar_Record
+    public void checkm_record(int counttimes){
+        Boolean today=false;        //確認起始日是否為今日
+        String begindate=txtdate.getText().toString();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        SimpleDateFormat ymd = new SimpleDateFormat("yyyy-MM-dd");
+        Date dt = new  Date();
+        String dts=sdf.format(dt);
+        String ymds=ymd.format(dt);
+        if (counttimes > 0){     //服藥總次數判斷
+            for (int i=0;i<dbtimes.size();i++){
+                String date =  begindate+" "+dbtimes.get(i).get(0);    //算起始日的時間
+                if (begindate.equals(ymds)){    //如與今天日期相同再進行以下比較
+                    today=true;
+                    Long mmdts,mmdate,time;
+                    try {
+                        Date ddts = sdf.parse(dts);
+                        Date ddate = sdf.parse(date);
+                        mmdts = ddts.getTime();
+                        mmdate = ddate.getTime();
+                        time=mmdate-mmdts;      //時間相減（-：比現在時間以前）
+                        Log.d("record3", String.valueOf(time));
+                        if (time > 15000 && counttimes > 0){      //如果比現在時間更多15秒即可設為鬧鐘 && 次數要大於0
+                            insertm_record(i,begindate);
+                            counttimes--;
+                        }
+                    } catch (ParseException e) {
+                        Log.d("record3", e.toString());
+                        e.printStackTrace();
+                    }
+                }
+            }
+            while (counttimes > 0){
+                java.text.SimpleDateFormat format = new java.text.SimpleDateFormat("yyyy-MM-dd");
+                try {
+                    Date date = format.parse(begindate);   //轉為時間格式
+                    Calendar now = Calendar.getInstance();
+                    now.setTime(date); //日期為2001/3/1
+                    if (today == false){        //起始日不為今日，日期就不用先+1
+                        today = true;           //日期開始+1
+                    }
+                    else {
+                        now.add(Calendar.DAY_OF_YEAR, +1);  //起始日+1天
+                        begindate=format.format(now.getTime());
+                    }
+                } catch (ParseException e) {
+                    Log.d("record5", e.toString());
+                    e.printStackTrace();
+                }
+                for (int i=0;i<dbtimes.size();i++){
+                    if (counttimes > 0){
+                        Log.d("record5i", String.valueOf(dbtimes.size()));
+                        Log.d("record5",dbtimes.get(i).get(1));
+                        insertm_record(i,begindate);
+                        counttimes--;
+                    }
+                }
+            }
+        }
+    }
+    public void insertm_record(final int i,final String date){
+        requestQueue = Volley.newRequestQueue(getApplicationContext());
+        final StringRequest request = new StringRequest(Request.Method.POST, insertm_recordUrl, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Log.d("nnnmm",response);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.d("nnnmm", error.toString());
+                Toast.makeText(getApplicationContext(), "Error read insertm_record.php!!!", Toast.LENGTH_LONG).show();
+            }
+        })
+        {
+            protected Map<String, String> getParams() throws AuthFailureError {//把值丟到php
+                Map<String, String> parameters = new HashMap<String, String>();
+                parameters.put("time_id",dbtimes.get(i).get(1));
+                parameters.put("date", date);
+                Log.d("my111", parameters.toString());
+                Log.d("my","checck!!!");
+                return parameters;
+            }
+        };
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(request);
+    }
+
+
     public void gotom_calendarlist(){
         Intent it = new Intent(ThirdActivity.this,m_calendarlist.class);
         Bundle bundle = new Bundle();
@@ -722,7 +825,8 @@ public class ThirdActivity extends AppCompatActivity {
     }
 
 
-    public void checkinsert(View view){
+
+    public void checkinsert(View view){ //防呆檢查 ～顯示輸入錯誤提示
         boolean isVaild = true;
         m_cal_name1.setErrorEnabled(false);
         txtdate1.setErrorEnabled(false);
