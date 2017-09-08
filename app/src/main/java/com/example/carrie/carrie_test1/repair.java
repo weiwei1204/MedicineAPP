@@ -1,47 +1,23 @@
 package com.example.carrie.carrie_test1;
 
-import android.*;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.os.AsyncTask;
-import android.support.annotation.NonNull;
-import android.support.design.widget.BottomNavigationView;
-import android.support.design.widget.FloatingActionButton;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.RequestQueue;
+import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
 
 public class repair extends AppCompatActivity {
 
@@ -139,15 +115,15 @@ public class repair extends AppCompatActivity {
         requestQueue2 = Volley.newRequestQueue(getApplicationContext());
 
         EditText higha=(EditText) findViewById(R.id.repairheightc);
-        n_height=(higha.getText()).toString();
+        n_height=higha.getText().toString();
 
         EditText weia=(EditText) findViewById(R.id.repairweightc);
-        n_weight=(weia.getText()).toString();
+        n_weight=weia.getText().toString();
 
         EditText birtha=(EditText) findViewById(R.id.reapiragec);
-        n_birth=(birtha.getText()).toString();
+        n_birth=birtha.getText().toString();
 
-         final StringRequest request = new StringRequest(com.android.volley.Request.Method.POST, repairdata, new com.android.volley.Response.Listener<String>() {
+         final StringRequest request = new StringRequest(com.android.volley.Request.Method.POST, repairdata,new  Response.Listener<String>(){
             @Override
             public void onResponse(String response) {
 
@@ -155,7 +131,7 @@ public class repair extends AppCompatActivity {
         }, new com.android.volley.Response.ErrorListener() {
             public void onErrorResponse(VolleyError error) {
                 Log.d("rrr", error.toString());
-                Toast.makeText(getApplicationContext(), "Error read addMonitor.php!!!", Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), "Error read repairdata.php!!!", Toast.LENGTH_LONG).show();
             }
         })
         {

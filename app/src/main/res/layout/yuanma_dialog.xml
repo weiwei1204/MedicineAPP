@@ -7,8 +7,7 @@
         android:layout_width="330dp"
         android:layout_height="270dp"
         android:background="#ffffffff"
-        android:layout_marginTop="150dp"
-        android:layout_marginLeft="25dp">
+        android:layout_marginTop="50dp">
         <RelativeLayout
             android:layout_width="fill_parent"
             android:layout_height="60dp"
@@ -83,8 +82,7 @@
                 android:id="@+id/btn_confirm"
                 android:layout_gravity="center_horizontal"
                 android:background="@android:color/white"
-                android:layout_weight="0.21"
-                android:onClick="clickyes"/>
+                android:layout_weight="0.21" />
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -93,8 +91,7 @@
                 android:id="@+id/btn_cancel"
                 android:layout_gravity="center_horizontal"
                 android:background="@android:color/white"
-                android:layout_weight="0.22"
-                android:onClick="clickno"/>
+                android:layout_weight="0.22" />
         </LinearLayout>
     </LinearLayout>
 
