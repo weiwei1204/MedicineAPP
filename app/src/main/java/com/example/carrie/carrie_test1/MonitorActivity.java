@@ -1,6 +1,7 @@
 package com.example.carrie.carrie_test1;
 
 import android.Manifest;
+import android.app.DialogFragment;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -166,7 +167,7 @@ public class MonitorActivity extends AppCompatActivity {
 
             }
         });
-
+        ShowDialog();
     }
     private void load_data_from_server(int id) {
 
@@ -303,6 +304,7 @@ public class MonitorActivity extends AppCompatActivity {
 //
         Bundle bundle = new Bundle();
         bundle.putString("memberid", my_id);
+
 //
 ////        bundle.putString("highmmhg", highmmhg);
 ////        bundle.putString("lowmmhg", lowmmhg);
@@ -312,6 +314,20 @@ public class MonitorActivity extends AppCompatActivity {
         Intent it = new Intent(this,SwipePlot.class);
         it.putExtras(bundle);
         startActivity(it);
+
+    }
+    public void ShowDialog(){
+
+        Button btn;
+        btn = (Button) findViewById(R.id.button3);
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                BsBpDialogFragment f1 = new BsBpDialogFragment();
+                f1.show(getSupportFragmentManager(),"yuanma_dialog");
+
+            }
+        });
 
     }
 

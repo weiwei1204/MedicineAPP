@@ -1,8 +1,10 @@
 package com.example.carrie.carrie_test1;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -94,6 +96,7 @@ public class BsMeasureTab extends Fragment{
                 }
 //                Log.d("saveBpMeasureButton",bp_3.getText().toString());
                 insertBsMeasure();
+                saveCheck();
             }
         });
         return rootView;
@@ -131,6 +134,16 @@ public class BsMeasureTab extends Fragment{
         RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
         requestQueue.add(request);
 
+    }
+    public void saveCheck() {
+        new AlertDialog.Builder(getActivity())
+                .setMessage("儲存成功")
+                .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+
+                    }
+                })
+                .show();
     }
 
 }
