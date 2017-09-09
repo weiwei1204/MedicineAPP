@@ -7,7 +7,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ListAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.google.android.gms.vision.barcode.Barcode;
@@ -32,7 +35,14 @@ public class PersonalInformationctivity extends AppCompatActivity {
     public static String email=" ";
     public static String name="";
     public static String n_member="";
-    public TextView gmailPersonal;
+
+    public static String gender="";
+    public static String weight="";
+    public static String height="";
+    public static String birth="";
+    String p1;
+
+    //public TextView gmailPersonal;
     RepairData repairData;
     public  TextView namePerson;
     String rep;
@@ -45,10 +55,25 @@ public class PersonalInformationctivity extends AppCompatActivity {
         setContentView(R.layout.activity_personal_informationctivity);
         repair1 = (Button) findViewById(R.id.repair1);
         Bundle bundle = getIntent().getExtras();
+
+
         my_google_id = bundle.getString("googleid");
-        Log.d("ccccccccccc", my_google_id);
-        n_member = bundle.getString("memberid");
-        Log.d("id", n_member);
+        name = bundle.getString("name");
+        gender = bundle.getString("gender_man");
+        height=bundle.getString("height");
+        weight=bundle.getString("weight");
+        birth=bundle.getString("birth");
+
+
+//        Log.d("p", p_name);
+//        Log.d("p", p_birth);
+
+
+        String[] personal = {"姓名: "+ name,"性別: "+gender,"身高: "+height, "體重: "+weight,"生日: "+birth};
+        ListAdapter buckyAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, personal);
+        ListView buckyListview= (ListView)findViewById(R.id.listPersonal);
+        buckyListview.setAdapter(buckyAdapter);
+
 
         getgid();
         insteremial();
@@ -111,8 +136,11 @@ public class PersonalInformationctivity extends AppCompatActivity {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
+
                 return null;
             }
+
+
             @Override
             protected void onPostExecute(Void aVoid) {
 

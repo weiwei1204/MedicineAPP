@@ -24,8 +24,9 @@ package com.example.carrie.carrie_test1;
         this.google_id=google_id;
 
     }
-    public void setName(String name) {
+    public String setName(String name) {
         this.name = name;
+        return name;
     }
 
     public String getName() {
