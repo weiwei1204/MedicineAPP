@@ -175,6 +175,9 @@ public class MyBeaconActivity extends AppCompatActivity {
         });
 
     }
+    public void myAP(View v){
+
+    }
 
 
 

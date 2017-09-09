@@ -74,6 +74,7 @@ public class ThirdActivity extends AppCompatActivity {
     String getm_alerttimeUrl = "http://54.65.194.253/Medicine_Calendar/getm_alerttime.php";
     String insertmcaldrugsUrl = "http://54.65.194.253/Drug/insertmcaldrugs.php";
     String insertm_recordUrl = "http://54.65.194.253/Medicine_Calendar/insertm_record.php";
+    String getm_recordtimeUrl = "http://54.65.194.253/Medicine_Calendar/getm_recordtime.php";
     ArrayAdapter<CharSequence> adapterbeacon;
     Spinner spinnerbeacon;
     String memberid,beaconUUID,beaconid,m_calendarid,drugid,drugname;
@@ -501,6 +502,8 @@ public class ThirdActivity extends AppCompatActivity {
             public void onResponse(String response) {
                 Log.d("nnnmm",response);
                 if (response.equals("beaconed")){
+                    Toast.makeText(getApplicationContext(), "這個beacon已用過!!!", Toast.LENGTH_LONG).show();
+
                 }
                 else {get_M_calendart_id(count);}
             }
@@ -671,7 +674,7 @@ public class ThirdActivity extends AppCompatActivity {
     }
 
 
-    public void Alert_time(final int counttimes){   //從資料庫取值設鬧鐘 //counttimes為了記服藥次數
+    public void Alert_time(final int counttimes){   //從資料庫取值(鬧鐘時間) //counttimes為了記服藥次數
         requestQueue = Volley.newRequestQueue(getApplicationContext());
         final JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, getm_alerttimeUrl, new Response.Listener<JSONObject>() {
             @Override
@@ -695,13 +698,13 @@ public class ThirdActivity extends AppCompatActivity {
                             malertid[count] = id;
                             timeInmill[count] = name;
                             Log.d("sss",malertid[count].toString());
-                            final Intent my_intent=new Intent(ThirdActivity.this.context,Alarm_Receiver.class);
-                            my_intent.putExtra("extra","alarm on");
-                            my_intent.putExtra("alarmid",malertid[count].toString());
-                            my_intent.putExtra("mcalid",m_calendarid);
-                            pending_intent= PendingIntent.getBroadcast(ThirdActivity.this,Integer.parseInt(malertid[count]),
-                                    my_intent,PendingIntent.FLAG_CANCEL_CURRENT);
-                            alarm_manager.setExact(AlarmManager.RTC_WAKEUP, Long.parseLong(timeInmill[count]),pending_intent);
+//                            final Intent my_intent=new Intent(ThirdActivity.this.context,Alarm_Receiver.class);
+//                            my_intent.putExtra("extra","alarm on");
+//                            my_intent.putExtra("alarmid",malertid[count].toString());
+//                            my_intent.putExtra("mcalid",m_calendarid);
+//                            pending_intent= PendingIntent.getBroadcast(ThirdActivity.this,Integer.parseInt(malertid[count]),
+//                                    my_intent,PendingIntent.FLAG_CANCEL_CURRENT);
+//                            alarm_manager.setExact(AlarmManager.RTC_WAKEUP, Long.parseLong(timeInmill[count]),pending_intent);
 
 //        alarm_manager.set(AlarmManager.RTC_WAKEUP, Long.parseLong(msg.get(j)),pending_intent);
                             Log.d("sss", timeInmill[count]);
@@ -729,6 +732,7 @@ public class ThirdActivity extends AppCompatActivity {
 
     //新增每次吃藥狀況 Medicinhe_Calendar_Record
     public void checkm_record(int counttimes){
+        Boolean finish=false;    //尚未儲存完
         Boolean today=false;        //確認起始日是否為今日
         String begindate=txtdate.getText().toString();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -750,7 +754,7 @@ public class ThirdActivity extends AppCompatActivity {
                         time=mmdate-mmdts;      //時間相減（-：比現在時間以前）
                         Log.d("record3", String.valueOf(time));
                         if (time > 15000 && counttimes > 0){      //如果比現在時間更多15秒即可設為鬧鐘 && 次數要大於0
-                            insertm_record(i,begindate);
+                            insertm_record(i,begindate,finish);
                             counttimes--;
                         }
                     } catch (ParseException e) {
@@ -778,21 +782,26 @@ public class ThirdActivity extends AppCompatActivity {
                 }
                 for (int i=0;i<dbtimes.size();i++){
                     if (counttimes > 0){
+                        if (counttimes == 1){finish=true;}
                         Log.d("record5i", String.valueOf(dbtimes.size()));
                         Log.d("record5",dbtimes.get(i).get(1));
-                        insertm_record(i,begindate);
+                        insertm_record(i,begindate,finish);
                         counttimes--;
                     }
                 }
             }
         }
     }
-    public void insertm_record(final int i,final String date){
+        //   儲存record  /////////////////////
+    public void insertm_record(final int i,final String date,final boolean finish){
         requestQueue = Volley.newRequestQueue(getApplicationContext());
         final StringRequest request = new StringRequest(Request.Method.POST, insertm_recordUrl, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 Log.d("nnnmm",response);
+                if (finish){
+                    setAlarmtimes();
+                }
             }
         }, new Response.ErrorListener() {
             @Override
@@ -813,6 +822,61 @@ public class ThirdActivity extends AppCompatActivity {
         };
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         requestQueue.add(request);
+    }
+
+
+    public void setAlarmtimes(){        //設鬧鐘
+        requestQueue = Volley.newRequestQueue(getApplicationContext());
+        final StringRequest drugrequest = new StringRequest(Request.Method.POST, getm_recordtimeUrl, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Log.d("nnn",response);
+                try {
+                    JSONArray jarray = new JSONArray(response);
+                    for (int i=0;i<jarray.length();i++){
+                        JSONObject obj = jarray.getJSONObject(i);
+                        String id = obj.getString("id");
+                        String date = obj.getString("date");
+                        String time = obj.getString("time");
+                        String alarmtime=date+" "+time;
+                        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                        Date todate = sdf.parse(alarmtime);
+                        Long ldate = todate.getTime();
+                        Log.d("timeeeee", String.valueOf(ldate));
+                        final Intent my_intent=new Intent(ThirdActivity.this.context,Alarm_Receiver.class);
+                        my_intent.putExtra("extra","alarm on");
+                        my_intent.putExtra("alarmid",id);
+                        my_intent.putExtra("mcalid",m_calendarid);
+                        my_intent.putExtra("memberid",memberid);
+                        pending_intent= PendingIntent.getBroadcast(ThirdActivity.this,Integer.parseInt(id),
+                                my_intent,PendingIntent.FLAG_CANCEL_CURRENT);
+                        alarm_manager.setExact(AlarmManager.RTC_WAKEUP, ldate,pending_intent);
+
+                    }
+                } catch (JSONException e) {
+                    Log.d("timeeee",e.toString());
+                    e.printStackTrace();
+                } catch (ParseException e) {
+                    Log.d("timeeee",e.toString());
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.d("timeeee", error.toString());
+                Toast.makeText(getApplicationContext(), "Error read getm_calendarid.php!!!", Toast.LENGTH_LONG).show();
+            }})
+        {
+            protected Map<String, String> getParams() throws AuthFailureError {//把值丟到php
+                Map<String, String> parameters = new HashMap<String, String>();
+                parameters.put("mcalid",m_calendarid);
+                Log.d("timeeeee",parameters.toString());
+                return parameters;
+            }};
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(drugrequest);
+
     }
 
 
