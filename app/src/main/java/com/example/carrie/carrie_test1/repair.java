@@ -38,6 +38,7 @@ public class repair extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_repair);
+
         Bundle bundle = getIntent().getExtras();
         n_memberid = bundle.getString("memberid");
         n_googleid= bundle.getString("googleid");
@@ -147,7 +148,7 @@ public class repair extends AppCompatActivity {
             }
         }
                 ;
-        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
         requestQueue.add(request);
     }
 
@@ -157,5 +158,6 @@ public class repair extends AppCompatActivity {
 
 
             }
-        };
+
+};
 
