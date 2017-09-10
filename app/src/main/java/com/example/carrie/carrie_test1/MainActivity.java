@@ -17,7 +17,6 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -69,13 +68,13 @@ public class MainActivity extends LoginActivity
         setSupportActionBar(toolbar);
         Bundle bundle = getIntent().getExtras();
         googleid = bundle.getString("googleid");
-        Log.d("GOOGLEID",googleid);
-        name = bundle.getString("name");
-        gender=bundle.getString("gender_man");
-        weight=bundle.getString("weight");
-        height=bundle.getString("height");
-        birth=bundle.getString("birth");
-        Log.d("GOOGLEID",name);
+//        Log.d("GOOGLEID",googleid);
+//        name = bundle.getString("name");
+//        gender=bundle.getString("gender_man");
+//        weight=bundle.getString("weight");
+//        height=bundle.getString("height");
+//        birth=bundle.getString("birth");
+//        Log.d("GOOGLEID",name);
 //        Log.d("GOOGLEID",gender);
 //        Log.d("GOOGLEID",weight);
 //        Log.d("GOOGLEID",height);
@@ -231,11 +230,11 @@ public class MainActivity extends LoginActivity
         Bundle bundle = new Bundle();
         bundle.putString("googleid", googleid);
         bundle.putString("memberid", memberid);
-        bundle.putString("name", name);
-        bundle.putString("gender_man",gender );
-        bundle.putString("weight",weight);
-        bundle.putString("height", height);
-        bundle.putString("birth", birth);
+        bundle.putString("name", repairData.getName());
+        bundle.putString("gender_man",repairData.getGender_man() );
+        bundle.putString("weight",repairData.getWeight());
+        bundle.putString("height", repairData.getHeight());
+        bundle.putString("birth", repairData.getBirth());
 
 
         it.putExtras(bundle);   // 記得put進去，不然資料不會帶過去哦
@@ -453,37 +452,37 @@ public class MainActivity extends LoginActivity
             @Override
             protected void onPostExecute(Void aVoid) {
 
-                Bundle bundle1 = new Bundle();
-
-                String p1= getIntent().getExtras().getString("name", "not found");
-                bundle1.putString("name", repairData.getName());
-                repairData.setName(p1);
-
-                String p2;
-                p2=repairData.getGender_man();
-                bundle1.putString("gender_man", repairData.getGender_man());
-                repairData.setGender_man(p2);
-
-                String p3;
-                p3=repairData.getWeight();
-                bundle1.putString("weight", repairData.getWeight());
-                repairData.setWeight(p3);
-
-                String p4;
-                p4=repairData.getHeight();
-                bundle1.putString("height", repairData.getHeight());
-                repairData.setHeight(p4);
-
-                String p5;
-                p5=repairData.getBirth();
-                bundle1.putString("birth", repairData.getBirth());
-                repairData.setBirth(p5);
-
-                Log.d("ppppp",p1);
-                Log.d("ppppp", p2);
-                Log.d("ppppp",p3);
-                Log.d("ppppp",p4);
-                Log.d("ppppp",p5);
+//                Bundle bundle1 = new Bundle();
+//
+//                String p1= getIntent().getExtras().getString("name", "not found");
+//                bundle1.putString("name", repairData.getName());
+//                repairData.setName(p1);
+//
+//                String p2;
+//                p2=repairData.getGender_man();
+//                bundle1.putString("gender_man", repairData.getGender_man());
+//                repairData.setGender_man(p2);
+//
+//                String p3;
+//                p3=repairData.getWeight();
+//                bundle1.putString("weight", repairData.getWeight());
+//                repairData.setWeight(p3);
+//
+//                String p4;
+//                p4=repairData.getHeight();
+//                bundle1.putString("height", repairData.getHeight());
+//                repairData.setHeight(p4);
+//
+//                String p5;
+//                p5=repairData.getBirth();
+//                bundle1.putString("birth", repairData.getBirth());
+//                repairData.setBirth(p5);
+//
+//                Log.d("ppppp",p1);
+//                Log.d("ppppp", p2);
+//                Log.d("ppppp",p3);
+//                Log.d("ppppp",p4);
+//                Log.d("ppppp",p5);
 
 
             }
