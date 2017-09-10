@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Carrie_Test1</string>
+    <string name="app_name">Medicine</string>
     <string name="title_activity_first">用藥諮詢</string>
     <string name="title_activity_second">藥品追蹤</string>
     <string name="title_activity_third">用藥排程</string>
@@ -227,5 +227,25 @@
     <string name="pref_ringtone_silent">Silent</string>
 
     <string name="pref_title_vibrate">Vibrate</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="title_activity_bs_bp_measure">血糖/血壓量測時間</string>
+    <string name="title_activity_first_save_bs_bp">血糖/血壓輸入</string>
+
+    <!-- Strings related to login -->
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Password (optional)</string>
+    <string name="action_sign_in">Sign in or register</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="error_invalid_email">This email address is invalid</string>
+    <string name="error_invalid_password">This password is too short</string>
+    <string name="error_incorrect_password">This password is incorrect</string>
+    <string name="error_field_required">This field is required</string>
+    <string name="permission_rationale">"Contacts permissions are needed for providing email
+        completions."
+    </string>
+    <string name="title_activity_enter_bs_value">EnterBsValue</string>
+    <string name="title_activity_enter_bp_value">EnterBpValue</string>
 
 </resources>

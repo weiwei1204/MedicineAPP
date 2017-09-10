@@ -3,6 +3,8 @@ package com.example.carrie.carrie_test1;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Handler;
+import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.Fragment;
 import android.support.v4.content.res.TypedArrayUtils;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -10,10 +12,14 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -33,7 +39,7 @@ import java.util.List;
 
 import static com.example.carrie.carrie_test1.R.id.list;
 
-public class BpRecord extends AppCompatActivity {
+public class BpRecord extends Fragment {
     private ListView listView;
     private SwipeRefreshLayout laySwipe;
     private ArrayAdapter<BloodPressure> listAdapter;
@@ -44,6 +50,9 @@ public class BpRecord extends AppCompatActivity {
     private BloodPressure data ;
     public static ArrayList<BloodPressure>bloodPressureList;
     public static String memberid;//傳進來的
+    public static String high;
+    public static String low;
+    public static String bpmm;
 
     public static int userid;
     public static String member_id; //從資料庫抓的
@@ -58,36 +67,53 @@ public class BpRecord extends AppCompatActivity {
     public static String[]datearr;
     public static String[]array;
     public static int count;
+    ImageButton btn;
+    FloatingActionButton press;
+    View rootView;
 
 
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        Bundle bundle = getIntent().getExtras();
+        Bundle bundle = getActivity().getIntent().getExtras();
         memberid = bundle.getString("memberid");
+        high = bundle.getString("highmmhg");
+        low = bundle.getString("lowmmhg");
+        bpmm = bundle.getString("bpm");
+
         record_list = new ArrayList<>();
         getData();
-
-
-
-//        highmmhg = bundle.getString("highmmhg");
-//        lowmmhg = bundle.getString("lowmmhg");
-//        bpm = bundle.getString("bpm");
-
-        setContentView(R.layout.activity_bp_record);
-
-
-        listView = (ListView)findViewById(R.id.list_view);
+        rootView = inflater.inflate(R.layout.activity_bp_record, container, false);
+        listView = (ListView)rootView.findViewById(R.id.list_view);
         initView();
+//        btn = (ImageButton) rootView.findViewById(R.id.Bpbtn);
+//        btn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                AddBp();
+//            }
+//        });
+        press = (FloatingActionButton)rootView.findViewById(R.id.press1);
+        press.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AddBp();
+            }
+        });
 
+
+
+       return  rootView;
 
     }
     public void start(){
-        listAdapter = new ArrayAdapter<BloodPressure>(this,android.R.layout.simple_selectable_list_item,record_list);
-        listView.setAdapter(listAdapter);
+        listAdapter = new ArrayAdapter<BloodPressure>(getActivity(),android.R.layout.simple_selectable_list_item,record_list);
         listAdapter.notifyDataSetChanged();
+        listView.setAdapter(listAdapter);
+
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -98,7 +124,7 @@ public class BpRecord extends AppCompatActivity {
 
     }
     private void initView() {
-        laySwipe = (SwipeRefreshLayout) findViewById(R.id.laySwipe);
+        laySwipe = (SwipeRefreshLayout)rootView.findViewById(R.id.laySwipe);
         laySwipe.setOnRefreshListener(onSwipeToRefresh);
         laySwipe.setColorSchemeResources(
                 android.R.color.holo_red_light,
@@ -109,14 +135,19 @@ public class BpRecord extends AppCompatActivity {
     private SwipeRefreshLayout.OnRefreshListener onSwipeToRefresh = new SwipeRefreshLayout.OnRefreshListener() {
         @Override
         public void onRefresh() {
+            listAdapter.addAll(record_list);
+            listAdapter.notifyDataSetChanged();
             laySwipe.setRefreshing(true);
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
                     laySwipe.setRefreshing(false);
-                    Toast.makeText(getApplicationContext(), "Refresh done!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity().getApplicationContext(), "Refresh done!", Toast.LENGTH_SHORT).show();
                 }
+
+
             }, 3000);
+
         }
     };
     private AbsListView.OnScrollListener onListScroll = new AbsListView.OnScrollListener() {
@@ -137,7 +168,7 @@ public class BpRecord extends AppCompatActivity {
 
     public void getData(){
         Log.d("777","in method");
-        requestQueue = Volley.newRequestQueue(getApplicationContext());
+        requestQueue = Volley.newRequestQueue(getActivity().getApplicationContext());
         Log.d("777","1");
         final JsonArrayRequest jsonObjectRequest = new JsonArrayRequest(com.android.volley.Request.Method.POST, url, new com.android.volley.Response.Listener<JSONArray>() {
             @Override
@@ -165,6 +196,8 @@ public class BpRecord extends AppCompatActivity {
 
 
 
+
+
                             higharr = new String[response.length()];
                             lowarr = new String[response.length()];
                             bpmarr = new String[response.length()];
@@ -186,6 +219,7 @@ public class BpRecord extends AppCompatActivity {
                         }
                     }
 
+
                     start();
 
 
@@ -201,9 +235,16 @@ public class BpRecord extends AppCompatActivity {
                         Log.d("777",error.toString());
                     }
                 });
-        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
         requestQueue.add(jsonObjectRequest);
 
+    }
+    public void AddBp(){
+        Intent it = new Intent(getActivity(),EnterBpValue.class);
+        Bundle bundle = new Bundle();
+        bundle.putString("memberid", memberid);
+        it.putExtras(bundle);
+        startActivity(it);
     }
 
 

@@ -21,6 +21,9 @@ public class Alarm_Receiver extends BroadcastReceiver{
 
         String get_your_string=intent.getExtras().getString("extra");
         String alarmid=intent.getExtras().getString("alarmid");
+        String mcalid=intent.getExtras().getString("mcalid");
+        String memberid=intent.getExtras().getString("memberid");
+
         Log.d("nonono1", alarmid);
 
         Log.e("What is the key",get_your_string);
@@ -28,6 +31,8 @@ public class Alarm_Receiver extends BroadcastReceiver{
         Intent service_intent=new Intent(context,RingtonePlayingService.class);
         service_intent.putExtra("extra",get_your_string);
         service_intent.putExtra("alarmid",alarmid);
+        service_intent.putExtra("mcalid",mcalid);
+        service_intent.putExtra("memberid",memberid);
         context.startService(service_intent);
     }
 }

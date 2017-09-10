@@ -5,38 +5,38 @@
 
     <item
         android:id="@+id/action_reset"
-        android:title="Reset chart"
+        android:title="收縮壓(高)/mmhg"
         app:showAsAction="never"/>
     <item
         android:id="@+id/action_add_line"
-        android:title="Add line"
+        android:title="舒張壓(低)/mmhg"
         app:showAsAction="never"/>
     <item
         android:id="@+id/action_toggle_lines"
-        android:title="Toggle lines/scattered"
+        android:title="心跳/bpm"
         app:showAsAction="never"/>
-    <item
-        android:id="@+id/action_toggle_points"
-        android:title="Toggle points"
-        app:showAsAction="never"/>
-    <item
-        android:id="@+id/action_toggle_cubic"
-        android:title="Toggle Cubic curve"
-        app:showAsAction="never"/>
-    <item
-        android:id="@+id/action_toggle_axes"
-        android:title="Toggle axes"
-        app:showAsAction="never"/>
-    <item
-        android:id="@+id/action_toggle_axes_names"
-        android:title="Toggle axes names"
-        app:showAsAction="never"/>
-    <item
-        android:id="@+id/action_toggle_labels"
-        android:title="Toggle labels"
-        app:showAsAction="never"/>
-    <item
-        android:id="@+id/action_animate"
-        android:title="Animate chart"
-        app:showAsAction="never"/>
+    <!--<item-->
+        <!--android:id="@+id/action_toggle_points"-->
+        <!--android:title="Toggle points"-->
+        <!--app:showAsAction="never"/>-->
+    <!--<item-->
+        <!--android:id="@+id/action_toggle_cubic"-->
+        <!--android:title="Toggle Cubic curve"-->
+        <!--app:showAsAction="never"/>-->
+    <!--<item-->
+        <!--android:id="@+id/action_toggle_axes"-->
+        <!--android:title="Toggle axes"-->
+        <!--app:showAsAction="never"/>-->
+    <!--<item-->
+        <!--android:id="@+id/action_toggle_axes_names"-->
+        <!--android:title="Toggle axes names"-->
+        <!--app:showAsAction="never"/>-->
+    <!--<item-->
+        <!--android:id="@+id/action_toggle_labels"-->
+        <!--android:title="Toggle labels"-->
+        <!--app:showAsAction="never"/>-->
+    <!--<item-->
+        <!--android:id="@+id/action_animate"-->
+        <!--android:title="Animate chart"-->
+        <!--app:showAsAction="never"/>-->
 </menu>

@@ -1,17 +1,23 @@
 package com.example.carrie.carrie_test1;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -27,7 +33,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BsRecord extends AppCompatActivity {
+public class BsRecord extends Fragment {
     private ListView listView;
     private SwipeRefreshLayout laySwipe;
     private ArrayAdapter<BloodSugar> listAdapter;
@@ -40,22 +46,41 @@ public class BsRecord extends AppCompatActivity {
     public static String member_id; //從資料庫抓的
     public static String bloodsugar="";
     public static String savetime="";
+    ImageButton btn;
+    FloatingActionButton press;
+    View rootView;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_bs_record);
-        Bundle bundle = getIntent().getExtras();
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        rootView = inflater.inflate(R.layout.activity_bs_record, container, false);
+        Bundle bundle = getActivity().getIntent().getExtras();
         memberid = bundle.getString("memberid");
         record_list = new ArrayList<>();
         getData();
-        listView = (ListView)findViewById(R.id.list_view);
+        listView = (ListView)rootView.findViewById(R.id.list_view);
+//        btn = (ImageButton)rootView.findViewById(R.id.Bsbtn);
+//        btn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                AddBs();
+//
+//            }
+//        });
+        press = (FloatingActionButton)rootView.findViewById(R.id.press2);
+        press.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AddBs();
+            }
+        });
         initView();
+        return rootView;
 
     }
 
     public void start(){
-        listAdapter = new ArrayAdapter<BloodSugar>(this,android.R.layout.simple_selectable_list_item,record_list);
+        listAdapter = new ArrayAdapter<BloodSugar>(getActivity(),android.R.layout.simple_selectable_list_item,record_list);
         listView.setAdapter(listAdapter);
         listAdapter.notifyDataSetChanged();
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -66,7 +91,7 @@ public class BsRecord extends AppCompatActivity {
         });
     }
     private void initView() {
-        laySwipe = (SwipeRefreshLayout) findViewById(R.id.laySwipe);
+        laySwipe = (SwipeRefreshLayout)rootView.findViewById(R.id.laySwipe);
         laySwipe.setOnRefreshListener(onSwipeToRefresh);
         laySwipe.setColorSchemeResources(
                 android.R.color.holo_red_light,
@@ -82,7 +107,7 @@ public class BsRecord extends AppCompatActivity {
                 @Override
                 public void run() {
                     laySwipe.setRefreshing(false);
-                    Toast.makeText(getApplicationContext(), "Refresh done!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity().getApplicationContext(), "Refresh done!", Toast.LENGTH_SHORT).show();
                 }
             }, 3000);
         }
@@ -103,7 +128,7 @@ public class BsRecord extends AppCompatActivity {
     };
     public void getData(){
         Log.d("777","in method");
-        requestQueue = Volley.newRequestQueue(getApplicationContext());
+        requestQueue = Volley.newRequestQueue(getActivity().getApplicationContext());
         Log.d("777","1");
         final JsonArrayRequest jsonObjectRequest = new JsonArrayRequest(com.android.volley.Request.Method.POST, url, new com.android.volley.Response.Listener<JSONArray>() {
             @Override
@@ -145,8 +170,15 @@ public class BsRecord extends AppCompatActivity {
                         Log.d("777",error.toString());
                     }
                 });
-        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
         requestQueue.add(jsonObjectRequest);
 
+    }
+    public void AddBs(){
+        Intent it = new Intent(getActivity(),EnterBsValue.class);
+        Bundle bundle = new Bundle();
+        bundle.putString("memberid", memberid);
+        it.putExtras(bundle);
+        startActivity(it);
     }
 }

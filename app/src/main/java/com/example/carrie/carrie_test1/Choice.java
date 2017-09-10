@@ -102,6 +102,8 @@ public class Choice extends Activity {
         Intent it = new Intent(this, EnterBsBpActivity.class);
         Bundle bundle = new Bundle();
         bundle.putString("memberid", memberid);
+        bundle.putString("my_google_id", my_google_id);
+        bundle.putString("my_supervise_id", my_mon_id);
         it.putExtras(bundle);
         startActivity(it);
     }

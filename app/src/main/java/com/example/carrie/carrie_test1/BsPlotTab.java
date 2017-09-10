@@ -6,6 +6,7 @@ package com.example.carrie.carrie_test1;
 import android.support.design.widget.TabLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
@@ -44,6 +45,7 @@ import lecho.lib.hellocharts.animation.ChartAnimationListener;
 import lecho.lib.hellocharts.gesture.ZoomType;
 import lecho.lib.hellocharts.listener.LineChartOnValueSelectListener;
 import lecho.lib.hellocharts.model.Axis;
+import lecho.lib.hellocharts.model.AxisValue;
 import lecho.lib.hellocharts.model.Line;
 import lecho.lib.hellocharts.model.LineChartData;
 import lecho.lib.hellocharts.model.PointValue;
@@ -54,13 +56,19 @@ import lecho.lib.hellocharts.view.Chart;
 import lecho.lib.hellocharts.view.LineChartView;
 
 public class BsPlotTab extends Fragment{
+    public BsPlotTab(){
+
+    }
+    public static BsPlotTab newInstance() {
+        return new BsPlotTab();
+    }
     private LineChartView chart;
     private LineChartData data;
-    private int numberOfLines = 1;
-    private int maxNumberOfLines = 4;
-    private int numberOfPoints = 12;
+    private static int numberOfLines = 1;
+    private static int maxNumberOfLines = 4;
+    private static int numberOfPoints ;
 
-    float[][] randomNumbersTab = new float[maxNumberOfLines][numberOfPoints];
+    static float[][] randomNumbersTab = new float[maxNumberOfLines][numberOfPoints];
 
     private boolean hasAxes = true;
     private boolean hasAxesNames = true;
@@ -83,6 +91,9 @@ public class BsPlotTab extends Fragment{
     public static String savetime="";
     public static int [] bsarray ;
     public static String [] datearray;
+    ArrayList<BloodSugar>sugarArrayList;
+    private static final String TAG = "FragmentOne";
+    FragmentManager fragmentManager;
 
 
     @Override
@@ -93,15 +104,30 @@ public class BsPlotTab extends Fragment{
         chart = (LineChartView) rootView.findViewById(R.id.chart);
         chart.setOnValueTouchListener(new ValueTouchListener());
         Bundle bundle = this.getArguments();
+//        Bundle bundle2 = getActivity().getIntent().getExtras();
         memberid = bundle.getString("memberid");
         Log.d("689","sent id"+memberid);
+        sugarArrayList = new ArrayList<>();
         getRecord();
-        generateValues();
-        generateData();
+//        generateValues();
+//        generateData();
         chart.setViewportCalculationEnabled(false);
-        resetViewport();
+        fragmentManager = getFragmentManager();
         return rootView;
     }
+
+    @Override
+    public void onDestroyView()
+    {
+        // TODO Auto-generated method stub
+        super.onDestroyView();
+
+        numberOfPoints = 0;
+
+        Log.e(TAG, "onDestroyView");
+    }
+
+
 
     public void getRecord(){
         requestQueue = Volley.newRequestQueue(getActivity().getApplicationContext());
@@ -109,45 +135,70 @@ public class BsPlotTab extends Fragment{
         final JsonArrayRequest jsonObjectRequest = new JsonArrayRequest(Request.Method.POST, url, new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray response) {
-                Log.d("689","in response");
-
-                try {
+                if (response != null) {
+                    Log.d("689", "in response");
+                    int counter = 0;
+                    try {
 //                    JSONArray array = new JSONArray(response);
 //                    Log.d("777",array.toString());
 
 
+                        for (int i = 0; i < response.length(); i++) {
+                            JSONObject object = response.getJSONObject(i);
+                            record = new BloodSugar(object.getInt("id"), object.getString("member_id"), object.getString("bloodsugar"), object.getString("savetime"));
 
-                    for (int i = 0; i < response.length(); i++) {
-                        JSONObject object = response.getJSONObject(i);
-                        record = new BloodSugar(object.getInt("id"), object.getString("member_id"), object.getString("bloodsugar"), object.getString("savetime"));
-//                        data_list.add(record);
-                        int counter = 0;
-                        userid = object.getInt("id");
-                        member_id = object.getString("member_id");
-                        Log.d("689","saw id:" +member_id);
-                        if (member_id.equals(memberid)){
-                            bloodsugar= object.getString("bloodsugar");
-                            savetime = object.getString("savetime");
-                            bsarray = new int[response.length()];
-                            datearray =new String[response.length()];
-                            counter++;
 
-                            Log.d("689", "member_id:" + member_id);
-                            Log.d("689", "bloodsugar:" + bloodsugar);
-                            Log.d("689", "savetime:" + savetime);
+                            userid = object.getInt("id");
+                            member_id = object.getString("member_id");
+                            Log.d("689", "saw id:" + member_id);
+                            if (member_id.equals(memberid)) {
+                                sugarArrayList.add(record);
+                                bloodsugar = object.getString("bloodsugar");
+                                savetime = object.getString("savetime");
+                                counter++;
+                                bsarray = new int[counter];
+                                datearray = new String[counter];
 
-                            bsarray[counter] = Integer.parseInt(bloodsugar);
-                            datearray[counter] = savetime;
+                                Log.d("6899", "member_id:" + member_id);
+                                Log.d("6899", "bloodsugar:" + bloodsugar);
+                                Log.d("6899", "savetime:" + savetime);
 
-                            Log.d("689","bsarray:" + bsarray[counter]);
-                            Log.d("689","datearray:" +datearray[counter]);
 
+                                numberOfPoints = counter;
+                                randomNumbersTab = new float[maxNumberOfLines][numberOfPoints];
+                                for (int k = 0; k < maxNumberOfLines; k++) {
+                                    for (int j = 0; j < sugarArrayList.size(); j++) {
+
+
+                                                Log.d("5555", "length:  " + bsarray.length);
+                                                bsarray[j] = Integer.parseInt(sugarArrayList.get(j).getBloodsugar());
+                                                sugarArrayList.get(j).getBloodsugar();
+                                                randomNumbersTab[k][j] = bsarray[j];
+                                                Log.d("1345", "bsarray:  " + bsarray[j]);
+
+
+
+                                    }
+                                }
+                            }
+                        }
+
+                        System.out.println(Arrays.deepToString(randomNumbersTab).replace("], ", "]\n"));
+                        generateData();
+                        resetViewport();
+                        Log.d("1996", "num:" + numberOfPoints);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+                }else{
+                    for (int i = 0; i < maxNumberOfLines; ++i) {
+                        for (int j = 0; j < numberOfPoints; ++j) {
+                            randomNumbersTab[i][j] = (float) Math.random() * 100f;
                         }
                     }
-                }catch (JSONException e){
-                    e.printStackTrace();
-                }
 
+                }
             }
         },
                 new Response.ErrorListener() {
@@ -166,93 +217,93 @@ public class BsPlotTab extends Fragment{
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        if (id == R.id.action_reset) {
-            reset();
-            generateData();
-            return true;
-        }
-        if (id == R.id.action_add_line) {
-            addLineToData();
-            return true;
-        }
-        if (id == R.id.action_toggle_lines) {
-            toggleLines();
-            return true;
-        }
-        if (id == R.id.action_toggle_points) {
-            togglePoints();
-            return true;
-        }
-        if (id == R.id.action_toggle_gradient) {
-            toggleGradient();
-            return true;
-        }
-        if (id == R.id.action_toggle_cubic) {
-            toggleCubic();
-            return true;
-        }
-        if (id == R.id.action_toggle_area) {
-            toggleFilled();
-            return true;
-        }
-        if (id == R.id.action_point_color) {
-            togglePointColor();
-            return true;
-        }
-        if (id == R.id.action_shape_circles) {
-            setCircles();
-            return true;
-        }
-        if (id == R.id.action_shape_square) {
-            setSquares();
-            return true;
-        }
-        if (id == R.id.action_shape_diamond) {
-            setDiamonds();
-            return true;
-        }
-        if (id == R.id.action_toggle_labels) {
-            toggleLabels();
-            return true;
-        }
-        if (id == R.id.action_toggle_axes) {
-            toggleAxes();
-            return true;
-        }
-        if (id == R.id.action_toggle_axes_names) {
-            toggleAxesNames();
-            return true;
-        }
-        if (id == R.id.action_animate) {
-            prepareDataAnimation();
-            chart.startDataAnimation();
-            return true;
-        }
-        if (id == R.id.action_toggle_selection_mode) {
-            toggleLabelForSelected();
-
-            Toast.makeText(getActivity(),
-                    "Selection mode set to " + chart.isValueSelectionEnabled() + " select any point.",
-                    Toast.LENGTH_SHORT).show();
-            return true;
-        }
-        if (id == R.id.action_toggle_touch_zoom) {
-            chart.setZoomEnabled(!chart.isZoomEnabled());
-            Toast.makeText(getActivity(), "IsZoomEnabled " + chart.isZoomEnabled(), Toast.LENGTH_SHORT).show();
-            return true;
-        }
-        if (id == R.id.action_zoom_both) {
-            chart.setZoomType(ZoomType.HORIZONTAL_AND_VERTICAL);
-            return true;
-        }
-        if (id == R.id.action_zoom_horizontal) {
-            chart.setZoomType(ZoomType.HORIZONTAL);
-            return true;
-        }
-        if (id == R.id.action_zoom_vertical) {
-            chart.setZoomType(ZoomType.VERTICAL);
-            return true;
-        }
+//        if (id == R.id.action_reset) {
+//            reset();
+//            generateData();
+//            return true;
+//        }
+//        if (id == R.id.action_add_line) {
+//            addLineToData();
+//            return true;
+//        }
+//        if (id == R.id.action_toggle_lines) {
+//            toggleLines();
+//            return true;
+//        }
+//        if (id == R.id.action_toggle_points) {
+//            togglePoints();
+//            return true;
+//        }
+//        if (id == R.id.action_toggle_gradient) {
+//            toggleGradient();
+//            return true;
+//        }
+//        if (id == R.id.action_toggle_cubic) {
+//            toggleCubic();
+//            return true;
+//        }
+//        if (id == R.id.action_toggle_area) {
+//            toggleFilled();
+//            return true;
+//        }
+//        if (id == R.id.action_point_color) {
+//            togglePointColor();
+//            return true;
+//        }
+//        if (id == R.id.action_shape_circles) {
+//            setCircles();
+//            return true;
+//        }
+//        if (id == R.id.action_shape_square) {
+//            setSquares();
+//            return true;
+//        }
+//        if (id == R.id.action_shape_diamond) {
+//            setDiamonds();
+//            return true;
+//        }
+//        if (id == R.id.action_toggle_labels) {
+//            toggleLabels();
+//            return true;
+//        }
+//        if (id == R.id.action_toggle_axes) {
+//            toggleAxes();
+//            return true;
+//        }
+//        if (id == R.id.action_toggle_axes_names) {
+//            toggleAxesNames();
+//            return true;
+//        }
+//        if (id == R.id.action_animate) {
+//            prepareDataAnimation();
+//            chart.startDataAnimation();
+//            return true;
+//        }
+//        if (id == R.id.action_toggle_selection_mode) {
+//            toggleLabelForSelected();
+//
+//            Toast.makeText(getActivity(),
+//                    "Selection mode set to " + chart.isValueSelectionEnabled() + " select any point.",
+//                    Toast.LENGTH_SHORT).show();
+//            return true;
+//        }
+//        if (id == R.id.action_toggle_touch_zoom) {
+//            chart.setZoomEnabled(!chart.isZoomEnabled());
+//            Toast.makeText(getActivity(), "IsZoomEnabled " + chart.isZoomEnabled(), Toast.LENGTH_SHORT).show();
+//            return true;
+//        }
+//        if (id == R.id.action_zoom_both) {
+//            chart.setZoomType(ZoomType.HORIZONTAL_AND_VERTICAL);
+//            return true;
+//        }
+//        if (id == R.id.action_zoom_horizontal) {
+//            chart.setZoomType(ZoomType.HORIZONTAL);
+//            return true;
+//        }
+//        if (id == R.id.action_zoom_vertical) {
+//            chart.setZoomType(ZoomType.VERTICAL);
+//            return true;
+//        }
         return super.onOptionsItemSelected(item);
     }
 
@@ -260,6 +311,7 @@ public class BsPlotTab extends Fragment{
         for (int i = 0; i < maxNumberOfLines; ++i) {
             for (int j = 0; j < numberOfPoints; ++j) {
                 randomNumbersTab[i][j] = (float) Math.random() * 100f;
+                System.out.println(Arrays.deepToString(randomNumbersTab).replace("], ", "]\n"));
             }
         }
     }
@@ -284,21 +336,26 @@ public class BsPlotTab extends Fragment{
         // Reset viewport height range to (0,100)
         final Viewport v = new Viewport(chart.getMaximumViewport());
         v.bottom = 0;
-        v.top = 100;
+        v.top = 180;
         v.left = 0;
         v.right = numberOfPoints - 1;
         chart.setMaximumViewport(v);
         chart.setCurrentViewport(v);
     }
     private void generateData() {
+        if(numberOfPoints==0){
+            Toast.makeText(getActivity(),"您尚未新增血糖相關紀錄哦！趕快去新增吧！",Toast.LENGTH_LONG).show();
+        }
 
         List<Line> lines = new ArrayList<Line>();
         for (int i = 0; i < numberOfLines; ++i) {
 
             List<PointValue> values = new ArrayList<PointValue>();
             for (int j = 0; j < numberOfPoints; ++j) {
+                Log.d("2223","points"+numberOfPoints);
                 values.add(new PointValue(j, randomNumbersTab[i][j]));
             }
+            Log.d("5566","values: "+values);
 
             Line line = new Line(values);
             line.setColor(ChartUtils.COLORS[i]);
@@ -331,7 +388,6 @@ public class BsPlotTab extends Fragment{
             data.setAxisXBottom(null);
             data.setAxisYLeft(null);
         }
-
         data.setBaseValue(Float.NEGATIVE_INFINITY);
         chart.setLineChartData(data);
 
@@ -496,7 +552,7 @@ public class BsPlotTab extends Fragment{
 
         @Override
         public void onValueSelected(int lineIndex, int pointIndex, PointValue value) {
-            Toast.makeText(getActivity(), "Selected: " + value, Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), "Selected: " + value.getY(), Toast.LENGTH_SHORT).show();
         }
 
         @Override
@@ -506,9 +562,11 @@ public class BsPlotTab extends Fragment{
         }
 
     }
+
     public void goback(View v)
     {
         getActivity().onBackPressed();
+        Log.d("1234","do this");
     }
 
 }

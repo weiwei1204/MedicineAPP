@@ -34,7 +34,7 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:layout_below="@+id/toolbar"
-            android:onClick="gotoBpBsPlot"
+            android:onClick="ShowDialog"
             android:text="Yuan" />
 
         <android.support.v7.widget.RecyclerView

@@ -26,11 +26,20 @@ public class CustomAdapter2 extends RecyclerView.Adapter<CustomAdapter2.ViewHold
 
     private Context context;
     private List<MyData> my_data;
+    private String m_calid;
 
-    public CustomAdapter2(Context context, List<MyData> my_data) {
+    public CustomAdapter2(Context context, List<MyData> my_data , String mcalid) {
         this.context = context;
         this.my_data = my_data;
+        this.m_calid = mcalid;
     }
+
+    public void setmcalid(String mcalid){
+        this.m_calid=mcalid;
+    }
+
+
+
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -40,7 +49,7 @@ public class CustomAdapter2 extends RecyclerView.Adapter<CustomAdapter2.ViewHold
     }
 
     @Override
-    public void onBindViewHolder(final ViewHolder holder, final int position) {
+    public void onBindViewHolder(final ViewHolder holder, final int position ) {
 
      //   holder.description.setText(my_data.get(position).getDescription());
         holder.indication.setText(my_data.get(position).getIndication());
@@ -48,7 +57,6 @@ public class CustomAdapter2 extends RecyclerView.Adapter<CustomAdapter2.ViewHold
         holder.chineseName.setText(my_data.get(position).getChineseName());
       //  holder.licenseNumber.setText(my_data.get(position).getLicenseNumber());
        Glide.with(context).load(my_data.get(position).getImage_link()).into(holder.imageView);
-
 
 
         holder.drugButton.setOnClickListener(new View.OnClickListener() {
@@ -72,12 +80,16 @@ public class CustomAdapter2 extends RecyclerView.Adapter<CustomAdapter2.ViewHold
                 bundle.putString("maker_Country", my_data.get(position).getMaker_Country());
                 bundle.putString("applicant", my_data.get(position).getApplicant());
                 bundle.putString("maker_Name", my_data.get(position).getMaker_Name());
+                bundle.putString("m_calid",m_calid);
 
                 Log.d("customadapter2","5");
                 it.putExtras(bundle);
 
                 context.startActivity(it);
                 Log.d("customadapter2","6");
+
+                Log.d("qqqqq3",m_calid);
+
             }
         });
 
@@ -97,6 +109,7 @@ public class CustomAdapter2 extends RecyclerView.Adapter<CustomAdapter2.ViewHold
         public TextView chineseName;
         public Button drugButton;
         public  TextView licenseNumber;
+        public View repair;
 
         public ViewHolder(View itemView) {
             super(itemView);
