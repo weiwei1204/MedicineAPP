@@ -114,7 +114,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="用藥排程"
+                android:text="@string/title_activity_third"
                 android:textColor="@android:color/background_light"
                 android:textSize="18sp"
                 android:layout_below="@+id/imageButton3"

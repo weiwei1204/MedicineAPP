@@ -251,7 +251,14 @@ public class MainActivity extends LoginActivity
         it.putExtra("bsBpMeasureObject", bsBpMeasureObject);
         startActivity(it);
     }
-
+    public void gotoMyAP() {
+        Intent it = new Intent(this,MyAPActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putString("memberid", memberid);
+        Log.d("fffaaa","*"+memberid);
+        it.putExtras(bundle);   // 記得put進去，不然資料不會帶過去哦
+        startActivity(it);
+    }
     public void gotoLoginActivity(View v) { //連到搜尋藥品資訊頁面
 //        Intent it = new Intent(this,LoginActivity.class);
 //        Log.d("hh","4");
@@ -545,7 +552,7 @@ public class MainActivity extends LoginActivity
         } else if (id == R.id.nav_slideshow) {
             gotoBsBpMeasure();
         } else if (id == R.id.nav_manage) {
-
+            gotoMyAP();
         } else if (id == R.id.nav_share) {
             signOut();
         } else if (id == R.id.nav_send) {
