@@ -83,6 +83,7 @@ public class ThirdActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_third);
+        Log.v("1111","123");
         Bundle bundle1 = getIntent().getExtras();
         memberid=bundle1.getString("memberid");
         Bundle bundle = getIntent().getExtras();

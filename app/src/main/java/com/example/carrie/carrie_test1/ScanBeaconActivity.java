@@ -5,6 +5,8 @@ import android.content.*;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -13,12 +15,15 @@ import android.widget.*;
 import java.util.*;
 import android.Manifest;
 
+import com.android.volley.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 
-public class ScanBeaconActivity extends AppCompatActivity {
+
+public class ScanBeaconActivity extends AppCompatActivity implements  ActivityCompat.OnRequestPermissionsResultCallback{
 
     private BluetoothAdapter mBluetoothAdapter;
     private static final int REQUEST_ENABLE_BT = 1;
@@ -27,11 +32,9 @@ public class ScanBeaconActivity extends AppCompatActivity {
     private static List<BluetoothDevice> mBleDevices = new ArrayList<BluetoothDevice>();
     private Context context;
     private static final int PERMISSION_REQUEST_COARSE_LOCATION = 1;
-//    RequestQueue requestQueue;
+    RequestQueue requestQueue;
 //    String beacon_insertUrl = "http://54.65.194.253/Beacon/beacon_insert.php";
-    String memberid;
-
-
+//    String memberid;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,27 +42,29 @@ public class ScanBeaconActivity extends AppCompatActivity {
         setContentView(R.layout.activity_scanbeacon);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        Bundle bundle = getIntent().getExtras();
-        memberid=bundle.getString("memberid");
+//        Bundle bundle = getIntent().getExtras();
+//        memberid=bundle.getString("memberid");
         openBluetooth();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            Log.d("aaa","111");
             // Android M Permission check
-            Log.v("aaa", "00000");
-            if (this.checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                requestPermissions(new String[]{Manifest.permission.ACCESS_COARSE_LOCATION}, PERMISSION_REQUEST_COARSE_LOCATION);
-                Log.v("aaa", "0123");
+            if (ContextCompat.checkSelfPermission(ScanBeaconActivity.this,ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                Log.d("aaa","222");
+                requestPermissions(new String[]{ACCESS_FINE_LOCATION}, PERMISSION_REQUEST_COARSE_LOCATION);
+                Log.d("aaa","333");
             }
+
         }
         context = this;
         lv = (ListView) findViewById(R.id.mlistView);
         SearchForBLEDevices ();
-        //putDataToListView();
+//        putDataToListView();
         //insertbeacon();
     }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
-        Log.v("aaa", "11111");
+        Log.d("aaa","444");
         switch (requestCode) {
             case PERMISSION_REQUEST_COARSE_LOCATION:
                 if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
