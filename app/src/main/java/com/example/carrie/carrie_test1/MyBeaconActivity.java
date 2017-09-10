@@ -6,26 +6,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.*;
-
-import com.android.volley.AuthFailureError;
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.util.*;
+import android.widget.*;
+import android.view.*;
+import com.android.volley.toolbox.*;
+import com.android.volley.*;
+import org.json.*;
 
 public class MyBeaconActivity extends AppCompatActivity {
     Button scanbtn;
@@ -33,11 +19,6 @@ public class MyBeaconActivity extends AppCompatActivity {
     private ListView lv ;
     RequestQueue requestQueue;
     String getBeaconUrl = "http://54.65.194.253/Beacon/getBeacon.php";
-    String deletebeaconUrl = "http://54.65.194.253/Medicine/deletem_calendar.php";
-    Button ItemButton;
-
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,8 +49,8 @@ public class MyBeaconActivity extends AppCompatActivity {
         if(id == R.id.action_add){
             Intent it = new Intent(this,ScanBeaconActivity.class);
             Bundle bundle = new Bundle();
-            bundle.putString("memberid", memberid);
-            Log.d("fffaaa",memberid);
+//            bundle.putString("memberid", memberid);
+//            Log.d("fffaaa",memberid);
             it.putExtras(bundle);   // 記得put進去，不然資料不會帶過去哦
             startActivity(it);
         }
@@ -99,7 +80,6 @@ public class MyBeaconActivity extends AppCompatActivity {
                     for (int i=0 ; i<beacons.length() ; i++){
                         JSONObject beacon = beacons.getJSONObject(i);
                         String UUID = beacon.getString("UUID");
-                        String id =beacon.getString("id");
                         String address =beacon.getString("address");
                         String RSSI = beacon.getString("RSSI");
                         String beaconname = beacon.getString("name");
@@ -133,55 +113,57 @@ public class MyBeaconActivity extends AppCompatActivity {
         });
         requestQueue.add(jsonObjectRequest);
     }
+//    public void myAP(View v){ //連到搜尋藥品資訊頁面
+//        Intent it = new Intent(this,MyAPActivity.class);
+//        Bundle bundle = new Bundle();
+//        bundle.putString("memberid", memberid);
+//        Log.d("fffaaa","*"+memberid);
+//        it.putExtras(bundle);   // 記得put進去，不然資料不會帶過去哦
+//        startActivity(it);
+//    }
 
-    public void deletebeacon(final Activity activity) {
-
-        Log.d("bcon","1h6");
-        ItemButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.d("bcon","1");
-
-                BtnAdapter_mybeacon btnAdapter_mybeacon = new BtnAdapter_mybeacon();
-
-                requestQueue = Volley.newRequestQueue(getApplicationContext());
-
-                final StringRequest request = new StringRequest(Request.Method.POST, deletebeaconUrl, new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                    }
-                }, new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Log.d("nnnmm", error.toString());
-                        Toast.makeText(getApplicationContext(), "Error read deletebeacon.php!!!", Toast.LENGTH_LONG).show();
-                    }
-                })
-                {
-                    protected Map<String, String> getParams() throws AuthFailureError {//把值丟到php
-                        Map<String, String> parameters = new HashMap<String, String>();
-                        parameters.put("UUID",BtnAdapter_mybeacon.getUuid());
-                        Log.d("bcon",parameters.toString());
-
-
-                        return parameters;
-
-                    }
-                };
-                Log.d("bcon","2");
-                RequestQueue requestQueue = Volley.newRequestQueue(MyBeaconActivity.this);
-                requestQueue.add(request);
-            }
-        });
-
-    }
-    public void myAP(View v){
-
-    }
-
-
-
-
+    
+//    public void deletebeacon(final Activity activity) {
+//
+//        Log.d("bcon","1h6");
+//        ItemButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Log.d("bcon","1");
+//
+//                BtnAdapter_mybeacon btnAdapter_mybeacon = new BtnAdapter_mybeacon();
+//
+//                requestQueue = Volley.newRequestQueue(getApplicationContext());
+//
+//                final StringRequest request = new StringRequest(Request.Method.POST, deletebeaconUrl, new Response.Listener<String>() {
+//                    @Override
+//                    public void onResponse(String response) {
+//                    }
+//                }, new Response.ErrorListener() {
+//                    @Override
+//                    public void onErrorResponse(VolleyError error) {
+//                        Log.d("nnnmm", error.toString());
+//                        Toast.makeText(getApplicationContext(), "Error read deletebeacon.php!!!", Toast.LENGTH_LONG).show();
+//                    }
+//                })
+//                {
+//                    protected Map<String, String> getParams() throws AuthFailureError {//把值丟到php
+//                        Map<String, String> parameters = new HashMap<String, String>();
+//                        parameters.put("UUID",BtnAdapter_mybeacon.getUuid());
+//                        Log.d("bcon",parameters.toString());
+//
+//
+//                        return parameters;
+//
+//                    }
+//                };
+//                Log.d("bcon","2");
+//                RequestQueue requestQueue = Volley.newRequestQueue(MyBeaconActivity.this);
+//                requestQueue.add(request);
+//            }
+//        });
+//
+//    }
     public void goback(View v){
         finish();
     }

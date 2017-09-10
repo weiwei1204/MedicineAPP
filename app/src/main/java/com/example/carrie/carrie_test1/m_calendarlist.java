@@ -57,8 +57,6 @@ public class m_calendarlist extends Activity{
         Bundle bundle = getIntent().getExtras();
         memberid=bundle.getString("memberid");
         fabmcal = (FloatingActionButton)findViewById(R.id.fabmcal);
-
-
         final Intent it = new Intent(this,ThirdActivity.class);
         Bundle bundle1 = new Bundle();
         bundle1.putString("memberid", memberid);

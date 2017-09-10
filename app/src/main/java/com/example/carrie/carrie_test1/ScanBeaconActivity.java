@@ -21,11 +21,13 @@ import android.widget.Toast;
 
 import com.google.android.gms.location.LocationListener;
 
+import com.android.volley.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 
 
 public class ScanBeaconActivity extends AppCompatActivity implements  ActivityCompat.OnRequestPermissionsResultCallback{
@@ -37,16 +39,14 @@ public class ScanBeaconActivity extends AppCompatActivity implements  ActivityCo
     private static List<BluetoothDevice> mBleDevices = new ArrayList<BluetoothDevice>();
     private Context context;
     private static final int PERMISSION_REQUEST_COARSE_LOCATION = 1;
-//    RequestQueue requestQueue;
+    RequestQueue requestQueue;
 //    String beacon_insertUrl = "http://54.65.194.253/Beacon/beacon_insert.php";
     String memberid;
 
     private LocationManager locationManager;
     private LocationListener locationListener;
 
-
     private static final int REQUEST_CODE_ACCESS_COARSE_LOCATION = 1;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,10 +57,10 @@ public class ScanBeaconActivity extends AppCompatActivity implements  ActivityCo
         Bundle bundle = getIntent().getExtras();
         memberid = bundle.getString("memberid");
         openBluetooth();
-
         Log.v("Build", String.valueOf(Build.VERSION.SDK_INT));
         Log.v("Build", String.valueOf(Build.VERSION_CODES.M));
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            Log.d("aaa","111");
             // Android M Permission check
             Log.v("aaa", "00000");
             Log.v("11111jjjjj","a : "+String.valueOf(ContextCompat.checkSelfPermission(ScanBeaconActivity.this,Manifest.permission.ACCESS_COARSE_LOCATION)));
@@ -69,6 +69,7 @@ public class ScanBeaconActivity extends AppCompatActivity implements  ActivityCo
                 requestPermissions(new String[]{Manifest.permission.ACCESS_COARSE_LOCATION}, PERMISSION_REQUEST_COARSE_LOCATION);
                 Log.v("aaa", "0123");
             }
+
         }
 
 
@@ -100,7 +101,7 @@ public class ScanBeaconActivity extends AppCompatActivity implements  ActivityCo
         context = this;
         lv = (ListView) findViewById(R.id.mlistView);
         SearchForBLEDevices ();
-        //putDataToListView();
+//        putDataToListView();
         //insertbeacon();
     }
     private void findImage()

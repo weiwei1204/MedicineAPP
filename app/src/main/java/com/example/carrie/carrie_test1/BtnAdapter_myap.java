@@ -25,10 +25,11 @@ public class BtnAdapter_myap extends BaseAdapter {
 
     private class ItemView {
         ImageView ItemImage;
-        TextView ItemName;
-        TextView ItemAddress;
-        TextView ItemUUID;
-        TextView ItemRSSI;
+        TextView ItemSSID;
+        TextView ItemBSSID;
+        TextView ItemCapabilities;
+        TextView ItemLevel;
+        TextView ItemFrequency;
         Button ItemButton;
     }
 
@@ -71,14 +72,15 @@ public class BtnAdapter_myap extends BaseAdapter {
         if (convertView != null) {
             itemView = (ItemView) convertView.getTag();
         } else {
-            convertView = mInflater.inflate(R.layout.beacon_adapter, null);
+            convertView = mInflater.inflate(R.layout.ap_adapter, null);
             itemView = new ItemView();
             itemView.ItemImage = (ImageView)convertView.findViewById(valueViewID[0]);
-            itemView.ItemName = (TextView)convertView.findViewById(valueViewID[1]);
-            itemView.ItemAddress = (TextView)convertView.findViewById(valueViewID[2]);
-            itemView.ItemUUID = (TextView)convertView.findViewById(valueViewID[3]);
-            itemView.ItemRSSI = (TextView)convertView.findViewById(valueViewID[4]);
-            itemView.ItemButton = (Button)convertView.findViewById(valueViewID[5]);
+            itemView.ItemSSID = (TextView)convertView.findViewById(valueViewID[1]);
+            itemView.ItemBSSID = (TextView)convertView.findViewById(valueViewID[2]);
+            itemView.ItemCapabilities = (TextView)convertView.findViewById(valueViewID[3]);
+            itemView.ItemLevel = (TextView)convertView.findViewById(valueViewID[4]);
+            itemView.ItemFrequency = (TextView)convertView.findViewById(valueViewID[5]);
+            itemView.ItemButton = (Button)convertView.findViewById(valueViewID[6]);
             convertView.setTag(itemView);
         }
 
@@ -86,35 +88,37 @@ public class BtnAdapter_myap extends BaseAdapter {
         if (appInfo != null) {
 
             int mid = (Integer)appInfo.get(keyString[0]);
-            String name = (String) appInfo.get(keyString[1]);
-            String address = (String) appInfo.get(keyString[2]);
-            String uuid = (String) appInfo.get(keyString[3]);
-            String rssi = (String) appInfo.get(keyString[4]);
-            int bid = (Integer)appInfo.get(keyString[5]);
-            itemView.ItemName.setText(name);
-            itemView.ItemAddress.setText(address);
-            itemView.ItemUUID.setText(uuid);
-            itemView.ItemRSSI.setText(rssi);
+            String ssid = (String) appInfo.get(keyString[1]);
+            String bssid = (String) appInfo.get(keyString[2]);
+            String capabilities = (String) appInfo.get(keyString[3]);
+            String level = (String) appInfo.get(keyString[4]);
+            String frequency = (String) appInfo.get(keyString[5]);
+            int bid = (Integer)appInfo.get(keyString[6]);
+            itemView.ItemSSID.setText(ssid);
+            itemView.ItemBSSID.setText(bssid);
+            itemView.ItemCapabilities.setText(capabilities);
+            itemView.ItemLevel.setText(level);
+            itemView.ItemFrequency.setText(frequency);
             itemView.ItemImage.setImageDrawable(itemView.ItemImage.getResources().getDrawable(mid));
             itemView.ItemButton.setBackgroundDrawable(itemView.ItemButton.getResources().getDrawable(bid));
-            itemView.ItemButton.setOnClickListener(new ItemButton_Click(name));
+            itemView.ItemButton.setOnClickListener(new ItemButton_Click(ssid));
         }
 
         return convertView;
     }
 
     class ItemButton_Click implements OnClickListener {
-        private String name;
+        private String ssid;
 
         ItemButton_Click(String pos) {
-            name = pos;
+            ssid = pos;
         }
 
         @Override
         public void onClick(View v) {
             int vid=v.getId();
             if (vid == itemView.ItemButton.getId())
-                Log.v("abc",name);
+                Log.v("abc",ssid);
         }
     }
 }
