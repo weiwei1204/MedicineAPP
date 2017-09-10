@@ -113,14 +113,16 @@ public class MyBeaconActivity extends AppCompatActivity {
         });
         requestQueue.add(jsonObjectRequest);
     }
-    public void myAP(View v){ //連到搜尋藥品資訊頁面
-        Intent it = new Intent(this,MyAPActivity.class);
-        Bundle bundle = new Bundle();
-        bundle.putString("memberid", memberid);
-        Log.d("fffaaa","*"+memberid);
-        it.putExtras(bundle);   // 記得put進去，不然資料不會帶過去哦
-        startActivity(it);
-    }
+//    public void myAP(View v){ //連到搜尋藥品資訊頁面
+//        Intent it = new Intent(this,MyAPActivity.class);
+//        Bundle bundle = new Bundle();
+//        bundle.putString("memberid", memberid);
+//        Log.d("fffaaa","*"+memberid);
+//        it.putExtras(bundle);   // 記得put進去，不然資料不會帶過去哦
+//        startActivity(it);
+//    }
+
+    
 //    public void deletebeacon(final Activity activity) {
 //
 //        Log.d("bcon","1h6");

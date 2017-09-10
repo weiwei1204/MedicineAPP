@@ -27,7 +27,7 @@
             <!--app:showAsAction="always"></item>-->
         <EditText
             android:id="@+id/textsearch"
-            android:layout_width="220dp"
+            android:layout_width="275dp"
             android:layout_height="40dp"
             android:layout_weight="1"
             android:background="@drawable/back"
