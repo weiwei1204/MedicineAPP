@@ -1,11 +1,16 @@
 package com.example.carrie.carrie_test1;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.preference.DialogPreference;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.KeyEvent;
+import android.view.Menu;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -36,6 +41,8 @@ public class PersonalInformationctivity extends AppCompatActivity {
     public static String name="";
     public static String n_member="";
 
+    public static  String googleid="";
+    public static String nname="";
     public static String gender="";
     public static String weight="";
     public static String height="";
@@ -55,10 +62,11 @@ public class PersonalInformationctivity extends AppCompatActivity {
         setContentView(R.layout.activity_personal_informationctivity);
         repair1 = (Button) findViewById(R.id.repair1);
         Bundle bundle = getIntent().getExtras();
+        //setContentView(R.layout.activity_main);
 
 
         my_google_id = bundle.getString("googleid");
-        name = bundle.getString("name");
+        nname = bundle.getString("name");
         gender = bundle.getString("gender_man");
         height=bundle.getString("height");
         weight=bundle.getString("weight");
@@ -69,7 +77,7 @@ public class PersonalInformationctivity extends AppCompatActivity {
 //        Log.d("p", p_birth);
 
 
-        String[] personal = {"姓名: "+ name,"性別: "+gender,"身高: "+height, "體重: "+weight,"生日: "+birth};
+        String[] personal = {"姓名: "+ nname,"性別: "+gender,"身高: "+height, "體重: "+weight,"生日: "+birth};
         ListAdapter buckyAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, personal);
         ListView buckyListview= (ListView)findViewById(R.id.listPersonal);
         buckyListview.setAdapter(buckyAdapter);
@@ -81,6 +89,26 @@ public class PersonalInformationctivity extends AppCompatActivity {
 //        email.setText(repairData.getEmail());
     }
 
+//    @Override
+//    public boolean onKeyDown(int keyCode, KeyEvent event)
+//    {
+//        if(keyCode == KeyEvent.KEYCODE_BACK){
+//            Intent myIntent = new Intent();
+//            Intent it = new Intent(this, MainActivity.class);
+//            myIntent = new Intent(PersonalInformationctivity.this, MainActivity.class);
+//            Bundle bundle = new Bundle();
+//            bundle.putString("gender_man",gender);
+//            bundle.putString("googleid",my_google_id);
+//            bundle.putString("weight",weight);
+//            bundle.putString("gender_man",gender);
+//            bundle.putString("height",height);
+//            bundle.putString("birth",birth);
+//            it.putExtras(bundle);
+//            startActivity(myIntent);
+//            this.finish();
+//        }
+//        return super.onKeyDown(keyCode, event);
+//    }
 
 
     public void gotorepair(View v) { //連到搜尋藥品資訊頁面
@@ -112,6 +140,7 @@ public class PersonalInformationctivity extends AppCompatActivity {
                         //normalDialogEvent();
                     } else {
                         name = object.getString("name");
+                        gender = object.getString("gender_man");
                         email = object.getString("email");
                         Log.d("eeee", email);
                     }
@@ -154,8 +183,6 @@ public class PersonalInformationctivity extends AppCompatActivity {
                 TextView email=(TextView) findViewById(R.id.gmailPersonal);
                 email.setText(repairData.getEmail());
 
-
-
                 Log.d("eeee","8");
 
 
@@ -197,8 +224,11 @@ public class PersonalInformationctivity extends AppCompatActivity {
             }
 
             public void goback(View v) {
+
                 finish();
             }
-        }
+
+
+}
 
 

@@ -15,6 +15,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -50,12 +51,15 @@ public class MainActivity extends LoginActivity
     ArrayAdapter<CharSequence> adapter;
     String googleid;
     String getidUrl = "http://54.65.194.253/Member/getid.php";
+    private Button nav_gallery;
+
     RequestQueue requestQueue;
+    RequestQueue requestQueue2;
     String memberid;
     String my_mon_id;
     BsBpMeasureObject bsBpMeasureObject;
     RepairData repairData;
-    String name;
+    String nname;
     String gender;
     String weight;
     String height;
@@ -70,12 +74,12 @@ public class MainActivity extends LoginActivity
         Bundle bundle = getIntent().getExtras();
         googleid = bundle.getString("googleid");
         Log.d("GOOGLEID",googleid);
-        name = bundle.getString("name");
-        gender=bundle.getString("gender_man");
+        nname = bundle.getString("name");
+        gender = bundle.getString("gender_man");
         weight=bundle.getString("weight");
         height=bundle.getString("height");
         birth=bundle.getString("birth");
-        Log.d("GOOGLEID",name);
+        Log.d("GOOGLEID",nname);
 //        Log.d("GOOGLEID",gender);
 //        Log.d("GOOGLEID",weight);
 //        Log.d("GOOGLEID",height);
@@ -231,7 +235,7 @@ public class MainActivity extends LoginActivity
         Bundle bundle = new Bundle();
         bundle.putString("googleid", googleid);
         bundle.putString("memberid", memberid);
-        bundle.putString("name", name);
+        bundle.putString("name", nname);
         bundle.putString("gender_man",gender );
         bundle.putString("weight",weight);
         bundle.putString("height", height);
@@ -400,6 +404,7 @@ public class MainActivity extends LoginActivity
     }
 
     public void getpersonal() {
+
         AsyncTask<Integer, Void, Void> task = new AsyncTask<Integer, Void, Void>() {
             @Override
             protected Void doInBackground(Integer... integers) {
@@ -459,8 +464,9 @@ public class MainActivity extends LoginActivity
                 bundle1.putString("name", repairData.getName());
                 repairData.setName(p1);
 
+
                 String p2;
-                p2=repairData.getGender_man();
+                p2=getIntent().getExtras().getString("gender_man", "not found");
                 bundle1.putString("gender_man", repairData.getGender_man());
                 repairData.setGender_man(p2);
 
@@ -491,7 +497,6 @@ public class MainActivity extends LoginActivity
         task.execute();
 
     }
-
 
 
 

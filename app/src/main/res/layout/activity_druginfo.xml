@@ -39,13 +39,13 @@
 
 
 
-            <Button
-                android:id="@+id/button"
-                android:layout_width="35dp"
-                android:layout_height="35dp"
-                android:layout_marginLeft="30dp"
-                android:background="@drawable/search"
-                android:onClick="gotoFourthActivity" />
+            <!--<Button-->
+                <!--android:id="@+id/button"-->
+                <!--android:layout_width="35dp"-->
+                <!--android:layout_height="35dp"-->
+                <!--android:layout_marginLeft="30dp"-->
+                <!--android:background="@drawable/search"-->
+                <!--android:onClick="gotoFourthActivity" />-->
 
             <ImageButton
                 android:id="@+id/imageButton14"
