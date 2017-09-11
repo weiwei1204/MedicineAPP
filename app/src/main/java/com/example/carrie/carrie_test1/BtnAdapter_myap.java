@@ -1,6 +1,8 @@
 package com.example.carrie.carrie_test1;
 
 import android.content.Context;
+import android.content.DialogInterface;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +12,7 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -118,7 +121,29 @@ public class BtnAdapter_myap extends BaseAdapter {
         public void onClick(View v) {
             int vid=v.getId();
             if (vid == itemView.ItemButton.getId())
-                Log.v("abc",ssid);
+                checkDialog(ssid);
         }
+    }
+    private void checkDialog(final String ssid) {
+        new AlertDialog.Builder(mContext)
+                .setTitle("刪除AP")
+                .setMessage("是否刪除"+ssid.substring(5)+"?")
+                .setPositiveButton("確定", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                //按下按鈕後執行的動作，沒寫則退出Dialog
+
+                                Toast.makeText(mContext,"成功刪除"+ ssid.substring(5),Toast.LENGTH_LONG).show();
+                            }
+                        }
+                )
+                .setNeutralButton("取消", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                //按下按鈕後執行的動作，沒寫則退出Dialog
+                            }
+                        }
+                )
+                .show();
     }
 }

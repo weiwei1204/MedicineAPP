@@ -112,11 +112,6 @@ public class ScanAPActivity extends AppCompatActivity{
         mWifiInfo = mWifiManager.getConnectionInfo();
     }
 
-    // 得到網络列表
-    public List<ScanResult> getWifiList() {
-        return mWifiList;
-    }
-
     // 查看掃描結果
     public StringBuilder lookUpScan() {
         StringBuilder stringBuilder = new StringBuilder();
