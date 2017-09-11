@@ -1,6 +1,10 @@
 package com.example.carrie.carrie_test1;
 
 import android.content.Context;
+import android.content.DialogInterface;
+import android.net.wifi.WifiConfiguration;
+import android.net.wifi.WifiManager;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +14,7 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -18,10 +23,11 @@ public class BtnAdapter_scanap extends BaseAdapter {
     private ArrayList<HashMap<String, Object>> mAppList;
     private LayoutInflater mInflater;
     private Context mContext;
+    private Context context;
     private String[] keyString;
     private int[] valueViewID;
-
     private ItemView itemView;
+    private WifiManager mWifiManager;
 
     private class ItemView {
         ImageView ItemImage;
@@ -117,8 +123,80 @@ public class BtnAdapter_scanap extends BaseAdapter {
         @Override
         public void onClick(View v) {
             int vid=v.getId();
-            if (vid == itemView.ItemButton.getId())
+            if (vid == itemView.ItemButton.getId()){
                 Log.v("abc",ssid);
+                checkDialog(ssid);
+            }
         }
     }
+    private void checkDialog(final String ssid) {
+        new AlertDialog.Builder(mContext)
+                .setTitle("新增AP")
+                .setMessage("是否新增"+ssid.substring(5)+"?")
+                .setPositiveButton("確定", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                //按下按鈕後執行的動作，沒寫則退出Dialog
+                                WifiAdmin(mContext);
+
+                                Toast.makeText(mContext,"加入"+ ssid.substring(5),Toast.LENGTH_LONG).show();
+                            }
+                        }
+                )
+                .setNeutralButton("取消", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                //按下按鈕後執行的動作，沒寫則退出Dialog
+                            }
+                        }
+                )
+                .show();
+    }
+    public void WifiAdmin(Context context) {
+        // 取得WifiManager對象
+        mWifiManager = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
+//        mWifiManager.setTdlsEnabledWithMacAddress();
+    }
+//    WifiConfiguration CreateWifiInfo(String SSID, String Password, int Type)
+//    {
+//        WifiConfiguration config = new WifiConfiguration();
+//        config.allowedAuthAlgorithms.clear();
+//        config.allowedGroupCiphers.clear();
+//        config.allowedKeyManagement.clear();
+//        config.allowedPairwiseCiphers.clear();
+//        config.allowedProtocols.clear();
+//        config.SSID = "\"" + SSID + "\"";
+//        if(Type == Data.WIFICIPHER_NOPASS)
+//        {
+//            config.wepKeys[0] = "";
+//            config.allowedKeyManagement.set(WifiConfiguration.KeyMgmt.NONE);
+//            config.wepTxKeyIndex = 0;
+//        }
+//        if(Type == Data.WIFICIPHER_WEP)
+//        {
+//            config.hiddenSSID = true;
+//            config.wepKeys[0]= "\""+Password+"\"";
+//            config.allowedAuthAlgorithms.set(WifiConfiguration.AuthAlgorithm.SHARED);
+//            config.allowedGroupCiphers.set(WifiConfiguration.GroupCipher.CCMP);
+//            config.allowedGroupCiphers.set(WifiConfiguration.GroupCipher.TKIP);
+//            config.allowedGroupCiphers.set(WifiConfiguration.GroupCipher.WEP40);
+//            config.allowedGroupCiphers.set(WifiConfiguration.GroupCipher.WEP104);
+//            config.allowedKeyManagement.set(WifiConfiguration.KeyMgmt.NONE);
+//            config.wepTxKeyIndex = 0;
+//        }
+//        if(Type == Data.WIFICIPHER_WPA)
+//        {
+//            config.preSharedKey = "\""+Password+"\"";
+//            config.hiddenSSID = true;
+//            config.allowedAuthAlgorithms.set(WifiConfiguration.AuthAlgorithm.OPEN);
+//            config.allowedGroupCiphers.set(WifiConfiguration.GroupCipher.TKIP);
+//            config.allowedKeyManagement.set(WifiConfiguration.KeyMgmt.WPA_PSK);
+//            config.allowedPairwiseCiphers.set(WifiConfiguration.PairwiseCipher.TKIP);
+//            config.allowedProtocols.set(WifiConfiguration.Protocol.WPA);
+//            config.status = WifiConfiguration.Status.ENABLED;
+//        }
+//        return config;
+//    }
+
+//}
 }

@@ -106,10 +106,10 @@ public class repair extends AppCompatActivity {
                 Log.d("wwwwww", n_memberid);
                 bundle.putString("name", n_name);
                 Log.d("wwwwww", n_name);
-//                bundle.putString("gender_man",n_gender);
-//                bundle.putString("weight",n_weight);
-//                bundle.putString("height", n_height);
-//                bundle.putString("birth", n_birth);
+                bundle.putString("gender_man",n_gender);
+                bundle.putString("weight",n_weight);
+                bundle.putString("height", n_height);
+                bundle.putString("birth", n_birth);
                 Intent it = new Intent(this, PersonalInformationctivity.class);
                 it.putExtras(bundle);
 
