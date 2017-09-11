@@ -56,7 +56,7 @@ public class MyAPActivity extends AppCompatActivity {
             map.put("ItemCapabilities","");
             map.put("ItemLevel", "信號強度:");
             map.put("ItemFrequency", "頻道:");
-            map.put("ItemButton", R.drawable.add);
+            map.put("ItemButton", R.drawable.trash);
             Item.add(map);
         }
         BtnAdapter_myap btnadapter_myap = new BtnAdapter_myap(context, Item, R.layout.ap_adapter,

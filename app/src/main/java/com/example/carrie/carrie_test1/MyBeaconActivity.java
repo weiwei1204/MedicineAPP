@@ -122,7 +122,7 @@ public class MyBeaconActivity extends AppCompatActivity {
 //        startActivity(it);
 //    }
 
-    
+
 //    public void deletebeacon(final Activity activity) {
 //
 //        Log.d("bcon","1h6");
