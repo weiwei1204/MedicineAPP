@@ -42,7 +42,7 @@ public class ScanBeaconActivity extends AppCompatActivity implements  ActivityCo
     RequestQueue requestQueue;
 //    String beacon_insertUrl = "http://54.65.194.253/Beacon/beacon_insert.php";
     String memberid;
-
+    ArrayList<HashMap<String, Object>> Item = new ArrayList<HashMap<String, Object>>();
     private LocationManager locationManager;
     private LocationListener locationListener;
 
@@ -244,10 +244,7 @@ public class ScanBeaconActivity extends AppCompatActivity implements  ActivityCo
                             if (mBleDevices.indexOf(device) == -1) //only add new devices
                             {
                                 mBleDevices.add(device);
-
-//                            ArrayList<ArrayList<String>> listValues = new ArrayList<ArrayList<String>>();
-                                ArrayList<HashMap<String, Object>> Item = new ArrayList<HashMap<String, Object>>();
-                                for (BluetoothDevice device : mBleDevices)
+                                for (int i=0; i<1; i++)
                                 {
                                     String  uuid = "" ;
                                     if(scanRecord.length > 30) {
@@ -281,28 +278,11 @@ public class ScanBeaconActivity extends AppCompatActivity implements  ActivityCo
                                     map.put("ItemButton", R.drawable.add);
                                     Item.add(map);
                                     Log.d("uuid",Item.toString());
-
-
-//                                ArrayList<String> dataList = new ArrayList<String>();
-//                                dataList.add("Name:"+device.getName());
-//                                dataList.add("Address:"+device.getAddress());
-//                                dataList.add("UUID:"+ UUID.randomUUID());
-//                                dataList.add("Connection Status :"+Integer.toString(device.getBondState()));
-//                                dataList.add("RSSI:"+Integer.toString(rssi));
-//                                device.createBond();
-//                                //listValues.add(result.getR);
-//                                Log.v("test1", "123+"+ Arrays.toString(device.getUuids())+"+321");
-//                                Log.v("test2 ", "123+"+Integer.toString(device.getBondState())+"+321");
-//                                //listValues.add(Integer.toString(device.getUuids().length));
-//                                listValues.add(dataList);
                                 }
                                 BtnAdapter_scanbeacon btnadapter_scanbeacon = new BtnAdapter_scanbeacon(context, Item, R.layout.beacon_adapter,
                                         new String[]{"ItemImage","ItemName", "ItemAddress","ItemUUID","ItemRSSI","ItemButton"},
                                         new int[] {R.id.ItemImage,R.id.ItemName,R.id.ItemAddress,R.id.ItemUUID,R.id.ItemRSSI,R.id.ItemButton});
                                 lv.setAdapter(btnadapter_scanbeacon);
-                                //ArrayAdapter myAdapter = new ArrayAdapter(context, R.layout.row_layout, R.id.listText, listValues);
-
-                                //setListAdapter(myAdapter);
                             }
 
                         }
