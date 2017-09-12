@@ -3,12 +3,15 @@ package com.example.carrie.carrie_test1;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextClock;
@@ -56,14 +59,13 @@ public class notification extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_notification);
-
         this.context = this;
         alarm_manager = (AlarmManager) getSystemService(ALARM_SERVICE);
         health = (TextView) findViewById(R.id.health);
         textClock = (TextClock) findViewById(R.id.textClock);
         alarmoffh = (Button) findViewById(R.id.alarmoffh);
         delaybtnh = (Button) findViewById(R.id.delaybtnh);
-
+        Log.d("timeeeeooo","here");
         Bundle bundle = getIntent().getExtras();
         alarmid = Integer.parseInt(bundle.getString("alarmid"));
         memberid = bundle.getString("memberid");
@@ -87,7 +89,42 @@ public class notification extends AppCompatActivity {
             }
         });
 
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        Bundle bundle1 = getIntent().getExtras();
+        alarmid = Integer.parseInt(bundle1.getString("alarmid"));
+        memberid = bundle1.getString("memberid");
+        alarmtype = bundle1.getString("alarmtype");
+        String msg=null;
+        if (alarmtype.equals("healthbs")){msg="量血糖囉！";}
+        else if (alarmtype.equals("healthbp")){msg="量血壓囉！";}
+        builder.setMessage(msg)
+                .setTitle("Time's Up")
+                .setCancelable(false)
+                .setPositiveButton("進行測量", new DialogInterface.OnClickListener()
+                {
+                    public void onClick(DialogInterface dialog, int id)
+                    {
+                        alarmoffh.performClick();
+                    }
+                })
+                .setNegativeButton("延遲", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        delaybtnh.performClick();
+                        notification.this.finish();
+
+                    }
+                });
+
+        AlertDialog alert = builder.create();
+        alert.show();
     }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.activity_main3_drawer, menu);
+        return true;
+    }
+
 
 
     public void gethealthdb(){  //取資料庫值 health_alert_time
@@ -167,7 +204,7 @@ public class notification extends AppCompatActivity {
         pending_intent= PendingIntent.getBroadcast(notification.this,-alarmid,
                 my_intent1,PendingIntent.FLAG_UPDATE_CURRENT);
         alarm_manager.setExact(AlarmManager.RTC_WAKEUP, ldate,pending_intent);
-        Intent it = new Intent(notification.this,m_calendarlist.class);
+        Intent it = new Intent(notification.this,EnterBsBpActivity.class);
         Bundle bundle1 = new Bundle();
         bundle1.putString("memberid", memberid);
         it.putExtras(bundle1);   // 記得put進去，不然資料不會帶過去哦
@@ -196,36 +233,41 @@ public class notification extends AppCompatActivity {
         else {
             if (ddate.getTime()+3*3*60*1000 - now > 60*1000){ //現在時間
                 Log.d("timeee5","3");
-                delay=3;
+                delay=1;
             }
-            else if (ddate.getTime()+2*3*60*1000 - now > 60*1000){
+            if (ddate.getTime()+2*3*60*1000 - now > 60*1000){
                 Log.d("timeee5","2");
                 delay=2;
             }
-            else if (ddate.getTime()+1*3*60*1000 - now > 60*1000){
+            if (ddate.getTime()+1*3*60*1000 - now > 60*1000){
                 Log.d("timeee5","1");
-                delay=1;
+                delay=3;
             }
-            my_intent.putExtra("extra","alarm off");
-            my_intent.putExtra("alarmid",String.valueOf(alarmid));
-            my_intent.putExtra("alarmtype",alarmtype);
-            my_intent.putExtra("memberid",memberid);
-            set_alarm_text("Alarm off!");
-            sendBroadcast(my_intent);
+            if (delay!=4){
+                my_intent.putExtra("extra","alarm off");
+                my_intent.putExtra("alarmid",String.valueOf(alarmid));
+                my_intent.putExtra("alarmtype",alarmtype);
+                my_intent.putExtra("memberid",memberid);
+                set_alarm_text("Alarm off!");
+                sendBroadcast(my_intent);
 
-            my_intent.putExtra("extra","alarm on");
-            my_intent.putExtra("alarmid",String.valueOf(alarmid));
-            my_intent.putExtra("alarmtype",alarmtype);
-            my_intent.putExtra("memberid",memberid);
-            pending_intent= PendingIntent.getBroadcast(notification.this,alarmid,
-                    my_intent,PendingIntent.FLAG_CANCEL_CURRENT);
-            alarm_manager.setExact(AlarmManager.RTC_WAKEUP,ddate.getTime()+(4-delay)*3*60*1000, pending_intent);
+                my_intent.putExtra("extra","alarm on");
+                my_intent.putExtra("alarmid",String.valueOf(alarmid));
+                my_intent.putExtra("alarmtype",alarmtype);
+                my_intent.putExtra("memberid",memberid);
+                pending_intent= PendingIntent.getBroadcast(notification.this,alarmid,
+                        my_intent,PendingIntent.FLAG_CANCEL_CURRENT);
+                alarm_manager.setExact(AlarmManager.RTC_WAKEUP,ddate.getTime()+(4-delay)*3*60*1000, pending_intent);
 //                            sendBroadcast(my_intent);
-            Intent it = new Intent(notification.this,m_calendarlist.class);
-            Bundle bundle1 = new Bundle();
-            bundle1.putString("memberid", memberid);
-            it.putExtras(bundle1);   // 記得put進去，不然資料不會帶過去哦
-            startActivity(it);
+//            Intent it = new Intent(notification.this,EnterBsBpActivity.class);
+//            Bundle bundle1 = new Bundle();
+//            bundle1.putString("memberid", memberid);
+//            it.putExtras(bundle1);   // 記得put進去，不然資料不會帶過去哦
+//            startActivity(it);
+            }else {
+                cancelAlarm(my_intent);
+            }
+
         }
 
     }

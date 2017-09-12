@@ -104,6 +104,12 @@ public class repair extends AppCompatActivity {
                 Log.d("wwwwww", n_googleid);
                 bundle.putString("memberid", n_memberid);
                 Log.d("wwwwww", n_memberid);
+                bundle.putString("name", n_name);
+                Log.d("wwwwww", n_name);
+                bundle.putString("gender_man",n_gender);
+                bundle.putString("weight",n_weight);
+                bundle.putString("height", n_height);
+                bundle.putString("birth", n_birth);
                 Intent it = new Intent(this, PersonalInformationctivity.class);
                 it.putExtras(bundle);
 
@@ -151,6 +157,7 @@ public class repair extends AppCompatActivity {
         RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
         requestQueue.add(request);
     }
+
 
 
     public void goback(View v) {

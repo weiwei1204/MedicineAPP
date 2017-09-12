@@ -23,7 +23,7 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/ItemName"
+                android:id="@+id/ItemSSID"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="left|center_vertical"
@@ -32,29 +32,37 @@
                 />
 
             <TextView
-                android:id="@+id/ItemAddress"
+                android:id="@+id/ItemBSSID"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="left|center_vertical"
                 android:textColor="#272727"
-                android:textSize="20dip"
+                android:textSize="16dip"
                 />
             <TextView
-                android:id="@+id/ItemUUID"
+                android:id="@+id/ItemCapabilities"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="left|center_vertical"
                 android:textColor="#272727"
-                android:textSize="20dip"
+                android:textSize="12dip"
                 />
             <TextView
-            android:id="@+id/ItemRSSI"
+            android:id="@+id/ItemLevel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="left|center_vertical"
             android:textColor="#272727"
             android:textSize="20dip"
             />
+            <TextView
+                android:id="@+id/ItemFrequency"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="left|center_vertical"
+                android:textColor="#272727"
+                android:textSize="20dip"
+                />
             <TextView
                 android:id="@+id/ItemID"
                 android:layout_width="wrap_content"

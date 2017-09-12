@@ -431,13 +431,20 @@ public class FirstSaveBsBpActivity extends AppCompatActivity  {
                 Log.d("nnn",response);
                 try {
                     JSONArray jarray = new JSONArray(response);
-                    final String[] dbtype=new String[jarray.length()];
+                    String dbtype = null;
                     for (int i=0;i<jarray.length();i++){
                         JSONObject obj = jarray.getJSONObject(i);
                         Log.d("timeeeee", "1");
                         if (obj.getString("time")!=null){
                             String hid = obj.getString("id");
                             String time = obj.getString("time");
+                            String type = obj.getString("type");
+                            if (type.equals("bs_1")||type.equals("bs_2")||type.equals("bs_3")){
+                                dbtype="bs";
+                            }
+                            else if(type.equals("bp_1")||type.equals("bp_2")||type.equals("bp_3")){
+                                dbtype="bp";
+                            }
                             int alarmsetid= -Integer.valueOf(hid);
                             Log.d("timeeeee", String.valueOf(alarmsetid));
                             Log.d("timeeeee", "2");
@@ -449,7 +456,6 @@ public class FirstSaveBsBpActivity extends AppCompatActivity  {
                             Date ddate = sdf2.parse(date);
                             Long ldate = ddate.getTime();
                             if (ddate.getTime() - dt.getTime() > 60*1000){
-
                             }else {
                                 Calendar now = Calendar.getInstance();
                                 now.setTime(ddate);
@@ -463,7 +469,7 @@ public class FirstSaveBsBpActivity extends AppCompatActivity  {
                             my_intent.putExtra("extra","alarm on");
                             my_intent.putExtra("alarmid",String.valueOf(alarmsetid));
                             my_intent.putExtra("memberid",memberid);
-                            my_intent.putExtra("alarmtype","health");
+                            my_intent.putExtra("alarmtype","health"+dbtype);
                             pending_intent1= PendingIntent.getBroadcast(FirstSaveBsBpActivity.this,alarmsetid,
                                     my_intent,PendingIntent.FLAG_UPDATE_CURRENT);
                             alarm_manager.setExact(AlarmManager.RTC_WAKEUP, ldate,pending_intent1);

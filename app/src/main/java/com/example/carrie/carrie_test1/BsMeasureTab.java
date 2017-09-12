@@ -234,7 +234,7 @@ public class BsMeasureTab extends Fragment{
                                 my_intent.putExtra("extra","alarm on");
                                 my_intent.putExtra("alarmid",String.valueOf(alarmsetid));
                                 my_intent.putExtra("memberid",memberid);
-                                my_intent.putExtra("alarmtype","health");
+                                my_intent.putExtra("alarmtype","healthbs");
                                 pending_intent= PendingIntent.getBroadcast(getActivity(),alarmsetid,
                                         my_intent,PendingIntent.FLAG_CANCEL_CURRENT);
                                 alarm_manager.setExact(AlarmManager.RTC_WAKEUP, ldate,pending_intent);

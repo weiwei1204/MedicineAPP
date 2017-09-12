@@ -3,6 +3,7 @@ package com.example.carrie.carrie_test1;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.util.Log;
 
 /**
@@ -20,7 +21,7 @@ public class Alarm_Receiver extends BroadcastReceiver{
         String alarmtype = intent.getExtras().getString("alarmtype");
 
         Log.e("We are in there","yap");
-        if (alarmtype.equals("health")){        //辨別適用要排程還是健康排程
+        if (alarmtype.equals("healthbs")||alarmtype.equals("healthbp")){        //辨別適用要排程還是健康排程
             String alarmid=intent.getExtras().getString("alarmid");
             String memberid=intent.getExtras().getString("memberid");
 
@@ -34,6 +35,18 @@ public class Alarm_Receiver extends BroadcastReceiver{
             service_intent.putExtra("memberid",memberid);
             service_intent.putExtra("alarmtype",alarmtype);
             context.startService(service_intent);
+            if (get_your_string.equals("alarm on")){
+                Intent intent_alarm=new Intent(context,notification.class);
+                Bundle bundle = new Bundle();
+                bundle.putString("alarmid", String.valueOf(alarmid));
+                bundle.putString("memberid",memberid);
+                bundle.putString("alarmtype",alarmtype);
+                intent_alarm.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent_alarm.putExtras(bundle);   // 記得put進去，不然資料不會帶過去哦
+                context.startActivity(intent_alarm);
+            }
+
+
         }
         else {
             String alarmid=intent.getExtras().getString("alarmid");

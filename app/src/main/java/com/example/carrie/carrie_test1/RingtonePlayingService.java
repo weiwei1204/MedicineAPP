@@ -12,7 +12,9 @@ import android.os.Bundle;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
+import android.support.v4.app.FragmentManager;
 import android.util.Log;
+
 
 /**
  * Created by rita on 2017/7/13.
@@ -24,6 +26,8 @@ public class RingtonePlayingService extends Service {
     int startId;
     boolean isRunning;
     String alarmid,mcalid,memberid,alarmtype;
+    private FragmentManager manager;
+
 
     @Nullable
     @Override
@@ -83,7 +87,7 @@ public class RingtonePlayingService extends Service {
 
                 NotificationManager notify_manager=(NotificationManager)getSystemService(NOTIFICATION_SERVICE);
 
-                if (intent.getExtras().getString("alarmtype").equals("health")) {
+                if (alarmtype.equals("healthbs")||alarmtype.equals("healthbp")) {
                     Intent intent_alarm=new Intent(this.getApplicationContext(),notification.class);
                     Bundle bundle = new Bundle();
                     bundle.putString("alarmid", String.valueOf(alarmid));
@@ -93,14 +97,14 @@ public class RingtonePlayingService extends Service {
                     intent_alarm.putExtras(bundle);   // 記得put進去，不然資料不會帶過去哦
                     PendingIntent pending_intent_alarm=PendingIntent.getActivity(this, Integer.parseInt(alarmid),intent_alarm,0);
                     Log.d("nonono33", String.valueOf(memberid));
-                    Notification notification_popup=new Notification.Builder(this)
-                            .setSmallIcon(R.drawable.add)
-                            .setContentTitle("測量時間到!!")
-                            .setContentText("click me")
-                            .setContentIntent(pending_intent_alarm)
-                            .setAutoCancel(true)
-                            .build();
-                    notify_manager.notify(Integer.parseInt(alarmid),notification_popup);
+//                    Notification notification_popup=new Notification.Builder(this)
+//                            .setSmallIcon(R.drawable.add)
+//                            .setContentTitle("測量時間到!!")
+//                            .setContentText("click me")
+//                            .setContentIntent(pending_intent_alarm)
+//                            .setAutoCancel(true)
+//                            .build();
+//                    notify_manager.notify(Integer.parseInt(alarmid),notification_popup);
                 }else {
                     Intent intent_alarm=new Intent(this.getApplicationContext(),alarm.class);
                     Bundle bundle = new Bundle();
