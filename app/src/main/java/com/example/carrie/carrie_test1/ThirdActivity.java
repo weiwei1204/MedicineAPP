@@ -768,7 +768,7 @@ public class ThirdActivity extends AppCompatActivity {
                 try {
                     Date date = format.parse(begindate);   //轉為時間格式
                     Calendar now = Calendar.getInstance();
-                    now.setTime(date); //日期為2001/3/1
+                    now.setTime(date);
                     if (today == false){        //起始日不為今日，日期就不用先+1
                         today = true;           //日期開始+1
                     }
@@ -848,6 +848,7 @@ public class ThirdActivity extends AppCompatActivity {
                         my_intent.putExtra("alarmid",id);
                         my_intent.putExtra("mcalid",m_calendarid);
                         my_intent.putExtra("memberid",memberid);
+                        my_intent.putExtra("alarmtype","medicine");
                         pending_intent= PendingIntent.getBroadcast(ThirdActivity.this,Integer.parseInt(id),
                                 my_intent,PendingIntent.FLAG_CANCEL_CURRENT);
                         alarm_manager.setExact(AlarmManager.RTC_WAKEUP, ldate,pending_intent);

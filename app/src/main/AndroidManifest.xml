@@ -140,6 +140,9 @@
         <activity
             android:name=".alarm"
             android:label="@string/title_activity_alarm" />
+        <activity
+            android:name=".notification"
+            android:label="@string/title_activity_notification" />
 
         <receiver android:name=".Alarm_Receiver" />
 

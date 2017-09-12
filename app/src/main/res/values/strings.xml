@@ -30,6 +30,8 @@
     <string name="title_activity_choice">排程</string>
     <string name="title_activity_alarm">時鐘</string>
     <string name="title_activity_edt">edt</string>
+    <string name="title_activity_notification">通知</string>
+
 
 
     <string name="action_settings">Settings</string>
