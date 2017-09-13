@@ -25,7 +25,7 @@ public class ScanAPActivity extends AppCompatActivity{
 
     String memberid;
     // 定義WifiManager對象
-    private WifiManager mWifiManager;
+    public static WifiManager mWifiManager;
     // 定義WifiInfo對象
     private WifiInfo mWifiInfo;
     // 掃描出的網络連接列表
