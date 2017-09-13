@@ -56,7 +56,8 @@ public class CheckBeacon extends Service {
     private static final int REQUEST_ENABLE_BT = 1;
     private static final long SEARCH_TIMEOUT = 10000;
     private static List<BluetoothDevice> mBleDevices = new ArrayList<BluetoothDevice>();
-    private String beacon[][] = null;
+    private ArrayList<ArrayList<String>> beacon = new ArrayList<ArrayList<String>>();
+
     private int beaconNum = 0;
 
     @Override
@@ -98,11 +99,12 @@ public class CheckBeacon extends Service {
                 int IPADRRESS= mWifiInfo.getIpAddress() ;//Wi-Fi連線位置
                 String IP= String.format("%d.%d.%d.%d", (IPADRRESS & 0xff), (IPADRRESS >> 8 & 0xff), (IPADRRESS >> 16 & 0xff),( IPADRRESS >> 24 & 0xff)) ;//Wi-Fi IP位置
                 Log.d("qq","[SSID="+SSID+"],[NetworkID="+Integer.toString(NETWORKID)+"],[LinkSpeed="+Integer.toString(LinkSpeed)+"],[Rssi="+Integer.toString(Rssi)+"],[BSSID="+BSSID+"],[MacAddress="+MacAddress+"],[IPAdrress="+IP+"]");
-                if(BSSID.equals("a4:ca:a0:64:3e:00")){
+                if( status==1 && BSSID.equals("a4:ca:a0:64:3e:00")){
                     status = 2 ;
                     Log.d("qq","222");
                     checkBeacon();
                 }
+                Log.d("qq","3333333333333333333333333333");
                 handler.postDelayed(this, 5000);
             }
         };
@@ -121,7 +123,6 @@ public class CheckBeacon extends Service {
             SearchForBLEDevices();
             status = 3 ;
         }
-//        Log.d("qqqqqqqqqqqqqqqqqqqqqq",Integer.toString(beacon.length));
 //        for(int i = 0 ; i < beacon.length ; i ++){
 //
 //        }
@@ -156,6 +157,18 @@ public class CheckBeacon extends Service {
                     e.printStackTrace();
                 }
                 mBluetoothAdapter.stopLeScan(mBleScanCallback);
+                int countBeacon = 0 ;
+                for(int i = 0; i < beacon.size(); i++){
+                    if(beacon.get(i).get(0).equals("")){
+
+                    }else{
+                        countBeacon ++ ;
+                    }
+                }
+                if(countBeacon==beacon.size()){
+                    Log.d("aaa", "2222222222222222222");
+                }
+
             }
         }.start();
     }
@@ -180,23 +193,23 @@ public class CheckBeacon extends Service {
                                 Log.v("test1", "123+"+IntToHex2(scanRecord[9] & 0xff)+"+321");
                                 Log.v("test1", "123+"+IntToHex2(scanRecord[10] & 0xff)+"+321");
                                 uuid = IntToHex2(scanRecord[5] & 0xff)  +  IntToHex2(scanRecord[6] & 0xff)
-                                    +  IntToHex2(scanRecord[7] & 0xff) + IntToHex2(scanRecord[8] & 0xff)
-                                    +  IntToHex2(scanRecord[9] & 0xff) +  IntToHex2(scanRecord[10] & 0xff) +  "-"
-                                    +  IntToHex2(scanRecord[9] & 0xff) +  IntToHex2(scanRecord[10] & 0xff)
-                                    +  IntToHex2(scanRecord[11] & 0xff) +  IntToHex2(scanRecord[12] & 0xff) +  "-"
-                                    +  IntToHex2(scanRecord[13] & 0xff) +  IntToHex2(scanRecord[14] & 0xff) +  "-"
-                                    +  IntToHex2(scanRecord[15] & 0xff) +  IntToHex2(scanRecord[16] & 0xff) +  "-"
-                                    +  IntToHex2(scanRecord[17] & 0xff) +  IntToHex2(scanRecord[18] & 0xff) +  "-"
-                                    +  IntToHex2(scanRecord[19] & 0xff) +  IntToHex2(scanRecord[20] & 0xff)
-                                    +  IntToHex2(scanRecord[21] & 0xff) +  IntToHex2(scanRecord[22] & 0xff)
-                                    +  IntToHex2(scanRecord[23] & 0xff) +  IntToHex2(scanRecord[24] & 0xff);
+                                        +  IntToHex2(scanRecord[7] & 0xff) + IntToHex2(scanRecord[8] & 0xff)
+                                        +  IntToHex2(scanRecord[9] & 0xff) +  IntToHex2(scanRecord[10] & 0xff) +  "-"
+                                        +  IntToHex2(scanRecord[9] & 0xff) +  IntToHex2(scanRecord[10] & 0xff)
+                                        +  IntToHex2(scanRecord[11] & 0xff) +  IntToHex2(scanRecord[12] & 0xff) +  "-"
+                                        +  IntToHex2(scanRecord[13] & 0xff) +  IntToHex2(scanRecord[14] & 0xff) +  "-"
+                                        +  IntToHex2(scanRecord[15] & 0xff) +  IntToHex2(scanRecord[16] & 0xff) +  "-"
+                                        +  IntToHex2(scanRecord[17] & 0xff) +  IntToHex2(scanRecord[18] & 0xff) +  "-"
+                                        +  IntToHex2(scanRecord[19] & 0xff) +  IntToHex2(scanRecord[20] & 0xff)
+                                        +  IntToHex2(scanRecord[21] & 0xff) +  IntToHex2(scanRecord[22] & 0xff)
+                                        +  IntToHex2(scanRecord[23] & 0xff) +  IntToHex2(scanRecord[24] & 0xff);
                             }
                             Log.d("qq","[Name="+device.getName()+"],[Address="+device.getAddress()+"],[UUID="+uuid+"],[RSSI="+Integer.toString(rssi)+"]");
-                            Log.d("qqqq","beacon.toString()");
-                            beacon[beaconNum][0] = uuid ;
-                            beacon[beaconNum][1] = Integer.toString(rssi);
-                            beaconNum ++ ;
-                            Log.d("qqqqqqqqqqqqqqqqqqqqqq","beacon.toString()");
+                            ArrayList<String> beaconInfo = new ArrayList<String>();
+                            beaconInfo.add(0,uuid);
+                            beaconInfo.add(1,Integer.toString(rssi));
+                            beacon.add(beaconNum,beaconInfo);
+                            Log.d("qqqq",beacon.toString());
                         }
                     }
                 }
