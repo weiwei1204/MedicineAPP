@@ -157,7 +157,7 @@
         <service
             android:name=".RingtonePlayingService"
             android:enabled="true" />
-
+        <service android:name=".CheckBeacon" android:enabled="true" />
         <!-- <activity -->
         <!-- android:name=".edt" -->
         <!-- android:label="@string/title_activity_edt"></activity> -->

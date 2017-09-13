@@ -137,8 +137,7 @@ public class BtnAdapter_scanap extends BaseAdapter {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 //按下按鈕後執行的動作，沒寫則退出Dialog
-                                WifiAdmin(mContext);
-
+//                                WifiAdmin(mContext);
                                 Toast.makeText(mContext,"加入"+ ssid.substring(5),Toast.LENGTH_LONG).show();
                             }
                         }
@@ -152,12 +151,12 @@ public class BtnAdapter_scanap extends BaseAdapter {
                 )
                 .show();
     }
-    public void WifiAdmin(Context context) {
-        // 取得WifiManager對象
-        mWifiManager = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
-//        mWifiManager.setTdlsEnabledWithMacAddress();
-    }
-//    WifiConfiguration CreateWifiInfo(String SSID, String Password, int Type)
+//    public void WifiAdmin(Context context) {
+//        // 取得WifiManager對象
+//        mWifiManager = ScanAPActivity.mWifiManager;
+//        mWifiManager.enableNetwork(25,true);
+//    }
+//    WifiConfiguration CreatettgWifiInfo(String SSID, String Password, int Type)
 //    {
 //        WifiConfiguration config = new WifiConfiguration();
 //        config.allowedAuthAlgorithms.clear();
@@ -198,5 +197,4 @@ public class BtnAdapter_scanap extends BaseAdapter {
 //        return config;
 //    }
 
-//}
 }
