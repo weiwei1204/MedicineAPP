@@ -6,36 +6,45 @@
         android:padding="3dip"
         android:descendantFocusability="blocksDescendants" >
 
-        <ImageView
-            android:id="@+id/ItemImage"
-            android:layout_width="120dp"
-            android:layout_height="120dp"
-            android:padding="2dip"
-            />
+
 
         <LinearLayout
-            android:layout_toRightOf="@id/ItemImage"
-            android:layout_toLeftOf="@+id/ItemButton"
-            android:layout_alignTop="@+id/ItemImage"
-            android:layout_alignBottom="@+id/ItemImage"
+            android:id="@+id/llidb"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/ItemName"
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="left|center_vertical"
-                android:textColor="#272727"
-                android:textSize="20dip"
-                />
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/ItemImage"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_toLeftOf="@+id/ItemName"
+                    android:layout_weight="1"
+                    android:foregroundGravity="center_vertical"
+                    android:gravity="left"
+                    android:padding="2dip" />
+
+                <TextView
+                    android:id="@+id/ItemName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="1"
+                    android:textColor="#272727"
+                    android:textSize="20dip" />
+            </LinearLayout>
 
             <TextView
                 android:id="@+id/ItemAddress"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="left|center_vertical"
+                android:layout_gravity="left|center_vertical"
+                android:layout_marginLeft="7dp"
                 android:textColor="#272727"
                 android:textSize="20dip"
                 />
@@ -43,23 +52,26 @@
                 android:id="@+id/ItemUUID"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="left|center_vertical"
+                android:layout_gravity="left|center_vertical"
+                android:layout_marginLeft="7dp"
                 android:textColor="#272727"
                 android:textSize="20dip"
                 />
             <TextView
-            android:id="@+id/ItemRSSI"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="left|center_vertical"
-            android:textColor="#272727"
-            android:textSize="20dip"
+                android:id="@+id/ItemRSSI"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left|center_vertical"
+                android:layout_marginLeft="7dp"
+                android:textColor="#272727"
+                android:textSize="20dip"
             />
             <TextView
                 android:id="@+id/ItemID"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="left|center_vertical"
+                android:layout_gravity="left|center_vertical"
+                android:layout_marginLeft="7dp"
                 android:textColor="#FAFAFA"
                 android:textSize="20dip"
                 />
@@ -72,6 +84,7 @@
             android:layout_centerVertical="true"
             android:background="@drawable/add"
             android:focusable="false"
+            android:layout_marginRight="5dp"
             />
     //android:contentDescription="@string/adapter_btnText"
     </RelativeLayout>

@@ -25,7 +25,7 @@ public class ScanAPActivity extends AppCompatActivity{
 
     String memberid;
     // 定義WifiManager對象
-    private WifiManager mWifiManager;
+    public static WifiManager mWifiManager;
     // 定義WifiInfo對象
     private WifiInfo mWifiInfo;
     // 掃描出的網络連接列表
@@ -110,11 +110,6 @@ public class ScanAPActivity extends AppCompatActivity{
         mWifiConfiguration = mWifiManager.getConfiguredNetworks();
         //目前已連線的Wi-Fi資訊
         mWifiInfo = mWifiManager.getConnectionInfo();
-    }
-
-    // 得到網络列表
-    public List<ScanResult> getWifiList() {
-        return mWifiList;
     }
 
     // 查看掃描結果

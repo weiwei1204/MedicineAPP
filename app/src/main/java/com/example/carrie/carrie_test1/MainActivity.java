@@ -68,12 +68,7 @@ public class MainActivity extends LoginActivity
         setSupportActionBar(toolbar);
         Bundle bundle = getIntent().getExtras();
         googleid = bundle.getString("googleid");
-//        Log.d("GOOGLEID",googleid);
-//        name = bundle.getString("name");
-//        gender=bundle.getString("gender_man");
-//        weight=bundle.getString("weight");
-//        height=bundle.getString("height");
-//        birth=bundle.getString("birth");
+
 //        Log.d("GOOGLEID",name);
 //        Log.d("GOOGLEID",gender);
 //        Log.d("GOOGLEID",weight);
@@ -153,6 +148,8 @@ public class MainActivity extends LoginActivity
                 return false;
             }
         });
+        Intent intent = new Intent(MainActivity.this,CheckBeacon.class);
+        startService(intent);
     }
 
     private void signOut() {

@@ -47,7 +47,7 @@ public class alarm extends AppCompatActivity {
     String finishm_recordeUrl = "    http://54.65.194.253/Medicine_Calendar/finishm_record.php";
     PendingIntent pending_intent;
     int alarmid;
-    private String mcalid,memberid;
+    private String mcalid,memberid,alarmtype;
     Button delaybtn,alarmoff;
 
     @Override
@@ -68,9 +68,9 @@ public class alarm extends AppCompatActivity {
         alarmid = Integer.parseInt(bundle.getString("alarmid"));
         mcalid = bundle.getString("mcalid");
         memberid = bundle.getString("memberid");
+        alarmtype = bundle.getString("alarmtype");
 
         drugeffect();
-        requestQueue = Volley.newRequestQueue(getApplicationContext());
 
         final Intent my_intent = new Intent(this.context, Alarm_Receiver.class);
         alarmoff.setOnClickListener(new View.OnClickListener() {
@@ -89,7 +89,7 @@ public class alarm extends AppCompatActivity {
             }
         });
 
-
+        requestQueue = Volley.newRequestQueue(getApplicationContext());
         final StringRequest request = new StringRequest(Request.Method.POST, mcalnameUrl, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -194,6 +194,8 @@ public class alarm extends AppCompatActivity {
         my_intent.putExtra("extra","alarm off");
         my_intent.putExtra("alarmid",String.valueOf(alarmid));
         my_intent.putExtra("mcalid",mcalid);
+        my_intent.putExtra("memberid",memberid);
+        my_intent.putExtra("alarmtype",alarmtype);
         pending_intent= PendingIntent.getBroadcast(alarm.this,alarmid,
                 my_intent,PendingIntent.FLAG_CANCEL_CURRENT);
         alarm_manager.cancel(pending_intent);
@@ -260,12 +262,16 @@ public class alarm extends AppCompatActivity {
                             my_intent.putExtra("extra","alarm off");
                             my_intent.putExtra("alarmid",id);
                             my_intent.putExtra("mcalid",mcalid);
+                            my_intent.putExtra("alarmtype",alarmtype);
+                            my_intent.putExtra("memberid",memberid);
                             set_alarm_text("Alarm off!");
                             sendBroadcast(my_intent);
 
                             my_intent.putExtra("extra","alarm on");
                             my_intent.putExtra("alarmid",id);
                             my_intent.putExtra("mcalid",mcalid);
+                            my_intent.putExtra("alarmtype",alarmtype);
+                            my_intent.putExtra("memberid",memberid);
                             pending_intent= PendingIntent.getBroadcast(alarm.this,alarmid,
                                     my_intent,PendingIntent.FLAG_CANCEL_CURRENT);
                             alarm_manager.setExact(AlarmManager.RTC_WAKEUP,ldate+(4-Integer.valueOf(delaycount))*2*60*1000, pending_intent);

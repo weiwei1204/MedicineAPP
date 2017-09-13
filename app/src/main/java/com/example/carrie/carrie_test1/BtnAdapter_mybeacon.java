@@ -1,7 +1,8 @@
 package com.example.carrie.carrie_test1;
 
-import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -127,26 +128,46 @@ public class BtnAdapter_mybeacon extends BaseAdapter {
 
 
     class ItemButton_Click implements OnClickListener {
+        private String id;
         ItemButton_Click(String pos) {
-            uuid = pos;
+            id = pos;
         }
-
         @Override
         public void onClick(View v) {
             int vid=v.getId();
             if (vid == itemView.ItemButton.getId()){
-                Log.v("abc",uuid);
+                Log.v("abc",id);
                 Log.d("abc",mContext.toString());
-                deletebeacon();
+                checkDialog(id);
             }
         }
     }
+    private void checkDialog(final String id) {
+        new AlertDialog.Builder(mContext)
+                .setTitle("刪除Beacon")
+                .setMessage("是否刪除"+id.substring(1)+"?")
+                .setPositiveButton("確定", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                //按下按鈕後執行的動作，沒寫則退出Dialog
+                                deletebeacon(id);
+                                Toast.makeText(mContext,"成功刪除"+ id.substring(1),Toast.LENGTH_LONG).show();
+                            }
+                        }
+                )
+                .setNeutralButton("取消", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                //按下按鈕後執行的動作，沒寫則退出Dialog
+                            }
+                        }
+                )
+                .show();
+    }
 
-    public void deletebeacon() {
+    public void deletebeacon(final String id) {
 
         Log.d("bcon","1h6");
-
-
 
                 BtnAdapter_mybeacon btnAdapter_mybeacon = new BtnAdapter_mybeacon();
 
@@ -163,17 +184,13 @@ public class BtnAdapter_mybeacon extends BaseAdapter {
                     public void onErrorResponse(VolleyError error) {
                         Log.d("nnnmm", error.toString());
                         Toast.makeText(aContext, "Error read deletebeacon.php!!!", Toast.LENGTH_LONG).show();
-                    }
-                })
+                    }})
                 {
                     protected Map<String, String> getParams() throws AuthFailureError {//把值丟到php
                         Map<String, String> parameters = new HashMap<String, String>();
-                        parameters.put("id",uuid);
+                        parameters.put("id",id);
                         Log.d("bcon",parameters.toString());
-
-
                         return parameters;
-
                     }
                 };
                 Log.d("bcon","2");

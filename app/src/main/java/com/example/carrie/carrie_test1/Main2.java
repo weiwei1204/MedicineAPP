@@ -29,6 +29,8 @@ import static com.google.android.gms.wearable.DataMap.TAG;
 
 import com.amazonaws.mobileconnectors.pinpoint.*;
 import com.amazonaws.regions.Regions;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.iid.FirebaseInstanceId;
 
 
@@ -43,6 +45,17 @@ public class Main2 extends Activity {
 
     private TextView mTextMessage;
     String userId = "";
+    private FirebaseAuth mAuth;
+    @Override
+    public void onStart() {
+        super.onStart();
+        // Check if user is signed in (non-null) and update UI accordingly.
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        updateUI(currentUser);
+    }
+
+    private void updateUI(FirebaseUser currentUser) {
+    }
 
 
     @Override
@@ -84,6 +97,8 @@ public class Main2 extends Activity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_main2);
+        mAuth = FirebaseAuth.getInstance();
+
 
 
 

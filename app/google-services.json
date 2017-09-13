@@ -1,7 +1,9 @@
 {
   "project_info": {
     "project_number": "741829064706",
-    "project_id": "medicineapp-169503"
+    "firebase_url": "https://medicineapp-169503.firebaseio.com",
+    "project_id": "medicineapp-169503",
+    "storage_bucket": "medicineapp-169503.appspot.com"
   },
   "client": [
     {
@@ -13,6 +15,42 @@
       },
       "oauth_client": [
         {
+          "client_id": "741829064706-3t3iv0af9iqgu6nc8i39ur0e2r7irm8u.apps.googleusercontent.com",
+          "client_type": 3
+        },
+        {
+          "client_id": "741829064706-qibcupjaolej49gdm84j4hii0lat4g2i.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.carrie.carrie_test1",
+            "certificate_hash": "563802f9d99d047f12061fb77e364d5d20ae1168"
+          }
+        },
+        {
+          "client_id": "741829064706-dd7bvntm1v75vin0h8jiqd0rhmbk12eq.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.carrie.carrie_test1",
+            "certificate_hash": "db2f8cb3f0fb1ea23c5ebb4a1c6fe3e488e32a83"
+          }
+        },
+        {
+          "client_id": "741829064706-fsr7gdklivjt8fp3s63bmvsd8f0nk1ar.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.carrie.carrie_test1",
+            "certificate_hash": "ba04de824c256b4e65f618f3e28b2b0a69079602"
+          }
+        },
+        {
+          "client_id": "741829064706-6oiic7qf976aiklqile47l12ivvq8k2e.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.carrie.carrie_test1",
+            "certificate_hash": "c19a5b803d4f055d93091d92b11210b972f7cb21"
+          }
+        },
+        {
           "client_id": "741829064706-rvao4bneen39btkoi192v06j9iu8tsqj.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
@@ -21,7 +59,7 @@
           }
         },
         {
-          "client_id": "741829064706-qibcupjaolej49gdm84j4hii0lat4g2i.apps.googleusercontent.com",
+          "client_id": "741829064706-ta2la784bjb4kp6gd0f64ffp709d6t8h.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
@@ -35,11 +73,16 @@
           "status": 1
         },
         "appinvite_service": {
-          "status": 1,
-          "other_platform_oauth_client": []
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "741829064706-3t3iv0af9iqgu6nc8i39ur0e2r7irm8u.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         },
         "ads_service": {
-          "status": 1
+          "status": 2
         }
       }
     }
