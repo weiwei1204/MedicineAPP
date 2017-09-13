@@ -100,7 +100,7 @@ public class MyBeaconActivity extends AppCompatActivity {
 
                             HashMap<String, Object> map = new HashMap<String, Object>();
                             map.put("ItemImage", R.drawable.bluetooth1);
-                            map.put("ItemName", "Name:"+beaconname);
+                            map.put("ItemName", " "+beaconname);
                             map.put("ItemAddress", "Address:"+address);
                             map.put("ItemUUID", "UUID:"+UUID);
                             map.put("ItemRSSI", "RSSI:"+RSSI);

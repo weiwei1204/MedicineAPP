@@ -87,7 +87,7 @@ public class MyAPActivity extends AppCompatActivity {
 
                         HashMap<String, Object> map = new HashMap<String, Object>();
                         map.put("ItemImage", R.drawable.wifi);
-                        map.put("ItemSSID", "SSID:" + SSID);
+                        map.put("ItemSSID", " " + SSID);
                         map.put("ItemBSSID", "BSSID:"+BSSID);
                         map.put("ItemCapabilities",""+Capabilities);
                         map.put("ItemLevel", "信號強度:"+Level);

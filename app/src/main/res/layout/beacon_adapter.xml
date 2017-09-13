@@ -36,7 +36,7 @@
                     android:layout_gravity="center_vertical"
                     android:layout_weight="1"
                     android:textColor="#272727"
-                    android:textSize="20dip" />
+                    android:textSize="24dip" />
             </LinearLayout>
 
             <TextView
