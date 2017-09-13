@@ -24,9 +24,6 @@ android {
 }
 
 dependencies {
-    compile 'com.android.support:multidex:1.0.+'
-    compile 'com.amazonaws:aws-android-sdk-pinpoint:2.6.0'
-    compile 'com.amazonaws:aws-android-sdk-ddb-mapper:2.6.0'
     compile('com.amazonaws:aws-android-sdk-auth-core:2.6.0@aar') { transitive = true; }
     compile fileTree(include: ['*.jar'], dir: 'libs')
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
@@ -42,11 +39,15 @@ dependencies {
 //    compile 'com.android.volley:volley:1.0.0'
 
 
-    compile 'com.android.support:design:25.3.1'
 
-    compile 'com.android.support:multidex:1.0.1'
-    compile 'com.amazonaws:aws-android-sdk-core:2.6.0'
+
+    compile 'com.google.gms:google-services:3.1.0'
     compile 'com.android.support:design:25.3.1'
+    compile 'com.android.support:multidex:1.0.1'
+    compile 'com.amazonaws:aws-android-sdk-pinpoint:2.6.0'
+    compile 'com.amazonaws:aws-android-sdk-ddb-mapper:2.6.0'
+    compile 'com.android.support:design:25.3.1'
+    compile 'com.amazonaws:aws-android-sdk-core:2.6.0'
     compile 'com.android.support:appcompat-v7:25.3.1'
     compile 'com.android.support:mediarouter-v7:25.3.1'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
@@ -63,6 +64,18 @@ dependencies {
     compile 'com.android.support:support-v4:25.3.1'
     compile 'me.grantland:autofittextview:0.2.+'
     compile 'com.google.android.gms:play-services-location:10.0.1'
+    compile 'com.google.firebase:firebase-messaging:10.0.1'
+    compile 'com.google.firebase:firebase-auth:10.0.1'
+    compile 'com.google.firebase:firebase-core:10.0.1'
     testCompile 'junit:junit:4.12'
+    allprojects {
+        repositories {
+            jcenter()
+            maven {
+                url "https://maven.google.com"
+            }
+        }
+    }
 }
+
 apply plugin: 'com.google.gms.google-services'
