@@ -14,8 +14,17 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 public class BtnAdapter_myap extends BaseAdapter {
     private ArrayList<HashMap<String, Object>> mAppList;
@@ -23,9 +32,9 @@ public class BtnAdapter_myap extends BaseAdapter {
     private Context mContext;
     private String[] keyString;
     private int[] valueViewID;
-
+    RequestQueue requestQueue;
+    String deleteAPUrl = "http://54.65.194.253/Beacon/deleteAP.php";
     private ItemView itemView;
-
     private class ItemView {
         ImageView ItemImage;
         TextView ItemSSID;
@@ -33,6 +42,7 @@ public class BtnAdapter_myap extends BaseAdapter {
         TextView ItemCapabilities;
         TextView ItemLevel;
         TextView ItemFrequency;
+        TextView ItemID;
         Button ItemButton;
     }
 
@@ -84,6 +94,7 @@ public class BtnAdapter_myap extends BaseAdapter {
             itemView.ItemLevel = (TextView)convertView.findViewById(valueViewID[4]);
             itemView.ItemFrequency = (TextView)convertView.findViewById(valueViewID[5]);
             itemView.ItemButton = (Button)convertView.findViewById(valueViewID[6]);
+            itemView.ItemID = (TextView)convertView.findViewById(valueViewID[7]);
             convertView.setTag(itemView);
         }
 
@@ -96,6 +107,7 @@ public class BtnAdapter_myap extends BaseAdapter {
             String capabilities = (String) appInfo.get(keyString[3]);
             String level = (String) appInfo.get(keyString[4]);
             String frequency = (String) appInfo.get(keyString[5]);
+            String ID = (String) appInfo.get(keyString[7]);
             int bid = (Integer)appInfo.get(keyString[6]);
             itemView.ItemSSID.setText(ssid);
             itemView.ItemBSSID.setText(bssid);
@@ -104,36 +116,36 @@ public class BtnAdapter_myap extends BaseAdapter {
             itemView.ItemFrequency.setText(frequency);
             itemView.ItemImage.setImageDrawable(itemView.ItemImage.getResources().getDrawable(mid));
             itemView.ItemButton.setBackgroundDrawable(itemView.ItemButton.getResources().getDrawable(bid));
-            itemView.ItemButton.setOnClickListener(new ItemButton_Click(ssid));
+            itemView.ItemButton.setOnClickListener(new ItemButton_Click(ID));
         }
 
         return convertView;
     }
 
     class ItemButton_Click implements OnClickListener {
-        private String ssid;
+        private String id;
 
         ItemButton_Click(String pos) {
-            ssid = pos;
+            id = pos;
         }
 
         @Override
         public void onClick(View v) {
             int vid=v.getId();
             if (vid == itemView.ItemButton.getId())
-                checkDialog(ssid);
+                checkDialog(id);
         }
     }
-    private void checkDialog(final String ssid) {
+    private void checkDialog(final String id) {
         new AlertDialog.Builder(mContext)
                 .setTitle("刪除AP")
-                .setMessage("是否刪除"+ssid.substring(5)+"?")
+                .setMessage("是否刪除"+id.substring(1)+"?")
                 .setPositiveButton("確定", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 //按下按鈕後執行的動作，沒寫則退出Dialog
-
-                                Toast.makeText(mContext,"成功刪除"+ ssid.substring(5),Toast.LENGTH_LONG).show();
+                                deleteAP(id);
+                                Toast.makeText(mContext,"成功刪除"+ id.substring(1),Toast.LENGTH_LONG).show();
                             }
                         }
                 )
@@ -146,4 +158,27 @@ public class BtnAdapter_myap extends BaseAdapter {
                 )
                 .show();
     }
+    public void deleteAP(final String id){
+        requestQueue = Volley.newRequestQueue(mContext);
+        final StringRequest request = new StringRequest(Request.Method.POST, deleteAPUrl, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.d("nnnmm", error.toString());
+                Toast.makeText(mContext, "Error read deleteAP.php!!!", Toast.LENGTH_LONG).show();
+            }})
+        {
+            protected Map<String, String> getParams() throws AuthFailureError {//把值丟到php
+                Map<String, String> parameters = new HashMap<String, String>();
+                parameters.put("id",id);
+                return parameters;
+            }
+        };
+        RequestQueue requestQueue = Volley.newRequestQueue(mContext);
+        requestQueue.add(request);
+    }
+
 }
