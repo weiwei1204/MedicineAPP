@@ -44,7 +44,6 @@ public class CheckBeacon extends Service {
     private static final long SEARCH_TIMEOUT = 10000;
     private static List<BluetoothDevice> mBleDevices = new ArrayList<BluetoothDevice>();
     private ArrayList<ArrayList<String>> beacon = new ArrayList<ArrayList<String>>();
-
     private int beaconNum = 0;
     RequestQueue requestQueue;
     String getm_BeaconUrl = "http://54.65.194.253/Beacon/getm_Beacon.php";
@@ -61,6 +60,7 @@ public class CheckBeacon extends Service {
         super.onCreate();
         checkWifi();
         WifiAdmin(getApplicationContext());
+//        getbeacon();
     }
 
 
@@ -90,7 +90,11 @@ public class CheckBeacon extends Service {
                 Log.d("qq","[SSID="+SSID+"],[NetworkID="+Integer.toString(NETWORKID)+"],[LinkSpeed="+Integer.toString(LinkSpeed)+"],[Rssi="+Integer.toString(Rssi)+"],[BSSID="+BSSID+"],[MacAddress="+MacAddress+"],[IPAdrress="+IP+"]");
                 if( status==1 && BSSID.equals("a4:ca:a0:64:3e:00")){
                     status = 2 ;
-                    Log.d("qq","222");
+                    Log.d("qq",Integer.toString(status));
+                    checkBeacon();
+                }else if( status==3 && BSSID.equals("a4:ca:a0:64:3e:00")){
+                    status = 4 ;
+                    Log.d("qq",Integer.toString(status));
                     checkBeacon();
                 }
                 Log.d("qq","3333333333333333333333333333");
@@ -107,10 +111,17 @@ public class CheckBeacon extends Service {
     public void checkBeacon(){
         if(status==2){
             Log.d("qq","333");
-            handler.removeCallbacks(runnable);
+//            handler.removeCallbacks(runnable);
             InitBLE ();
             SearchForBLEDevices();
             status = 3 ;
+        }else if (status == 4){
+            Log.d("qq","333");
+//            handler.removeCallbacks(runnable);
+            InitBLE ();
+            SearchForBLEDevices();
+            status = 5 ;
+
         }
 //        for(int i = 0 ; i < beacon.length ; i ++){
 //
@@ -129,8 +140,8 @@ public class CheckBeacon extends Service {
         }
         if (mBluetoothAdapter.isEnabled() == false) {
             Log.d("qq","444");
-            Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
-            startActivityForResult(enableBtIntent, REQUEST_ENABLE_BT);
+            Intent enableBluetooth = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+            startActivityForResult(enableBluetooth, 0);
         }
     }
 
@@ -300,5 +311,4 @@ public class CheckBeacon extends Service {
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         requestQueue.add(drugrequest);
     }
-
 }
