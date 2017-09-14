@@ -3,6 +3,7 @@ package com.example.carrie.carrie_test1;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.util.Log;
 
 /**
@@ -16,24 +17,57 @@ public class Alarm_Receiver extends BroadcastReceiver{
         Log.d("nonono","1");
 
         Log.d("nonono",intent.toString());
+        String get_your_string=intent.getExtras().getString("extra");
+        String alarmtype = intent.getExtras().getString("alarmtype");
 
         Log.e("We are in there","yap");
+        if (alarmtype.equals("healthbs")||alarmtype.equals("healthbp")){        //辨別適用要排程還是健康排程
+            String alarmid=intent.getExtras().getString("alarmid");
+            String memberid=intent.getExtras().getString("memberid");
 
-        String get_your_string=intent.getExtras().getString("extra");
-        String alarmid=intent.getExtras().getString("alarmid");
-        String mcalid=intent.getExtras().getString("mcalid");
-        String memberid=intent.getExtras().getString("memberid");
+            Log.d("nonono11", alarmid);
 
-        Log.d("nonono1", alarmid);
+            Log.e("What is the key",get_your_string);
 
-        Log.e("What is the key",get_your_string);
+            Intent service_intent=new Intent(context,RingtonePlayingService.class);
+            service_intent.putExtra("extra",get_your_string);
+            service_intent.putExtra("alarmid",alarmid);
+            service_intent.putExtra("memberid",memberid);
+            service_intent.putExtra("alarmtype",alarmtype);
+            context.startService(service_intent);
+            if (get_your_string.equals("alarm on")){
+                Intent intent_alarm=new Intent(context,notification.class);
+                Bundle bundle = new Bundle();
+                bundle.putString("alarmid", String.valueOf(alarmid));
+                bundle.putString("memberid",memberid);
+                bundle.putString("alarmtype",alarmtype);
+                intent_alarm.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent_alarm.putExtras(bundle);   // 記得put進去，不然資料不會帶過去哦
+                context.startActivity(intent_alarm);
+            }
 
-        Intent service_intent=new Intent(context,RingtonePlayingService.class);
-        service_intent.putExtra("extra",get_your_string);
-        service_intent.putExtra("alarmid",alarmid);
-        service_intent.putExtra("mcalid",mcalid);
-        service_intent.putExtra("memberid",memberid);
-        context.startService(service_intent);
+
+        }
+        else {
+            String alarmid=intent.getExtras().getString("alarmid");
+            String mcalid=intent.getExtras().getString("mcalid");
+            String memberid=intent.getExtras().getString("memberid");
+
+            Log.d("nonono1", alarmid);
+
+            Log.e("What is the key",get_your_string);
+
+            Intent service_intent=new Intent(context,RingtonePlayingService.class);
+            service_intent.putExtra("extra",get_your_string);
+            service_intent.putExtra("alarmid",alarmid);
+            service_intent.putExtra("mcalid",mcalid);
+            service_intent.putExtra("memberid",memberid);
+            service_intent.putExtra("alarmtype",alarmtype);
+            context.startService(service_intent);
+        }
+
+
+
     }
 }
 

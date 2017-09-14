@@ -1,85 +1,109 @@
 <?xml version="1.0" encoding="utf-8"?>
-    <RelativeLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="fill_parent"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="match_parent"
+    android:background="#FAFAFA"
+    android:descendantFocusability="blocksDescendants"
+    android:padding="3dip">
+
+
+    <LinearLayout
+        android:id="@+id/llid"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="3dip"
-        android:descendantFocusability="blocksDescendants" >
-
-        <ImageView
-            android:id="@+id/ItemImage"
-            android:layout_width="120dp"
-            android:layout_height="120dp"
-            android:padding="2dip"
-            />
-
+        android:orientation="vertical">
+        <!--android:layout_toLeftOf="@+id/ItemButton"-->
+        <!--android:layout_toRightOf="@id/ItemImage"-->
+        <!--android:layout_alignBottom="@+id/llid"-->
+        <!--android:layout_alignTop="@+id/llid"-->
         <LinearLayout
-            android:layout_toRightOf="@id/ItemImage"
-            android:layout_toLeftOf="@+id/ItemButton"
-            android:layout_alignTop="@+id/ItemImage"
-            android:layout_alignBottom="@+id/ItemImage"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="horizontal"
+            android:layout_gravity="center_vertical"
+            >
+
+            <ImageView
+                android:id="@+id/ItemImage"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_toLeftOf="@+id/ItemSSID"
+                android:layout_weight="1"
+                android:foregroundGravity="center_vertical"
+                android:gravity="left"
+                android:padding="2dip" />
 
             <TextView
                 android:id="@+id/ItemSSID"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="left|center_vertical"
+                android:layout_weight="1"
+                android:layout_gravity="center_vertical"
+                android:text="aaa"
                 android:textColor="#272727"
-                android:textSize="20dip"
-                />
-
-            <TextView
-                android:id="@+id/ItemBSSID"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="left|center_vertical"
-                android:textColor="#272727"
-                android:textSize="16dip"
-                />
-            <TextView
-                android:id="@+id/ItemCapabilities"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="left|center_vertical"
-                android:textColor="#272727"
-                android:textSize="12dip"
-                />
-            <TextView
-            android:id="@+id/ItemLevel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="left|center_vertical"
-            android:textColor="#272727"
-            android:textSize="20dip"
-            />
-            <TextView
-                android:id="@+id/ItemFrequency"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="left|center_vertical"
-                android:textColor="#272727"
-                android:textSize="20dip"
-                />
-            <TextView
-                android:id="@+id/ItemID"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="left|center_vertical"
-                android:textColor="#FAFAFA"
-                android:textSize="20dip"
-                />
+                android:textSize="24dip" />
         </LinearLayout>
 
-        <Button android:id="@+id/ItemButton"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:background="@drawable/add"
-            android:focusable="false"
-            />
+        <TextView
+            android:id="@+id/ItemBSSID"
+            android:layout_width="wrap_content"
+            android:layout_height="23dp"
+            android:layout_gravity="left|center_vertical"
+            android:layout_marginLeft="7dp"
+            android:text="aaa"
+            android:textColor="#272727"
+            android:textSize="20dip" />
+
+        <TextView
+            android:id="@+id/ItemCapabilities"
+            android:layout_width="wrap_content"
+            android:layout_height="23dp"
+            android:layout_marginTop="1dp"
+            android:layout_gravity="left|center_vertical"
+            android:layout_marginLeft="7dp"
+            android:text="aaa"
+            android:textColor="#272727"
+            android:textSize="20dip" />
+
+        <TextView
+            android:id="@+id/ItemLevel"
+            android:layout_width="wrap_content"
+            android:layout_height="23dp"
+            android:layout_gravity="left|center_vertical"
+            android:layout_marginLeft="7dp"
+            android:text="aaa"
+            android:textColor="#272727"
+            android:textSize="20dip" />
+
+        <TextView
+            android:id="@+id/ItemFrequency"
+            android:layout_width="wrap_content"
+            android:layout_height="23dp"
+            android:layout_gravity="left|center_vertical"
+            android:layout_marginLeft="7dp"
+            android:text="aaa"
+            android:textColor="#272727"
+            android:textSize="20dip" />
+
+        <TextView
+            android:id="@+id/ItemID"
+            android:layout_width="wrap_content"
+            android:layout_height="23dp"
+            android:layout_gravity="left|center_vertical"
+            android:layout_marginLeft="7dp"
+            android:text="aaaid"
+            android:textColor="#FAFAFA"
+            android:textSize="20dip" />
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/ItemButton"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginRight="5dp"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:background="@drawable/add"
+        android:focusable="false" />
     //android:contentDescription="@string/adapter_btnText"
-    </RelativeLayout>
+</RelativeLayout>
