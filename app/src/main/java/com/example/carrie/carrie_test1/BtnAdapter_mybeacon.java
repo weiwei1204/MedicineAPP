@@ -35,6 +35,8 @@ public class BtnAdapter_mybeacon extends BaseAdapter {
     RequestQueue requestQueue;
     private ItemView itemView;
     String deletebeaconUrl = "http://54.65.194.253/Beacon/deletebeacon.php";
+    String getAPUrl = "http://54.65.194.253/Beacon/getAP.php";
+
 
     private static String uuid;
     private class ItemView {
