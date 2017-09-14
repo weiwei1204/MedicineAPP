@@ -48,6 +48,8 @@ public class CheckBeacon extends Service {
     private int beaconNum = 0;
     RequestQueue requestQueue;
     String getm_BeaconUrl = "http://54.65.194.253/Beacon/getm_Beacon.php";
+    String getAP = "http://54.65.194.253/Beacon/getAP.php";
+
 
     @Override
     public IBinder onBind(Intent arg0) {
@@ -67,6 +69,8 @@ public class CheckBeacon extends Service {
     @Override
     public void onStart(Intent intent, int startId) {
         Toast.makeText(this, "Service start", Toast.LENGTH_SHORT).show();
+        getAP();
+        getbeacon();
         handler.postDelayed(runnable, 5000);
     }
     public void onDestroy(){
@@ -224,7 +228,7 @@ public class CheckBeacon extends Service {
         final StringRequest drugrequest = new StringRequest(Request.Method.POST, getm_BeaconUrl, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                Log.d("nn11",response);
+                Log.d("nn1111",response);
                 try {
                     JSONArray jarray = new JSONArray(response);
                     final String[] UUIDarray=new String[jarray.length()];
@@ -235,14 +239,14 @@ public class CheckBeacon extends Service {
                         Log.d("nn11",UUID);
                     }
                 } catch (JSONException e) {
-                    Log.d("nn11",e.toString());
+                    Log.d("nn1111",e.toString());
                     e.printStackTrace();
                 }
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.d("nn11", error.toString());
+                Log.d("nn1111", error.toString());
                 Toast.makeText(getApplicationContext(), "Error read getm_Beacon.php!!!", Toast.LENGTH_LONG).show();
             }
         })
@@ -250,7 +254,7 @@ public class CheckBeacon extends Service {
             protected Map<String, String> getParams() throws AuthFailureError {//把值丟到php
                 Map<String, String> parameters = new HashMap<String, String>();
                 parameters.put("member_id","4");
-                Log.d("nn11",parameters.toString());
+                Log.d("nn1111",parameters.toString());
                 return parameters;
             }
         };
@@ -260,10 +264,10 @@ public class CheckBeacon extends Service {
 
     public void getAP(){
         requestQueue = Volley.newRequestQueue(getApplicationContext());
-        final StringRequest drugrequest = new StringRequest(Request.Method.POST, getm_BeaconUrl, new Response.Listener<String>() {
+        final StringRequest drugrequest = new StringRequest(Request.Method.POST, getAP, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                Log.d("nn11",response);
+                Log.d("nn1122",response);
                 try {
                     JSONArray jarray = new JSONArray(response);
                     final String[] SSIDarray=new String[jarray.length()];
@@ -278,22 +282,22 @@ public class CheckBeacon extends Service {
                         Log.d("nn11",BSSID);
                     }
                 } catch (JSONException e) {
-                    Log.d("nn11",e.toString());
+                    Log.d("nn1122",e.toString());
                     e.printStackTrace();
                 }
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.d("nn11", error.toString());
-                Toast.makeText(getApplicationContext(), "Error read getm_Beacon.php!!!", Toast.LENGTH_LONG).show();
+                Log.d("nn1122", error.toString());
+                Toast.makeText(getApplicationContext(), "Error read getm_AP.php!!!", Toast.LENGTH_LONG).show();
             }
         })
         {
             protected Map<String, String> getParams() throws AuthFailureError {//把值丟到php
                 Map<String, String> parameters = new HashMap<String, String>();
                 parameters.put("member_id","4");
-                Log.d("nn11",parameters.toString());
+                Log.d("nn1122",parameters.toString());
                 return parameters;
             }
         };

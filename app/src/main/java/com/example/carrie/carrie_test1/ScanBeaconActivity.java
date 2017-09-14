@@ -19,15 +19,12 @@ import android.view.View;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.android.volley.RequestQueue;
 import com.google.android.gms.location.LocationListener;
-
-import com.android.volley.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-
-import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 
 
 public class ScanBeaconActivity extends AppCompatActivity implements  ActivityCompat.OnRequestPermissionsResultCallback{
@@ -244,45 +241,48 @@ public class ScanBeaconActivity extends AppCompatActivity implements  ActivityCo
                             if (mBleDevices.indexOf(device) == -1) //only add new devices
                             {
                                 mBleDevices.add(device);
-                                for (int i=0; i<1; i++)
+                                if (mBleDevices.size()!=0)
                                 {
-                                    String  uuid = "" ;
-                                    if(scanRecord.length > 30) {
-                                        //從scanRecord 分辦是固定封包是6byte還是9ybge。
-                                        //if((scanRecord[5]  == (byte)0x4c) && (scanRecord[6] == (byte)0x00) && (scanRecord[7]  == (byte)0x02) && (scanRecord[8] == (byte)0x15)) {
-                                        Log.v("test1", "123+"+IntToHex2(scanRecord[5] & 0xff)+"+321");
-                                        Log.v("test1", "123+"+IntToHex2(scanRecord[6] & 0xff)+"+321");
-                                        Log.v("test1", "123+"+IntToHex2(scanRecord[7] & 0xff)+"+321");
-                                        Log.v("test1", "123+"+IntToHex2(scanRecord[8] & 0xff)+"+321");
-                                        Log.v("test1", "123+"+IntToHex2(scanRecord[9] & 0xff)+"+321");
-                                        Log.v("test1", "123+"+IntToHex2(scanRecord[10] & 0xff)+"+321");
-                                        uuid = IntToHex2(scanRecord[5] & 0xff)  +  IntToHex2(scanRecord[6] & 0xff)
-                                            +  IntToHex2(scanRecord[7] & 0xff) + IntToHex2(scanRecord[8] & 0xff)
-                                            +  IntToHex2(scanRecord[9] & 0xff) +  IntToHex2(scanRecord[10] & 0xff) +  "-"
-                                            +  IntToHex2(scanRecord[9] & 0xff) +  IntToHex2(scanRecord[10] & 0xff)
-                                            +  IntToHex2(scanRecord[11] & 0xff) +  IntToHex2(scanRecord[12] & 0xff) +  "-"
-                                            +  IntToHex2(scanRecord[13] & 0xff) +  IntToHex2(scanRecord[14] & 0xff) +  "-"
-                                            +  IntToHex2(scanRecord[15] & 0xff) +  IntToHex2(scanRecord[16] & 0xff) +  "-"
-                                            +  IntToHex2(scanRecord[17] & 0xff) +  IntToHex2(scanRecord[18] & 0xff) +  "-"
-                                            +  IntToHex2(scanRecord[19] & 0xff) +  IntToHex2(scanRecord[20] & 0xff)
-                                            +  IntToHex2(scanRecord[21] & 0xff) +  IntToHex2(scanRecord[22] & 0xff)
-                                            +  IntToHex2(scanRecord[23] & 0xff) +  IntToHex2(scanRecord[24] & 0xff);
+                                    for (int i=0; i<1; i++)
+                                    {
+                                        String  uuid = "" ;
+                                        if(scanRecord.length > 30) {
+                                            //從scanRecord 分辦是固定封包是6byte還是9ybge。
+                                            //if((scanRecord[5]  == (byte)0x4c) && (scanRecord[6] == (byte)0x00) && (scanRecord[7]  == (byte)0x02) && (scanRecord[8] == (byte)0x15)) {
+                                            Log.v("test1", "123+"+IntToHex2(scanRecord[5] & 0xff)+"+321");
+                                            Log.v("test1", "123+"+IntToHex2(scanRecord[6] & 0xff)+"+321");
+                                            Log.v("test1", "123+"+IntToHex2(scanRecord[7] & 0xff)+"+321");
+                                            Log.v("test1", "123+"+IntToHex2(scanRecord[8] & 0xff)+"+321");
+                                            Log.v("test1", "123+"+IntToHex2(scanRecord[9] & 0xff)+"+321");
+                                            Log.v("test1", "123+"+IntToHex2(scanRecord[10] & 0xff)+"+321");
+                                            uuid = IntToHex2(scanRecord[5] & 0xff)  +  IntToHex2(scanRecord[6] & 0xff)
+                                                    +  IntToHex2(scanRecord[7] & 0xff) + IntToHex2(scanRecord[8] & 0xff)
+                                                    +  IntToHex2(scanRecord[9] & 0xff) +  IntToHex2(scanRecord[10] & 0xff) +  "-"
+                                                    +  IntToHex2(scanRecord[9] & 0xff) +  IntToHex2(scanRecord[10] & 0xff)
+                                                    +  IntToHex2(scanRecord[11] & 0xff) +  IntToHex2(scanRecord[12] & 0xff) +  "-"
+                                                    +  IntToHex2(scanRecord[13] & 0xff) +  IntToHex2(scanRecord[14] & 0xff) +  "-"
+                                                    +  IntToHex2(scanRecord[15] & 0xff) +  IntToHex2(scanRecord[16] & 0xff) +  "-"
+                                                    +  IntToHex2(scanRecord[17] & 0xff) +  IntToHex2(scanRecord[18] & 0xff) +  "-"
+                                                    +  IntToHex2(scanRecord[19] & 0xff) +  IntToHex2(scanRecord[20] & 0xff)
+                                                    +  IntToHex2(scanRecord[21] & 0xff) +  IntToHex2(scanRecord[22] & 0xff)
+                                                    +  IntToHex2(scanRecord[23] & 0xff) +  IntToHex2(scanRecord[24] & 0xff);
+                                        }
+                                        HashMap<String, Object> map = new HashMap<String, Object>();
+                                        map.put("ItemImage", R.drawable.wifi);
+                                        map.put("ItemName", " "+device.getName());
+                                        map.put("ItemAddress", device.getAddress());
+                                        Log.d("uuid123"," "+uuid);
+                                        map.put("ItemRSSI", Integer.toString(rssi));
+                                        map.put("ItemButton", R.drawable.add);
+                                        Item.add(map);
+                                        Log.d("uuid",Item.toString());
                                     }
-                                    HashMap<String, Object> map = new HashMap<String, Object>();
-                                    map.put("ItemImage", R.drawable.wifi);
-                                    map.put("ItemName", "Name:"+device.getName());
-                                    map.put("ItemAddress", "Address:"+device.getAddress());
-                                    map.put("ItemUUID", "UUID:"+uuid);
-                                    Log.d("uuid123",uuid);
-                                    map.put("ItemRSSI", "RSSI:"+Integer.toString(rssi));
-                                    map.put("ItemButton", R.drawable.add);
-                                    Item.add(map);
-                                    Log.d("uuid",Item.toString());
+                                    BtnAdapter_scanbeacon btnadapter_scanbeacon = new BtnAdapter_scanbeacon(ScanBeaconActivity.this,context, Item, R.layout.beacon_adapter,
+                                            new String[]{"ItemImage","ItemName", "ItemAddress","ItemUUID","ItemRSSI","ItemButton"},
+                                            new int[] {R.id.ItemImage,R.id.ItemName,R.id.ItemAddress,R.id.ItemUUID,R.id.ItemRSSI,R.id.ItemButton});
+                                    lv.setAdapter(btnadapter_scanbeacon);
                                 }
-                                BtnAdapter_scanbeacon btnadapter_scanbeacon = new BtnAdapter_scanbeacon(context, Item, R.layout.beacon_adapter,
-                                        new String[]{"ItemImage","ItemName", "ItemAddress","ItemUUID","ItemRSSI","ItemButton"},
-                                        new int[] {R.id.ItemImage,R.id.ItemName,R.id.ItemAddress,R.id.ItemUUID,R.id.ItemRSSI,R.id.ItemButton});
-                                lv.setAdapter(btnadapter_scanbeacon);
+                                else {return;}
                             }
 
                         }
