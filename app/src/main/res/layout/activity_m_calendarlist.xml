@@ -37,10 +37,10 @@
                 android:id="@+id/textView17"
                 android:layout_width="40dp"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="15dp"
+                android:layout_marginLeft="10dp"
                 android:layout_marginTop="15dp"
                 android:layout_weight="1"
-                android:text="起始日"
+                android:text="完成百分比"
                 android:textColor="#FCFCFC"
                 android:textSize="22dp"
                 android:gravity="center_horizontal"/>
@@ -51,7 +51,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
                 android:layout_weight="1"
-                android:text="百分比"
+                android:text="延遲次數"
                 android:textColor="#FCFCFC"
                 android:textSize="22dp"
                 android:gravity="center_horizontal"/>

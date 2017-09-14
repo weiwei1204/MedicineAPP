@@ -30,7 +30,6 @@ import com.android.volley.toolbox.Volley;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
-import com.google.firebase.iid.FirebaseInstanceId;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -69,6 +68,7 @@ public class MainActivity extends LoginActivity
         setSupportActionBar(toolbar);
         Bundle bundle = getIntent().getExtras();
         googleid = bundle.getString("googleid");
+        memberdata.setGoogle_id(googleid);
 
 //        Log.d("GOOGLEID",name);
 //        Log.d("GOOGLEID",gender);
@@ -276,6 +276,7 @@ public class MainActivity extends LoginActivity
             public void onResponse(String response) {
                 Log.d("rrr123", response);
                 memberid = response;
+                memberdata.setMember_id(response);
                 getMeasureInformation();
             }
         }, new Response.ErrorListener() {
@@ -341,6 +342,7 @@ public class MainActivity extends LoginActivity
                     //Log.d("monitor_response",response);
                     my_mon_id = response;
                     Log.d("my_mon_id222", my_mon_id);
+                    memberdata.setMy_mon_id(response);
                     //addMonitor();//新增監控者至監視列表
                 }
             }

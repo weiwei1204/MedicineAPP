@@ -9,7 +9,6 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
-import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
 import android.util.Log;
@@ -294,7 +293,7 @@ public class CheckBeacon extends Service {
         {
             protected Map<String, String> getParams() throws AuthFailureError {//把值丟到php
                 Map<String, String> parameters = new HashMap<String, String>();
-                parameters.put("member_id","4");
+                parameters.put("member_id","6");
                 Log.d("nn1111",parameters.toString());
 
                 return parameters;
@@ -339,7 +338,7 @@ public class CheckBeacon extends Service {
         {
             protected Map<String, String> getParams() throws AuthFailureError {//把值丟到php
                 Map<String, String> parameters = new HashMap<String, String>();
-                parameters.put("member_id","4");
+                parameters.put("member_id","6");
                 Log.d("nn1122",parameters.toString());
 
                 return parameters;

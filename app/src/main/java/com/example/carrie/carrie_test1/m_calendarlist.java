@@ -17,11 +17,12 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
 import org.json.JSONArray;
@@ -29,7 +30,10 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
 /**
  * Created by rita on 2017/8/16.
  */
@@ -92,42 +96,29 @@ public class m_calendarlist extends Activity{
         }
 
         requestQueue = Volley.newRequestQueue(getApplicationContext());
-        final JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, getm_calendarUrl, new Response.Listener<JSONObject>() {
+        final StringRequest request = new StringRequest(Request.Method.POST, getm_calendarUrl, new Response.Listener<String>() {
             @Override
-            public void onResponse(JSONObject response) {
+            public void onResponse(String response) {
                 try {
-                    Log.d("qqq","1");
-                    JSONArray mcalendars = response.getJSONArray("mcalendars");
-                    Log.d("qqq","3");
-                    int count=0;
-                    for (int i=0 ; i<mcalendars.length() ; i++){
-                        JSONObject mcalendar = mcalendars.getJSONObject(i);
-                        String Member_id = mcalendar.getString("member_id");
-                        if (Member_id.equals(memberid)){
-                            count++;
-                            Log.d("fffabc", String.valueOf(count));
-                        };
-                    }
-                    final String[] mid=new String[count];
-                    final String[] mname=new String[count];
-                    final String[] mdate=new String[count];
-                    final String[] mday=new String[count];
-                    count=0;
-                    for (int i=0 ; i<mcalendars.length() ; i++){
-                        JSONObject mcalendar = mcalendars.getJSONObject(i);
+                    Log.d("nn11",response.toString());
+                    JSONArray jarray = new JSONArray(response);
+                    final String[] mid=new String[jarray.length()];
+                    final String[] mname=new String[jarray.length()];
+                    final String[] mdelay=new String[jarray.length()];
+                    final String[] mday=new String[jarray.length()];
+                    for (int i=0 ; i<jarray.length() ; i++){
+                        JSONObject mcalendar = jarray.getJSONObject(i);
                         String id = mcalendar.getString("id");
                         String name = mcalendar.getString("name");
                         String Member_id = mcalendar.getString("member_id");
-                        String startDate = mcalendar.getString("startDate");
+                        String delay = mcalendar.getString("delay");
                         String day = mcalendar.getString("day");
-                        if (Member_id.equals(memberid)){
-                            mid[count] = id;
-                            mname[count] = name;
-                            mdate[count] = startDate;
-                            mday[count] = day;
-                            m_calendararray.add(new m_calendar(Integer.valueOf(mid[count]),mname[count],mdate[count],mday[count]));
-                            count++;
-                        };
+                        mid[i] = id;
+                        mname[i] = name;
+                        mdelay[i] = delay;
+                        mday[i] = day;
+                        m_calendararray.add(new m_calendar(Integer.valueOf(mid[i]),mname[i],mday[i],mdelay[i]));
+
                     }//取值結束
                     madapter();
                 }catch (JSONException e){
@@ -138,8 +129,16 @@ public class m_calendarlist extends Activity{
             @Override
             public void onErrorResponse(VolleyError error) {
             }
-        });
-        requestQueue.add(jsonObjectRequest);
+        }){
+            protected Map<String, String> getParams() throws AuthFailureError {//把值丟到php
+                Map<String, String> parameters = new HashMap<String, String>();
+                parameters.put("member_id",memberdata.getMember_id());
+                Log.d("nn11",parameters.toString());
+                return parameters;
+            }
+        };
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(request);
 
 
 

@@ -173,36 +173,21 @@ public class ThirdActivity extends AppCompatActivity {
 
     public void getBeacon(){//取此會員的beacon
         requestQueue = Volley.newRequestQueue(getApplicationContext());
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, getBeaconUrl, new Response.Listener<JSONObject>() {
+        final StringRequest request = new StringRequest(Request.Method.POST, getBeaconUrl, new Response.Listener<String>() {
             @Override
-            public void onResponse(JSONObject response) {
+            public void onResponse(String response) {
                 try {
-
-                    JSONArray beacons = response.getJSONArray("Beacons");
-                    int count=0;
-                    for (int i=0 ; i<beacons.length() ; i++){
-                        JSONObject beacon = beacons.getJSONObject(i);
-                        String Member_id = beacon.getString("member_id");
-                        if (Member_id.equals(memberid)){
-                            count++;
-                            Log.d("fffabc", String.valueOf(count));
-                        };
-                    }
-                    Log.d("vvv123", String.valueOf(count));
-                    final String[] beaconarray=new String[count];
-                    final String[] beaconaidrray=new String[count];
-                    count=0;
-                    for (int i=0 ; i<beacons.length() ; i++){
-                        JSONObject beacon = beacons.getJSONObject(i);
+                    Log.d("nn11",response.toString());
+                    JSONArray jarray = new JSONArray(response);
+                    final String[] beaconarray=new String[jarray.length()];
+                    final String[] beaconaidrray=new String[jarray.length()];
+                    for (int i=0 ; i<jarray.length() ; i++){
+                        JSONObject beacon = jarray.getJSONObject(i);
                         String UUID = beacon.getString("UUID");
                         String Member_id = beacon.getString("member_id");
                         String id = beacon.getString("id");
-                        if (Member_id.equals(memberid)){
-                            beaconaidrray[count] = id;
-                            beaconarray[count] = UUID;
-                            Log.d("vvvvv",beaconarray[count]);
-                            count++;
-                        };
+                        beaconaidrray[i] = id;
+                        beaconarray[i] = UUID;
                     }//取值結束
                     adapterbeacon = new ArrayAdapter(ThirdActivity.this,android.R.layout.simple_spinner_item,beaconarray);
                     adapterbeacon.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -231,8 +216,16 @@ public class ThirdActivity extends AppCompatActivity {
             @Override
             public void onErrorResponse(VolleyError error) {
             }
-        });
-        requestQueue.add(jsonObjectRequest);
+        }) {
+            protected Map<String, String> getParams() throws AuthFailureError {//把值丟到php
+                Map<String, String> parameters = new HashMap<String, String>();
+                parameters.put("member_id",memberid);
+                Log.d("nn11",parameters.toString());
+                return parameters;
+            }
+        };
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(request);
     }
 
 //    public void spinnerbcon(){
