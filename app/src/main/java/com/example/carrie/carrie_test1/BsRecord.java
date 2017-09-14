@@ -46,6 +46,7 @@ public class BsRecord extends Fragment {
     public static String member_id; //從資料庫抓的
     public static String bloodsugar="";
     public static String savetime="";
+    public static String googleid;
     ImageButton btn;
     FloatingActionButton press;
     View rootView;
@@ -56,6 +57,8 @@ public class BsRecord extends Fragment {
         rootView = inflater.inflate(R.layout.activity_bs_record, container, false);
         Bundle bundle = getActivity().getIntent().getExtras();
         memberid = bundle.getString("memberid");
+        googleid = bundle.getString("googleid");
+        Log.d("3434","googleid: "+googleid);
         record_list = new ArrayList<>();
         getData();
         listView = (ListView)rootView.findViewById(R.id.list_view);
@@ -178,6 +181,7 @@ public class BsRecord extends Fragment {
         Intent it = new Intent(getActivity(),EnterBsValue.class);
         Bundle bundle = new Bundle();
         bundle.putString("memberid", memberid);
+        bundle.putString("googleid",EnterBsBpActivity.my_google);
         it.putExtras(bundle);
         startActivity(it);
     }

@@ -49,6 +49,7 @@ public  class BsBpDialogFragment extends DialogFragment {
             public void onClick(View v) {
                 Intent it = new Intent(getActivity(),EnterBsBpActivity.class);
                 it.putExtra("memberid",MonitorActivity.my_id);
+                it.putExtra("my_google_id",MonitorActivity.my_google_id);
                 startActivity(it);
                 getActivity().finish();
 
