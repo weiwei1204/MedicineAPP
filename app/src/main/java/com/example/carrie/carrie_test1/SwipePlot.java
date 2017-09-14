@@ -139,9 +139,11 @@ public class SwipePlot extends AppCompatActivity implements ViewPager.OnPageChan
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        Intent i=new Intent(this,SwipePlot.class);
+        Intent i=new Intent(getApplicationContext(),MainActivity.class);
         i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        i.putExtra("googleid",my_google_id);
+        startActivity(i);
         finish();
 
 //        int count = getFragmentManager().getBackStackEntryCount();

@@ -249,5 +249,10 @@
     </string>
     <string name="title_activity_enter_bs_value">EnterBsValue</string>
     <string name="title_activity_enter_bp_value">EnterBpValue</string>
+    <string name="aws_region">us-east-1</string>
+    <string name="bot_name">YuanBot</string>
+    <string name="bot_alias">version</string>
+    <string name="identity_id_test">us-east-1:9d8262a8-fa3c-4449-91bd-fc4841000a24</string>
+    <string name="screen_options_main_message">Amazon Lex</string>
 
 </resources>
