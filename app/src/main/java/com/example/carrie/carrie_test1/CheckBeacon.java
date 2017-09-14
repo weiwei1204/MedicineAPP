@@ -13,36 +13,19 @@ import android.os.Handler;
 import android.os.IBinder;
 import android.util.Log;
 import android.widget.Toast;
-
 import java.util.ArrayList;
 import java.util.List;
 
-import android.app.ListActivity;
-import android.bluetooth.BluetoothAdapter;
-import android.bluetooth.BluetoothClass;
-import android.bluetooth.BluetoothDevice;
-import android.bluetooth.BluetoothManager;
-import android.content.Context;
-import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.os.Bundle;
-import android.os.ParcelUuid;
-import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.Window;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.Toast;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 
-import java.lang.reflect.Array;
-import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.UUID;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class CheckBeacon extends Service {
     private Handler handler = new Handler( );
@@ -57,8 +40,10 @@ public class CheckBeacon extends Service {
     private static final long SEARCH_TIMEOUT = 10000;
     private static List<BluetoothDevice> mBleDevices = new ArrayList<BluetoothDevice>();
     private ArrayList<ArrayList<String>> beacon = new ArrayList<ArrayList<String>>();
-
     private int beaconNum = 0;
+//    RequestQueue requestQueue;
+//    String getm_BeaconUrl = "http://54.65.194.253/Beacon/getm_Beacon.php";
+
 
     @Override
     public IBinder onBind(Intent arg0) {
@@ -72,6 +57,7 @@ public class CheckBeacon extends Service {
         super.onCreate();
         checkWifi();
         WifiAdmin(getApplicationContext());
+//        getbeacon();
     }
 
 
@@ -101,7 +87,11 @@ public class CheckBeacon extends Service {
                 Log.d("qq","[SSID="+SSID+"],[NetworkID="+Integer.toString(NETWORKID)+"],[LinkSpeed="+Integer.toString(LinkSpeed)+"],[Rssi="+Integer.toString(Rssi)+"],[BSSID="+BSSID+"],[MacAddress="+MacAddress+"],[IPAdrress="+IP+"]");
                 if( status==1 && BSSID.equals("a4:ca:a0:64:3e:00")){
                     status = 2 ;
-                    Log.d("qq","222");
+                    Log.d("qq",Integer.toString(status));
+                    checkBeacon();
+                }else if( status==3 && BSSID.equals("a4:ca:a0:64:3e:00")){
+                    status = 4 ;
+                    Log.d("qq",Integer.toString(status));
                     checkBeacon();
                 }
                 Log.d("qq","3333333333333333333333333333");
@@ -118,10 +108,17 @@ public class CheckBeacon extends Service {
     public void checkBeacon(){
         if(status==2){
             Log.d("qq","333");
-            handler.removeCallbacks(runnable);
+//            handler.removeCallbacks(runnable);
             InitBLE ();
             SearchForBLEDevices();
             status = 3 ;
+        }else if (status == 4){
+            Log.d("qq","333");
+//            handler.removeCallbacks(runnable);
+            InitBLE ();
+            SearchForBLEDevices();
+            status = 5 ;
+
         }
 //        for(int i = 0 ; i < beacon.length ; i ++){
 //
@@ -140,8 +137,8 @@ public class CheckBeacon extends Service {
         }
         if (mBluetoothAdapter.isEnabled() == false) {
             Log.d("qq","444");
-            Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
-            startActivityForResult(enableBtIntent, REQUEST_ENABLE_BT);
+            Intent enableBluetooth = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+            startActivityForResult(enableBluetooth, 0);
         }
     }
 
@@ -230,4 +227,28 @@ public class CheckBeacon extends Service {
     public void startActivityForResult(Intent intent, int requestCode) {
         throw new RuntimeException("Stub!");
     }
+//    public void getbeacon(){
+//        requestQueue = Volley.newRequestQueue(getApplicationContext());
+//        final StringRequest drugrequest = new StringRequest(Request.Method.POST, getm_BeaconUrl, new Response.Listener<String>() {
+//            @Override
+//            public void onResponse(String response) {
+//                Log.d("nn11",response);
+//                try {
+//                    JSONArray jarray = new JSONArray(response);
+//                    final String[] UUIDarray=new String[jarray.length()];
+//                    for (int i=0;i<jarray.length();i++) {
+//                        JSONObject obj = jarray.getJSONObject(i);
+//                        String UUID = obj.getString("UUID");
+//                        UUIDarray[i] = UUID;
+//
+//                    }
+//                }catch (JSONException e){
+//                    e.printStackTrace();
+//                }
+//            }
+//        }, new Response.ErrorListener() {
+//            @Override
+//            public void onErrorResponse(VolleyError error) {}
+//        });
+//    }
 }
