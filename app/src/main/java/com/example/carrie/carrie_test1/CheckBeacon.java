@@ -220,7 +220,7 @@ public class CheckBeacon extends Service {
                     }
 
                 }
-                needBeacon.clear();
+
                 bringBeacon.clear();
                 Log.d("needBeaconSize", Integer.toString(needBeacon.size()));
                 Log.d("bringBeaconSize", Integer.toString(bringBeacon.size()));
