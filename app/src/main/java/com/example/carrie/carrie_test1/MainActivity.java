@@ -149,8 +149,8 @@ public class MainActivity extends LoginActivity
                 return false;
             }
         });
-        Intent intent = new Intent(MainActivity.this,CheckBeacon.class);
-        startService(intent);
+//        Intent intent = new Intent(MainActivity.this,CheckBeacon.class);
+//        startService(intent);
     }
 
     private void signOut() {
@@ -190,7 +190,7 @@ public class MainActivity extends LoginActivity
         bundle.putString("my_google_id", googleid);
         bundle.putString("my_supervise_id", my_mon_id);
         bundle.putString("memberid", memberid);
-        Log.d("fffaaa", memberid);
+//        Log.d("fffaaa", memberid);
         it.putExtras(bundle);   // 記得put進去，不然資料不會帶過去哦
         startActivity(it);
     }
