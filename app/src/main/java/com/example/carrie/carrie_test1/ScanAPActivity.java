@@ -140,13 +140,14 @@ public class ScanAPActivity extends AppCompatActivity{
             map.put("ItemButton", R.drawable.add);
             Item.add(map);
         }
-        BtnAdapter_scanap btnadapter_scanap = new BtnAdapter_scanap(context, Item, R.layout.ap_adapter,
+        BtnAdapter_scanap btnadapter_scanap = new BtnAdapter_scanap(ScanAPActivity.this,context, Item, R.layout.ap_adapter,
                 new String[]{"ItemImage","ItemSSID", "ItemBSSID", "ItemCapabilities","ItemLevel","ItemFrequency","ItemButton"},
                 new int[] {R.id.ItemImage,R.id.ItemSSID,R.id.ItemBSSID,R.id.ItemCapabilities,R.id.ItemLevel,R.id.ItemFrequency,R.id.ItemButton});
         lv.setAdapter(btnadapter_scanap);
     }
 
     public void goback(View v){
+
         finish();
     }
 }

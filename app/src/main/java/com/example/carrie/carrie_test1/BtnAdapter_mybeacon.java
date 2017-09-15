@@ -117,9 +117,9 @@ public class BtnAdapter_mybeacon extends BaseAdapter {
             String ID = (String) appInfo.get(keyString[6]);
             int bid = (Integer)appInfo.get(keyString[5]);
             itemView.ItemName.setText(name);
-            itemView.ItemAddress.setText(address);
-            itemView.ItemUUID.setText(uuid);
-            itemView.ItemRSSI.setText(rssi);
+            itemView.ItemAddress.setText("Address:"+address);
+            itemView.ItemUUID.setText("UUID:"+uuid);
+            itemView.ItemRSSI.setText("RSSI:"+rssi);
             itemView.ItemImage.setImageDrawable(itemView.ItemImage.getResources().getDrawable(mid));
             itemView.ItemButton.setBackgroundDrawable(itemView.ItemButton.getResources().getDrawable(bid));
             itemView.ItemButton.setOnClickListener(new ItemButton_Click(ID));
