@@ -18,24 +18,29 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:text="收縮壓(高)"
+            android:layout_marginTop="120dp"
+            android:layout_marginRight="15dp"
+            android:textColor="#000000"
             android:gravity="center"/>
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
         <EditText
             android:id="@+id/highmmhg"
-            android:layout_width="250dp"
+            android:layout_width="200dp"
             android:layout_height="wrap_content"
             android:layout_below="@+id/textView1"
             android:layout_centerHorizontal="true"
+            android:gravity="center"
             android:layout_marginTop="10dp" />
 
             <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="mmHg"
-                android:gravity="right"
-                android:layout_marginTop="10dp"/></LinearLayout>
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="mmHg"
+            android:textColor="#000000"
+            android:gravity="right"
+            android:layout_marginTop="10dp"/></LinearLayout>
 
 
 
@@ -43,21 +48,26 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:text="舒張壓(低)"
+            android:layout_marginRight="15dp"
+            android:textColor="#000000"
             android:gravity="center"/>
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
+
         <EditText
             android:id="@+id/lowmmhg"
-            android:layout_width="250dp"
+            android:layout_width="200dp"
             android:layout_height="wrap_content"
             android:layout_below="@+id/textView1"
             android:layout_centerHorizontal="true"
+            android:gravity="center"
             android:layout_marginTop="10dp" />
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="mmHg"
+            android:textColor="#000000"
             android:gravity="right"
             android:layout_marginTop="10dp"/>
         </LinearLayout>
@@ -66,7 +76,9 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginRight="15dp"
             android:text="心跳"
+            android:textColor="#000000"
             android:gravity="center"/>
     <LinearLayout
         android:layout_width="wrap_content"
@@ -74,39 +86,43 @@
 
         <EditText
             android:id="@+id/bpm"
-            android:layout_width="250dp"
+            android:layout_width="200dp"
             android:layout_height="wrap_content"
             android:layout_below="@+id/textView1"
             android:layout_centerHorizontal="true"
+            android:gravity="center"
             android:layout_marginTop="10dp" />
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="bpm"
+            android:textColor="#000000"
             android:gravity="right"
+            android:layout_marginRight="10dp"
             android:layout_marginTop="10dp"/>
         </LinearLayout>
-        <CheckBox
-            android:id="@+id/checkBox1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/editText1"
-            android:layout_toLeftOf="@+id/button1"
-            android:layout_marginTop="8dp"
-            android:text="飯前" />
-        <CheckBox
-            android:id="@+id/checkBox2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/editText1"
-            android:layout_toLeftOf="@+id/button1"
-            android:layout_marginTop="8dp"
-            android:text="飯後" />
+        <!--<CheckBox-->
+            <!--android:id="@+id/checkBox1"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_below="@+id/editText1"-->
+            <!--android:layout_toLeftOf="@+id/button1"-->
+            <!--android:layout_marginTop="8dp"-->
+            <!--android:text="飯前" />-->
+        <!--<CheckBox-->
+            <!--android:id="@+id/checkBox2"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_below="@+id/editText1"-->
+            <!--android:layout_toLeftOf="@+id/button1"-->
+            <!--android:layout_marginTop="8dp"-->
+            <!--android:text="飯後" />-->
 
         <Button
             android:id="@+id/button1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginRight="15dp"
             android:text="確認送出"
             android:onClick="setInsertbpvalue"/>
 
