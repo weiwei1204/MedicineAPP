@@ -197,6 +197,7 @@ public class CheckBeacon extends Service {
                 }
                 if(countBeacon!=needBeacon.size()){
                     Log.d("aaa", "沒帶Beacon!!!!!!!!!!");
+                    
                 }
                 needBeacon.clear();
                 bringBeacon.clear();

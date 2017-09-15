@@ -116,7 +116,7 @@ public class BtnAdapter_myap extends BaseAdapter {
             itemView.ItemFrequency.setText(frequency);
             itemView.ItemImage.setImageDrawable(itemView.ItemImage.getResources().getDrawable(mid));
             itemView.ItemButton.setBackgroundDrawable(itemView.ItemButton.getResources().getDrawable(bid));
-            itemView.ItemButton.setOnClickListener(new ItemButton_Click(ID));
+            itemView.ItemButton.setOnClickListener(new ItemButton_Click(ID,ssid,bssid.substring(6)));
         }
 
         return convertView;
@@ -124,28 +124,32 @@ public class BtnAdapter_myap extends BaseAdapter {
 
     class ItemButton_Click implements OnClickListener {
         private String id;
+        private String ssid;
+        private String bssid;
 
-        ItemButton_Click(String pos) {
-            id = pos;
+        ItemButton_Click(String ID,String SSID,String BSSID) {
+            id = ID;
+            ssid = SSID;
+            bssid = BSSID;
         }
 
         @Override
         public void onClick(View v) {
             int vid=v.getId();
             if (vid == itemView.ItemButton.getId())
-                checkDialog(id);
+                checkDialog(id,ssid,bssid);
         }
     }
-    private void checkDialog(final String id) {
+    private void checkDialog(final String id, final String ssid, final String bssid) {
         new AlertDialog.Builder(mContext)
                 .setTitle("刪除AP")
-                .setMessage("是否刪除"+id.substring(1)+"?")
+                .setMessage("是否刪除"+ssid+"\n("+bssid+")?")
                 .setPositiveButton("確定", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 //按下按鈕後執行的動作，沒寫則退出Dialog
                                 deleteAP(id);
-                                Toast.makeText(mContext,"成功刪除"+ id.substring(1),Toast.LENGTH_LONG).show();
+                                Toast.makeText(mContext,"成功刪除"+ ssid,Toast.LENGTH_LONG).show();
                             }
                         }
                 )

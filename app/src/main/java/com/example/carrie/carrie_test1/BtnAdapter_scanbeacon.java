@@ -177,7 +177,7 @@ public class BtnAdapter_scanbeacon extends BaseAdapter {
         {
             protected Map<String, String> getParams() throws AuthFailureError {//把值丟到php
                 Map<String, String> parameters = new HashMap<String, String>();
-                parameters.put("member_id","4");
+                parameters.put("member_id","6");
                 parameters.put("UUID",uuid);
                 parameters.put("address",address);
                 parameters.put("RSSI",rssi);
