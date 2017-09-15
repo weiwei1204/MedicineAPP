@@ -271,11 +271,12 @@ public class ScanBeaconActivity extends AppCompatActivity implements  ActivityCo
                                         map.put("ItemImage", R.drawable.wifi);
                                         map.put("ItemName", " "+device.getName());
                                         map.put("ItemAddress", device.getAddress());
+                                        map.put("ItemUUID", uuid);
                                         Log.d("uuid123"," "+uuid);
                                         map.put("ItemRSSI", Integer.toString(rssi));
                                         map.put("ItemButton", R.drawable.add);
                                         Item.add(map);
-                                        Log.d("uuid",Item.toString());
+                                        Log.d("uuid123",Item.toString());
                                     }
                                     BtnAdapter_scanbeacon btnadapter_scanbeacon = new BtnAdapter_scanbeacon(ScanBeaconActivity.this,context, Item, R.layout.beacon_adapter,
                                             new String[]{"ItemImage","ItemName", "ItemAddress","ItemUUID","ItemRSSI","ItemButton"},

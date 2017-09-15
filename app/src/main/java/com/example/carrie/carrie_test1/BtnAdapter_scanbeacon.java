@@ -131,6 +131,8 @@ public class BtnAdapter_scanbeacon extends BaseAdapter {
 //            if (!uuid.equals(null)){
 //                this.uuid = uuid;
 //            }
+            this.name = name;
+            this.uuid = uuid;
             this.address = address;
             this.rssi = rssi;
         }
