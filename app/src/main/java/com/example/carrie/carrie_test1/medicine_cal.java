@@ -3,12 +3,14 @@ package com.example.carrie.carrie_test1;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Vibrator;
 import android.support.annotation.RequiresApi;
 import android.support.design.widget.TextInputLayout;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -31,7 +33,6 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
@@ -96,6 +97,7 @@ public class medicine_cal extends AppCompatActivity {
         Bundle bundle2 = getIntent().getExtras();
         entertype= bundle2.getInt("entertype");
         m_calid=bundle2.getString("m_calid");
+        memberid=bundle2.getString("memberid");
 
         Bundle bundle1 = getIntent().getExtras();
         entertype=bundle1.getInt("entertype");
@@ -112,11 +114,10 @@ public class medicine_cal extends AppCompatActivity {
             drug(medicine_cal.this,modifydrug);
 
         }
-
+        checkDialog();
         gettime();
 //        Bundle bundle = getIntent().getExtras();
 //        m_calid=bundle.getString("m_calid");
-        m_delete();
 
 
         m_modify.setOnClickListener(new View.OnClickListener() {
@@ -131,13 +132,14 @@ public class medicine_cal extends AppCompatActivity {
 
 
         requestQueue = Volley.newRequestQueue(getApplicationContext());
-        final JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, getm_calendarUrl, new Response.Listener<JSONObject>() {
+        final StringRequest request = new StringRequest(Request.Method.POST, getm_calendarUrl, new Response.Listener<String>() {
             @Override
-            public void onResponse(JSONObject response) {
+            public void onResponse(String response) {
                 try {
-                    JSONArray mcalendars = response.getJSONArray("mcalendars");
-                    for (int i=0 ; i<mcalendars.length() ; i++){
-                        JSONObject mcalendar = mcalendars.getJSONObject(i);
+                    Log.d("nn11",response.toString());
+                    JSONArray jarray = new JSONArray(response);
+                    for (int i=0 ; i<jarray.length() ; i++){
+                        JSONObject mcalendar = jarray.getJSONObject(i);
                         Log.d("nnnmmmmo",mcalendar.toString());
                         String id = mcalendar.getString("id");
                         String name = mcalendar.getString("name");
@@ -159,42 +161,39 @@ public class medicine_cal extends AppCompatActivity {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-            }});
-        requestQueue.add(jsonObjectRequest);
+            }}){
+            protected Map<String, String> getParams() throws AuthFailureError {//把值丟到php
+                Map<String, String> parameters = new HashMap<String, String>();
+                parameters.put("member_id",memberid);
+                Log.d("nn11",parameters.toString());
+                return parameters;
+            }
+        };
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(request);
     }
 
 
     public void getBeacon(){//取此會員的beacon
         requestQueue = Volley.newRequestQueue(getApplicationContext());
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, getBeaconUrl, new Response.Listener<JSONObject>() {
+        final StringRequest request = new StringRequest(Request.Method.POST, getBeaconUrl, new Response.Listener<String>() {
             @Override
-            public void onResponse(JSONObject response) {
+            public void onResponse(String response) {
                 try {
-                    JSONArray beacons = response.getJSONArray("Beacons");
-                    int count=0;
-                    for (int i=0 ; i<beacons.length() ; i++){
-                        JSONObject beacon = beacons.getJSONObject(i);
-                        String Member_id = beacon.getString("member_id");
-                        if (Member_id.equals(memberid)){
-                            count++;
-                        };
-                    }
-                    final String[] beaconarray=new String[count];
-                    final String[] beaconaidrray=new String[count];
-                    count=0;
-                    for (int i=0 ; i<beacons.length() ; i++){
-                        JSONObject beacon = beacons.getJSONObject(i);
+                    Log.d("nn11",response.toString());
+                    JSONArray jarray = new JSONArray(response);
+                    final String[] beaconarray=new String[jarray.length()];
+                    final String[] beaconaidrray=new String[jarray.length()];
+                    for (int i=0 ; i<jarray.length() ; i++){
+                        JSONObject beacon = jarray.getJSONObject(i);
                         String UUID = beacon.getString("UUID");
                         String Member_id = beacon.getString("member_id");
                         String id = beacon.getString("id");
-                        if (Member_id.equals(memberid)){
-                            beaconaidrray[count] = id;
-                            beaconarray[count] = UUID;
+                            beaconaidrray[i] = id;
+                            beaconarray[i] = UUID;
                             if (calbid==Integer.parseInt(id)){
-                                calbeacon =count;
+                                calbeacon =i;
                             }
-                            count++;
-                        };
                     }//取值結束
                     adapterbeacon = new ArrayAdapter(medicine_cal.this,android.R.layout.simple_spinner_item,beaconarray);
                     adapterbeacon.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -217,9 +216,17 @@ public class medicine_cal extends AppCompatActivity {
                 }}}, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {}
-        });
-        requestQueue.add(jsonObjectRequest);
-
+        })
+        {
+            protected Map<String, String> getParams() throws AuthFailureError {//把值丟到php
+                Map<String, String> parameters = new HashMap<String, String>();
+                parameters.put("member_id",memberid);
+                Log.d("nn11",parameters.toString());
+                return parameters;
+            }
+        };
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(request);
 
 
 
@@ -333,41 +340,64 @@ public class medicine_cal extends AppCompatActivity {
     }
 
 
-
-
-    public void m_delete(){     //刪除用藥排程
+    private void checkDialog() {
         m_delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                requestQueue = Volley.newRequestQueue(getApplicationContext());
-                final StringRequest request = new StringRequest(Request.Method.POST, deletem_caledarUrl, new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                    }
-                }, new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Log.d("rrr", error.toString());
-                        Toast.makeText(getApplicationContext(), "Error read deletem_caledar.php!!!", Toast.LENGTH_LONG).show();
-                    }
-                })
-                {
-                    protected Map<String, String> getParams() throws AuthFailureError {//把值丟到php
-                        Map<String, String> parameters = new HashMap<String, String>();
-                        parameters.put("id",m_calid);
-                        Log.d("nnnaaa",parameters.toString());
-                        return parameters;
-                    }
-                };
-                RequestQueue requestQueue = Volley.newRequestQueue(medicine_cal.this);
-                requestQueue.add(request);
-                Intent it = new Intent(medicine_cal.this,m_calendarlist.class);
-                Bundle bundle = new Bundle();
-                bundle.putString("memberid", memberid);
-                it.putExtras(bundle);   // 記得put進去，不然資料不會帶過去哦
-                startActivity(it);}
+                new AlertDialog.Builder(medicine_cal.this)
+                        .setTitle("刪除用藥排程")
+                        .setMessage("是否刪除?")
+                        .setPositiveButton("確定", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        //按下按鈕後執行的動作，沒寫則退出Dialog
+                                        m_delete();
+                                    }
+                                }
+                        )
+                        .setNeutralButton("取消", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        //按下按鈕後執行的動作，沒寫則退出Dialog
+                                    }
+                                }
+                        )
+                        .show();
+            }
         });
 
+
+    }
+
+
+    public void m_delete(){     //刪除用藥排程
+        requestQueue = Volley.newRequestQueue(getApplicationContext());
+        final StringRequest request = new StringRequest(Request.Method.POST, deletem_caledarUrl, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.d("rrr", error.toString());
+                Toast.makeText(getApplicationContext(), "Error read deletem_caledar.php!!!", Toast.LENGTH_LONG).show();
+            }
+        })
+        {
+            protected Map<String, String> getParams() throws AuthFailureError {//把值丟到php
+                Map<String, String> parameters = new HashMap<String, String>();
+                parameters.put("id",m_calid);
+                Log.d("nnnaaa",parameters.toString());
+                return parameters;
+            }
+        };
+        RequestQueue requestQueue = Volley.newRequestQueue(medicine_cal.this);
+        requestQueue.add(request);
+        Intent it = new Intent(medicine_cal.this,m_calendarlist.class);
+        Bundle bundle = new Bundle();
+        bundle.putString("memberid", memberid);
+        it.putExtras(bundle);   // 記得put進去，不然資料不會帶過去哦
+        startActivity(it);
 
     }
 

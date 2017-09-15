@@ -131,6 +131,8 @@ public class BtnAdapter_scanbeacon extends BaseAdapter {
 //            if (!uuid.equals(null)){
 //                this.uuid = uuid;
 //            }
+            this.name = name;
+            this.uuid = uuid;
             this.address = address;
             this.rssi = rssi;
         }
@@ -177,7 +179,7 @@ public class BtnAdapter_scanbeacon extends BaseAdapter {
         {
             protected Map<String, String> getParams() throws AuthFailureError {//把值丟到php
                 Map<String, String> parameters = new HashMap<String, String>();
-                parameters.put("member_id","6");
+                parameters.put("member_id",memberdata.getMember_id());
                 parameters.put("UUID",uuid);
                 parameters.put("address",address);
                 parameters.put("RSSI",rssi);
