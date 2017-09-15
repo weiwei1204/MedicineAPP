@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#adc"
+    android:background="#FAFAFA"
     android:orientation="vertical"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.example.carrie.carrie_test1.EnterBsBpActivity">
@@ -13,78 +13,141 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:gravity="center"
+        android:background="@drawable/bg1"
         android:layout_marginTop="20dp">
-        <TextView
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="收縮壓(高)"
-            android:gravity="center"/>
+            android:orientation="horizontal"
+            android:layout_marginTop="-130dp"
+            android:layout_marginBottom="20dp">
+
+            <ImageView
+                android:id="@+id/imageView4"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginLeft="-80dp"
+                android:layout_weight="1"
+                app:srcCompat="@drawable/circle" />
+            <TextView
+                android:id="@+id/bp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:layout_marginLeft="-110dp"
+                android:nextFocusLeft="@id/imageView4"
+                android:gravity="center_vertical"
+                android:text="血壓"
+                android:textSize="23dp"
+                android:textColor="#7B7B7B" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:layout_marginTop="30dp">
+
+            <TextView
+                android:id="@+id/textView8"
+                android:layout_width="match_parent"
+                android:layout_height="fill_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="收縮壓(高)"
+                android:textColor="#7B7B7B" />
+        </LinearLayout>
+
         <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-        <EditText
-            android:id="@+id/highmmhg"
-            android:layout_width="250dp"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/textView1"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="10dp" />
+            android:layout_height="50dp">
+
+            <EditText
+                android:id="@+id/highmmhg"
+                android:layout_width="250dp"
+                android:layout_height="1dp"
+                android:layout_below="@+id/textView1"
+                android:layout_gravity="center_vertical"
+                android:layout_marginTop="10dp"
+                android:background="#7B7B7B" />
 
             <TextView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="mmHg"
+                android:layout_height="30dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginTop="10dp"
                 android:gravity="right"
-                android:layout_marginTop="10dp"/></LinearLayout>
+                android:text="mmHg"
+                android:textColor="#7B7B7B" />
+        </LinearLayout>
 
 
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_marginTop="10dp"
             android:text="舒張壓(低)"
-            android:gravity="center"/>
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
-        <EditText
-            android:id="@+id/lowmmhg"
-            android:layout_width="250dp"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/textView1"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="10dp" />
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="mmHg"
-            android:gravity="right"
-            android:layout_marginTop="10dp"/>
+            android:gravity="center"
+            android:textColor="#7B7B7B"/>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="50dp">
+
+            <EditText
+                android:id="@+id/lowmmhg"
+                android:layout_width="250dp"
+                android:layout_height="1dp"
+                android:layout_below="@+id/textView1"
+                android:layout_centerHorizontal="true"
+                android:layout_gravity="center_vertical"
+                android:layout_marginTop="10dp"
+                android:background="#7B7B7B" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginTop="10dp"
+                android:gravity="right"
+                android:text="mmHg"
+                android:textColor="#7B7B7B" />
         </LinearLayout>
 
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
             android:text="心跳"
-            android:gravity="center"/>
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+            android:gravity="center"
+            android:textColor="#7B7B7B"/>
 
-        <EditText
-            android:id="@+id/bpm"
-            android:layout_width="250dp"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/textView1"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="10dp" />
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="bpm"
-            android:gravity="right"
-            android:layout_marginTop="10dp"/>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="50dp">
+
+            <EditText
+                android:id="@+id/bpm"
+                android:layout_width="250dp"
+                android:layout_height="1dp"
+                android:layout_below="@+id/textView1"
+                android:layout_centerHorizontal="true"
+                android:layout_gravity="center_vertical"
+                android:layout_marginTop="10dp"
+                android:background="#7B7B7B" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginTop="10dp"
+                android:gravity="right"
+                android:text="bpm"
+                android:textColor="#7B7B7B" />
         </LinearLayout>
         <CheckBox
             android:id="@+id/checkBox1"
@@ -93,7 +156,9 @@
             android:layout_below="@+id/editText1"
             android:layout_toLeftOf="@+id/button1"
             android:layout_marginTop="8dp"
-            android:text="飯前" />
+            android:text="飯前"
+            android:textColor="#7B7B7B"
+            android:buttonTint="#7B7B7B"/>
         <CheckBox
             android:id="@+id/checkBox2"
             android:layout_width="wrap_content"
@@ -101,7 +166,9 @@
             android:layout_below="@+id/editText1"
             android:layout_toLeftOf="@+id/button1"
             android:layout_marginTop="8dp"
-            android:text="飯後" />
+            android:text="飯後"
+            android:textColor="#7B7B7B"
+            android:buttonTint="#7B7B7B"/>
 
         <Button
             android:id="@+id/button1"

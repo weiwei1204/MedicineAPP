@@ -305,25 +305,39 @@ public class ThirdActivity extends AppCompatActivity {
                     }
 
                 }
-                Log.d("fff", String.valueOf(txtTime));
-                txtTime.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-                    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
-                    @RequiresApi(api = Build.VERSION_CODES.HONEYCOMB)
+                txtTime.setOnClickListener(new View.OnClickListener() {
                     @Override
-                    public void onFocusChange(View v, boolean hasFocus) {
-                        if (hasFocus){
-                            TimeDialog tdialog=new TimeDialog(v,gettime);
-                            try {
-                                android.app.FragmentTransaction ft=getFragmentManager().beginTransaction();
-                                Log.d("ff12345",ft.toString());
-                                tdialog.show(ft,"TimePicker");
-                            }
-                            catch (Exception e){
-                                Log.d("ffffffff",e.toString());
-                            }
+                    public void onClick(View v) {
+                        TimeDialog tdialog=new TimeDialog(v,gettime);
+                        try {
+                            android.app.FragmentTransaction ft=getFragmentManager().beginTransaction();
+                            Log.d("ff12345",ft.toString());
+                            tdialog.show(ft,"TimePicker");
+                        }
+                        catch (Exception e){
+                            Log.d("ffffffff",e.toString());
                         }
                     }
                 });
+                Log.d("fff", String.valueOf(txtTime));
+//                txtTime.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+//                    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
+//                    @RequiresApi(api = Build.VERSION_CODES.HONEYCOMB)
+//                    @Override
+//                    public void onFocusChange(View v, boolean hasFocus) {
+//                        if (hasFocus){
+//                            TimeDialog tdialog=new TimeDialog(v,gettime);
+//                            try {
+//                                android.app.FragmentTransaction ft=getFragmentManager().beginTransaction();
+//                                Log.d("ff12345",ft.toString());
+//                                tdialog.show(ft,"TimePicker");
+//                            }
+//                            catch (Exception e){
+//                                Log.d("ffffffff",e.toString());
+//                            }
+//                        }
+//                    }
+//                });
                 ImageButton btnRemove = (ImageButton) newView.findViewById(R.id.btnRemove);
                 btnRemove.setOnClickListener(new View.OnClickListener() {
 
