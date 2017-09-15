@@ -149,8 +149,8 @@ public class MainActivity extends LoginActivity
                 return false;
             }
         });
-        Intent intent = new Intent(MainActivity.this,CheckBeacon.class);
-        startService(intent);
+//        Intent intent = new Intent(MainActivity.this,CheckBeacon.class);
+//        startService(intent);
     }
 
     private void signOut() {
