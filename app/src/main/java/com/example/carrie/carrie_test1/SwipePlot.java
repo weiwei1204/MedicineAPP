@@ -83,8 +83,8 @@ public class SwipePlot extends AppCompatActivity implements ViewPager.OnPageChan
     public static String myid;
     public static String my_google_id;
     public static String my_supervise_id;
-    public String objectArray;
-    public  String objectDetailArray;
+    public String objectArray="";
+    public  String objectDetailArray="";
 
 
 
