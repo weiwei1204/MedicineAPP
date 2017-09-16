@@ -9,7 +9,12 @@ import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.TextView;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 
 /**
@@ -34,7 +39,7 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
 
     @Override
     public int getChildrenCount(int groupPosition) {
-        return listDataHeader.get(groupPosition).getTime_count();
+        return listDataHeader.get(groupPosition).getTime_count()+1;
     }
 
     @Override
@@ -77,10 +82,28 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
 
     @Override
     public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
-        Log.d("testexpand 1",listHashMap.get("418").get(0).getEatDate());
+
         PillListObject pillListObject = listHashMap.get(String.valueOf(listDataHeader.get(groupPosition).getId())).get(childPosition);
         String displayDate = pillListObject.getEatDate();
-        String displayTime = pillListObject.getEatTime();
+        String displayTime="";
+        try {
+            if (pillListObject.getEatDate().equals("用藥日期")){
+                displayDate = pillListObject.getEatDate();
+            }else {
+                displayDate = formatDate(pillListObject.getEatDate());
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        try {
+            if (pillListObject.getEatTime().equals("用藥時間")){
+                displayTime = pillListObject.getEatTime();
+            }else {
+                displayTime = formatTime(pillListObject.getEatTime());
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
         int finishCheck = pillListObject.getFinishcheck();
         if (convertView == null){
             LayoutInflater inflater = (LayoutInflater)this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -95,12 +118,42 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
         TextView listFinish = (TextView) convertView.findViewById(R.id.date2display);
         if (finishCheck==0){
             listFinish.setText("Ｘ");
-        }else {
+        }else if(finishCheck ==1) {
             listFinish.setText("Ｏ");
+        }else if (finishCheck==2){
+            listFinish.setText("是否完成用藥");
         }
 
 
         return convertView;
+    }
+    public static String formatTime(String dateString) throws ParseException {//時間格式轉換
+        String strDate = "";
+        SimpleDateFormat sdfDate = new SimpleDateFormat("HH:mm:ss");//format yyyy-MM-dd HH:mm:ss to HH:mm
+        SimpleDateFormat sdf = new SimpleDateFormat("hh:mm");
+        Calendar calendar = new GregorianCalendar();
+
+        Date date = sdfDate.parse(dateString);
+        calendar.setTime(date);
+
+            strDate = sdf.format(date);
+
+        Log.d("dateformat",strDate);
+        return strDate;
+    }
+    public static String formatDate(String dateString) throws ParseException {//時間格式轉換
+        String strDate = "";
+        SimpleDateFormat sdfDate = new SimpleDateFormat("yyyy-MM-dd");//format yyyy-MM-dd HH:mm:ss to HH:mm
+        SimpleDateFormat sdf = new SimpleDateFormat("MM/dd");
+        Calendar calendar = new GregorianCalendar();
+
+        Date date = sdfDate.parse(dateString);
+        calendar.setTime(date);
+
+        strDate = sdf.format(date);
+
+        Log.d("dateformat",strDate);
+        return strDate;
     }
 
     @Override
