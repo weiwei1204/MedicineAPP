@@ -1,6 +1,7 @@
 package com.example.carrie.carrie_test1;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
@@ -21,6 +22,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.RequestQueue;
@@ -53,6 +55,7 @@ public class BpRecord extends Fragment {
     public static String high;
     public static String low;
     public static String bpmm;
+    public static String googleid;
 
     public static int userid;
     public static String member_id; //從資料庫抓的
@@ -83,6 +86,8 @@ public class BpRecord extends Fragment {
         high = bundle.getString("highmmhg");
         low = bundle.getString("lowmmhg");
         bpmm = bundle.getString("bpm");
+        googleid = bundle.getString("googleid");
+        Log.d("3434","googleid: "+googleid);
 
         record_list = new ArrayList<>();
         getData();
@@ -243,6 +248,7 @@ public class BpRecord extends Fragment {
         Intent it = new Intent(getActivity(),EnterBpValue.class);
         Bundle bundle = new Bundle();
         bundle.putString("memberid", memberid);
+        bundle.putString("googleid",EnterBsBpActivity.my_google);
         it.putExtras(bundle);
         startActivity(it);
     }

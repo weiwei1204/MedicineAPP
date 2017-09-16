@@ -15,23 +15,16 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="5dp"
         android:text="namename"
+        android:gravity="center"
         android:textColor="#5B5B5B"
         android:textSize="20dp" />
 
-    <TextView
-        android:id="@+id/mcaldate"
-        android:layout_width="120dp"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="15dp"
-        android:text="2017-07-12"
-        android:textColor="#5B5B5B"
-        android:textSize="20dp" />
 
     <TextView
         android:id="@+id/mcalcomplete"
         android:layout_width="40dp"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="15dp"
+        android:layout_marginLeft="35dp"
         android:text="100"
         android:textColor="#5B5B5B"
         android:textSize="20dp" />
@@ -40,6 +33,15 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="5dp"
         android:text="%"
+        android:textColor="#5B5B5B"
+        android:textSize="20dp" />
+    <TextView
+        android:id="@+id/mcaldelay"
+        android:layout_width="120dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="30dp"
+        android:text="10"
+        android:gravity="center"
         android:textColor="#5B5B5B"
         android:textSize="20dp" />
 

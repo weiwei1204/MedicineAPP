@@ -325,6 +325,8 @@ public class MonitorActivity extends AppCompatActivity {
             public void onClick(View v) {
                 BsBpDialogFragment f1 = new BsBpDialogFragment();
                 f1.show(getSupportFragmentManager(),"yuanma_dialog");
+                Intent it = new Intent(MonitorActivity.this,BotControl.class);
+                startActivity(it);
 
             }
         });

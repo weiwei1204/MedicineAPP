@@ -1,6 +1,7 @@
 package com.example.carrie.carrie_test1;
 
 import android.content.Context;
+import android.text.Html;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -41,12 +42,17 @@ public class mcallistAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         View v=View.inflate(mcontext,R.layout.item_mcalendarlist,null);
         TextView mcalname=(TextView)v.findViewById(R.id.mcalname);
-        TextView mcaldate=(TextView)v.findViewById(R.id.mcaldate);
+        TextView mcaldelay=(TextView)v.findViewById(R.id.mcaldelay);
         TextView mcalcomplete=(TextView)v.findViewById(R.id.mcalcomplete);
-
         mcalname.setText(mcallist.get(position).getMcalname());
-        mcaldate.setText(mcallist.get(position).getMcaldate());
         mcalcomplete.setText(mcallist.get(position).getMcalpercent());
+        if (Integer.valueOf(mcallist.get(position).getMcaldelay())>5){  //      延遲超過五次顯示紅字
+            mcaldelay.setText(Html.fromHtml("<font color='red'>"+mcallist.get(position).getMcaldelay()+"</font>"));
+
+        }else {
+            mcaldelay.setText(mcallist.get(position).getMcaldelay());
+
+        }
 
         v.setTag(mcallist.get(position).getId());
 

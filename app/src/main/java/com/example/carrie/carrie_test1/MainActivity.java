@@ -68,6 +68,7 @@ public class MainActivity extends LoginActivity
         setSupportActionBar(toolbar);
         Bundle bundle = getIntent().getExtras();
         googleid = bundle.getString("googleid");
+        memberdata.setGoogle_id(googleid);
 
 //        Log.d("GOOGLEID",name);
 //        Log.d("GOOGLEID",gender);
@@ -148,8 +149,8 @@ public class MainActivity extends LoginActivity
                 return false;
             }
         });
-        Intent intent = new Intent(MainActivity.this,CheckBeacon.class);
-        startService(intent);
+//        Intent intent = new Intent(MainActivity.this,CheckBeacon.class);
+//        startService(intent);
     }
 
     private void signOut() {
@@ -189,7 +190,7 @@ public class MainActivity extends LoginActivity
         bundle.putString("my_google_id", googleid);
         bundle.putString("my_supervise_id", my_mon_id);
         bundle.putString("memberid", memberid);
-        Log.d("fffaaa", memberid);
+//        Log.d("fffaaa", memberid);
         it.putExtras(bundle);   // 記得put進去，不然資料不會帶過去哦
         startActivity(it);
     }
@@ -275,6 +276,7 @@ public class MainActivity extends LoginActivity
             public void onResponse(String response) {
                 Log.d("rrr123", response);
                 memberid = response;
+                memberdata.setMember_id(response);
                 getMeasureInformation();
             }
         }, new Response.ErrorListener() {
@@ -340,6 +342,7 @@ public class MainActivity extends LoginActivity
                     //Log.d("monitor_response",response);
                     my_mon_id = response;
                     Log.d("my_mon_id222", my_mon_id);
+                    memberdata.setMy_mon_id(response);
                     //addMonitor();//新增監控者至監視列表
                 }
             }

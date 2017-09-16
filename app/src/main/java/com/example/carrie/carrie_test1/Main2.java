@@ -46,6 +46,7 @@ public class Main2 extends Activity {
     private TextView mTextMessage;
     String userId = "";
     private FirebaseAuth mAuth;
+
     @Override
     public void onStart() {
         super.onStart();
@@ -92,12 +93,16 @@ public class Main2 extends Activity {
 
 
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_main2);
         mAuth = FirebaseAuth.getInstance();
+        String Token = FirebaseInstanceId.getInstance().getToken();
+        Log.d("9090", "token: " + Token);
+
 
 
 

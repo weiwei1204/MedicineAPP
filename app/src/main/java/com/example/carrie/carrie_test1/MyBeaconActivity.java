@@ -4,17 +4,20 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
 import org.json.JSONArray;
@@ -23,6 +26,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 public class MyBeaconActivity extends AppCompatActivity {
     Button scanbtn;
@@ -30,6 +34,8 @@ public class MyBeaconActivity extends AppCompatActivity {
     private ListView lv ;
     RequestQueue requestQueue;
     String getBeaconUrl = "http://54.65.194.253/Beacon/getBeacon.php";
+    String getm_BeaconUrl = "http://54.65.194.253/Beacon/getm_Beacon.php";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,59 +77,64 @@ public class MyBeaconActivity extends AppCompatActivity {
 
 
 
-    public void putDataToListView(){//取此會員的beacon
-        requestQueue = Volley.newRequestQueue(getApplicationContext());
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, getBeaconUrl, new Response.Listener<JSONObject>() {
-            @Override
-            public void onResponse(JSONObject response) {
-                try {
-                    JSONArray beacons = response.getJSONArray("Beacons");
-                    int count=0;
-                    for (int i=0 ; i<beacons.length() ; i++){
-                        JSONObject beacon = beacons.getJSONObject(i);
-                        String Member_id = beacon.getString("member_id");
-                        if (Member_id.equals(memberid)){
-                            count++;
-                        };
-                    }
-                    count=0;
-                    ArrayList<HashMap<String, Object>> Item = new ArrayList<HashMap<String, Object>>();
-                    for (int i=0 ; i<beacons.length() ; i++){
-                        JSONObject beacon = beacons.getJSONObject(i);
-                        String UUID = beacon.getString("UUID");
-                        String address =beacon.getString("address");
-                        String RSSI = beacon.getString("RSSI");
-                        String beaconname = beacon.getString("name");
-                        String Member_id = beacon.getString("member_id");
-                        String ID = beacon.getString("id");
-                        if (Member_id.equals(memberid)){
-
+    public void putDataToListView() {//取此會員的beacon
+            requestQueue = Volley.newRequestQueue(getApplicationContext());
+            final StringRequest request = new StringRequest(Request.Method.POST, getBeaconUrl, new Response.Listener<String>() {
+                @Override
+                public void onResponse(String response) {
+                    Log.d("nn11",response);
+                    try {
+                        JSONArray jarray = new JSONArray(response);
+                        ArrayList<HashMap<String, Object>> Item = new ArrayList<HashMap<String, Object>>();
+                        for (int i=0;i<jarray.length();i++){
+                            JSONObject obj = jarray.getJSONObject(i);
+//                        Log.d("nn11", String.valueOf(obj.length()));
+//                        Log.d("nn11", String.valueOf(obj));
+                        String UUID = obj.getString("UUID");
+                        String address =obj.getString("address");
+                        String RSSI = obj.getString("RSSI");
+                        String beaconname = obj.getString("name");
+                        String Member_id = obj.getString("member_id");
+                        String ID = obj.getString("id");
+                        String newname = obj.getString("newname");
                             HashMap<String, Object> map = new HashMap<String, Object>();
                             map.put("ItemImage", R.drawable.bluetooth1);
-                            map.put("ItemName", " "+beaconname);
-                            map.put("ItemAddress", "Address:"+address);
-                            map.put("ItemUUID", "UUID:"+UUID);
-                            map.put("ItemRSSI", "RSSI:"+RSSI);
+                            map.put("ItemName", " "+newname+" ("+beaconname+")");
+                            map.put("ItemAddress", address);
+                            map.put("ItemUUID", UUID);
+                            map.put("ItemRSSI", RSSI);
                             map.put("ItemButton", R.drawable.trash);
                             map.put("ItemID",ID);
                             Item.add(map);
-                            count++;
-                        };
+                        }
                         BtnAdapter_mybeacon btnadapter_mybeacon = new BtnAdapter_mybeacon(getApplicationContext(),MyBeaconActivity.this, Item, R.layout.beacon_adapter,
                                 new String[] {"ItemImage","ItemName", "ItemAddress","ItemUUID","ItemRSSI","ItemButton","ItemID"},
                                 new int[] {R.id.ItemImage,R.id.ItemName,R.id.ItemAddress,R.id.ItemUUID,R.id.ItemRSSI,R.id.ItemButton,R.id.ItemID} );
                         lv.setAdapter(btnadapter_mybeacon);
+                    } catch (JSONException e) {
+                        Log.d("nn11",e.toString());
+                        e.printStackTrace();
                     }
-                }catch (JSONException e){
-                    e.printStackTrace();
                 }
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {}
-        });
-        requestQueue.add(jsonObjectRequest);
-    }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    Log.d("nn11", error.toString());
+                    Toast.makeText(getApplicationContext(), "Error read getAP.php!!!", Toast.LENGTH_LONG).show();
+                }
+            })
+            {
+                protected Map<String, String> getParams() throws AuthFailureError {//把值丟到php
+                    Map<String, String> parameters = new HashMap<String, String>();
+                    parameters.put("member_id",memberid);
+                    Log.d("nn11",parameters.toString());
+                    return parameters;
+                }
+            };
+            RequestQueue requestQueue = Volley.newRequestQueue(this);
+            requestQueue.add(request);
+        }
+
 //    public void myAP(View v){ //連到搜尋藥品資訊頁面
 //        Intent it = new Intent(this,MyAPActivity.class);
 //        Bundle bundle = new Bundle();

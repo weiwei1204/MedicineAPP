@@ -12,6 +12,7 @@ import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -69,6 +70,17 @@ public class EnterBsBpActivity extends AppCompatActivity {
 
     }
     @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent i=new Intent(getApplicationContext(),MainActivity.class);
+        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        Log.d("1122","id:  "+my_google);
+        i.putExtra("googleid",my_google);
+        startActivity(i);
+        finish();
+    }
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
@@ -86,6 +98,8 @@ public class EnterBsBpActivity extends AppCompatActivity {
     public class PagerAdapter extends FragmentPagerAdapter {
         Bundle bundle = getIntent().getExtras();
         String memberid=bundle.getString("memberid");
+        String my_google = bundle.getString("my_google_id");
+
 
         public PagerAdapter(FragmentManager fm) {
             super(fm);
@@ -98,11 +112,14 @@ public class EnterBsBpActivity extends AppCompatActivity {
                     BsRecord tab1 = new BsRecord();
                     Intent it1 = new Intent();
                     it1.putExtra("memberid",memberid);
+                    Log.d("1212","google: "+my_google);
+                    it1.putExtra("googleid",my_google);
                     return tab1;
                 case 1:
                     BpRecord tab2 = new BpRecord();
                     Intent it = new Intent();
                     it.putExtra("memberid",memberid);
+                    it.putExtra("googleid",my_google);
                     return tab2;
                 default:
                     return null;

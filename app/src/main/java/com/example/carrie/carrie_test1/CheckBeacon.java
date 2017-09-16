@@ -5,46 +5,37 @@ import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothManager;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.Handler;
 import android.os.IBinder;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.widget.Toast;
 
-import java.util.ArrayList;
-import java.util.List;
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 
-import android.app.ListActivity;
-import android.bluetooth.BluetoothAdapter;
-import android.bluetooth.BluetoothClass;
-import android.bluetooth.BluetoothDevice;
-import android.bluetooth.BluetoothManager;
-import android.content.Context;
-import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.os.Bundle;
-import android.os.ParcelUuid;
-import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.Window;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.Toast;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
-import java.lang.reflect.Array;
-import java.lang.reflect.Method;
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
-import java.util.UUID;
+import java.util.Map;
+
 
 public class CheckBeacon extends Service {
+    String memberid;
     private Handler handler = new Handler( );
     private Runnable runnable;
     // 定義WifiManager對象
@@ -56,9 +47,18 @@ public class CheckBeacon extends Service {
     private static final int REQUEST_ENABLE_BT = 1;
     private static final long SEARCH_TIMEOUT = 10000;
     private static List<BluetoothDevice> mBleDevices = new ArrayList<BluetoothDevice>();
-    private ArrayList<ArrayList<String>> beacon = new ArrayList<ArrayList<String>>();
-
+    private ArrayList<ArrayList<String>> bringBeacon = new ArrayList<ArrayList<String>>();
+    private ArrayList<String> needBeacon = new ArrayList<String>();
+    private ArrayList<String> Beaconcal = new ArrayList<String>();
+    private ArrayList<String> storeAPBSSID = new ArrayList<String>();
     private int beaconNum = 0;
+    private int APnum = 0 ;
+    RequestQueue requestQueue;
+    String getm_BeaconUrl = "http://54.65.194.253/Beacon/getm_Beacon.php";
+    String getAP = "http://54.65.194.253/Beacon/getAP.php";
+    private int UUIDnum = 0 ;
+    private int SSIDnum = 0 ;
+
 
     @Override
     public IBinder onBind(Intent arg0) {
@@ -70,14 +70,18 @@ public class CheckBeacon extends Service {
     public void onCreate() {
 // TODO Auto-generated method stub
         super.onCreate();
+//        Bundle bundle = getIntent().getExtras();
+//        memberid=bundle.getString("memberid");
+
         checkWifi();
-        WifiAdmin(getApplicationContext());
     }
 
 
     @Override
     public void onStart(Intent intent, int startId) {
         Toast.makeText(this, "Service start", Toast.LENGTH_SHORT).show();
+        getAP();
+        getbeacon();
         handler.postDelayed(runnable, 5000);
     }
     public void onDestroy(){
@@ -90,21 +94,38 @@ public class CheckBeacon extends Service {
             public void run() {
                 // TODO Auto-generated method stub
                 //要做的事情
-                String SSID= mWifiInfo.getSSID() ;//Wi-Fi名稱
-                int NETWORKID= mWifiInfo.getNetworkId() ;//Wi-Fi連線ID
-                int LinkSpeed= mWifiInfo.getLinkSpeed() ;
-                int Rssi= mWifiInfo.getRssi() ;
-                String BSSID= mWifiInfo.getBSSID() ;
-                String MacAddress= mWifiInfo.getMacAddress() ;
-                int IPADRRESS= mWifiInfo.getIpAddress() ;//Wi-Fi連線位置
-                String IP= String.format("%d.%d.%d.%d", (IPADRRESS & 0xff), (IPADRRESS >> 8 & 0xff), (IPADRRESS >> 16 & 0xff),( IPADRRESS >> 24 & 0xff)) ;//Wi-Fi IP位置
-                Log.d("qq","[SSID="+SSID+"],[NetworkID="+Integer.toString(NETWORKID)+"],[LinkSpeed="+Integer.toString(LinkSpeed)+"],[Rssi="+Integer.toString(Rssi)+"],[BSSID="+BSSID+"],[MacAddress="+MacAddress+"],[IPAdrress="+IP+"]");
-                if( status==1 && BSSID.equals("a4:ca:a0:64:3e:00")){
-                    status = 2 ;
-                    Log.d("qq","222");
-                    checkBeacon();
+                WifiAdmin(getApplicationContext());
+                getbeacon();
+                getAP();
+                Log.d("UUIDnum",Integer.toString(UUIDnum));
+                Log.d("SSIDnum",Integer.toString(SSIDnum));
+                if(UUIDnum != 0 && SSIDnum != 0){
+                    String SSID= mWifiInfo.getSSID() ;//Wi-Fi名稱
+                    int NETWORKID= mWifiInfo.getNetworkId() ;//Wi-Fi連線ID
+                    int LinkSpeed= mWifiInfo.getLinkSpeed() ;
+                    int Rssi= mWifiInfo.getRssi() ;
+                    String BSSID= mWifiInfo.getBSSID() ;
+                    String MacAddress= mWifiInfo.getMacAddress() ;
+                    int IPADRRESS= mWifiInfo.getIpAddress() ;//Wi-Fi連線位置
+                    String IP= String.format("%d.%d.%d.%d", (IPADRRESS & 0xff), (IPADRRESS >> 8 & 0xff), (IPADRRESS >> 16 & 0xff),( IPADRRESS >> 24 & 0xff)) ;//Wi-Fi IP位置
+                    Log.d("qq","[SSID="+SSID+"],[NetworkID="+Integer.toString(NETWORKID)+"],[LinkSpeed="+Integer.toString(LinkSpeed)+"],[Rssi="+Integer.toString(Rssi)+"],[BSSID="+BSSID+"],[MacAddress="+MacAddress+"],[IPAdrress="+IP+"]");
+                    Log.d("storeAPBSSIDsize",Integer.toString(storeAPBSSID.size()));
+                    int countAP = 0 ;
+                    for(int i = 0; i < storeAPBSSID.size(); i++){
+                        if(BSSID.equals(storeAPBSSID.get(i))){
+                            countAP ++ ;
+                        }
+                    }
+                    if(status == 1 && countAP != 0){
+                        status = 2 ;
+                        Log.d("qq",Integer.toString(status));
+                        checkBeacon();
+                    }else if(status == 3 && countAP == 0){
+                        status = 4 ;
+                        Log.d("qq",Integer.toString(status));
+                        checkBeacon();
+                    }
                 }
-                Log.d("qq","3333333333333333333333333333");
                 handler.postDelayed(this, 5000);
             }
         };
@@ -118,12 +139,19 @@ public class CheckBeacon extends Service {
     public void checkBeacon(){
         if(status==2){
             Log.d("qq","333");
-            handler.removeCallbacks(runnable);
+//            handler.removeCallbacks(runnable);
             InitBLE ();
             SearchForBLEDevices();
             status = 3 ;
+        }else if (status == 4){
+            Log.d("qq","333");
+//            handler.removeCallbacks(runnable);
+            InitBLE ();
+            SearchForBLEDevices();
+            status = 1 ;
+
         }
-//        for(int i = 0 ; i < beacon.length ; i ++){
+//        for(int i = 0 ; i < bringBeacon.length ; i ++){
 //
 //        }
     }
@@ -140,8 +168,8 @@ public class CheckBeacon extends Service {
         }
         if (mBluetoothAdapter.isEnabled() == false) {
             Log.d("qq","444");
-            Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
-            startActivityForResult(enableBtIntent, REQUEST_ENABLE_BT);
+            Intent enableBluetooth = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+            startActivityForResult(enableBluetooth, 0);
         }
     }
 
@@ -150,7 +178,6 @@ public class CheckBeacon extends Service {
             @Override
             public void run() {
                 mBluetoothAdapter.startLeScan(mBleScanCallback);
-                Log.d("aaa", "1111");
                 try {
                     Thread.sleep(SEARCH_TIMEOUT);
                 } catch (InterruptedException e) {
@@ -158,17 +185,45 @@ public class CheckBeacon extends Service {
                 }
                 mBluetoothAdapter.stopLeScan(mBleScanCallback);
                 int countBeacon = 0 ;
-                for(int i = 0; i < beacon.size(); i++){
-                    if(beacon.get(i).get(0).equals("")){
-
-                    }else{
+                Log.d("needBeaconSize", Integer.toString(needBeacon.size()));
+                Log.d("bringBeaconSize", Integer.toString(bringBeacon.size()));
+                ArrayList<String> lost = new ArrayList<String>();
+                for(int i = 0; i < bringBeacon.size(); i++){
+                    Boolean check=false;
+                    for(int j = 0; j < needBeacon.size(); j++ ){
+                        if(bringBeacon.get(i).get(0).equals(needBeacon.get(j))){
+                            check=true;
+                            Log.d("bbb", needBeacon.get(j));
+                        }else{}
+                    }
+                    if (check==false){
+                        Log.d("bbb", "!!!!!!!!!!");
+                        lost.add(countBeacon,Beaconcal.get(i));
                         countBeacon ++ ;
                     }
                 }
-                if(countBeacon==beacon.size()){
-                    Log.d("aaa", "2222222222222222222");
+                if(lost.size()!=0){
+                    Log.d("bbb", "沒帶Beacon!!!!!!!!!!");
+                    for (int i=0;i<lost.size();i++) {
+                        AlertDialog.Builder builder = new AlertDialog.Builder(CheckBeacon.this);
+                        builder.setMessage(lost.get(i)+"\n")
+                                .setTitle("藥忘記帶囉")
+                                .setCancelable(false)
+                                .setNegativeButton("確定", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                    }
+                                });
+
+                        AlertDialog alert = builder.create();
+                        alert.show();
+                    }
+
                 }
 
+                bringBeacon.clear();
+                Log.d("needBeaconSize", Integer.toString(needBeacon.size()));
+                Log.d("bringBeaconSize", Integer.toString(bringBeacon.size()));
             }
         }.start();
     }
@@ -208,8 +263,8 @@ public class CheckBeacon extends Service {
                             ArrayList<String> beaconInfo = new ArrayList<String>();
                             beaconInfo.add(0,uuid);
                             beaconInfo.add(1,Integer.toString(rssi));
-                            beacon.add(beaconNum,beaconInfo);
-                            Log.d("qqqq",beacon.toString());
+                            bringBeacon.add(beaconNum,beaconInfo);
+                            Log.d("qqqq",bringBeacon.toString());
                         }
                     }
                 }
@@ -229,5 +284,93 @@ public class CheckBeacon extends Service {
     }
     public void startActivityForResult(Intent intent, int requestCode) {
         throw new RuntimeException("Stub!");
+    }
+    public void getbeacon(){
+        requestQueue = Volley.newRequestQueue(getApplicationContext());
+        final StringRequest drugrequest = new StringRequest(Request.Method.POST, getm_BeaconUrl, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Log.d("nn1111",response);
+                try {
+                    JSONArray jarray = new JSONArray(response);
+                    UUIDnum = jarray.length() ;
+                    needBeacon.clear();
+                    Beaconcal.clear();
+                    for (int i=0;i<jarray.length();i++){
+                        JSONObject obj = jarray.getJSONObject(i);
+                        String UUID = obj.getString("UUID");
+                        String name = obj.getString("name");
+                        needBeacon.add(i,UUID);
+                        Beaconcal.add(i,name);
+                        Log.d("needBeacon",needBeacon.get(i));
+                    }
+                } catch (JSONException e) {
+                    Log.d("nn1111",e.toString());
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.d("nn1111", error.toString());
+                Toast.makeText(getApplicationContext(), "Error read getm_Beacon.php!!!", Toast.LENGTH_LONG).show();
+            }
+        })
+        {
+            protected Map<String, String> getParams() throws AuthFailureError {//把值丟到php
+                Map<String, String> parameters = new HashMap<String, String>();
+                parameters.put("member_id",memberdata.getMember_id());
+                Log.d("nn1111",parameters.toString());
+
+                return parameters;
+            }
+        };
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(drugrequest);
+    }
+
+    public void getAP(){
+        requestQueue = Volley.newRequestQueue(getApplicationContext());
+        final StringRequest drugrequest = new StringRequest(Request.Method.POST, getAP, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Log.d("nn1122",response);
+                try {
+                    JSONArray jarray = new JSONArray(response);
+                    final String[] SSIDarray=new String[jarray.length()];
+                    final String[] BSSIDarray=new String[jarray.length()];
+                    storeAPBSSID.clear();
+                    SSIDnum = jarray.length();
+                    for (int i=0;i<jarray.length();i++){
+                        JSONObject obj = jarray.getJSONObject(i);
+                        String SSID = obj.getString("SSID");
+                        String BSSID = obj.getString("BSSID");
+                        SSIDarray[i]=SSID;
+                        storeAPBSSID.add(i,BSSID);
+                        Log.d("nn11",BSSID);
+                    }
+                } catch (JSONException e) {
+                    Log.d("nn1122",e.toString());
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.d("nn1122", error.toString());
+                Toast.makeText(getApplicationContext(), "Error read getm_AP.php!!!", Toast.LENGTH_LONG).show();
+            }
+        })
+        {
+            protected Map<String, String> getParams() throws AuthFailureError {//把值丟到php
+                Map<String, String> parameters = new HashMap<String, String>();
+                parameters.put("member_id",memberdata.getMember_id());
+                Log.d("nn1122",parameters.toString());
+
+                return parameters;
+            }
+        };
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(drugrequest);
     }
 }
