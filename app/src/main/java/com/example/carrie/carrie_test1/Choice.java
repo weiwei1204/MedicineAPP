@@ -24,7 +24,7 @@ public class Choice extends Activity {
         memberid=bundle.getString("memberid");
         my_google_id = bundle.getString("my_google_id");//get 自己google_ id
         my_mon_id = bundle.getString("my_supervise_id");
-        Log.d("qwe123455",memberid);
+//        Log.d("qwe123455",memberid);
         BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomNavView_Bar);
         BottomNavigationViewHelper.disableShiftMode(bottomNavigationView);
         Menu menu = bottomNavigationView.getMenu();
