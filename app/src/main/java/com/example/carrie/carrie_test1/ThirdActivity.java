@@ -191,6 +191,7 @@ public class ThirdActivity extends AppCompatActivity {
                     }//取值結束
                     adapterbeacon = new ArrayAdapter(ThirdActivity.this,android.R.layout.simple_spinner_item,beaconarray);
                     adapterbeacon.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                    spinnerbeacon.setBackgroundColor(Integer.parseInt("#FCFCFC"));
                     spinnerbeacon.setSelection(0,false);
                     spinnerbeacon.setAdapter(adapterbeacon);
                     spinnerbeacon.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
