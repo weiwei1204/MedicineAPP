@@ -7,6 +7,7 @@ import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.res.TypedArrayUtils;
+import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -73,6 +74,7 @@ public class BpRecord extends Fragment {
     ImageButton btn;
     FloatingActionButton press;
     View rootView;
+    private static int save = -1;
 
 
 
@@ -115,7 +117,14 @@ public class BpRecord extends Fragment {
 
     }
     public void start(){
-        listAdapter = new ArrayAdapter<BloodPressure>(getActivity(),android.R.layout.simple_selectable_list_item,record_list);
+        listAdapter = new ArrayAdapter<BloodPressure>(getActivity(),android.R.layout.simple_selectable_list_item,record_list){
+//            @Override
+//            public View getView(int position, View convertView, ViewGroup parent) {
+//                TextView textView = (TextView) super.getView(position, convertView, parent);
+//                textView.setTextColor(Color.BLACK);
+//                return textView;
+//            }
+        };
         listAdapter.notifyDataSetChanged();
         listView.setAdapter(listAdapter);
 
