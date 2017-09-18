@@ -142,7 +142,7 @@ public class ThirdActivity extends AppCompatActivity {
 //            mdrugs.get(mdrugs.size()-1).add(drugname);
 
 
-        }else if (entertype == 0){
+        }else if (entertype == 0){  //第一次進到這個頁面
             mtimes.clear();
             mdrugs.clear();
         }
@@ -191,7 +191,6 @@ public class ThirdActivity extends AppCompatActivity {
                     }//取值結束
                     adapterbeacon = new ArrayAdapter(ThirdActivity.this,android.R.layout.simple_spinner_item,beaconarray);
                     adapterbeacon.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                    spinnerbeacon.setBackgroundColor(Integer.parseInt("#FCFCFC"));
                     spinnerbeacon.setSelection(0,false);
                     spinnerbeacon.setAdapter(adapterbeacon);
                     spinnerbeacon.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
