@@ -1,6 +1,7 @@
 package com.example.carrie.carrie_test1;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
@@ -19,6 +20,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.RequestQueue;
@@ -85,7 +87,18 @@ public class BsRecord extends Fragment {
     }
 
     public void start(){
-        listAdapter = new ArrayAdapter<BloodSugar>(getActivity(),android.R.layout.simple_selectable_list_item,record_list);
+        listAdapter = new ArrayAdapter<BloodSugar>(getActivity(),android.R.layout.simple_selectable_list_item,record_list){
+            @Override
+            public View getView(int position, View convertView, ViewGroup parent) {
+                TextView textView = (TextView) super.getView(position, convertView, parent);
+                textView.setTextColor(getResources().getColor(R.color.grey_700));
+                return textView;
+            }
+        };
+
+        listView.setChoiceMode(AbsListView.CHOICE_MODE_SINGLE);
+        listView.setSelector(android.R.color.holo_orange_light);
+        listView.setBackgroundResource(R.color.colorWhite);
         listView.setAdapter(listAdapter);
         listAdapter.notifyDataSetChanged();
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {

@@ -23,7 +23,7 @@ public class BloodPressure implements Parcelable{
                 "收縮壓(高)：" + highmmhg + "mmhg"+
                 ", 舒張壓(低)：" + lowmmhg + "mmhg"+ "\n" +
                 "心跳：" + bpm  + "bpm" + "\n" +
-                "記錄時間：" + savetime  ;
+                "記錄時間：" + savetime + "\n" ;
     }
 
     public String savetime;

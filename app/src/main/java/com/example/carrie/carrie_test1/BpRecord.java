@@ -2,6 +2,7 @@ package com.example.carrie.carrie_test1;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
@@ -44,6 +45,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import static com.example.carrie.carrie_test1.R.id.dark;
+import static com.example.carrie.carrie_test1.R.id.drawer_layout;
 import static com.example.carrie.carrie_test1.R.id.list;
 
 public class BpRecord extends Fragment {
@@ -122,16 +125,21 @@ public class BpRecord extends Fragment {
     }
     public void start(){
         listAdapter = new ArrayAdapter<BloodPressure>(getActivity(),android.R.layout.simple_selectable_list_item,record_list){
-//            @Override
-//            public View getView(int position, View convertView, ViewGroup parent) {
-//                TextView textView = (TextView) super.getView(position, convertView, parent);
-//                textView.setTextColor(Color.BLACK);
-//                return textView;
-//            }
+            @Override
+            public View getView(int position, View convertView, ViewGroup parent) {
+                TextView textView = (TextView) super.getView(position, convertView, parent);
+                textView.setTextColor(Color.BLACK);
+                return textView;
+            }
         };
         listAdapter.notifyDataSetChanged();
-        listView.setAdapter(listAdapter);
 
+        listView.setChoiceMode(AbsListView.CHOICE_MODE_SINGLE);
+        listView.setSelector(android.R.color.holo_orange_light);
+        listView.setBackgroundResource(R.color.colorWhite);
+        listView.setDivider(getResources().getDrawable(R.drawable.list_devide));
+        listView.setDividerHeight(3);
+        listView.setAdapter(listAdapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
