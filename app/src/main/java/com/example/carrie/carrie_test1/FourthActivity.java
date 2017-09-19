@@ -1,33 +1,19 @@
 package com.example.carrie.carrie_test1;
 
-import android.content.Context;
-import android.content.SharedPreferences;
-import android.graphics.Bitmap;
-import android.graphics.Paint;
-import android.net.Uri;
-
 import android.content.Intent;
+import android.graphics.Paint;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
-import android.util.AttributeSet;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.carrie.carrie_test1.R;
-import com.google.android.gms.cast.framework.media.RemoteMediaClient;
-import com.google.android.gms.games.multiplayer.ParticipantEntityCreator;
-
-import org.xml.sax.Parser;
 import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 
 public class FourthActivity extends AppCompatActivity {
@@ -41,6 +27,7 @@ public class FourthActivity extends AppCompatActivity {
     String appli;
     String maker_Nam;
     String ima;
+    android.support.design.widget.CoordinatorLayout coordinatorLayout;
 
     private int drugid;
     private String drugname;
@@ -57,10 +44,15 @@ public class FourthActivity extends AppCompatActivity {
         Log.d("drug","1");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_fourth);
+        coordinatorLayout = (CoordinatorLayout)findViewById(R.id.addlayout);
         Log.d("drug","2");
         Bundle bundle5=getIntent().getExtras();
         m_calid = bundle5.getString("m_calid");
         Log.d("qqqqq123",m_calid);
+
+        if (m_calid.equals("-1")){//如果直接從搜尋add符號隱藏
+            coordinatorLayout.setVisibility(View.GONE);
+        }
 
 
         addnmcal = (FloatingActionButton)findViewById(R.id.addmcal);

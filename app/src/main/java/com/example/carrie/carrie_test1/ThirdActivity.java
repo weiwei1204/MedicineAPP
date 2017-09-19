@@ -142,7 +142,7 @@ public class ThirdActivity extends AppCompatActivity {
 //            mdrugs.get(mdrugs.size()-1).add(drugname);
 
 
-        }else if (entertype == 0){
+        }else if (entertype == 0){  //第一次進到這個頁面
             mtimes.clear();
             mdrugs.clear();
         }
