@@ -7,7 +7,7 @@
 
     <TextView
         android:id="@+id/drugtxt"
-        android:layout_width="100dp"
+        android:layout_width="wrap_content"
         android:layout_height="35dp"
         android:layout_marginLeft="30dp"
         android:layout_marginTop="20dp"
@@ -15,7 +15,8 @@
         android:background="@drawable/thirdsettext"
         android:ems="10"
         android:inputType="text"
-        android:textColor="#272727"> <requestFocus />
+        android:textColor="#272727"
+        android:textSize="9pt"> <requestFocus />
     </TextView>
 
     <TextView

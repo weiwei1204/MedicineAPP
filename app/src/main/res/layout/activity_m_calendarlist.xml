@@ -1,12 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<android.support.v4.widget.SwipeRefreshLayout
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:background="#FAFAFA"
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.example.carrie.carrie_test1.m_calendarlist">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#E0E0E0"
+        >
 
     <RelativeLayout
         android:id="@+id/header"
@@ -64,18 +69,20 @@
         <!--android:layout_height="fill_parent"-->
         <!--android:layout_below="@+id/header">-->
 
-        <ListView
-            android:id="@+id/m_callist"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:divider="#ADADAD"
-            android:dividerHeight="1dp"
-            android:scrollbars="vertical"
-            android:layout_below="@+id/header">>
+    <ListView
+        android:id="@+id/m_callist"
+        android:layout_width="match_parent"
+        android:layout_height="fill_parent"
+        android:layout_below="@+id/header"
+        android:layout_marginLeft="7dp"
+        android:layout_marginRight="7dp"
+        android:layout_marginTop="7dp"
+        android:divider="#E0E0E0"
+        android:background="#FCFCFC"
+        android:dividerHeight="5dp"
+        android:scrollbars="vertical">
 
-        </ListView>
+    </ListView>
     <!--</ScrollView>-->
     <android.support.design.widget.CoordinatorLayout
         android:layout_width="match_parent"
@@ -86,12 +93,12 @@
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|end"
             android:layout_margin="@dimen/fab_margin"
-            app:backgroundTint="@color/colorAccent"
+            app:backgroundTint="@color/colorPrimaryDark"
             app:fabSize="normal"
             android:src="@drawable/ic_action_add1"
             android:id="@+id/fabmcal"/>
     </android.support.design.widget.CoordinatorLayout>
-
-</RelativeLayout>
+    </RelativeLayout>
+</android.support.v4.widget.SwipeRefreshLayout>
 
 

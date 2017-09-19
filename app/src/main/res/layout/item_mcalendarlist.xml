@@ -2,46 +2,61 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FAFAFA"
+    android:background="#FCFCFC"
     android:orientation="horizontal"
-    android:paddingBottom="15dp"
-    android:paddingLeft="10dp"
-    android:paddingRight="10dp"
-    android:paddingTop="15dp">
+    >
+
+    <LinearLayout
+        android:id="@+id/mcalstatus"
+        android:layout_width="10dp"
+        android:layout_height="match_parent"
+        android:background="#66B3FF"
+        android:orientation="horizontal"></LinearLayout>
 
     <TextView
         android:id="@+id/mcalname"
         android:layout_width="100dp"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="5dp"
-        android:text="namename"
+        android:layout_marginLeft="10dp"
         android:gravity="center"
+        android:text="namename"
         android:textColor="#5B5B5B"
-        android:textSize="20dp" />
+        android:textSize="20dp"
+        android:paddingBottom="18dp"
+        android:paddingTop="18dp"/>
 
 
     <TextView
         android:id="@+id/mcalcomplete"
-        android:layout_width="40dp"
+        android:layout_width="60dp"
         android:layout_height="wrap_content"
         android:layout_marginLeft="35dp"
-        android:text="100"
+        android:paddingBottom="18dp"
+        android:paddingTop="18dp"
+        android:text="100.0"
         android:textColor="#5B5B5B"
         android:textSize="20dp" />
+
     <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="15dp"
         android:layout_height="wrap_content"
         android:layout_marginLeft="5dp"
+        android:paddingBottom="18dp"
+        android:paddingTop="18dp"
         android:text="%"
         android:textColor="#5B5B5B"
         android:textSize="20dp" />
+
     <TextView
         android:id="@+id/mcaldelay"
-        android:layout_width="120dp"
+        android:layout_width="80dp"
         android:layout_height="wrap_content"
         android:layout_marginLeft="30dp"
-        android:text="10"
         android:gravity="center"
+        android:paddingBottom="18dp"
+        android:paddingRight="10dp"
+        android:paddingTop="18dp"
+        android:text="10"
         android:textColor="#5B5B5B"
         android:textSize="20dp" />
 

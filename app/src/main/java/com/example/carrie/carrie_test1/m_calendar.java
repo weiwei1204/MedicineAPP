@@ -9,12 +9,14 @@ public class m_calendar {
     private String mcalname;
     private String mcaldelay;
     private String mcalpercent;
+    private int status;
 
-    public m_calendar(int id, String mcalname, String mcalpercent, String mcaldelay) {
+    public m_calendar(int id, String mcalname, String mcalpercent, String mcaldelay,int status) {
         this.id = id;
         this.mcalname = mcalname;
         this.mcaldelay = mcaldelay;
         this.mcalpercent = mcalpercent;
+        this.status = status;
     }
 
     public int getId() {
@@ -47,5 +49,13 @@ public class m_calendar {
 
     public void setMcalpercent(String mcalpercent) {
         this.mcalpercent = mcalpercent;
+    }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
     }
 }

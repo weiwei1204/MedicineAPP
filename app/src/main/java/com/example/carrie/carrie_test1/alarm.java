@@ -78,7 +78,7 @@ public class alarm extends AppCompatActivity {
             public void onClick(View v) {
                 cancelAlarm(my_intent);
                 Log.d("timeeeee", "okkkk");
-                Alarmstatus(1, 0, 0);
+                Alarmstatus(1, 0, 0, 1);
             }
         });
         delaybtn.setOnClickListener(new View.OnClickListener() {
@@ -207,8 +207,8 @@ public class alarm extends AppCompatActivity {
         startActivity(it);
     }
 
-    //改變鬧鐘的狀態 //是否完成1:完成,0:未完成 //這次提醒是否錯過服藥時段+1 //延遲次數(3)--1
-    public void Alarmstatus(final int finish, final int delay, final int delaycount){
+    //改變鬧鐘的狀態 //是否完成1:完成,0:未完成 //這次提醒是否錯過服藥時段+1 //延遲次數(3)--1 //已吃完幾次藥
+    public void Alarmstatus(final int finish, final int delay, final int delaycount, final int time_count){
         requestQueue = Volley.newRequestQueue(getApplicationContext());
         final StringRequest drugrequest = new StringRequest(Request.Method.POST, finishm_recordeUrl, new Response.Listener<String>() {
             @Override
@@ -227,6 +227,7 @@ public class alarm extends AppCompatActivity {
                 parameters.put("finish", String.valueOf(finish));
                 parameters.put("delay", String.valueOf(delay));
                 parameters.put("delaycount", String.valueOf(delaycount));
+                parameters.put("time_count",String.valueOf(time_count));
                 parameters.put("m_calid",mcalid);
                 parameters.put("id", String.valueOf(alarmid));
                 Log.d("timeeeee",parameters.toString());
@@ -276,7 +277,7 @@ public class alarm extends AppCompatActivity {
                                     my_intent,PendingIntent.FLAG_CANCEL_CURRENT);
                             alarm_manager.setExact(AlarmManager.RTC_WAKEUP,ldate+(4-Integer.valueOf(delaycount))*2*60*1000, pending_intent);
 //                            sendBroadcast(my_intent);
-                            Alarmstatus(0,0,1);
+                            Alarmstatus(0,0,1,0);
                             Intent it = new Intent(alarm.this,m_calendarlist.class);
                             Bundle bundle1 = new Bundle();
                             bundle1.putString("memberid", memberid);
@@ -285,7 +286,7 @@ public class alarm extends AppCompatActivity {
                         }
                         else if(Integer.valueOf(delaycount) == 0){
                             cancelAlarm(my_intent);
-                            Alarmstatus(0,1,1);
+                            Alarmstatus(0,1,1,0);
                         }
 
                     }

@@ -110,14 +110,17 @@ public class m_calendarlist extends Activity{
                         JSONObject mcalendar = jarray.getJSONObject(i);
                         String id = mcalendar.getString("id");
                         String name = mcalendar.getString("name");
+                        String time_count = mcalendar.getString("time_count");
                         String Member_id = mcalendar.getString("member_id");
                         String delay = mcalendar.getString("delay");
-                        String day = mcalendar.getString("day");
+                        String count = mcalendar.getString("count");
+                        String finish = mcalendar.getString("finish");
+                        Double percent=Double.valueOf(time_count)/Double.valueOf(count)*100;
                         mid[i] = id;
                         mname[i] = name;
                         mdelay[i] = delay;
-                        mday[i] = day;
-                        m_calendararray.add(new m_calendar(Integer.valueOf(mid[i]),mname[i],mday[i],mdelay[i]));
+                        mday[i] = String.valueOf(percent);
+                        m_calendararray.add(new m_calendar(Integer.valueOf(mid[i]),mname[i],mday[i],mdelay[i],Integer.valueOf(finish)));
 
                     }//取值結束
                     madapter();
