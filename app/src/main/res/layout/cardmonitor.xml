@@ -48,18 +48,35 @@
 
                 />
 
-            <Button
-                android:id="@+id/monitorButton"
-                android:layout_width="match_parent"
-                android:layout_height="45dp"
-                android:layout_below="@id/monitorName"
-                android:text="了解他們" />
-            <Button
-                android:id="@+id/deletMonitorButton"
-                android:layout_width="match_parent"
-                android:layout_height="45dp"
-                android:layout_below="@id/monitorButton"
-                android:text="刪除好友" />
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/monitorName"
+                android:gravity="center">
+
+                <Button
+                    android:id="@+id/monitorButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="45dp"
+                    android:layout_alignParentTop="true"
+                    android:layout_toStartOf="@+id/deletMonitorButton"
+                    android:background="#4B7A95"
+                    android:elevation="0dp"
+                    android:text="More"
+                    android:weight="1dp" />
+
+                <Button
+                    android:id="@+id/deletMonitorButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="45dp"
+                    android:background="#4B7A95"
+                    android:text="Delete"
+                    android:layout_alignParentLeft="true"
+                    android:weight="1dp"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentEnd="true" />
+            </RelativeLayout>
+
         </RelativeLayout>
     </android.support.v7.widget.CardView>
 </LinearLayout>
