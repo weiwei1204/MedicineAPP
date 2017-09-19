@@ -447,7 +447,7 @@
                 android:layout_gravity="bottom|end"
                 android:layout_margin="@dimen/fab_margin"
                 android:src="@drawable/ic_action_add1"
-                app:backgroundTint="@color/colorAccent"
+                app:backgroundTint="@color/colorPrimaryDark"
                 app:fabSize="normal" />
         </android.support.design.widget.CoordinatorLayout>
     </TableLayout>
