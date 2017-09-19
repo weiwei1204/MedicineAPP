@@ -40,6 +40,7 @@
             android:background="@drawable/thirdsettext"
             android:ems="10"
             android:inputType="time"
+            android:textSize="9pt"
             android:textColor="#272727"> <requestFocus />
         </EditText>
 
