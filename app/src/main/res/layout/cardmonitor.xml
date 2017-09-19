@@ -63,7 +63,7 @@
                     android:background="#4B7A95"
                     android:elevation="0dp"
                     android:text="More"
-                    android:weight="1dp" />
+                    />
 
                 <Button
                     android:id="@+id/deletMonitorButton"
@@ -72,7 +72,6 @@
                     android:background="#4B7A95"
                     android:text="Delete"
                     android:layout_alignParentLeft="true"
-                    android:weight="1dp"
                     android:layout_alignParentTop="true"
                     android:layout_alignParentEnd="true" />
             </RelativeLayout>

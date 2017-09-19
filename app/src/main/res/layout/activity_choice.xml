@@ -18,44 +18,25 @@
 
         <ImageButton
             android:id="@+id/imageButton13"
-            android:layout_width="200dp"
-            android:layout_height="190dp"
+            android:layout_width="300dp"
+            android:layout_height="200dp"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="30dp"
-            android:background="@drawable/choiceboder"
+            android:elevation="0dp"
             android:onClick="gotoThirdActivity"
-            android:src="@drawable/medicinebottle" />
-
-        <TextView
-            android:id="@+id/textView45"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_horizontal"
-            android:text="用藥排程"
-            android:textColor="#272727"
-            android:textSize="25dp"
-            android:layout_marginTop="5dp"/>
+            android:src="@drawable/medicinecalender" />
 
         <ImageButton
             android:id="@+id/imageButton12"
-            android:layout_width="200dp"
-            android:layout_height="190dp"
+            android:layout_width="300dp"
+            android:layout_height="200dp"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="40dp"
             android:background="@drawable/choiceboder"
+            android:contentDescription=""
             android:onClick="gotoEnterBsBpActivity"
-            android:src="@drawable/heart"
-            android:contentDescription="" />
+            android:src="@drawable/healthcalender" />
 
-        <TextView
-            android:id="@+id/textView47"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center_horizontal"
-            android:text="健康檢測排程"
-            android:textColor="#272727"
-            android:textSize="25dp"
-            android:layout_marginTop="5dp"/>
     </LinearLayout>
 </RelativeLayout>
     <RelativeLayout
