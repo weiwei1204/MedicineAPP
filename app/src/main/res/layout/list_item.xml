@@ -5,6 +5,5 @@
     android:padding="5sp"
     android:layout_width="fill_parent"
     android:background="#FFFFFF"
-    android:singleLine="true"
     android:gravity="center"
     android:layout_height="fill_parent"/>
