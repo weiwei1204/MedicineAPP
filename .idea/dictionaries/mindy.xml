@@ -5,6 +5,7 @@
       <w>bpfirstsave</w>
       <w>bsfirstsave</w>
       <w>bsmeasure</w>
+      <w>dateformat</w>
       <w>deletemonitorid</w>
       <w>fifthbtn</w>
       <w>firstbtn</w>
@@ -21,6 +22,7 @@
       <w>memberid</w>
       <w>monitoricon</w>
       <w>nodata</w>
+      <w>nothingdisplay</w>
       <w>okht</w>
       <w>okhttp</w>
       <w>scanbtn</w>

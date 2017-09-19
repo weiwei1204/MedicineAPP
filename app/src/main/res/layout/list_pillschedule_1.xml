@@ -14,7 +14,7 @@
         android:layout_toStartOf="@+id/date1display"
         android:gravity="center"
         android:text="日期"
-        android:textColor="#FFFFFF"
+        android:textColor="#000000"
         android:textSize="18sp"
         />
     <TextView
@@ -27,7 +27,7 @@
         android:layout_alignBottom="@+id/date2display"
         android:gravity="center"
         android:layout_gravity="right"
-        android:textColor="#FFFFFF"
+        android:textColor="#000000"
         android:textSize="18sp"/>
 
     <TextView
@@ -39,6 +39,6 @@
         android:id="@+id/date2display"
         android:gravity="center"
         android:layout_gravity="right"
-        android:textColor="#FFFFFF"
+        android:textColor="#000000"
         android:textSize="18sp"/>
 </RelativeLayout>

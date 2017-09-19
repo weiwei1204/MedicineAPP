@@ -30,16 +30,20 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
         this.context = context;
         this.listDataHeader = listDataHeader;
         this.listHashMap = listHashMap;
+        Log.d("expand ","1");
     }
 
     @Override
     public int getGroupCount() {
+        Log.d("expand getGroupCount", String.valueOf(listDataHeader.size()));
         return listDataHeader.size();
     }
 
     @Override
     public int getChildrenCount(int groupPosition) {
+        Log.d("expand ","2");
         return listDataHeader.get(groupPosition).getTime_count()+1;
+
     }
 
     @Override
@@ -69,7 +73,9 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
 
     @Override
     public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
+        Log.d("expand ","3");
         String headerTitle = listDataHeader.get(groupPosition).getName();
+        Log.d("expand headerTitle",headerTitle);
         if (convertView == null){
             LayoutInflater inflater = (LayoutInflater)this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = inflater.inflate(R.layout.list_pillschedule_name,null);
@@ -77,6 +83,7 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
         TextView listHeader = (TextView) convertView.findViewById(R.id.listHeader);
         listHeader.setTypeface(null, Typeface.BOLD);
         listHeader.setText(headerTitle);
+        Log.d("expand headerTitle1", (String) listHeader.getText());
         return convertView;
     }
 
@@ -124,7 +131,7 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
             listFinish.setText("是否完成用藥");
         }
 
-
+        Log.d("return view","aaa");
         return convertView;
     }
     public static String formatTime(String dateString) throws ParseException {//時間格式轉換

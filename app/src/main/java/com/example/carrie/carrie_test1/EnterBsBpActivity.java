@@ -1,21 +1,32 @@
 package com.example.carrie.carrie_test1;
 
+import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
+
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONArray;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class EnterBsBpActivity extends AppCompatActivity {
     private PagerAdapter BsBpPagerAdapter;
@@ -24,6 +35,10 @@ public class EnterBsBpActivity extends AppCompatActivity {
     Button btn ;
     public static String my_mon_id;
     public static String my_google;
+    String objectArray;
+    String objectDetailArray;
+    RequestQueue requestQueue;
+    private Dialog dialog;
     String insertbpvalue = "http://54.65.194.253/Health_Calendar/insertbloodpressure.php";
     String insertbsvalue = "http://54.65.194.253/Health_Calendar/insertbloodsugar.php";
     @Override
@@ -145,14 +160,110 @@ public class EnterBsBpActivity extends AppCompatActivity {
 
     }
     public void backmain(){
-        Intent it = new Intent(EnterBsBpActivity.this,SwipePlot.class);
-        it.putExtra("memberid",membercurrentid);
-        it.putExtra("googleid",my_google);
-        it.putExtra("my_supervise_id",my_mon_id);
-        startActivity(it);
+        final Intent it = new Intent(EnterBsBpActivity.this,SwipePlot.class);
+        dialog = ProgressDialog.show(this,
+                "讀取中", "請等待5秒...",true);
+        new Thread(new Runnable(){
+            @Override
+            public void run() {
+                try{
+                    getMonitorPillsRecord2(membercurrentid);
+                    getMonitorPillsRecordTime2(membercurrentid);
+                    Thread.sleep(3000);
+                    Log.d("customadapter", "1");
+                    it.putExtra("memberid",membercurrentid);
+                    it.putExtra("googleid",my_google);
+                    it.putExtra("my_supervise_id",my_mon_id);
+                    it.putExtra("objectArray", objectArray);
+                    it.putExtra("objectDetailArray", objectDetailArray);
+                    startActivity(it);
+                }
+                catch(Exception e){
+                    e.printStackTrace();
+                }
+                finally{
+                    dialog.dismiss();
+                }
+            }
+        }).start();
+
+
     }
     public void goback(View v){
+
         finish();
     }
+    public void getMonitorPillsRecord2(String memberid) {//取得被監視者的用藥紀錄
+        requestQueue = Volley.newRequestQueue(this);
+
+        String getMeasureInformationURL = "http://54.65.194.253/Monitor/getMonitorPillsRecord.php?member_id="+memberid;
+
+        Map<String, String> params = new HashMap();
+
+
+
+        //params.put("member_id", memberid);
+        //Log.d("measureInfor",params.toString());
+        //JSONObject parameters = new JSONObject(params);
+        final JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, getMeasureInformationURL, new Response.Listener<JSONArray>() {
+            @Override
+            public void onResponse(JSONArray response) {
+//                Log.d("getMonitorPillsRecord", response.toString());
+
+                if (response.toString().contains("nodata")) {
+                    Log.d("getMonitorPillsRecord", "nodata");
+                    objectArray = "nodata";
+                } else {
+                    Log.d("getMonitorPillsRecord", response.toString());
+                    objectArray = response.toString();
+                    Log.d("getMonitorPillsRecord", objectArray);
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.d("getMonitorPillsRecord", error.toString());
+                Toast.makeText(EnterBsBpActivity.this, "Error read getMonitorPillsRecord.php!!!", Toast.LENGTH_LONG).show();
+//                refreshNormalDialogEvent();
+            }
+        });
+        Volley.newRequestQueue(this).add(jsonArrayRequest);
     }
+    public void getMonitorPillsRecordTime2(String memberid) {//取得被監視者的用藥紀錄
+        requestQueue = Volley.newRequestQueue(this);
+
+        String getMeasureInformationURL = "http://54.65.194.253/Monitor/getPillRecordTime.php?member_id="+memberid;
+
+        Map<String, String> params = new HashMap();
+
+
+
+        //params.put("member_id", memberid);
+        //Log.d("measureInfor",params.toString());
+        //JSONObject parameters = new JSONObject(params);
+        final JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, getMeasureInformationURL, new Response.Listener<JSONArray>() {
+            @Override
+            public void onResponse(JSONArray response) {
+//                Log.d("getMonitorPillsRecord", response.toString());
+
+                if (response.toString().contains("nodata")) {
+                    Log.d("getMonitorPillsRecord", "nodata");
+                    objectDetailArray = "nodata";
+                } else {
+                    Log.d("getMonitorPillsRecord", response.toString());
+                    objectDetailArray = response.toString();
+                    Log.d("getMonitorPillsRecord 2", objectDetailArray);
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.d("getMonitorPillsRecord", error.toString());
+                Toast.makeText(EnterBsBpActivity.this, "Error read getPillRecordTime.php!!!", Toast.LENGTH_LONG).show();
+//                refreshNormalDialogEvent();
+            }
+        });
+        Volley.newRequestQueue(this).add(jsonArrayRequest);
+    }
+}
 
