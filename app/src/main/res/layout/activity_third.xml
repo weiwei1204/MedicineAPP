@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FAFAFA"
+    android:background="#FCFCFC"
     tools:context="com.example.carrie.carrie_test1.ThirdActivity">
 
 
@@ -26,32 +26,32 @@
 
                 <TextView
                     android:id="@+id/m_calendar"
-                    android:layout_width="100dp"
+                    android:layout_width="110dp"
                     android:layout_height="30dp"
                     android:layout_marginLeft="20dp"
                     android:layout_marginTop="20dp"
                     android:layout_weight="1"
                     android:text="排程名稱"
-                    android:textColor="#272727"
-                    android:textSize="10pt" />
-
+                    android:textColor="#9D9D9D"
+                    android:textSize="9pt" />
 
 
                 <android.support.design.widget.TextInputLayout
                     android:id="@+id/m_cal_name1"
-                    android:layout_width="wrap_content"
+                    android:layout_width="250dp"
                     android:layout_height="wrap_content">
-                <EditText
-                    android:id="@+id/m_cal_name"
-                    android:layout_width="200dp"
-                    android:layout_height="35sp"
-                    android:layout_marginTop="20dp"
-                    android:layout_weight="1"
-                    android:background="@drawable/thirdsettext"
-                    android:ems="10"
-                    android:inputType="textPersonName"
-                    android:text=""
-                    android:textColor="#272727" />
+
+                    <EditText
+                        android:id="@+id/m_cal_name"
+                        android:layout_width="200dp"
+                        android:layout_height="45sp"
+                        android:layout_marginTop="20dp"
+                        android:layout_weight="1"
+                        android:backgroundTint="#ADADAD"
+                        android:ems="15"
+                        android:inputType="textPersonName"
+                        android:text=""
+                        android:textColor="#272727" />
                 </android.support.design.widget.TextInputLayout>
 
 
@@ -61,7 +61,8 @@
 
         <TableRow
             android:layout_width="match_parent"
-            android:layout_height="match_parent" >
+            android:layout_height="match_parent"
+            android:layout_marginTop="5dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -70,29 +71,30 @@
 
                 <TextView
                     android:id="@+id/textView9"
-                    android:layout_width="100dp"
+                    android:layout_width="110dp"
                     android:layout_height="30dp"
                     android:layout_marginLeft="20dp"
                     android:layout_marginTop="20dp"
                     android:layout_weight="1"
                     android:text="起始日"
-                    android:textColor="#272727"
-                    android:textSize="10pt" />
+                    android:textColor="#9D9D9D"
+                    android:textSize="9pt" />
 
                 <android.support.design.widget.TextInputLayout
                     android:id="@+id/txtdate1"
-                    android:layout_width="wrap_content"
+                    android:layout_width="250dp"
                     android:layout_height="wrap_content">
-                <EditText
-                    android:id="@+id/txtdate"
-                    android:layout_width="200dp"
-                    android:layout_height="35dp"
-                    android:textColor="#272727"
-                    android:layout_marginTop="20dp"
-                    android:layout_weight="1"
-                    android:background="@drawable/thirdsettext"
-                    android:ems="10"
-                    android:inputType="date" />
+
+                    <EditText
+                        android:id="@+id/txtdate"
+                        android:layout_width="200dp"
+                        android:layout_height="45dp"
+                        android:layout_marginTop="20dp"
+                        android:layout_weight="1"
+                        android:backgroundTint="#ADADAD"
+                        android:ems="10"
+                        android:inputType="date"
+                        android:textColor="#272727" />
                 </android.support.design.widget.TextInputLayout>
 
 
@@ -102,7 +104,8 @@
 
         <TableRow
             android:layout_width="match_parent"
-            android:layout_height="match_parent" >
+            android:layout_height="match_parent"
+            android:layout_marginTop="5dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -111,41 +114,42 @@
 
                 <TextView
                     android:id="@+id/textView10"
-                    android:layout_width="60dp"
+                    android:layout_width="110dp"
                     android:layout_height="30dp"
                     android:layout_marginLeft="20dp"
                     android:layout_marginTop="20dp"
                     android:layout_weight="1"
                     android:text="療程天數"
-                    android:textColor="#272727"
-                    android:textSize="10pt" />
+                    android:textColor="#9D9D9D"
+                    android:textSize="9pt" />
 
                 <android.support.design.widget.TextInputLayout
                     android:id="@+id/txtday1"
-                    android:layout_width="wrap_content"
+                    android:layout_width="120dp"
                     android:layout_height="wrap_content">
-                <EditText
-                    android:id="@+id/txtday"
-                    android:layout_width="100dp"
-                    android:layout_height="35sp"
-                    android:layout_marginTop="20dp"
-                    android:layout_weight="1"
-                    android:background="@drawable/thirdsettext"
-                    android:textColor="#272727"
-                    android:ems="10"
-                    android:inputType="number" />
+
+                    <EditText
+                        android:id="@+id/txtday"
+                        android:layout_width="130dp"
+                        android:layout_height="45sp"
+                        android:layout_marginTop="20dp"
+                        android:layout_weight="1"
+                        android:backgroundTint="#ADADAD"
+                        android:ems="10"
+                        android:inputType="number"
+                        android:textColor="#272727" />
                 </android.support.design.widget.TextInputLayout>
 
 
                 <TextView
                     android:id="@+id/textView19"
-                    android:layout_width="1dp"
+                    android:layout_width="110dp"
                     android:layout_height="30dp"
                     android:layout_marginLeft="20dp"
                     android:layout_marginTop="20dp"
                     android:layout_weight="1"
                     android:text="天"
-                    android:textColor="#272727"
+                    android:textColor="#9D9D9D"
                     android:textSize="10pt" />
             </LinearLayout>
 
@@ -153,7 +157,8 @@
 
         <TableRow
             android:layout_width="match_parent"
-            android:layout_height="match_parent" >
+            android:layout_height="match_parent"
+            android:layout_marginTop="10dp">
 
             <LinearLayout
                 android:id="@+id/layoutTeste"
@@ -192,50 +197,49 @@
                 <!--android:layout_weight="1"-->
                 <!--app:srcCompat="@drawable/add" />-->
                 <!--<android.support.design.widget.TextInputLayout-->
-                    <!--android:id="@+id/time1"-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="wrap_content">-->
+                <!--android:id="@+id/time1"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content">-->
 
-                    <!--<EditText-->
-                        <!--android:layout_width="100dp"-->
-                        <!--android:layout_height="20sp"-->
-                        <!--android:layout_marginTop="20dp"-->
-                        <!--android:layout_toLeftOf="@+id/btnAdd"-->
-                        <!--android:layout_weight="1"-->
-                        <!--android:textColor="#FAFAFA"-->
-                        <!--/>-->
+                <!--<EditText-->
+                <!--android:layout_width="100dp"-->
+                <!--android:layout_height="20sp"-->
+                <!--android:layout_marginTop="20dp"-->
+                <!--android:layout_toLeftOf="@+id/btnAdd"-->
+                <!--android:layout_weight="1"-->
+                <!--android:textColor="#FAFAFA"-->
+                <!--/>-->
                 <!--</android.support.design.widget.TextInputLayout>-->
                 <RelativeLayout
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content">
 
 
                     <TextView
                         android:id="@+id/txttime"
-                        android:layout_width="match_parent"
-                        android:layout_height="30dp"
+                        android:layout_width="125dp"
+                        android:layout_height="100dp"
                         android:layout_alignBottom="@+id/btnAdd"
-                        android:layout_alignParentLeft="true"
                         android:layout_marginLeft="20dp"
                         android:layout_marginTop="20dp"
-                        android:layout_toLeftOf="@+id/btnAdd"
-                        android:layout_weight="1"
-                        android:gravity="center_vertical|center_horizontal"
                         android:text="每日提醒時間"
                         android:textAppearance="?android:attr/textAppearanceLarge"
-                        android:textColor="#272727"
-                        android:textSize="10pt" />
+                        android:textColor="#9D9D9D"
+                        android:textSize="9pt" />
 
                     <ImageButton
                         android:id="@+id/btnAdd"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:layout_alignParentTop="true"
-                        android:contentDescription="@string/btnAdd"
-                        android:src="@android:drawable/ic_input_add" />
+                        android:layout_width="35dp"
+                        android:layout_height="35dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="130dp"
+                        android:layout_marginTop="13dp"
+                        android:layout_toRightOf="@id/txttime"
+                        android:background="@drawable/add1"
+                        android:contentDescription="@string/btnAdd" />
 
                 </RelativeLayout>
+
                 <android.support.design.widget.TextInputLayout
                     android:id="@+id/time1"
                     android:layout_width="match_parent"
@@ -246,8 +250,7 @@
                         android:layout_width="0dp"
                         android:layout_height="0sp"
                         android:layout_marginLeft="50dp"
-                        android:textColor="#FAFAFA"
-                        />
+                        android:textColor="#FAFAFA" />
                 </android.support.design.widget.TextInputLayout>
 
                 <LinearLayout
@@ -266,8 +269,8 @@
 
                 <Button
                     android:id="@+id/btnDisplay"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
                     android:text="@string/btnDisplay" />
 
             </LinearLayout>
@@ -281,7 +284,7 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:orientation="vertical">
 
 
@@ -291,23 +294,22 @@
 
                     <TextView
                         android:id="@+id/textView18"
-                        android:layout_width="85dp"
+                        android:layout_width="95dp"
                         android:layout_height="30dp"
                         android:layout_marginLeft="20dp"
                         android:layout_marginTop="20dp"
-                        android:layout_weight="1"
                         android:text="藥品項目"
-                        android:textColor="#272727"
-                        android:textSize="10pt" />
+                        android:textColor="#9D9D9D"
+                        android:textSize="9pt" />
 
                     <ImageButton
                         android:id="@+id/adddrug"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:layout_alignParentTop="true"
-                        android:contentDescription="@string/btnAdd"
-                        android:src="@android:drawable/ic_input_add" />
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_marginTop="15dp"
+                        android:layout_toRightOf="@+id/textView18"
+                        android:background="@drawable/add2"
+                        android:contentDescription="@string/btnAdd" />
 
                 </RelativeLayout>
 
@@ -320,25 +322,17 @@
                         android:id="@+id/newdrug1"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content">
-                    <LinearLayout
-                        android:id="@+id/newdrug"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:orientation="vertical"></LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/newdrug"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical"></LinearLayout>
                     </android.support.design.widget.TextInputLayout>
 
                 </LinearLayout>
 
 
-                <Button
-                    android:id="@+id/button2"
-                    android:layout_width="18dp"
-                    android:layout_height="30dp"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginTop="15dp"
-                    android:layout_weight="1"
-                    android:background="@drawable/search"
-                    android:onClick="gotoalarm" />
 
             </LinearLayout>
 
@@ -346,7 +340,8 @@
         <TableRow
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1">
+            android:layout_weight="1"
+            android:layout_marginTop="10dp">
             <TextView
                 android:id="@+id/textbeacon"
                 android:layout_width="30dp"
@@ -355,26 +350,25 @@
                 android:layout_marginTop="20dp"
                 android:layout_weight="1"
                 android:text="Beacon"
-                android:textColor="#272727"
-                android:textSize="10pt" />
+                android:textColor="#9D9D9D"
+                android:textSize="9pt" />
             <Spinner
                 android:id="@+id/spinnerbeacon"
                 android:layout_width="150dp"
                 android:layout_height="35sp"
                 android:layout_marginTop="20dp"
                 android:layout_marginRight="70dp"
-                android:background="@drawable/thirdsettext"
                 android:textColor="#272727"
-
-
-
+                android:background="@drawable/thirdsettext"
                 ></Spinner>
         </TableRow>
 
         <TableRow
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:gravity="center">
+            android:gravity="center"
+            android:layout_marginTop="30dp"
+            android:layout_marginBottom="30dp">
 
             <LinearLayout
                 android:layout_width="match_parent"

@@ -1,6 +1,7 @@
 package com.example.carrie.carrie_test1;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
@@ -19,6 +20,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.RequestQueue;
@@ -30,7 +32,11 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 public class BsRecord extends Fragment {
@@ -39,6 +45,7 @@ public class BsRecord extends Fragment {
     private ArrayAdapter<BloodSugar> listAdapter;
     RequestQueue requestQueue;
     public String url = "http://54.65.194.253/Health_Calendar/ShowBs.php";
+    public String url2 = "http://54.65.194.253/Health_Calendar/onTime.php";
     private String[]list={};
     public List<BloodSugar> record_list;
     private BloodSugar data ;
@@ -50,6 +57,8 @@ public class BsRecord extends Fragment {
     ImageButton btn;
     FloatingActionButton press;
     View rootView;
+    public static String settingtime;
+    public static String type;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -71,19 +80,25 @@ public class BsRecord extends Fragment {
 //            }
 //        });
         press = (FloatingActionButton)rootView.findViewById(R.id.press2);
-        press.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                AddBs();
-            }
-        });
+        getTime();
         initView();
         return rootView;
 
     }
 
     public void start(){
-        listAdapter = new ArrayAdapter<BloodSugar>(getActivity(),android.R.layout.simple_selectable_list_item,record_list);
+        listAdapter = new ArrayAdapter<BloodSugar>(getActivity(),android.R.layout.simple_selectable_list_item,record_list){
+            @Override
+            public View getView(int position, View convertView, ViewGroup parent) {
+                TextView textView = (TextView) super.getView(position, convertView, parent);
+                textView.setTextColor(getResources().getColor(R.color.grey_700));
+                return textView;
+            }
+        };
+
+        listView.setChoiceMode(AbsListView.CHOICE_MODE_SINGLE);
+        listView.setSelector(android.R.color.holo_orange_light);
+        listView.setBackgroundResource(R.color.colorWhite);
         listView.setAdapter(listAdapter);
         listAdapter.notifyDataSetChanged();
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -185,4 +200,96 @@ public class BsRecord extends Fragment {
         it.putExtras(bundle);
         startActivity(it);
     }
+    public void getTime(){
+        Log.d("777","in method");
+        requestQueue = Volley.newRequestQueue(getActivity().getApplicationContext());
+        Log.d("777","1");
+        final Calendar rightNow = Calendar.getInstance();
+        rightNow.add(Calendar.MINUTE,30);
+        Log.d("9898","settime: "+rightNow.getTime());
+        final SimpleDateFormat format = new SimpleDateFormat("HH:mm:ss");
+        final Calendar current = Calendar.getInstance();
+
+        final String currenttime = format.format(current.getTime());
+        final String intime = format.format(rightNow.getTime());
+        Log.d("9999","Current Time :  "+currenttime);
+        Log.d("9999","time:  "+intime);
+        final JsonArrayRequest jsonObjectRequest = new JsonArrayRequest(com.android.volley.Request.Method.POST, url2, new com.android.volley.Response.Listener<JSONArray>() {
+            @Override
+            public void onResponse(JSONArray response) {
+
+
+                Log.d("777","in response");
+                try {
+
+                    for (int i = 0; i < response.length(); i++) {
+                        JSONObject object = response.getJSONObject(i);
+                        String members_id = object.getString("member_id");
+                        if (members_id.equals(memberid)) {
+                            settingtime = object.getString("time");
+                            type = object.getString("type");
+                            Log.d("4567","Time: "+settingtime);
+                            Calendar timebefore = Calendar.getInstance();
+                            timebefore.setTime(format.parse(settingtime));
+
+                            timebefore.add(Calendar.MINUTE,30);//設定時間後30分鐘
+                            Calendar nowtime = Calendar.getInstance();//現在時間
+                            Date cur= format.parse(currenttime);
+
+//                            Log.d("8989","nowtime: "+format.format(nowtime.getTime()));
+
+                            Calendar settime = Calendar.getInstance();
+                            settime.setTime(format.parse(settingtime));//設定的時間
+//                            Log.d("8989","setting time: "+format.format(settime.getTime()));
+//                            Log.d("8989","after 30 minutes: "+format.format(timebefore.getTime()));
+                            if(type.equals("bs_1") || type.equals("bs_2") || type.equals("bs_3")) {
+
+                                if (cur.after(settime.getTime()) && cur.before(timebefore.getTime())) {
+                                    Log.d("7979", "do this ");
+                                    Log.d("8989","nowtime: "+format.format(nowtime.getTime()));
+                                    Log.d("7979","setting time: "+format.format(settime.getTime()));
+                                    Log.d("7979","after 30 minutes: "+format.format(timebefore.getTime()));
+                                    press.setOnClickListener(new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View v) {
+                                            AddBs();
+                                        }
+                                    });
+                                }
+                            }
+                            else {
+                                press.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        Toast.makeText(getActivity().getApplicationContext(), "還沒到紀錄血糖的時間哦!", Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+                            }
+
+
+
+                        }
+                    }
+
+
+                }catch (JSONException e){
+                    e.printStackTrace();
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        },
+                new com.android.volley.Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.d("777",error.toString());
+                    }
+                });
+        RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
+        requestQueue.add(jsonObjectRequest);
+
+
+    }
+
 }

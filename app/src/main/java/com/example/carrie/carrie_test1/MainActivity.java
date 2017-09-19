@@ -201,6 +201,7 @@ public class MainActivity extends LoginActivity
         bundle3.putString("my_id", memberid);
         bundle3.putString("my_google_id", googleid);
         bundle3.putString("my_supervise_id", my_mon_id);
+        bundle3.putString("m_calid","-1");
         it.putExtras(bundle3);
         startActivity(it);
     }
