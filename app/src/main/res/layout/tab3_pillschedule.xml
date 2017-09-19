@@ -10,9 +10,11 @@
 
     <ExpandableListView
         android:id="@+id/showpillschedule"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:childDivider="@drawable/child_separator">
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:divider="#cccccc"
+        android:childDivider="#cccccc"
+        android:dividerHeight="1dp">
 
     </ExpandableListView>
 
