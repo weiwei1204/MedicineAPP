@@ -45,8 +45,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class medicine_cal extends AppCompatActivity {
-    private EditText m_cal_nameid,txtdayid,drugnameid;
-    private TextView txtdateid;
+    private EditText m_cal_nameid,drugnameid;
+    private TextView txtdateid,txtdayid;
 
     RequestQueue requestQueue;
     private String getm_calendarUrl = "http://54.65.194.253/Medicine_Calendar/getm_calendar.php";
@@ -60,6 +60,7 @@ public class medicine_cal extends AppCompatActivity {
     private String m_calid,memberid,beaconUUID,beaconid,drugid,drugname;
     private Spinner spinnerbeaconid;
     private ArrayAdapter<CharSequence> adapterbeacon;
+    private ArrayList<ArrayList<String>> bconarray = new ArrayList<ArrayList<String>>();
     int calbid,calbeacon;
     private Button m_delete,m_modify;
     private ArrayList<ArrayList<String>> dbmdrugs = new ArrayList<ArrayList<String>>();
@@ -87,7 +88,7 @@ public class medicine_cal extends AppCompatActivity {
         setContentView(R.layout.activity_medicine_cal);
         m_cal_nameid = (EditText)findViewById(R.id.m_cal_nameid);
         txtdateid = (TextView) findViewById(R.id.txtdateid);
-        txtdayid = (EditText)findViewById(R.id.txtdayid);
+        txtdayid = (TextView)findViewById(R.id.txtdayid);
         spinnerbeaconid = (Spinner)findViewById(R.id.spinnerbeaconid);
         m_delete = (Button)findViewById(R.id.m_delete);
         m_modify = (Button)findViewById(R.id.m_modify);
@@ -99,6 +100,7 @@ public class medicine_cal extends AppCompatActivity {
         m_calid=bundle2.getString("m_calid");
         memberid=bundle2.getString("memberid");
 
+        memberid=memberdata.getMember_id();
         Bundle bundle1 = getIntent().getExtras();
         entertype=bundle1.getInt("entertype");
         drugid=bundle1.getString("drugid");
@@ -164,7 +166,7 @@ public class medicine_cal extends AppCompatActivity {
             }}){
             protected Map<String, String> getParams() throws AuthFailureError {//把值丟到php
                 Map<String, String> parameters = new HashMap<String, String>();
-                parameters.put("member_id",memberid);
+                parameters.put("member_id",memberdata.getMember_id());
                 Log.d("nn11",parameters.toString());
                 return parameters;
             }
@@ -184,30 +186,32 @@ public class medicine_cal extends AppCompatActivity {
                     JSONArray jarray = new JSONArray(response);
                     final String[] beaconarray=new String[jarray.length()];
                     final String[] beaconaidrray=new String[jarray.length()];
+                    bconarray.clear();
                     for (int i=0 ; i<jarray.length() ; i++){
                         JSONObject beacon = jarray.getJSONObject(i);
                         String UUID = beacon.getString("UUID");
                         String Member_id = beacon.getString("member_id");
                         String id = beacon.getString("id");
-                            beaconaidrray[i] = id;
-                            beaconarray[i] = UUID;
-                            if (calbid==Integer.parseInt(id)){
+                        String name = beacon.getString("newname");
+                        beaconaidrray[i] = id;
+                        beaconarray[i] = UUID;
+                        bconarray.add(new ArrayList<String>());
+                        bconarray.get(i).add(name);
+                        bconarray.get(i).add(id);
+
+                        if (calbid==Integer.parseInt(id)){
                                 calbeacon =i;
                             }
                     }//取值結束
-                    adapterbeacon = new ArrayAdapter(medicine_cal.this,android.R.layout.simple_spinner_item,beaconarray);
-                    adapterbeacon.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                    spinnerbeaconid.setAdapter(adapterbeacon);
+                    Log.d("bbbbbbcon", String.valueOf(bconarray.size()));
+                    myspinner myspinner = new myspinner(medicine_cal.this,R.layout.myspinner,R.id.mysipnner,bconarray);
+                    spinnerbeaconid.setAdapter(myspinner);
                     spinnerbeaconid.setSelection(calbeacon,false);
                     spinnerbeaconid.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                         @Override
                         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                            beaconUUID= (String) parent.getItemAtPosition(position);
-                            for (int i=0;i<beaconaidrray.length;i++){
-                                if (beaconUUID.equals(beaconarray[i])){
-                                    beaconid = beaconaidrray[i];
-                                }
-                            }
+                            beaconid=bconarray.get(position).get(1);
+                            Log.d("bbbbbbcon", beaconid);
                         }
                         @Override
                         public void onNothingSelected(AdapterView<?> parent) {}//~~~~
@@ -220,7 +224,7 @@ public class medicine_cal extends AppCompatActivity {
         {
             protected Map<String, String> getParams() throws AuthFailureError {//把值丟到php
                 Map<String, String> parameters = new HashMap<String, String>();
-                parameters.put("member_id",memberid);
+                parameters.put("member_id",memberdata.getMember_id());
                 Log.d("nn11",parameters.toString());
                 return parameters;
             }

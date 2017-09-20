@@ -129,6 +129,7 @@ public class BpRecord extends Fragment {
        return  rootView;
 
     }
+
     public void start(){
         listAdapter = new ArrayAdapter<BloodPressure>(getActivity(),android.R.layout.simple_selectable_list_item,record_list){
             @Override
