@@ -61,7 +61,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this)
                         .setSmallIcon(R.drawable.pills)
-                        .setContentTitle("AWS SNS")
+                        .setContentTitle("***吾藥可救***")
                         .setStyle(new NotificationCompat.BigTextStyle().bigText(message))
                         .setContentText(message)
                         .setAutoCancel(true);
