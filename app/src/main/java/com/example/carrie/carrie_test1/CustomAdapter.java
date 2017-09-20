@@ -65,7 +65,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
         holder.monitorButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(context, "Click positioin" + position, Toast.LENGTH_SHORT).show();
+//                Toast.makeText(context, "Click positioin" + position, Toast.LENGTH_SHORT).show();
                 dialog = ProgressDialog.show(context,
                         "讀取中", "請等待5秒...",true);
                 new Thread(new Runnable(){
