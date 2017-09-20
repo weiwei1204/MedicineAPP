@@ -29,6 +29,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -115,11 +116,12 @@ public class m_calendarlist extends Activity{
                         String delay = mcalendar.getString("delay");
                         String count = mcalendar.getString("count");
                         String finish = mcalendar.getString("finish");
-                        Double percent=Double.valueOf(time_count)/Double.valueOf(count)*100;
+                        Double percent=(Double.valueOf(count)-Double.valueOf(time_count))/Double.valueOf(count)*100;
+                        DecimalFormat df=new DecimalFormat("#.#");
                         mid[i] = id;
                         mname[i] = name;
                         mdelay[i] = delay;
-                        mday[i] = String.valueOf(percent);
+                        mday[i] = df.format(percent);
                         m_calendararray.add(new m_calendar(Integer.valueOf(mid[i]),mname[i],mday[i],mdelay[i],Integer.valueOf(finish)));
 
                     }//取值結束

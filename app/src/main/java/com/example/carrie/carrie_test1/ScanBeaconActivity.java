@@ -211,6 +211,7 @@ public class ScanBeaconActivity extends AppCompatActivity implements  ActivityCo
                 try{
                     mBluetoothAdapter.startLeScan(mBleScanCallback);
                     Log.v("aaa", "5555");
+                    sleep(3000);
                 }catch(Exception obj){
                     Log.v("aaa", "4444");
                 }
@@ -268,7 +269,7 @@ public class ScanBeaconActivity extends AppCompatActivity implements  ActivityCo
                                                     +  IntToHex2(scanRecord[23] & 0xff) +  IntToHex2(scanRecord[24] & 0xff);
                                         }
                                         HashMap<String, Object> map = new HashMap<String, Object>();
-                                        map.put("ItemImage", R.drawable.wifi);
+                                        map.put("ItemImage", R.drawable.bluetooth1);
                                         map.put("ItemName", " "+device.getName());
                                         map.put("ItemAddress", device.getAddress());
                                         map.put("ItemUUID", uuid);

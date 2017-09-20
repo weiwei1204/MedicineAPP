@@ -3,10 +3,7 @@ package com.example.carrie.carrie_test1;
 import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
-import android.net.wifi.WifiConfiguration;
 import android.net.wifi.WifiManager;
-import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -203,7 +200,7 @@ public class BtnAdapter_scanap extends BaseAdapter {
         {
             protected Map<String, String> getParams() throws AuthFailureError {//把值丟到php
                 Map<String, String> parameters = new HashMap<String, String>();
-                parameters.put("member_id","6");
+                parameters.put("member_id",memberdata.getMember_id());
                 parameters.put("SSID",ssid);
                 parameters.put("BSSID",bssid);
                 parameters.put("capabilities",capabilities);
