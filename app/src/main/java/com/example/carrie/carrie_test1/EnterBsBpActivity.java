@@ -50,9 +50,9 @@ public class EnterBsBpActivity extends AppCompatActivity {
 //        my_mon_id = bundle.getString("my_supervise_id");
 //        my_google = bundle.getString("my_google_id");
 
-        membercurrentid=memberdata.getMember_id();
-        my_mon_id=memberdata.getMy_mon_id();
-        my_google=memberdata.getGoogle_id();
+        membercurrentid = memberdata.getMember_id();
+        my_mon_id = memberdata.getMy_mon_id();
+        my_google = memberdata.getGoogle_id();
 
         BsBpPagerAdapter = new PagerAdapter(getSupportFragmentManager());
 
