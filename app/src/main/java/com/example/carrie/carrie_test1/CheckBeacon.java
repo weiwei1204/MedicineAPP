@@ -187,41 +187,43 @@ public class CheckBeacon extends Service {
                 int countBeacon = 0 ;
                 Log.d("needBeaconSize", Integer.toString(needBeacon.size()));
                 Log.d("bringBeaconSize", Integer.toString(bringBeacon.size()));
+                Log.d("BeaconcalSize", Integer.toString(Beaconcal.size()));
                 ArrayList<String> lost = new ArrayList<String>();
-                for(int i = 0; i < bringBeacon.size(); i++){
+                for(int i = 0; i < needBeacon.size(); i++){
                     Boolean check=false;
-                    for(int j = 0; j < needBeacon.size(); j++ ){
-                        if(bringBeacon.get(i).get(0).equals(needBeacon.get(j))){
+                    for(int j = 0; j < bringBeacon.size(); j++ ){
+                        if(bringBeacon.get(j).get(0).equals(needBeacon.get(i))){
                             check=true;
-                            Log.d("bbb", needBeacon.get(j));
+                            Log.d("bbb", needBeacon.get(i));
                         }else{}
                     }
                     if (check==false){
-                        Log.d("bbb", "!!!!!!!!!!");
+                        Log.d("bbb", "!!!!!!!!!!"+Beaconcal.get(i));
+                        Log.d("bbb", "!!!!!!!!!!"+needBeacon.get(i));
                         lost.add(countBeacon,Beaconcal.get(i));
                         countBeacon ++ ;
                     }
                 }
-                if(lost.size()!=0){
-                    Log.d("bbb", "沒帶Beacon!!!!!!!!!!");
-                    for (int i=0;i<lost.size();i++) {
-                        AlertDialog.Builder builder = new AlertDialog.Builder(CheckBeacon.this);
-                        builder.setMessage(lost.get(i)+"\n")
-                                .setTitle("藥忘記帶囉")
-                                .setCancelable(false)
-                                .setNegativeButton("確定", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                    }
-                                });
-
-                        AlertDialog alert = builder.create();
-                        alert.show();
-                    }
-
-                }
-
+//                if(lost.size()!=0){
+//                    Log.d("bbb", "沒帶Beacon!!!!!!!!!!"+lost.get(0));
+//                    for (int i=0;i<lost.size();i++) {
+//                        AlertDialog.Builder builder = new AlertDialog.Builder(CheckBeacon.this);
+//                        builder.setMessage(lost.get(i)+"\n")
+//                                .setTitle("藥忘記帶囉")
+//                                .setCancelable(false)
+//                                .setNegativeButton("確定", new DialogInterface.OnClickListener() {
+//                                    @Override
+//                                    public void onClick(DialogInterface dialog, int which) {
+//                                    }
+//                                });
+//
+//                        AlertDialog alert = builder.create();
+//                        alert.show();
+//                    }
+//                }
+                needBeacon.clear();
                 bringBeacon.clear();
+                mBleDevices.clear();
                 Log.d("needBeaconSize", Integer.toString(needBeacon.size()));
                 Log.d("bringBeaconSize", Integer.toString(bringBeacon.size()));
             }
@@ -305,14 +307,12 @@ public class CheckBeacon extends Service {
                         Log.d("needBeacon",needBeacon.get(i));
                     }
                 } catch (JSONException e) {
-                    Log.d("nn1111",e.toString());
                     e.printStackTrace();
                 }
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.d("nn1111", error.toString());
                 Toast.makeText(getApplicationContext(), "Error read getm_Beacon.php!!!", Toast.LENGTH_LONG).show();
             }
         })
@@ -320,21 +320,19 @@ public class CheckBeacon extends Service {
             protected Map<String, String> getParams() throws AuthFailureError {//把值丟到php
                 Map<String, String> parameters = new HashMap<String, String>();
                 parameters.put("member_id",memberdata.getMember_id());
-                Log.d("nn1111",parameters.toString());
-
+//                Log.d("nn1111",parameters.toString());
                 return parameters;
             }
         };
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         requestQueue.add(drugrequest);
     }
-
     public void getAP(){
         requestQueue = Volley.newRequestQueue(getApplicationContext());
         final StringRequest drugrequest = new StringRequest(Request.Method.POST, getAP, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                Log.d("nn1122",response);
+//                Log.d("nn1122",response);
                 try {
                     JSONArray jarray = new JSONArray(response);
                     final String[] SSIDarray=new String[jarray.length()];
@@ -347,17 +345,15 @@ public class CheckBeacon extends Service {
                         String BSSID = obj.getString("BSSID");
                         SSIDarray[i]=SSID;
                         storeAPBSSID.add(i,BSSID);
-                        Log.d("nn11",BSSID);
+//                        Log.d("nn11",BSSID);
                     }
                 } catch (JSONException e) {
-                    Log.d("nn1122",e.toString());
                     e.printStackTrace();
                 }
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.d("nn1122", error.toString());
                 Toast.makeText(getApplicationContext(), "Error read getm_AP.php!!!", Toast.LENGTH_LONG).show();
             }
         })
@@ -365,8 +361,7 @@ public class CheckBeacon extends Service {
             protected Map<String, String> getParams() throws AuthFailureError {//把值丟到php
                 Map<String, String> parameters = new HashMap<String, String>();
                 parameters.put("member_id",memberdata.getMember_id());
-                Log.d("nn1122",parameters.toString());
-
+//                Log.d("nn1122",parameters.toString());
                 return parameters;
             }
         };
