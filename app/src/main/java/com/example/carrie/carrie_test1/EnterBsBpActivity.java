@@ -46,9 +46,13 @@ public class EnterBsBpActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_enter_bs_bp);
         Bundle bundle = getIntent().getExtras();
-        membercurrentid = bundle.getString("memberid");
-        my_mon_id = bundle.getString("my_supervise_id");
-        my_google = bundle.getString("my_google_id");
+//        membercurrentid = bundle.getString("memberid");
+//        my_mon_id = bundle.getString("my_supervise_id");
+//        my_google = bundle.getString("my_google_id");
+
+        membercurrentid=memberdata.getMember_id();
+        my_mon_id=memberdata.getMy_mon_id();
+        my_google=memberdata.getGoogle_id();
 
         BsBpPagerAdapter = new PagerAdapter(getSupportFragmentManager());
 
