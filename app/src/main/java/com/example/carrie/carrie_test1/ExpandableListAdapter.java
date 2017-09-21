@@ -1,6 +1,7 @@
 package com.example.carrie.carrie_test1;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -116,6 +117,7 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
             LayoutInflater inflater = (LayoutInflater)this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = inflater.inflate(R.layout.list_pillschedule_1,null);
         }
+
         TextView listDate = (TextView) convertView.findViewById(R.id.nothingdisplay);
         listDate.setText(displayDate);
 
@@ -130,7 +132,9 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
         }else if (finishCheck==2){
             listFinish.setText("是否完成用藥");
         }
-
+            listDate.setBackgroundColor(Color.parseColor("#DAF1F5"));
+            listFinish.setBackgroundColor(Color.parseColor("#DAF1F5"));
+            listTime.setBackgroundColor(Color.parseColor("#DAF1F5"));
         Log.d("return view","aaa");
         return convertView;
     }

@@ -16,7 +16,6 @@ import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
@@ -167,15 +166,6 @@ public class ThirdActivity extends AppCompatActivity {
 
 
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-
-// Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
-        return true;
-    }
-
-
     public void getBeacon(){//取此會員的beacon
         requestQueue = Volley.newRequestQueue(getApplicationContext());
         final StringRequest request = new StringRequest(Request.Method.POST, getBeaconUrl, new Response.Listener<String>() {
@@ -186,6 +176,7 @@ public class ThirdActivity extends AppCompatActivity {
                     JSONArray jarray = new JSONArray(response);
                     final String[] beaconarray=new String[jarray.length()];
                     final String[] beaconaidrray=new String[jarray.length()];
+                    bconarray.clear();
                     for (int i=0 ; i<jarray.length() ; i++){
                         JSONObject beacon = jarray.getJSONObject(i);
                         String UUID = beacon.getString("UUID");

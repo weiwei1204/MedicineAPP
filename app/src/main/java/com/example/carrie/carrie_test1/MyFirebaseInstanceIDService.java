@@ -1,5 +1,6 @@
 package com.example.carrie.carrie_test1;
 
+import android.content.Intent;
 import android.util.Log;
 
 import com.google.android.gms.wearable.MessageApi;
@@ -15,7 +16,7 @@ import static com.google.android.gms.wearable.DataMap.TAG;
 
 public class MyFirebaseInstanceIDService extends FirebaseInstanceIdService {
     public FirebaseAuth mAuth;
-    private static final String TAG = "MyFirebaseIIDService";
+    private static final String TAG = "MyFirebaseIDService";
     @Override
     public void onTokenRefresh() {
         // Get updated InstanceID token.
@@ -29,10 +30,14 @@ public class MyFirebaseInstanceIDService extends FirebaseInstanceIdService {
         // Instance ID token to your app server.
         
         sendRegistrationToServer(refreshedToken);
+        Intent intent = new Intent(this, Main2.class);
+        startService(intent);
     }
 
     private void sendRegistrationToServer(String refreshedToken) {
+
     }
+
 
 
 }

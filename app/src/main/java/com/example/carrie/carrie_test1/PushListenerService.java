@@ -38,8 +38,8 @@ public class PushListenerService extends GcmListenerService {
     }
     @Override
     public void onMessageReceived(final String from, final Bundle data) {
-        Log.d(LOGTAG, "From:" + from);
-        Log.d(LOGTAG, "Data:" + data.toString());
+        Log.d("9999", "From:" + from);
+        Log.d("9999", "Data:" + data.toString());
 
         final NotificationClient notificationClient =
                 Main2.pinpointManager.getNotificationClient();

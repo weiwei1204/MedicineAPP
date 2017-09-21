@@ -67,7 +67,7 @@
                 app:fabSize="normal"
                 android:src="@drawable/ic_action_add1"
                 android:id="@+id/press2"
-                android:onClick="AddBs"/>
+               />
         </android.support.design.widget.CoordinatorLayout>
 
     </RelativeLayout>

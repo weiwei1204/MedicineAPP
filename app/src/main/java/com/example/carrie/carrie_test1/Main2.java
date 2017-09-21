@@ -102,6 +102,8 @@ public class Main2 extends Activity {
         mAuth = FirebaseAuth.getInstance();
         String Token = FirebaseInstanceId.getInstance().getToken();
         Log.d("9090", "token: " + Token);
+//        Intent intent = new Intent(this, MyFirebaseMessagingService.class);
+//        this.startService(intent);
 
 
 

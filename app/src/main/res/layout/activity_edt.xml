@@ -41,6 +41,7 @@
             android:ems="10"
             android:inputType="time"
             android:textSize="9pt"
+            android:gravity="center_horizontal"
             android:textColor="#272727"> <requestFocus />
         </EditText>
 
