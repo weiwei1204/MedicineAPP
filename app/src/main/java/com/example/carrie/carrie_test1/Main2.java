@@ -124,8 +124,7 @@ public class Main2 extends Activity {
             IdentityManager identityManager = new IdentityManager(this, awsConfig);
             IdentityManager.setDefaultIdentityManager(identityManager);
         }
-        final AWSCredentialsProvider credentialsProvider =
-                IdentityManager.getDefaultIdentityManager().getCredentialsProvider();
+        final AWSCredentialsProvider credentialsProvider = IdentityManager.getDefaultIdentityManager().getCredentialsProvider();
 
         if (pinpointManager == null) {
             PinpointConfiguration pinpointConfig = new PinpointConfiguration(
@@ -184,6 +183,7 @@ public class Main2 extends Activity {
         mythread.start();
 
     }
+
 
 
 
