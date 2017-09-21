@@ -5,14 +5,12 @@ import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothManager;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.Handler;
 import android.os.IBinder;
-import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -201,12 +199,19 @@ public class CheckBeacon extends Service {
                         Log.d("bbb", "!!!!!!!!!!"+Beaconcal.get(i));
                         Log.d("bbb", "!!!!!!!!!!"+needBeacon.get(i));
                         lost.add(countBeacon,Beaconcal.get(i));
+                        Log.d("bbb",Beaconcal.get(i));
                         countBeacon ++ ;
                     }
+                }
+                if (lost.size()!=0){
+                    Intent my_intent=new Intent(getApplicationContext(),OnBootReceiver.class);
+                    my_intent.putExtra("extra",lost);
+                    sendBroadcast(my_intent);
                 }
 //                if(lost.size()!=0){
 //                    Log.d("bbb", "沒帶Beacon!!!!!!!!!!"+lost.get(0));
 //                    for (int i=0;i<lost.size();i++) {
+//                        Toast.makeText(getApplicationContext(), "沒帶"+lost.get(0)+"!!!!", Toast.LENGTH_LONG).show();
 //                        AlertDialog.Builder builder = new AlertDialog.Builder(CheckBeacon.this);
 //                        builder.setMessage(lost.get(i)+"\n")
 //                                .setTitle("藥忘記帶囉")
@@ -304,6 +309,7 @@ public class CheckBeacon extends Service {
                         String name = obj.getString("name");
                         needBeacon.add(i,UUID);
                         Beaconcal.add(i,name);
+                        Log.d("Beaconcal",Beaconcal.get(i));
                         Log.d("needBeacon",needBeacon.get(i));
                     }
                 } catch (JSONException e) {
@@ -313,7 +319,7 @@ public class CheckBeacon extends Service {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(getApplicationContext(), "Error read getm_Beacon.php!!!", Toast.LENGTH_LONG).show();
+//                Toast.makeText(getApplicationContext(), "Error read getm_Beacon.php!!!", Toast.LENGTH_LONG).show();
             }
         })
         {
@@ -354,7 +360,7 @@ public class CheckBeacon extends Service {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(getApplicationContext(), "Error read getm_AP.php!!!", Toast.LENGTH_LONG).show();
+//                Toast.makeText(getApplicationContext(), "Error read getm_AP.php!!!", Toast.LENGTH_LONG).show();
             }
         })
         {
