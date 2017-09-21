@@ -81,8 +81,6 @@ public class PersonalInformationctivity extends AppCompatActivity {
 //        email.setText(repairData.getEmail());
     }
 
-
-
     public void gotorepair(View v) { //連到搜尋藥品資訊頁面
         Intent it = new Intent(this, repair.class);
         startActivity(it);
