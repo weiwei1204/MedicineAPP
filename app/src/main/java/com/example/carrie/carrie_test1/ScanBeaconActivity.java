@@ -221,6 +221,7 @@ public class ScanBeaconActivity extends AppCompatActivity implements  ActivityCo
                     e.printStackTrace();
                 }
                 mBluetoothAdapter.stopLeScan(mBleScanCallback);
+                mBleDevices.clear();
             }
         }.start();
     }
