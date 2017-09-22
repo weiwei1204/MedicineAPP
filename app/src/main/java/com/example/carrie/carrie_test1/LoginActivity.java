@@ -163,6 +163,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             gemail=email;
             googleid=google;
             gphoto=photo;
+            memberdata.setName(gname);
+            memberdata.setEmail(gemail);
 
             Log.d("rrr123", "1");
 
@@ -190,9 +192,11 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
                 if(response.contains("success")){//檢查是否為新會員
                     gotoMain();
+
                 }
                 else if(response.contains("nodata")){
                     gotoInformation();
+
                 }
             }
         }, new Response.ErrorListener() {

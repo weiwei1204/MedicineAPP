@@ -80,6 +80,20 @@ public class PersonalInformationctivity extends AppCompatActivity {
 //        email.setText(repairData.getEmail());
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        String google_id= memberdata.getGoogle_id();
+        Intent i = new Intent(this, MainActivity.class);
+        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        i.putExtra("googleid", google_id);
+
+        startActivity(i);
+        finish();
+    }
+
+
     public void gotorepair(View v) { //連到搜尋藥品資訊頁面
         Intent it = new Intent(this, repair.class);
         startActivity(it);
