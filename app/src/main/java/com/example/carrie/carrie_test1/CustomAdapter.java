@@ -75,7 +75,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
                             getMonitorPillsRecord(String.valueOf(my_data.get(position).getId()));
                             getMonitorPillsRecordTime(String.valueOf(my_data.get(position).getId()));
                             Thread.sleep(3000);
-                            Log.d("customadapter", "1");
+                            Log.d("customadapter", " 1");
                             Intent it = new Intent(context, SwipePlot.class);
 
                             Log.d("customadapter", "2");

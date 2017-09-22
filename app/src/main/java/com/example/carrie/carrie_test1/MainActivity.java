@@ -17,6 +17,7 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -60,6 +61,7 @@ public class MainActivity extends LoginActivity
     String height;
     String birth;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -85,7 +87,14 @@ public class MainActivity extends LoginActivity
         toggle.syncState();
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        View hView =  navigationView.getHeaderView(0);
+        TextView memberName = (TextView) hView.findViewById(R.id.namee);
+        Log.d("nameeee: ",memberdata.getName());
+        memberName.setText(memberdata.getName());
+        TextView memberEmail = (TextView) hView.findViewById(R.id.emaill);
+        memberEmail.setText(memberdata.getEmail());
         navigationView.setNavigationItemSelectedListener(this);
+
 
         BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomNavView_Bar);
         BottomNavigationViewHelper.disableShiftMode(bottomNavigationView);
@@ -136,7 +145,7 @@ public class MainActivity extends LoginActivity
                         break;
 
                     case R.id.ic_beacon:
-                        Intent intent4 = new Intent(MainActivity.this, Beacon.class);
+                        Intent intent4 = new Intent(MainActivity.this, MyBeaconActivity.class);
                         Bundle bundle4 = new Bundle();
                         bundle4.putString("my_id", memberid);
                         bundle4.putString("my_google_id", googleid);

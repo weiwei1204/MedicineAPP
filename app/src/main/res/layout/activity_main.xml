@@ -145,7 +145,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="監控模式"
+                android:text="關注模式"
                 android:textColor="@android:color/background_light"
                 android:textSize="18sp"
                 android:layout_marginLeft="5sp"
