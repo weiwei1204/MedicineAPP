@@ -25,8 +25,6 @@ import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.common.api.ResultCallback;
-import com.google.android.gms.common.api.Status;
 import com.kosalgeek.asynctask.AsyncResponse;
 
 import java.util.HashMap;
@@ -98,6 +96,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         bundle.putString("name",gname);
         bundle.putString("email",gemail);
         bundle.putString("googleid",googleid);
+        memberdata.setName(gname);
+        memberdata.setEmail(gemail);
         it.putExtras(bundle);   // 記得put進去，不然資料不會帶過去哦
         startActivity(it);
     }

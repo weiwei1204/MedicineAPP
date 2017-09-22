@@ -6,6 +6,23 @@ package com.example.carrie.carrie_test1;
 
 public class memberdata {
     private static String member_id,google_id,my_mon_id;
+    private static String name,email;
+
+    public static String getName() {
+        return name;
+    }
+
+    public static void setName(String name) {
+        memberdata.name = name;
+    }
+
+    public static String getEmail() {
+        return email;
+    }
+
+    public static void setEmail(String email) {
+        memberdata.email = email;
+    }
 
     public static String getMember_id() {
         return member_id;
