@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.util.Log;
 
 import com.amazonaws.auth.AWSCredentials;
+
 import com.amazonaws.auth.AWSCredentialsProvider;
 import com.amazonaws.auth.BasicAWSCredentials;
 import com.amazonaws.mobile.auth.core.IdentityManager;
@@ -14,6 +15,7 @@ import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.FirebaseInstanceIdService;
 
 import static com.google.android.gms.wearable.DataMap.TAG;
+
 import com.amazonaws.services.sns.AmazonSNSClient;
 import com.amazonaws.services.sns.model.CreatePlatformEndpointRequest;
 import com.amazonaws.services.sns.model.CreatePlatformEndpointResult;
@@ -22,6 +24,9 @@ import com.amazonaws.services.sns.model.GetEndpointAttributesResult;
 import com.amazonaws.services.sns.model.InvalidParameterException;
 import com.amazonaws.services.sns.model.NotFoundException;
 import com.amazonaws.services.sns.model.SetEndpointAttributesRequest;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.iid.FirebaseInstanceIdService;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -37,14 +42,15 @@ public class MyFirebaseInstanceIDService extends FirebaseInstanceIdService {
     AWSCredentials awsCredentials = new AWSCredentials() {
         @Override
         public String getAWSAccessKeyId() {
-            return null;
+            return "AKIAIJBWJ3GH6OBW7PZQ";
         }
 
         @Override
         public String getAWSSecretKey() {
-            return null;
+            return "9soQ6XG2V7WCzYAbyYf3bZMuFoov4dudF7zFso";
         }
     };
+
     final AWSCredentialsProvider credentialsProvider = IdentityManager.getDefaultIdentityManager().getCredentialsProvider();
     AmazonSNS client =  new AmazonSNSClient(credentialsProvider);
     public static String arnStorage;
@@ -56,18 +62,20 @@ public class MyFirebaseInstanceIDService extends FirebaseInstanceIdService {
 
         String refreshedToken = FirebaseInstanceId.getInstance().getToken();
         Log.d("8080", "Refreshed token: " + refreshedToken);
+        Log.d("8080", "credentialsProvider: " + awsCredentials.getAWSAccessKeyId());
 
         // If you want to send messages to this application instance or
         // manage this apps subscriptions on the server side, send the
         // Instance ID token to your app server.
+        sendRegistrationToServer(refreshedToken);
         Intent intent = new Intent(this, Main2.class);
         startService(intent);
         Log.d("9988","do this");
-        sendRegistrationToServer(refreshedToken);
+
     }
 
     private void sendRegistrationToServer(String refreshedToken) {
-
+        Log.d("9988","do aaa");
 
         String endpointArn = retrieveEndpointArn();
         token = FirebaseInstanceId.getInstance().getToken();

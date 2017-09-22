@@ -2,7 +2,7 @@
     <string name="app_name">Medicine</string>
     <string name="title_activity_first">用藥諮詢</string>
     <string name="title_activity_second">藥品追蹤</string>
-    <string name="title_activity_third">新增用藥排程</string>
+    <string name="title_activity_third">排程</string>
     <string name="title_activity_fourth">藥品資訊</string>
     <string name="title_activity_certify">排程</string>
     <string name="title_activity_thirdverify">親友認證</string>
@@ -31,7 +31,6 @@
     <string name="title_activity_alarm">時鐘</string>
     <string name="title_activity_edt">edt</string>
     <string name="title_activity_notification">通知</string>
-
 
 
     <string name="action_settings">Settings</string>
@@ -254,5 +253,6 @@
     <string name="bot_alias">version</string>
     <string name="identity_id_test">us-east-1:9d8262a8-fa3c-4449-91bd-fc4841000a24</string>
     <string name="screen_options_main_message">Amazon Lex</string>
+    <string name="title_activity_transparent">transparent</string>
 
 </resources>
