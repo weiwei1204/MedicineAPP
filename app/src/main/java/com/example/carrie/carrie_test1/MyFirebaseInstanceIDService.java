@@ -4,6 +4,18 @@ import android.content.Intent;
 import android.util.Log;
 
 import com.amazonaws.auth.AWSCredentials;
+
+import com.amazonaws.auth.AWSCredentialsProvider;
+import com.amazonaws.auth.BasicAWSCredentials;
+import com.amazonaws.mobile.auth.core.IdentityManager;
+import com.amazonaws.services.sns.AmazonSNS;
+import com.google.android.gms.wearable.MessageApi;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.iid.FirebaseInstanceIdService;
+
+import static com.google.android.gms.wearable.DataMap.TAG;
+
 import com.amazonaws.services.sns.AmazonSNSClient;
 import com.amazonaws.services.sns.model.CreatePlatformEndpointRequest;
 import com.amazonaws.services.sns.model.CreatePlatformEndpointResult;
@@ -38,8 +50,9 @@ public class MyFirebaseInstanceIDService extends FirebaseInstanceIdService {
             return "9soQ6XG2V7WCzYAbyYf3bZMuFoov4dudF7zFso";
         }
     };
-    //final AWSCredentialsProvider credentialsProvider = IdentityManager.getDefaultIdentityManager().getCredentialsProvider();
-    AmazonSNSClient client = new AmazonSNSClient(awsCredentials);
+
+    final AWSCredentialsProvider credentialsProvider = IdentityManager.getDefaultIdentityManager().getCredentialsProvider();
+    AmazonSNS client =  new AmazonSNSClient(credentialsProvider);
     public static String arnStorage;
     public static String token;
     @Override
@@ -114,6 +127,7 @@ public class MyFirebaseInstanceIDService extends FirebaseInstanceIdService {
             String token = FirebaseInstanceId.getInstance().getToken();
             System.out.println("Creating platform endpoint with token " +token);
             String applicationArn = "arn:aws:sns:us-east-1:610465842429:app/GCM/PillHelper";
+            String topicArn = "arn:aws:sns:us-east-1:610465842429:SendMessage";
             CreatePlatformEndpointRequest cpeReq = new CreatePlatformEndpointRequest().withPlatformApplicationArn(applicationArn).withToken(token);
             CreatePlatformEndpointResult cpeRes = client.createPlatformEndpoint(cpeReq);
             endpointArn = cpeRes.getEndpointArn();
@@ -154,6 +168,7 @@ public class MyFirebaseInstanceIDService extends FirebaseInstanceIdService {
         // Write the platform endpoint ARN to permanent storage.
         arnStorage = endpointArn;
     }
+
 
 
 
