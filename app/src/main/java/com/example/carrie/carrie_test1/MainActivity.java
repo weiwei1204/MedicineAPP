@@ -144,7 +144,7 @@ public class MainActivity extends LoginActivity
                         break;
 
                     case R.id.ic_beacon:
-                        Intent intent4 = new Intent(MainActivity.this, Beacon.class);
+                        Intent intent4 = new Intent(MainActivity.this, MyBeaconActivity.class);
                         Bundle bundle4 = new Bundle();
                         bundle4.putString("my_id", memberid);
                         bundle4.putString("my_google_id", googleid);

@@ -128,11 +128,9 @@ public class druginfo extends AppCompatActivity {
                             break;
 
                         case R.id.ic_beacon:
-                            Intent intent4 = new Intent(druginfo.this, Beacon.class);
+                            Intent intent4 = new Intent(druginfo.this, MyBeaconActivity.class);
                             Bundle bundle4 = new Bundle();
-                            bundle4.putString("my_id", my_id);
-                            bundle4.putString("my_google_id", my_google_id);
-                            bundle4.putString("my_supervise_id", my_mon_id);
+                            bundle4.putString("memberid", memberdata.getMember_id());
                             intent4.putExtras(bundle4);
                             startActivity(intent4);
                             break;
