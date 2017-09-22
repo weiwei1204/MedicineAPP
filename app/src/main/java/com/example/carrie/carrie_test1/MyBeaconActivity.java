@@ -75,8 +75,31 @@ public class MyBeaconActivity extends AppCompatActivity {
     }
     //Beacon資訊列表
 
+//    @Override
+//
+//    protected void onResume() {
+//
+//        super.onResume();
+//
+//        onCreate(null);
+//        Intent intent = new Intent(MyBeaconActivity.this, MyBeaconActivity.class);
+//        Bundle bundle1 = new Bundle();
+//        bundle1.putString("memberid", memberid);
+//        intent.putExtras(bundle1);   // 記得put進去，不然資料不會帶過去哦
+//        startActivity(intent);
+//        finish();
 
+//    }
 
+    @Override
+
+    protected void onResume() {
+
+        super.onResume();
+        lv = (ListView) findViewById(R.id.mlistView);
+        putDataToListView();
+
+    }
     public void putDataToListView() {//取此會員的beacon
             requestQueue = Volley.newRequestQueue(getApplicationContext());
             final StringRequest request = new StringRequest(Request.Method.POST, getBeaconUrl, new Response.Listener<String>() {
@@ -126,7 +149,7 @@ public class MyBeaconActivity extends AppCompatActivity {
             {
                 protected Map<String, String> getParams() throws AuthFailureError {//把值丟到php
                     Map<String, String> parameters = new HashMap<String, String>();
-                    parameters.put("member_id",memberid);
+                    parameters.put("member_id",memberdata.getMember_id());
                     Log.d("nn11",parameters.toString());
                     return parameters;
                 }

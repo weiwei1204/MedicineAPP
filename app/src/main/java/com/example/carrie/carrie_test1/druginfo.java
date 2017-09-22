@@ -68,7 +68,7 @@ public class druginfo extends AppCompatActivity {
         my_id = bundle.getString("my_id");//get 自己 id
         my_google_id = bundle.getString("my_google_id");//get 自己google_ id
         my_mon_id = bundle.getString("my_supervise_id");
-        m_calid = bundle.getString("m_calid","not found");
+        m_calid = bundle.getString("m_calid");
 
         Log.d("qqqqq",m_calid);
 
@@ -394,11 +394,16 @@ public class druginfo extends AppCompatActivity {
             ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.CAMERA}, PERMISSION_REQUEST);
         }
         Intent it = new Intent(this, scandrug.class);
+        Bundle bundle3 = new Bundle();
+        bundle3.putString("m_calid",m_calid);
+        it.putExtras(bundle3);
         startActivity(it);
     }
     public void gotofourth(View v){ //連到搜尋藥品資訊頁面
         Intent it = new Intent(this,FourthActivity.class);
-
+        Bundle bundle3 = new Bundle();
+        bundle3.putString("m_calid",m_calid);
+        it.putExtras(bundle3);
         startActivity(it);
     }
 

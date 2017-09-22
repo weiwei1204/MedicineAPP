@@ -63,6 +63,15 @@ public class MyAPActivity extends AppCompatActivity {
         myWifiList();
     }
 
+    @Override
+
+    protected void onResume() {
+
+        super.onResume();
+        lv = (ListView) findViewById(R.id.mlistView);
+        myWifiList();
+
+    }
 
     public void myWifiList(){
         requestQueue = Volley.newRequestQueue(getApplicationContext());
@@ -115,7 +124,7 @@ public class MyAPActivity extends AppCompatActivity {
         {
             protected Map<String, String> getParams() throws AuthFailureError {//把值丟到php
                 Map<String, String> parameters = new HashMap<String, String>();
-                parameters.put("member_id",memberid);
+                parameters.put("member_id",memberdata.getMember_id());
                 Log.d("nn11",parameters.toString());
                 return parameters;
             }

@@ -153,7 +153,7 @@ public class BtnAdapter_mybeacon extends BaseAdapter {
                             public void onClick(DialogInterface dialog, int which) {
                                 //按下按鈕後執行的動作，沒寫則退出Dialog
                                 deletebeacon(id);
-                                Toast.makeText(mContext,"成功刪除"+ id.substring(1),Toast.LENGTH_LONG).show();
+
                             }
                         }
                 )
@@ -180,6 +180,8 @@ public class BtnAdapter_mybeacon extends BaseAdapter {
                     @Override
                     public void onResponse(String response) {
                         Log.d("bcon",response.toString());
+                        Toast.makeText(mContext,"成功刪除",Toast.LENGTH_LONG).show();
+
                     }
                 }, new Response.ErrorListener() {
                     @Override

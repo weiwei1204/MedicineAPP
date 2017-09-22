@@ -77,11 +77,11 @@ public class RingtonePlayingService extends Service {
         }
         if (!this.isRunning && startId ==1){
             Log.e("there is no music","and you want start");
-            media_song=MediaPlayer.create(this,R.raw.water);//raw裡的音樂
-//            media_song.setLooping(true);
+            media_song=MediaPlayer.create(this,R.raw.star);//raw裡的音樂
+            media_song.setLooping(true);
             media_song.start();
 
-            this.isRunning=false;
+            this.isRunning=true;
             this.startId=0;
             try {
 

@@ -20,7 +20,7 @@ public class transparent extends AppCompatActivity {
         String mcalname=null;
         Bundle bundle = getIntent().getExtras();
         mcalname = bundle.getString("extra");
-        media_song=MediaPlayer.create(this,R.raw.water);//raw裡的音樂
+        media_song=MediaPlayer.create(this,R.raw.piano);//raw裡的音樂
         media_song.start();
 
         AlertDialog.Builder builder = new AlertDialog.Builder(transparent.this);

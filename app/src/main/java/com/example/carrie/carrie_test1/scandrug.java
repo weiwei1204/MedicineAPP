@@ -1,24 +1,17 @@
 package com.example.carrie.carrie_test1;
 
-import android.*;
-import android.Manifest;
-import android.app.Activity;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.AsyncTask;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.util.SparseArray;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
-import android.widget.Button;
 import android.widget.Toast;
 
 import com.google.android.gms.vision.CameraSource;
@@ -35,7 +28,6 @@ import org.json.JSONObject;
 import java.io.IOException;
 
 import okhttp3.OkHttpClient;
-import okhttp3.Response;
 
 public class scandrug extends AppCompatActivity {
 
@@ -45,7 +37,7 @@ public class scandrug extends AppCompatActivity {
     BarcodeDetector barcode;
     CameraSource cameraSource;
     SurfaceHolder holder;
-    String urlcode;
+    String urlcode,m_calid;
     private Context context;
     MyData mydata;
 
@@ -55,6 +47,8 @@ public class scandrug extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_scandrug);
+        Bundle bundle = getIntent().getExtras();
+        m_calid = bundle.getString("m_calid");
         cameraView = (SurfaceView) findViewById(R.id.cameraView);
         cameraView.setZOrderMediaOverlay(true);
         holder = cameraView.getHolder();
@@ -208,7 +202,9 @@ public class scandrug extends AppCompatActivity {
 
                 Log.d("customadapter2", "5");
                 it.putExtras(bundle);
-
+                Bundle bundle3 = new Bundle();
+                bundle3.putString("m_calid","-1");
+                it.putExtras(bundle3);
                 startActivity(it);
                 Log.d("customadapter2", "6");
 

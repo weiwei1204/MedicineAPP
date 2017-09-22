@@ -102,6 +102,7 @@ public class m_calendarlist extends Activity{
             public void onResponse(String response) {
                 try {
                     Log.d("nn11",response.toString());
+                    m_calendararray.clear();
                     JSONArray jarray = new JSONArray(response);
                     final String[] mid=new String[jarray.length()];
                     final String[] mname=new String[jarray.length()];
@@ -165,6 +166,15 @@ public class m_calendarlist extends Activity{
                 }
                 break;
         }
+    }
+    @Override
+
+    protected void onResume() {
+
+        super.onResume();
+        m_calendararray.clear();
+        onCreate(null);
+
     }
     public void madapter(){
         adapter = new mcallistAdapter(getApplicationContext(),m_calendararray);
