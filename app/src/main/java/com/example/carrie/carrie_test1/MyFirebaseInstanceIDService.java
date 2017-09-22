@@ -5,7 +5,9 @@ import android.util.Log;
 
 import com.amazonaws.auth.AWSCredentials;
 import com.amazonaws.auth.AWSCredentialsProvider;
+import com.amazonaws.auth.BasicAWSCredentials;
 import com.amazonaws.mobile.auth.core.IdentityManager;
+import com.amazonaws.services.sns.AmazonSNS;
 import com.google.android.gms.wearable.MessageApi;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.iid.FirebaseInstanceId;
@@ -44,7 +46,7 @@ public class MyFirebaseInstanceIDService extends FirebaseInstanceIdService {
         }
     };
     final AWSCredentialsProvider credentialsProvider = IdentityManager.getDefaultIdentityManager().getCredentialsProvider();
-    AmazonSNSClient client = new AmazonSNSClient(credentialsProvider);
+    AmazonSNS client =  new AmazonSNSClient(credentialsProvider);
     public static String arnStorage;
     public static String token;
     @Override
@@ -117,6 +119,7 @@ public class MyFirebaseInstanceIDService extends FirebaseInstanceIdService {
             String token = FirebaseInstanceId.getInstance().getToken();
             System.out.println("Creating platform endpoint with token " +token);
             String applicationArn = "arn:aws:sns:us-east-1:610465842429:app/GCM/PillHelper";
+            String topicArn = "arn:aws:sns:us-east-1:610465842429:SendMessage";
             CreatePlatformEndpointRequest cpeReq = new CreatePlatformEndpointRequest().withPlatformApplicationArn(applicationArn).withToken(token);
             CreatePlatformEndpointResult cpeRes = client.createPlatformEndpoint(cpeReq);
             endpointArn = cpeRes.getEndpointArn();
@@ -157,6 +160,7 @@ public class MyFirebaseInstanceIDService extends FirebaseInstanceIdService {
         // Write the platform endpoint ARN to permanent storage.
         arnStorage = endpointArn;
     }
+
 
 
 

@@ -21,6 +21,15 @@ import com.amazonaws.auth.AWSCredentialsProvider;
 import com.amazonaws.mobileconnectors.pinpoint.PinpointConfiguration;
 import com.amazonaws.mobileconnectors.pinpoint.PinpointManager;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClient;
+import com.amazonaws.services.sns.AmazonSNS;
+import com.amazonaws.services.sns.AmazonSNSClient;
+import com.amazonaws.services.sns.model.CreatePlatformEndpointRequest;
+import com.amazonaws.services.sns.model.CreatePlatformEndpointResult;
+import com.amazonaws.services.sns.model.GetEndpointAttributesRequest;
+import com.amazonaws.services.sns.model.GetEndpointAttributesResult;
+import com.amazonaws.services.sns.model.InvalidParameterException;
+import com.amazonaws.services.sns.model.NotFoundException;
+import com.amazonaws.services.sns.model.SetEndpointAttributesRequest;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.google.android.gms.iid.InstanceID;
 import com.amazonaws.mobileconnectors.dynamodbv2.dynamodbmapper.DynamoDBMapper;
@@ -32,6 +41,11 @@ import com.amazonaws.regions.Regions;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.iid.FirebaseInstanceId;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 
 public class Main2 extends Activity {
@@ -46,6 +60,9 @@ public class Main2 extends Activity {
     private TextView mTextMessage;
     String userId = "";
     private FirebaseAuth mAuth;
+    AmazonSNS client;
+    public static String arnStorage;
+    public static String token;
 
     @Override
     public void onStart() {
@@ -102,6 +119,7 @@ public class Main2 extends Activity {
         mAuth = FirebaseAuth.getInstance();
         String Token = FirebaseInstanceId.getInstance().getToken();
         Log.d("9090", "token: " + Token);
+
 //        Intent intent = new Intent(this, MyFirebaseMessagingService.class);
 //        this.startService(intent);
 
@@ -125,7 +143,6 @@ public class Main2 extends Activity {
             IdentityManager.setDefaultIdentityManager(identityManager);
         }
         final AWSCredentialsProvider credentialsProvider = IdentityManager.getDefaultIdentityManager().getCredentialsProvider();
-
         if (pinpointManager == null) {
             PinpointConfiguration pinpointConfig = new PinpointConfiguration(
                     getApplicationContext(),
