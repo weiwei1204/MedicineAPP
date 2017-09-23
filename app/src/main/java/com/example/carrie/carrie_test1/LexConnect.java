@@ -41,6 +41,7 @@ public class LexConnect extends AppCompatActivity{
         init();
         StringUtils.isBlank("notempty");
     }
+
     @Override
     public void onBackPressed() {
         exit();
@@ -61,7 +62,7 @@ public class LexConnect extends AppCompatActivity{
         voiceView.setInteractiveVoiceListener(new InteractiveVoiceView.InteractiveVoiceListener() {
             @Override
             public void dialogReadyForFulfillment(Map slots, String intent) {
-                Log.d(TAG, String.format(
+                Log.d("1212", String.format(
                         Locale.US,
                         "Dialog ready for fulfillment:\n\tIntent: %s\n\tSlots: %s",
                         intent,
@@ -70,15 +71,15 @@ public class LexConnect extends AppCompatActivity{
 
             @Override
             public void onResponse(Response response) {
-                Log.d(TAG, "Bot response: " + response.getTextResponse());
-                Log.d(TAG, "Transcript: " + response.getInputTranscript());
+                Log.d("1212", "Bot response: " + response.getTextResponse());
+                Log.d("1212", "Transcript: " + response.getInputTranscript());
                 responseTextView.setText(response.getTextResponse());
                 transcriptTextView.setText(response.getInputTranscript());
             }
 
             @Override
             public void onError(String responseText, Exception e) {
-                Log.e(TAG, "Error: " + responseText, e);
+                Log.e("1212", "Error: " + responseText, e);
             }
         });
 
@@ -87,5 +88,7 @@ public class LexConnect extends AppCompatActivity{
 //        voiceView.getViewAdapter().setInteractionConfig(new InteractionConfig("YuanBot","$version")); //replace parameters with your botname, bot-alias
 //        voiceView.getViewAdapter().setAwsRegion(getApplicationContext().getString(R.string.aws_region));
     }
+
+
 
 }

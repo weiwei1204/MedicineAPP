@@ -77,8 +77,8 @@ public class Main2 extends Activity {
     public static String arnStorage;
     public static String token;
     public static String arnTopic;
-    private static String accessKey = "AKIAJNYECCRVMSBBLMPQ";
-    private static String secretKey = "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";
+    private static String accessKey = "AKIAJUTGDY6RCIIC5BDA";
+    private static String secretKey = "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";
 
 
     @Override
