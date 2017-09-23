@@ -254,5 +254,6 @@
     <string name="identity_id_test">us-east-1:9d8262a8-fa3c-4449-91bd-fc4841000a24</string>
     <string name="screen_options_main_message">Amazon Lex</string>
     <string name="title_activity_transparent">transparent</string>
+    <string name="google_cloud_messaging_package">gcmlistener</string>
 
 </resources>

@@ -52,7 +52,7 @@ public class MyFirebaseInstanceIDService extends FirebaseInstanceIdService {
     };
 
     final AWSCredentialsProvider credentialsProvider = IdentityManager.getDefaultIdentityManager().getCredentialsProvider();
-    AmazonSNS client =  new AmazonSNSClient(credentialsProvider);
+    AmazonSNSClient client =  new AmazonSNSClient();
     public static String arnStorage;
     public static String token;
     @Override
@@ -64,17 +64,18 @@ public class MyFirebaseInstanceIDService extends FirebaseInstanceIdService {
         Log.d("8080", "Refreshed token: " + refreshedToken);
         Log.d("8080", "credentialsProvider: " + awsCredentials.getAWSAccessKeyId());
 
+
         // If you want to send messages to this application instance or
         // manage this apps subscriptions on the server side, send the
         // Instance ID token to your app server.
-        sendRegistrationToServer(refreshedToken);
+        sendRegistrationToServer();
         Intent intent = new Intent(this, Main2.class);
         startService(intent);
         Log.d("9988","do this");
 
     }
 
-    private void sendRegistrationToServer(String refreshedToken) {
+    private void sendRegistrationToServer() {
         Log.d("9988","do aaa");
 
         String endpointArn = retrieveEndpointArn();

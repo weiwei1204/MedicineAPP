@@ -221,9 +221,9 @@ public class CheckBeacon extends Service {
 //                                    public void onClick(DialogInterface dialog, int which) {
 //                                    }
 //                                });
-//
+
 //                        AlertDialog alert = builder.create();
-//                        alert.show();
+//                        alert.show ();
 //                    }
 //                }
                 needBeacon.clear();

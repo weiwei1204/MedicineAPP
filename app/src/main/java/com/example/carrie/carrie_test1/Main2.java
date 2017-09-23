@@ -12,7 +12,12 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 import android.widget.TextView;
 
+import com.amazonaws.auth.AWSCredentials;
+import com.amazonaws.auth.AWSCredentialsProviderChain;
+import com.amazonaws.auth.AWSIdentityProvider;
+import com.amazonaws.auth.BasicAWSCredentials;
 import com.amazonaws.auth.CognitoCachingCredentialsProvider;
+import com.amazonaws.internal.StaticCredentialsProvider;
 import com.amazonaws.mobile.auth.core.IdentityManager;
 import com.amazonaws.mobile.auth.core.StartupAuthResult;
 import com.amazonaws.mobile.auth.core.StartupAuthResultHandler;
@@ -20,16 +25,22 @@ import com.amazonaws.mobile.config.AWSConfiguration;
 import com.amazonaws.auth.AWSCredentialsProvider;
 import com.amazonaws.mobileconnectors.pinpoint.PinpointConfiguration;
 import com.amazonaws.mobileconnectors.pinpoint.PinpointManager;
+import com.amazonaws.mobileconnectors.pinpoint.*;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClient;
 import com.amazonaws.services.sns.AmazonSNS;
 import com.amazonaws.services.sns.AmazonSNSClient;
 import com.amazonaws.services.sns.model.CreatePlatformEndpointRequest;
 import com.amazonaws.services.sns.model.CreatePlatformEndpointResult;
+import com.amazonaws.services.sns.model.CreateTopicRequest;
+import com.amazonaws.services.sns.model.CreateTopicResult;
 import com.amazonaws.services.sns.model.GetEndpointAttributesRequest;
 import com.amazonaws.services.sns.model.GetEndpointAttributesResult;
+import com.amazonaws.services.sns.model.GetTopicAttributesRequest;
+import com.amazonaws.services.sns.model.GetTopicAttributesResult;
 import com.amazonaws.services.sns.model.InvalidParameterException;
 import com.amazonaws.services.sns.model.NotFoundException;
 import com.amazonaws.services.sns.model.SetEndpointAttributesRequest;
+import com.amazonaws.services.sns.model.SetTopicAttributesRequest;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.google.android.gms.iid.InstanceID;
 import com.amazonaws.mobileconnectors.dynamodbv2.dynamodbmapper.DynamoDBMapper;
@@ -42,6 +53,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.iid.FirebaseInstanceId;
 
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Matcher;
@@ -60,9 +73,13 @@ public class Main2 extends Activity {
     private TextView mTextMessage;
     String userId = "";
     private FirebaseAuth mAuth;
-    AmazonSNS client;
+    AmazonSNSClient client ;
     public static String arnStorage;
     public static String token;
+    public static String arnTopic;
+    private static String accessKey = "AKIAJNYECCRVMSBBLMPQ";
+    private static String secretKey = "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";
+
 
     @Override
     public void onStart() {
@@ -120,6 +137,8 @@ public class Main2 extends Activity {
         String Token = FirebaseInstanceId.getInstance().getToken();
         Log.d("9090", "token: " + Token);
 
+
+
 //        Intent intent = new Intent(this, MyFirebaseMessagingService.class);
 //        this.startService(intent);
 
@@ -131,9 +150,9 @@ public class Main2 extends Activity {
         //   Animation animation= AnimationUtils.loadAnimation(getApplicationContext(),R.anim.main2_animation);
         //imageView.setAnimation(animation);
         Context appContext = getApplicationContext();
-        CognitoCachingCredentialsProvider cognitoCachingCredentialsProvider = new CognitoCachingCredentialsProvider(appContext,"IDENTITY_POOL_ID",Regions.US_EAST_1);
+        CognitoCachingCredentialsProvider cognitoCachingCredentialsProvider = new CognitoCachingCredentialsProvider(appContext,"us-east-1:9d8262a8-fa3c-4449-91bd-fc4841000a24",Regions.US_EAST_1);
 
-        PinpointConfiguration config = new PinpointConfiguration(appContext, "APP_ID", Regions.US_EAST_1, cognitoCachingCredentialsProvider);
+        PinpointConfiguration config = new PinpointConfiguration(appContext, "391944f4b405494a8445c7c01d1455cf", Regions.US_EAST_1, cognitoCachingCredentialsProvider);
 
         this.pinpointManager = new PinpointManager(config);
 
@@ -144,10 +163,7 @@ public class Main2 extends Activity {
         }
         final AWSCredentialsProvider credentialsProvider = IdentityManager.getDefaultIdentityManager().getCredentialsProvider();
         if (pinpointManager == null) {
-            PinpointConfiguration pinpointConfig = new PinpointConfiguration(
-                    getApplicationContext(),
-                    credentialsProvider,
-                    awsConfig);
+            PinpointConfiguration pinpointConfig = new PinpointConfiguration(getApplicationContext(), credentialsProvider, awsConfig);
 
             pinpointManager = new PinpointManager(pinpointConfig);
             final Activity self = this;
@@ -156,13 +172,9 @@ public class Main2 extends Activity {
                 @Override
                 public void run() {
                     try {
-                        String deviceToken =
-                                InstanceID.getInstance(self).getToken(
-                                        "123456789Your_GCM_Sender_Id",
-                                        GoogleCloudMessaging.INSTANCE_ID_SCOPE);
+                        String deviceToken = InstanceID.getInstance(self).getToken("741829064706", GoogleCloudMessaging.INSTANCE_ID_SCOPE);
                         Log.e("NotError", deviceToken);
-                        pinpointManager.getNotificationClient()
-                                .registerGCMDeviceToken(deviceToken);
+                        pinpointManager.getNotificationClient().registerGCMDeviceToken(deviceToken);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -193,6 +205,7 @@ public class Main2 extends Activity {
         }, SPLASH_TIME_OUT);
         Runnable runnable = new Runnable() {
             public void run() {
+                sendRegistrationToServer();
                 //DynamoDB calls go here
             }
         };
@@ -200,6 +213,154 @@ public class Main2 extends Activity {
         mythread.start();
 
     }
+    //*********************************************************************************************
+    //*********************************************************************************************
+    // below doing SNS things
+    private void sendRegistrationToServer() {
+        Log.d("9988","do aaa");
+
+        String endpointArn = retrieveEndpointArn();
+//        String topicArn = retrieveTopicArn();
+        token = FirebaseInstanceId.getInstance().getToken();
+//        StaticCredentialsProvider creds = new StaticCredentialsProvider(new BasicAWSCredentials(accessKey, secretKey));
+        AWSCredentials credentials = new BasicAWSCredentials(accessKey,secretKey);
+        AWSCredentialsProvider provider = new StaticCredentialsProvider(credentials);
+        client = new AmazonSNSClient(new BasicAWSCredentials(accessKey,secretKey));
+        Log.d("7070","client: "+client);
+        Log.d("7070","token: "+token);
+        boolean updateNeeded = false;
+        boolean createNeeded = (null == endpointArn);
+
+
+        if (createNeeded) {
+            // No platform endpoint ARN is stored; need to call createEndpoint.
+            endpointArn = createEndpoint();
+//            topicArn = createTopic();
+            createNeeded = false;
+        }
+
+        System.out.println("Retrieving platform endpoint data...");
+        // Look up the platform endpoint and make sure the data in it is current, even if
+        // it was just created.
+        try {
+            GetEndpointAttributesRequest geaReq = new GetEndpointAttributesRequest().withEndpointArn(endpointArn);
+            GetEndpointAttributesResult geaRes = client.getEndpointAttributes(geaReq);
+
+//            GetTopicAttributesRequest topicAttributesRequest = new GetTopicAttributesRequest().withTopicArn(topicArn);
+//            GetTopicAttributesResult topicAttributesResult = client.getTopicAttributes(topicAttributesRequest);
+
+            updateNeeded = !geaRes.getAttributes().get("Token").equals(token) || !geaRes.getAttributes().get("Enabled").equalsIgnoreCase("true");
+
+        } catch (NotFoundException nfe) {
+            // We had a stored ARN, but the platform endpoint associated with it
+            // disappeared. Recreate it.
+            createNeeded = true;
+        }
+
+        if (createNeeded) {
+            createEndpoint();
+//            createTopic();
+        }
+
+        System.out.println("updateNeeded = " + updateNeeded);
+
+        if (updateNeeded) {
+            // The platform endpoint is out of sync with the current data;
+            // update the token and enable it.
+            System.out.println("Updating platform endpoint " + endpointArn);
+            Map attribs = new HashMap();
+            attribs.put("Token", token);
+            attribs.put("Enabled", "true");
+            SetEndpointAttributesRequest saeReq = new SetEndpointAttributesRequest().withEndpointArn(endpointArn).withAttributes(attribs);
+
+//            SetTopicAttributesRequest setTopicAttributesRequest = new SetTopicAttributesRequest().withTopicArn(topicArn).withAttributeName("SendMessage");
+            client.setEndpointAttributes(saeReq);
+//            client.setTopicAttributes(setTopicAttributesRequest);
+        }
+    }
+    private String createEndpoint() {
+        String endpointArn = null;
+        try {
+//            String token = FirebaseInstanceId.getInstance().getToken();
+            System.out.println("Creating platform endpoint with token " +token);
+            String applicationArn = "arn:aws:sns:us-east-1:610465842429:app/GCM/PillHelper";
+//            String topicArn = "arn:aws:sns:us-east-1:610465842429:SendMessage";
+            CreatePlatformEndpointRequest cpeReq = new CreatePlatformEndpointRequest().withPlatformApplicationArn(applicationArn).withToken(token);
+            CreatePlatformEndpointResult cpeRes = client.createPlatformEndpoint(cpeReq);
+
+            endpointArn = cpeRes.getEndpointArn();
+        } catch (InvalidParameterException ipe) {
+            String message = ipe.getErrorMessage();
+            System.out.println("Exception message: " + message);
+            Pattern p = Pattern.compile(".*Endpoint (arn:aws:sns[^ ]+) already exists " + "with the same token.*");
+            Matcher m = p.matcher(message);
+            if (m.matches()) {
+                // The platform endpoint already exists for this token, but with
+                // additional custom data that
+                // createEndpoint doesn't want to overwrite. Just use the
+                // existing platform endpoint.
+                endpointArn = m.group(1);
+            } else {
+                // Rethrow the exception, the input is actually bad.
+                throw ipe;
+            }
+        }
+        storeEndpointArn(endpointArn);
+        return endpointArn;
+    }
+//    private String createTopic() {
+//        String topicArn = "arn:aws:sns:us-east-1:610465842429:SendMessage";
+////        try {
+//////            String token = FirebaseInstanceId.getInstance().getToken();
+////            System.out.println("Creating platform endpoint with token " +token);
+////
+////            CreateTopicRequest topicRequest = new CreateTopicRequest().withName("SendMessage");
+////            CreateTopicResult topicResult = client.createTopic(topicRequest);
+////            topicArn = topicResult.getTopicArn();
+////        } catch (InvalidParameterException ipe) {
+////            String message = ipe.getErrorMessage();
+////            System.out.println("Exception message: " + message);
+////            Pattern p = Pattern.compile(".*Topic (arn:aws:sns[^ ]+) already exists " + "with the same token.*");
+////            Matcher m = p.matcher(message);
+////            if (m.matches()) {
+////                // The platform endpoint already exists for this token, but with
+////                // additional custom data that
+////                // createEndpoint doesn't want to overwrite. Just use the
+////                // existing platform endpoint.
+////                topicArn = m.group(1);
+////            } else {
+////                // Rethrow the exception, the input is actually bad.
+////                throw ipe;
+////            }
+////        }
+//        storeTopicArn(topicArn);
+//        return topicArn;
+//
+//    }
+
+    /**
+     * @return the ARN the app was registered under previously, or null if no
+     *         platform endpoint ARN is stored.
+     */
+    private String retrieveEndpointArn() {
+        // Retrieve the platform endpoint ARN from permanent storage,
+        // or return null if null is stored.
+        return arnStorage;
+    }
+
+    /**
+     * Stores the platform endpoint ARN in permanent storage for lookup next time.
+     * */
+    private void storeEndpointArn(String endpointArn) {
+        // Write the platform endpoint ARN to permanent storage.
+        arnStorage = endpointArn;
+    }
+//    private String retrieveTopicArn(){
+//        return arnTopic;
+//    }
+//    private void storeTopicArn(String topicArn){
+//        arnTopic = topicArn;
+//    }
 
 
 
