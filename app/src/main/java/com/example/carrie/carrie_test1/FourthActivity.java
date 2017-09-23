@@ -47,7 +47,7 @@ public class FourthActivity extends AppCompatActivity {
         coordinatorLayout = (CoordinatorLayout)findViewById(R.id.addlayout);
         Log.d("drug","2");
         Bundle bundle5=getIntent().getExtras();
-        m_calid = bundle5.getString("m_calid","not found");
+        m_calid = bundle5.getString("m_calid",m_calid);
         Log.d("qqqqq123",m_calid);
 
         if (m_calid.equals("-1")){//如果直接從搜尋add符號隱藏
@@ -149,6 +149,7 @@ public class FourthActivity extends AppCompatActivity {
         i.putExtra("my_id", member_id);
         i.putExtra("my_google_id", google_id);
         i.putExtra("my_supervise_id", m_id);
+        i.putExtra("m_calid",m_calid);
         startActivity(i);
         finish();
     }

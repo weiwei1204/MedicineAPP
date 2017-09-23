@@ -963,7 +963,7 @@ public class ThirdActivity extends AppCompatActivity {
         Intent i = new Intent(getApplicationContext(), m_calendarlist.class);
         i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        i.putExtra("googleid", memberdata.getGoogle_id());
+        i.putExtra("memberid", memberdata.getMember_id());
         startActivity(i);
         finish();
     }
