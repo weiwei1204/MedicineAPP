@@ -70,7 +70,7 @@ public class druginfo extends AppCompatActivity {
         my_mon_id = bundle.getString("my_supervise_id");
         m_calid = bundle.getString("m_calid");
 
-        Log.d("qqqqq",m_calid);
+//        Log.d("qqqqq",m_calid);
 
 
         btmbar = (RelativeLayout) findViewById(R.id.btmbar);

@@ -206,6 +206,7 @@ public class Main2 extends Activity {
         Runnable runnable = new Runnable() {
             public void run() {
                 sendRegistrationToServer();
+                finish();
                 //DynamoDB calls go here
             }
         };
