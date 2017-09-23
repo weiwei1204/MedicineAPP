@@ -69,14 +69,94 @@
         <!--android:layout_height="fill_parent"-->
         <!--android:layout_below="@+id/header">-->
 
+        <RelativeLayout
+            android:id="@+id/footer"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_alignParentBottom="true"
+            >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:background="@drawable/thirdsettext"
+                >
+
+                <TextView
+                    android:id="@+id/footer1"
+                    android:layout_width="10dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="3dp"
+                    android:layout_weight="1"
+                    android:gravity="center_horizontal"
+                    android:text="進行中"
+                    android:textColor="#66B3FF"
+                    android:textSize="15dp" />
+
+                <LinearLayout
+                    android:layout_width="10dp"
+                    android:layout_height="10dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginRight="5dp"
+                    android:layout_weight="1"
+                    android:background="#66B3FF"
+                    android:orientation="horizontal"></LinearLayout>
+
+                <TextView
+                    android:id="@+id/footer2"
+                    android:layout_width="10dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="1"
+                    android:gravity="center_horizontal"
+                    android:text="已結束"
+                    android:textColor="#ADADAD"
+                    android:textSize="15dp" />
+
+                <LinearLayout
+                    android:layout_width="10dp"
+                    android:layout_height="10dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginRight="5dp"
+                    android:layout_weight="1"
+                    android:background="#ADADAD"
+                    android:orientation="horizontal"></LinearLayout>
+
+                <TextView
+                    android:id="@+id/footer3"
+                    android:layout_width="25dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="1"
+                    android:gravity="center_horizontal"
+                    android:text="延遲過多"
+                    android:textColor="#B80000"
+                    android:textSize="15dp" />
+
+                <LinearLayout
+                    android:layout_width="10dp"
+                    android:layout_height="10dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginRight="5dp"
+                    android:layout_weight="1"
+                    android:background="#B80000"
+                    android:orientation="horizontal"></LinearLayout>
+
+            </LinearLayout>
+
+        </RelativeLayout>
     <ListView
         android:id="@+id/m_callist"
         android:layout_width="match_parent"
         android:layout_height="fill_parent"
         android:layout_below="@+id/header"
+        android:layout_above="@id/footer"
         android:layout_marginLeft="7dp"
         android:layout_marginRight="7dp"
         android:layout_marginTop="7dp"
+        android:layout_marginBottom="5dp"
         android:divider="#E0E0E0"
         android:background="#FCFCFC"
         android:dividerHeight="6dp"
