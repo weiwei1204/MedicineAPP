@@ -11,6 +11,23 @@ public class memberdata {
     private static ArrayList<String> needBeacon = new ArrayList<String>();
     private static ArrayList<String> Beaconcal = new ArrayList<String>();
     private static ArrayList<String> storeAPBSSID = new ArrayList<String>();
+    private static String name,email;
+
+    public static String getName() {
+        return name;
+    }
+
+    public static void setName(String name) {
+        memberdata.name = name;
+    }
+
+    public static String getEmail() {
+        return email;
+    }
+
+    public static void setEmail(String email) {
+        memberdata.email = email;
+    }
 
     public static String getMember_id() {
         return member_id;

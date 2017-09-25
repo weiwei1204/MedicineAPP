@@ -47,7 +47,7 @@ public class FourthActivity extends AppCompatActivity {
         coordinatorLayout = (CoordinatorLayout)findViewById(R.id.addlayout);
         Log.d("drug","2");
         Bundle bundle5=getIntent().getExtras();
-        m_calid = bundle5.getString("m_calid","not found1");
+        m_calid = bundle5.getString("m_calid",m_calid);
         Log.d("qqqqq123",m_calid);
 
         if (m_calid.equals("-1")){//如果直接從搜尋add符號隱藏
@@ -137,8 +137,28 @@ public class FourthActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        String member_id = memberdata.getMember_id();
+        String google_id= memberdata.getGoogle_id();
+        String m_id=memberdata.getMy_mon_id();
+        Intent i = new Intent(getApplicationContext(), druginfo.class);
+        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        i.putExtra("my_id", member_id);
+        i.putExtra("my_google_id", google_id);
+        i.putExtra("my_supervise_id", m_id);
+        i.putExtra("m_calid",m_calid);
+        startActivity(i);
+        finish();
+    }
 
-//
+
+
+
+
+    //
 //    将textview中的文字进行排版
     private String autoSplitText(final TextView tv) {
         final String rawText = tv.getText().toString(); //原始文本

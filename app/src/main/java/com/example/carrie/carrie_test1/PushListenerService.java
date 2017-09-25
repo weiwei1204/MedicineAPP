@@ -41,11 +41,9 @@ public class PushListenerService extends GcmListenerService {
         Log.d("9999", "From:" + from);
         Log.d("9999", "Data:" + data.toString());
 
-        final NotificationClient notificationClient =
-                Main2.pinpointManager.getNotificationClient();
+        final NotificationClient notificationClient = Main2.pinpointManager.getNotificationClient();
 
-        NotificationClient.CampaignPushResult pushResult =
-                notificationClient.handleGCMCampaignPush(from, data, this.getClass());
+        NotificationClient.CampaignPushResult pushResult = notificationClient.handleGCMCampaignPush(from, data, this.getClass());
 
         if (!NotificationClient.CampaignPushResult.NOT_HANDLED.equals(pushResult)) {
             // The push message was due to a Pinpoint campaign.

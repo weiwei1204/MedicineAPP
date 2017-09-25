@@ -210,8 +210,14 @@ public class CheckBeacon extends Service {
                         Log.d("bbb", "!!!!!!!!!!"+Beaconcal.get(i));
                         Log.d("bbb", "!!!!!!!!!!"+needBeacon.get(i));
                         lost.add(countBeacon,Beaconcal.get(i));
+                        Log.d("bbb",Beaconcal.get(i));
                         countBeacon ++ ;
                     }
+                }
+                if (lost.size()!=0){
+                    Intent my_intent=new Intent(getApplicationContext(),OnBootReceiver.class);
+                    my_intent.putExtra("extra",lost);
+                    sendBroadcast(my_intent);
                 }
 //                if(lost.size()!=0){
 //                    Log.d("bbb", "沒帶Beacon!!!!!!!!!!"+lost.get(0));
@@ -226,9 +232,9 @@ public class CheckBeacon extends Service {
 //                                    public void onClick(DialogInterface dialog, int which) {
 //                                    }
 //                                });
-//
+
 //                        AlertDialog alert = builder.create();
-//                        alert.show();
+//                        alert.show ();
 //                    }
 //                }
                 needBeacon.clear();

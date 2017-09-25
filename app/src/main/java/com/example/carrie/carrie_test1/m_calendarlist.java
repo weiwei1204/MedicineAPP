@@ -102,6 +102,7 @@ public class m_calendarlist extends Activity{
             public void onResponse(String response) {
                 try {
                     Log.d("nn11",response.toString());
+                    m_calendararray.clear();
                     JSONArray jarray = new JSONArray(response);
                     final String[] mid=new String[jarray.length()];
                     final String[] mname=new String[jarray.length()];
@@ -166,6 +167,15 @@ public class m_calendarlist extends Activity{
                 break;
         }
     }
+    @Override
+
+    protected void onResume() {
+
+        super.onResume();
+        m_calendararray.clear();
+        onCreate(null);
+
+    }
     public void madapter(){
         adapter = new mcallistAdapter(getApplicationContext(),m_calendararray);
         m_callist.setAdapter(adapter);
@@ -185,5 +195,16 @@ public class m_calendarlist extends Activity{
         });
 
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent i = new Intent(getApplicationContext(),Choice.class);
+        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        i.putExtra("memberid", memberdata.getMember_id());
+        startActivity(i);
+        finish();
     }
 }

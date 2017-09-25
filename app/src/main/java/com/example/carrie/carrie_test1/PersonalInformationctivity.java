@@ -2,9 +2,8 @@ package com.example.carrie.carrie_test1;
 
 import android.content.Intent;
 import android.os.AsyncTask;
-import android.support.design.widget.FloatingActionButton;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -13,18 +12,13 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.google.android.gms.vision.barcode.Barcode;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.util.ArrayList;
 
 import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
 
 public class PersonalInformationctivity extends AppCompatActivity {
 
@@ -56,13 +50,18 @@ public class PersonalInformationctivity extends AppCompatActivity {
         repair1 = (Button) findViewById(R.id.repair1);
         Bundle bundle = getIntent().getExtras();
 
-
         my_google_id = bundle.getString("googleid");
         name = bundle.getString("name");
         gender = bundle.getString("gender_man");
         height=bundle.getString("height");
         weight=bundle.getString("weight");
         birth=bundle.getString("birth");
+        if(gender.equals("1")){
+            gender = "男";
+        }else
+        {
+            gender = "女";
+        }
 
 
 //        Log.d("p", p_name);
@@ -81,6 +80,18 @@ public class PersonalInformationctivity extends AppCompatActivity {
 //        email.setText(repairData.getEmail());
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        String google_id= memberdata.getGoogle_id();
+        Intent i = new Intent(this, MainActivity.class);
+        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        i.putExtra("googleid", google_id);
+
+        startActivity(i);
+        finish();
+    }
 
 
     public void gotorepair(View v) { //連到搜尋藥品資訊頁面

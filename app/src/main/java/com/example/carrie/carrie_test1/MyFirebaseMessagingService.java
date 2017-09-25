@@ -64,6 +64,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                         .setContentTitle("***吾藥可救***")
                         .setStyle(new NotificationCompat.BigTextStyle().bigText(message))
                         .setContentText(message)
+                        .setColor(Color.BLUE)
                         .setAutoCancel(true);
 
         mBuilder.setContentIntent(contentIntent);
