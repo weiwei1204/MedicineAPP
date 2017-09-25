@@ -47,7 +47,7 @@ public class FourthActivity extends AppCompatActivity {
         coordinatorLayout = (CoordinatorLayout)findViewById(R.id.addlayout);
         Log.d("drug","2");
         Bundle bundle5=getIntent().getExtras();
-        m_calid = bundle5.getString("m_calid");
+        m_calid = bundle5.getString("m_calid","not found1");
         Log.d("qqqqq123",m_calid);
 
         if (m_calid.equals("-1")){//如果直接從搜尋add符號隱藏

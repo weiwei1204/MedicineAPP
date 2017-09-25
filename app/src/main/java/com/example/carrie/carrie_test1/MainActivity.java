@@ -37,6 +37,7 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -59,6 +60,13 @@ public class MainActivity extends LoginActivity
     String weight;
     String height;
     String birth;
+    private ArrayList<String> needBeacon = new ArrayList<String>();
+    private ArrayList<String> Beaconcal = new ArrayList<String>();
+    private ArrayList<String> storeAPBSSID = new ArrayList<String>();
+    private int UUIDnum = 0 ;
+    private int SSIDnum = 0 ;
+    String getm_BeaconUrl = "http://54.65.194.253/Beacon/getm_Beacon.php";
+    String getAPUrl = "http://54.65.194.253/Beacon/getAP.php";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,6 +86,12 @@ public class MainActivity extends LoginActivity
         getMonitorId();
         getid();
         getpersonal();
+        getAP();
+
+        getbeacon();
+
+        Log.d("UUIDnum123",Integer.toString(UUIDnum));
+        Log.d("SSIDnum123",Integer.toString(SSIDnum));
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -149,6 +163,10 @@ public class MainActivity extends LoginActivity
                 return false;
             }
         });
+        memberdata.setNeedBeacon(needBeacon);
+        memberdata.setBeaconcal(Beaconcal);
+        UUIDnum = needBeacon.size();
+        SSIDnum = storeAPBSSID.size();
         Intent intent = new Intent(MainActivity.this,CheckBeacon.class);
         startService(intent);
     }
@@ -160,8 +178,8 @@ public class MainActivity extends LoginActivity
             public void onResult(@NonNull Status status) {
             }
         });
-        Intent it = new Intent(this, LoginActivity.class);
-        startActivity(it);
+//        Intent it = new Intent(this, LoginActivity.class);
+//        startActivity(it);
 
     }
 
@@ -563,7 +581,92 @@ public class MainActivity extends LoginActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
-
+    public void getbeacon(){
+        requestQueue = Volley.newRequestQueue(getApplicationContext());
+        final StringRequest drugrequest = new StringRequest(Request.Method.POST, getm_BeaconUrl, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Log.d("nn1111",response);
+                try {
+                    JSONArray jarray = new JSONArray(response);
+                    UUIDnum = jarray.length() ;
+                    needBeacon.clear();
+                    Beaconcal.clear();
+                    for (int i=0;i<jarray.length();i++){
+                        JSONObject obj = jarray.getJSONObject(i);
+                        String UUID = obj.getString("UUID");
+                        String name = obj.getString("name");
+                        needBeacon.add(i,UUID);
+                        Beaconcal.add(i,name);
+                        Log.d("needBeacon",needBeacon.get(i));
+                    }
+                    memberdata.setNeedBeacon(needBeacon);
+                    memberdata.setBeaconcal(Beaconcal);
+                    UUIDnum = needBeacon.size();
+                    SSIDnum = storeAPBSSID.size();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(getApplicationContext(), "Error read getm_Beacon.php!!!", Toast.LENGTH_LONG).show();
+            }
+        })
+        {
+            protected Map<String, String> getParams() throws AuthFailureError {//把值丟到php
+                Map<String, String> parameters = new HashMap<String, String>();
+                parameters.put("member_id",memberdata.getMember_id());
+//                Log.d("nn1111",parameters.toString());
+                return parameters;
+            }
+        };
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(drugrequest);
+    }
+    public void getAP(){
+        requestQueue = Volley.newRequestQueue(getApplicationContext());
+        final StringRequest drugrequest = new StringRequest(Request.Method.POST, getAPUrl, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+//                Log.d("nn1122",response);
+                try {
+                    JSONArray jarray = new JSONArray(response);
+                    final String[] SSIDarray=new String[jarray.length()];
+                    final String[] BSSIDarray=new String[jarray.length()];
+                    storeAPBSSID.clear();
+                    SSIDnum = jarray.length();
+                    for (int i=0;i<jarray.length();i++){
+                        JSONObject obj = jarray.getJSONObject(i);
+                        String SSID = obj.getString("SSID");
+                        String BSSID = obj.getString("BSSID");
+                        SSIDarray[i]=SSID;
+                        storeAPBSSID.add(i,BSSID);
+                        Log.d("nn11",BSSID);
+                    }
+                    memberdata.setStoreAPBSSID(storeAPBSSID);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(getApplicationContext(), "Error read getm_AP.php!!!", Toast.LENGTH_LONG).show();
+            }
+        })
+        {
+            protected Map<String, String> getParams() throws AuthFailureError {//把值丟到php
+                Map<String, String> parameters = new HashMap<String, String>();
+                parameters.put("member_id",memberdata.getMember_id());
+//                Log.d("nn1122",parameters.toString());
+                return parameters;
+            }
+        };
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(drugrequest);
+    }
 
 
 }

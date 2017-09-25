@@ -5,14 +5,12 @@ import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothManager;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.Handler;
 import android.os.IBinder;
-import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -80,8 +78,13 @@ public class CheckBeacon extends Service {
     @Override
     public void onStart(Intent intent, int startId) {
         Toast.makeText(this, "Service start", Toast.LENGTH_SHORT).show();
-        getAP();
-        getbeacon();
+        needBeacon = memberdata.getNeedBeacon();
+        Beaconcal = memberdata.getBeaconcal();
+        storeAPBSSID = memberdata.getStoreAPBSSID();
+        UUIDnum = needBeacon.size();
+        SSIDnum = storeAPBSSID.size();
+//        getAP();
+//        getbeacon();
         handler.postDelayed(runnable, 5000);
     }
     public void onDestroy(){
@@ -95,8 +98,13 @@ public class CheckBeacon extends Service {
                 // TODO Auto-generated method stub
                 //要做的事情
                 WifiAdmin(getApplicationContext());
-                getbeacon();
-                getAP();
+                needBeacon = memberdata.getNeedBeacon();
+                Beaconcal = memberdata.getBeaconcal();
+                storeAPBSSID = memberdata.getStoreAPBSSID();
+                UUIDnum = needBeacon.size();
+                SSIDnum = storeAPBSSID.size();
+//                getbeacon();
+//                getAP();
                 Log.d("UUIDnum",Integer.toString(UUIDnum));
                 Log.d("SSIDnum",Integer.toString(SSIDnum));
                 if(UUIDnum != 0 && SSIDnum != 0){
@@ -197,6 +205,7 @@ public class CheckBeacon extends Service {
                             Log.d("bbb", needBeacon.get(i));
                         }else{}
                     }
+                    Log.d("bbb", "!!!!!!!!!!"+check);
                     if (check==false){
                         Log.d("bbb", "!!!!!!!!!!"+Beaconcal.get(i));
                         Log.d("bbb", "!!!!!!!!!!"+needBeacon.get(i));
@@ -207,6 +216,7 @@ public class CheckBeacon extends Service {
 //                if(lost.size()!=0){
 //                    Log.d("bbb", "沒帶Beacon!!!!!!!!!!"+lost.get(0));
 //                    for (int i=0;i<lost.size();i++) {
+//                        Toast.makeText(getApplicationContext(), "沒帶"+lost.get(0)+"!!!!", Toast.LENGTH_LONG).show();
 //                        AlertDialog.Builder builder = new AlertDialog.Builder(CheckBeacon.this);
 //                        builder.setMessage(lost.get(i)+"\n")
 //                                .setTitle("藥忘記帶囉")
@@ -287,85 +297,85 @@ public class CheckBeacon extends Service {
     public void startActivityForResult(Intent intent, int requestCode) {
         throw new RuntimeException("Stub!");
     }
-    public void getbeacon(){
-        requestQueue = Volley.newRequestQueue(getApplicationContext());
-        final StringRequest drugrequest = new StringRequest(Request.Method.POST, getm_BeaconUrl, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                Log.d("nn1111",response);
-                try {
-                    JSONArray jarray = new JSONArray(response);
-                    UUIDnum = jarray.length() ;
-                    needBeacon.clear();
-                    Beaconcal.clear();
-                    for (int i=0;i<jarray.length();i++){
-                        JSONObject obj = jarray.getJSONObject(i);
-                        String UUID = obj.getString("UUID");
-                        String name = obj.getString("name");
-                        needBeacon.add(i,UUID);
-                        Beaconcal.add(i,name);
-                        Log.d("needBeacon",needBeacon.get(i));
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Toast.makeText(getApplicationContext(), "Error read getm_Beacon.php!!!", Toast.LENGTH_LONG).show();
-            }
-        })
-        {
-            protected Map<String, String> getParams() throws AuthFailureError {//把值丟到php
-                Map<String, String> parameters = new HashMap<String, String>();
-                parameters.put("member_id",memberdata.getMember_id());
-//                Log.d("nn1111",parameters.toString());
-                return parameters;
-            }
-        };
-        RequestQueue requestQueue = Volley.newRequestQueue(this);
-        requestQueue.add(drugrequest);
-    }
-    public void getAP(){
-        requestQueue = Volley.newRequestQueue(getApplicationContext());
-        final StringRequest drugrequest = new StringRequest(Request.Method.POST, getAP, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-//                Log.d("nn1122",response);
-                try {
-                    JSONArray jarray = new JSONArray(response);
-                    final String[] SSIDarray=new String[jarray.length()];
-                    final String[] BSSIDarray=new String[jarray.length()];
-                    storeAPBSSID.clear();
-                    SSIDnum = jarray.length();
-                    for (int i=0;i<jarray.length();i++){
-                        JSONObject obj = jarray.getJSONObject(i);
-                        String SSID = obj.getString("SSID");
-                        String BSSID = obj.getString("BSSID");
-                        SSIDarray[i]=SSID;
-                        storeAPBSSID.add(i,BSSID);
-//                        Log.d("nn11",BSSID);
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Toast.makeText(getApplicationContext(), "Error read getm_AP.php!!!", Toast.LENGTH_LONG).show();
-            }
-        })
-        {
-            protected Map<String, String> getParams() throws AuthFailureError {//把值丟到php
-                Map<String, String> parameters = new HashMap<String, String>();
-                parameters.put("member_id",memberdata.getMember_id());
-//                Log.d("nn1122",parameters.toString());
-                return parameters;
-            }
-        };
-        RequestQueue requestQueue = Volley.newRequestQueue(this);
-        requestQueue.add(drugrequest);
-    }
+//    public void getbeacon(){
+//        requestQueue = Volley.newRequestQueue(getApplicationContext());
+//        final StringRequest drugrequest = new StringRequest(Request.Method.POST, getm_BeaconUrl, new Response.Listener<String>() {
+//            @Override
+//            public void onResponse(String response) {
+//                Log.d("nn1111",response);
+//                try {
+//                    JSONArray jarray = new JSONArray(response);
+//                    UUIDnum = jarray.length() ;
+//                    needBeacon.clear();
+//                    Beaconcal.clear();
+//                    for (int i=0;i<jarray.length();i++){
+//                        JSONObject obj = jarray.getJSONObject(i);
+//                        String UUID = obj.getString("UUID");
+//                        String name = obj.getString("name");
+//                        needBeacon.add(i,UUID);
+//                        Beaconcal.add(i,name);
+//                        Log.d("needBeacon",needBeacon.get(i));
+//                    }
+//                } catch (JSONException e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//        }, new Response.ErrorListener() {
+//            @Override
+//            public void onErrorResponse(VolleyError error) {
+////                Toast.makeText(getApplicationContext(), "Error read getm_Beacon.php!!!", Toast.LENGTH_LONG).show();
+//            }
+//        })
+//        {
+//            protected Map<String, String> getParams() throws AuthFailureError {//把值丟到php
+//                Map<String, String> parameters = new HashMap<String, String>();
+//                parameters.put("member_id",memberdata.getMember_id());
+////                Log.d("nn1111",parameters.toString());
+//                return parameters;
+//            }
+//        };
+//        RequestQueue requestQueue = Volley.newRequestQueue(this);
+//        requestQueue.add(drugrequest);
+//    }
+//    public void getAP(){
+//        requestQueue = Volley.newRequestQueue(getApplicationContext());
+//        final StringRequest drugrequest = new StringRequest(Request.Method.POST, getAP, new Response.Listener<String>() {
+//            @Override
+//            public void onResponse(String response) {
+////                Log.d("nn1122",response);
+//                try {
+//                    JSONArray jarray = new JSONArray(response);
+//                    final String[] SSIDarray=new String[jarray.length()];
+//                    final String[] BSSIDarray=new String[jarray.length()];
+//                    storeAPBSSID.clear();
+//                    SSIDnum = jarray.length();
+//                    for (int i=0;i<jarray.length();i++){
+//                        JSONObject obj = jarray.getJSONObject(i);
+//                        String SSID = obj.getString("SSID");
+//                        String BSSID = obj.getString("BSSID");
+//                        SSIDarray[i]=SSID;
+//                        storeAPBSSID.add(i,BSSID);
+////                        Log.d("nn11",BSSID);
+//                    }
+//                } catch (JSONException e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//        }, new Response.ErrorListener() {
+//            @Override
+//            public void onErrorResponse(VolleyError error) {
+////                Toast.makeText(getApplicationContext(), "Error read getm_AP.php!!!", Toast.LENGTH_LONG).show();
+//            }
+//        })
+//        {
+//            protected Map<String, String> getParams() throws AuthFailureError {//把值丟到php
+//                Map<String, String> parameters = new HashMap<String, String>();
+//                parameters.put("member_id",memberdata.getMember_id());
+////                Log.d("nn1122",parameters.toString());
+//                return parameters;
+//            }
+//        };
+//        RequestQueue requestQueue = Volley.newRequestQueue(this);
+//        requestQueue.add(drugrequest);
+//    }
 }
