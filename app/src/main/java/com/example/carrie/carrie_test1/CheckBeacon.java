@@ -103,8 +103,6 @@ public class CheckBeacon extends Service {
                 storeAPBSSID = memberdata.getStoreAPBSSID();
                 UUIDnum = needBeacon.size();
                 SSIDnum = storeAPBSSID.size();
-//                getbeacon();
-//                getAP();
                 Log.d("UUIDnum",Integer.toString(UUIDnum));
                 Log.d("SSIDnum",Integer.toString(SSIDnum));
                 if(UUIDnum != 0 && SSIDnum != 0){
