@@ -171,7 +171,7 @@ public class MyAPActivity extends AppCompatActivity implements SwipeRefreshLayou
                     laySwipe.setRefreshing(false);
                     Toast.makeText(getApplicationContext(), "Refresh done!", Toast.LENGTH_SHORT).show();
                 }
-            }, 3000);
+            }, 4000);
         }
     };
     private AbsListView.OnScrollListener onListScroll = new AbsListView.OnScrollListener() {
