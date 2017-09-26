@@ -88,9 +88,6 @@ public class MainActivity extends LoginActivity
         getMonitorId();
         getid();
         getpersonal();
-        getAP();
-
-        getbeacon();
 
         Log.d("UUIDnum123",Integer.toString(UUIDnum));
         Log.d("SSIDnum123",Integer.toString(SSIDnum));
@@ -285,7 +282,7 @@ public class MainActivity extends LoginActivity
         it.putExtras(bundle);   // 記得put進去，不然資料不會帶過去哦
         startActivity(it);
     }
-    public void gotoLoginActivity(View v) { //連到搜尋藥品資訊頁面
+//    public void gotoLoginActivity(View v) { //連到搜尋藥品資訊頁面
 //        Intent it = new Intent(this,LoginActivity.class);
 //        Log.d("hh","4");
 //        LoginActivity la=new LoginActivity();
@@ -295,7 +292,7 @@ public class MainActivity extends LoginActivity
 //        Log.d("hh","1");
 //        startActivity(it);
 
-    }
+ //   }
 
     public void getid() {
         requestQueue = Volley.newRequestQueue(getApplicationContext());
@@ -307,6 +304,8 @@ public class MainActivity extends LoginActivity
                 memberid = response;
                 memberdata.setMember_id(response);
                 getMeasureInformation();
+                getAP();
+                getbeacon();
             }
         }, new Response.ErrorListener() {
             @Override
@@ -628,7 +627,7 @@ public class MainActivity extends LoginActivity
             protected Map<String, String> getParams() throws AuthFailureError {//把值丟到php
                 Map<String, String> parameters = new HashMap<String, String>();
                 parameters.put("member_id",memberdata.getMember_id());
-//                Log.d("nn1111",parameters.toString());
+                Log.d("nn1111",parameters.toString());
                 return parameters;
             }
         };
@@ -670,7 +669,7 @@ public class MainActivity extends LoginActivity
             protected Map<String, String> getParams() throws AuthFailureError {//把值丟到php
                 Map<String, String> parameters = new HashMap<String, String>();
                 parameters.put("member_id",memberdata.getMember_id());
-//                Log.d("nn1122",parameters.toString());
+                Log.d("nn1122",parameters.toString());
                 return parameters;
             }
         };
