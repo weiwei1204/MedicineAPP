@@ -379,6 +379,8 @@ public class medicine_cal extends AppCompatActivity {
         final StringRequest request = new StringRequest(Request.Method.POST, deletem_caledarUrl, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
+                DeviceData.getBeacon(getApplicationContext());
+                DeviceData.getAP(getApplicationContext());
             }
         }, new Response.ErrorListener() {
             @Override
@@ -562,6 +564,8 @@ public class medicine_cal extends AppCompatActivity {
         final StringRequest drugrequest = new StringRequest(Request.Method.POST, updatem_calnameUrl, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
+                DeviceData.getBeacon(getApplicationContext());
+                DeviceData.getAP(getApplicationContext());
             }
         }, new Response.ErrorListener() {
             @Override
