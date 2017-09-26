@@ -3,11 +3,17 @@ package com.example.carrie.carrie_test1;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.support.annotation.UiThread;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.widget.AbsListView;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -27,17 +33,17 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-
 /**
  * Created by User on 2017/8/25.
  */
-public class MyAPActivity extends AppCompatActivity {
+public class MyAPActivity extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener {
     private FloatingActionButton fabscanap;
     String memberid;
     private Context context;
     private ListView lv ;
     RequestQueue requestQueue;
     String getAPUrl = "http://54.65.194.253/Beacon/getAP.php";
+    private SwipeRefreshLayout laySwipe;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,6 +68,19 @@ public class MyAPActivity extends AppCompatActivity {
         });
         myWifiList();
     }
+//    @Override
+//    protected void onStart() {
+//        super.onStart();
+//    }
+//    @Override
+//    protected void onResume() {
+//        super.onResume();
+//        onCreate(null);
+//    }
+//    @Override
+//    protected void onPause() {
+//        super.onPause();
+//    }
 
     @Override
 
@@ -72,14 +91,21 @@ public class MyAPActivity extends AppCompatActivity {
         myWifiList();
 
     }
-
     public void myWifiList(){
+
         requestQueue = Volley.newRequestQueue(getApplicationContext());
         final StringRequest request = new StringRequest(Request.Method.POST, getAPUrl, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 Log.d("nn11",response);
                 try {
+                    laySwipe = (SwipeRefreshLayout) findViewById(R.id.laySwipe);
+                    laySwipe.setOnRefreshListener(onSwipeToRefresh);
+                    laySwipe.setColorSchemeResources(
+                            android.R.color.holo_red_light,
+                            android.R.color.holo_blue_light,
+                            android.R.color.holo_green_light,
+                            android.R.color.holo_orange_light);
                     JSONArray jarray = new JSONArray(response);
                     ArrayList<HashMap<String, Object>> Item = new ArrayList<HashMap<String, Object>>();
                     for (int i=0;i<jarray.length();i++){
@@ -105,10 +131,12 @@ public class MyAPActivity extends AppCompatActivity {
                         map.put("ItemButton", R.drawable.trash);
                         Item.add(map);
                     }
+
                     BtnAdapter_myap btnadapter_myap = new BtnAdapter_myap(context, Item, R.layout.ap_adapter,
                             new String[]{"ItemImage","ItemSSID", "ItemBSSID", "ItemCapabilities","ItemLevel","ItemFrequency","ItemButton","ItemID"},
                             new int[] {R.id.ItemImage,R.id.ItemSSID,R.id.ItemBSSID,R.id.ItemCapabilities,R.id.ItemLevel,R.id.ItemFrequency,R.id.ItemButton,R.id.ItemID});
                     lv.setAdapter(btnadapter_myap);
+                    lv.setOnScrollListener(onListScroll);
                 } catch (JSONException e) {
                     Log.d("nn11",e.toString());
                     e.printStackTrace();
@@ -133,7 +161,40 @@ public class MyAPActivity extends AppCompatActivity {
         requestQueue.add(request);
 
     }
+    private SwipeRefreshLayout.OnRefreshListener onSwipeToRefresh = new SwipeRefreshLayout.OnRefreshListener() {
+        @Override
+        public void onRefresh() {
+            laySwipe.setRefreshing(true);
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    laySwipe.setRefreshing(false);
+                    Toast.makeText(getApplicationContext(), "Refresh done!", Toast.LENGTH_SHORT).show();
+                }
+            }, 3000);
+        }
+    };
+    private AbsListView.OnScrollListener onListScroll = new AbsListView.OnScrollListener() {
+        @Override
+        public void onScrollStateChanged(AbsListView view, int scrollState) {
+        }
+        @Override
+        public void onScroll(AbsListView view, int firstVisibleItem,
+                             int visibleItemCount, int totalItemCount) {
+            if (firstVisibleItem == 0) {
+                laySwipe.setEnabled(true);
+
+            }else{
+                laySwipe.setEnabled(false);
+            }
+        }
+    };
     public void goback(View v){
         finish();
+    }
+
+    @Override
+    public void onRefresh() {
+        onCreate(null);
     }
 }
