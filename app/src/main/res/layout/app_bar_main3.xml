@@ -16,7 +16,14 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary"
-            app:popupTheme="@style/AppTheme.PopupOverlay" />
+            app:popupTheme="@style/AppTheme.PopupOverlay" >
+            <ImageButton
+                android:layout_width="50sp"
+                android:layout_height="50sp"
+                android:layout_marginLeft="75dp"
+                android:background="@drawable/robot"
+                android:id="@+id/robotbtn"/>
+        </android.support.v7.widget.Toolbar>
 
     </android.support.design.widget.AppBarLayout>
 

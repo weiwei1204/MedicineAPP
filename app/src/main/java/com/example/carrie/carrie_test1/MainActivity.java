@@ -1,8 +1,11 @@
 package com.example.carrie.carrie_test1;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.NavigationView;
@@ -46,6 +49,9 @@ import okhttp3.OkHttpClient;
 public class MainActivity extends LoginActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     private ImageButton SignOut;
+    ImageButton robot;
+    private Intent serviceIntent;
+    private static final int CODE_DRAW_OVER_OTHER_APP_PERMISSION = 2084;
     Spinner spinner;
     ArrayAdapter<CharSequence> adapter;
     String googleid;
@@ -159,8 +165,24 @@ public class MainActivity extends LoginActivity
                 return false;
             }
         });
-        Intent intent = new Intent(MainActivity.this,CheckBeacon.class);
-        startService(intent);
+        robot = (ImageButton) findViewById(R.id.robotbtn);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && !Settings.canDrawOverlays(this)) {
+            Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION, Uri.parse("package:" + getPackageName()));
+            startActivityForResult(intent, CODE_DRAW_OVER_OTHER_APP_PERMISSION);
+        }
+
+            robot.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    serviceIntent = new Intent(MainActivity.this, ChatHeadService.class);
+                    startService(serviceIntent);
+                    Log.d("8989", "clicked");
+                }
+            });
+
+            Intent intent = new Intent(MainActivity.this, CheckBeacon.class);
+            startService(intent);
+
     }
 
     private void signOut() {
