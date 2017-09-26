@@ -45,7 +45,8 @@
                 tools:layout_editor_absoluteY="8dp"
                 android:divider="#ADADAD"
                 android:dividerHeight="1dp"
-                android:layout_below="@+id/toolbar" />
+                android:layout_below="@+id/toolbar"
+                android:layout_marginBottom="50dp"/>
         </RelativeLayout>
         <RelativeLayout
             android:id="@+id/bottomBar"
