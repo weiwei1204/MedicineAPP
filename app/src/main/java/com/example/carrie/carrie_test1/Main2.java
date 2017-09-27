@@ -134,8 +134,8 @@ public class Main2 extends Activity {
 
         setContentView(R.layout.activity_main2);
         mAuth = FirebaseAuth.getInstance();
-        String Token = FirebaseInstanceId.getInstance().getToken();
-        Log.d("9090", "token: " + Token);
+        token = FirebaseInstanceId.getInstance().getToken();
+        Log.d("9090", "token: " + token);
 
 
 
@@ -205,8 +205,10 @@ public class Main2 extends Activity {
         }, SPLASH_TIME_OUT);
         Runnable runnable = new Runnable() {
             public void run() {
-                sendRegistrationToServer();
-                finish();
+                if(token!=null) {
+                    sendRegistrationToServer();
+                    finish();
+                }
                 //DynamoDB calls go here
             }
         };

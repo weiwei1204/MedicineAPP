@@ -68,7 +68,9 @@ public class MyFirebaseInstanceIDService extends FirebaseInstanceIdService {
         // If you want to send messages to this application instance or
         // manage this apps subscriptions on the server side, send the
         // Instance ID token to your app server.
-        sendRegistrationToServer();
+        if(refreshedToken!=null) {
+            sendRegistrationToServer();
+        }
         Intent intent = new Intent(this, Main2.class);
         startService(intent);
         Log.d("9988","do this");

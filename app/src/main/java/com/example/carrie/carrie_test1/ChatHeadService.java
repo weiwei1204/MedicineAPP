@@ -208,6 +208,9 @@ public class ChatHeadService extends Service {
             Log.i("head", "clicked");
             Toast.makeText(ChatHeadService.this, "Hello There!", Toast.LENGTH_SHORT).show();
             Intent it = new Intent(ChatHeadService.this,TextActivity.class);
+            it.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            it.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            it.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
             startActivity(it);
             return true;
         }
