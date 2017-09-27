@@ -1,11 +1,14 @@
 package com.example.carrie.carrie_test1;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.res.TypedArrayUtils;
+import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -21,6 +24,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.RequestQueue;
@@ -33,10 +37,16 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
+import static com.example.carrie.carrie_test1.R.id.dark;
+import static com.example.carrie.carrie_test1.R.id.drawer_layout;
 import static com.example.carrie.carrie_test1.R.id.list;
 
 public class BpRecord extends Fragment {
@@ -46,6 +56,7 @@ public class BpRecord extends Fragment {
     RequestQueue requestQueue;
     private String[] list1 = {"Mindy","Rita","Jonathan","Shana","Carrie"};
     public String url = "http://54.65.194.253/Health_Calendar/ShowBp.php";
+    public String url2 = "http://54.65.194.253/Health_Calendar/onTime.php";
     public List<BloodPressure> record_list;
     private BloodPressure data ;
     public static ArrayList<BloodPressure>bloodPressureList;
@@ -53,6 +64,7 @@ public class BpRecord extends Fragment {
     public static String high;
     public static String low;
     public static String bpmm;
+    public static String googleid;
 
     public static int userid;
     public static String member_id; //從資料庫抓的
@@ -70,6 +82,9 @@ public class BpRecord extends Fragment {
     ImageButton btn;
     FloatingActionButton press;
     View rootView;
+    private static int save = -1;
+    public static String settingtime;
+    public static String type;
 
 
 
@@ -83,11 +98,16 @@ public class BpRecord extends Fragment {
         high = bundle.getString("highmmhg");
         low = bundle.getString("lowmmhg");
         bpmm = bundle.getString("bpm");
+        googleid = bundle.getString("googleid");
+        Log.d("3434","googleid: "+googleid);
 
         record_list = new ArrayList<>();
-        getData();
+
         rootView = inflater.inflate(R.layout.activity_bp_record, container, false);
         listView = (ListView)rootView.findViewById(R.id.list_view);
+        press = (FloatingActionButton) rootView.findViewById(R.id.press1);
+        getData();
+//        getTime();
         initView();
 //        btn = (ImageButton) rootView.findViewById(R.id.Bpbtn);
 //        btn.setOnClickListener(new View.OnClickListener() {
@@ -96,7 +116,8 @@ public class BpRecord extends Fragment {
 //                AddBp();
 //            }
 //        });
-        press = (FloatingActionButton)rootView.findViewById(R.id.press1);
+
+
         press.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -105,15 +126,27 @@ public class BpRecord extends Fragment {
         });
 
 
-
        return  rootView;
 
     }
-    public void start(){
-        listAdapter = new ArrayAdapter<BloodPressure>(getActivity(),android.R.layout.simple_selectable_list_item,record_list);
-        listAdapter.notifyDataSetChanged();
-        listView.setAdapter(listAdapter);
 
+    public void start(){
+        listAdapter = new ArrayAdapter<BloodPressure>(getActivity(),android.R.layout.simple_selectable_list_item,record_list){
+            @Override
+            public View getView(int position, View convertView, ViewGroup parent) {
+                TextView textView = (TextView) super.getView(position, convertView, parent);
+                textView.setTextColor(Color.BLACK);
+                return textView;
+            }
+        };
+        listAdapter.notifyDataSetChanged();
+
+        listView.setChoiceMode(AbsListView.CHOICE_MODE_SINGLE);
+        listView.setSelector(android.R.color.holo_orange_light);
+        listView.setBackgroundResource(R.color.colorWhite);
+        listView.setDivider(getResources().getDrawable(R.drawable.list_devide));
+        listView.setDividerHeight(3);
+        listView.setAdapter(listAdapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -240,12 +273,192 @@ public class BpRecord extends Fragment {
 
     }
     public void AddBp(){
-        Intent it = new Intent(getActivity(),EnterBpValue.class);
-        Bundle bundle = new Bundle();
-        bundle.putString("memberid", memberid);
-        it.putExtras(bundle);
-        startActivity(it);
+        Log.d("777","in method");
+        requestQueue = Volley.newRequestQueue(getActivity().getApplicationContext());
+        Log.d("777","1");
+        final Calendar rightNow = Calendar.getInstance();
+        rightNow.add(Calendar.MINUTE,30);
+        Log.d("9898","settime: "+rightNow.getTime());
+        final SimpleDateFormat format = new SimpleDateFormat("HH:mm:ss");
+        final Calendar current = Calendar.getInstance();
+
+        final String currenttime = format.format(current.getTime());
+        final String intime = format.format(rightNow.getTime());
+        Log.d("9999","Current Time :  "+currenttime);
+        Log.d("9999","time:  "+intime);
+        final JsonArrayRequest jsonObjectRequest = new JsonArrayRequest(com.android.volley.Request.Method.POST, url2, new com.android.volley.Response.Listener<JSONArray>() {
+            @Override
+            public void onResponse(final JSONArray response) {
+
+                Log.d("777","in response");
+                try {
+                    count=0;
+                    for (int i = 0; i < response.length(); i++) {
+                        JSONObject object = response.getJSONObject(i);
+                        String members_id = object.getString("member_id");
+                        if (members_id.equals(memberid)) {
+                            settingtime = object.getString("time");
+                            type = object.getString("type");
+                            Log.d("4567","Time: "+settingtime);
+                            Calendar timebefore = Calendar.getInstance();
+                            timebefore.setTime(format.parse(settingtime));
+                            timebefore.add(Calendar.MINUTE,30);//設定時間後30分鐘
+                            Calendar nowtime = Calendar.getInstance();//現在時間
+                            Date cur= format.parse(currenttime);
+
+//                            Log.d("8989","nowtime: "+format.format(nowtime.getTime()));
+
+                            Calendar settime = Calendar.getInstance();
+                            settime.setTime(format.parse(settingtime));//設定的時間
+//                            Log.d("8989","setting time: "+format.format(settime.getTime()));
+//                            Log.d("8989","after 30 minutes: "+format.format(timebefore.getTime()));
+                            if(type.equals("bp_1") || type.equals("bp_2") || type.equals("bp_3")) {
+
+                                if (cur.after(settime.getTime()) && cur.before(timebefore.getTime())) {
+                                    Log.d("8989", "do this ");
+                                    Log.d("8989","nowtime: "+format.format(nowtime.getTime()));
+                                    Log.d("8989","setting time: "+format.format(settime.getTime()));
+                                    Log.d("8989","after 30 minutes: "+format.format(timebefore.getTime()));
+                                    press = (FloatingActionButton)rootView.findViewById(R.id.press1);
+                                    Intent it = new Intent(getActivity(),EnterBpValue.class);
+                                    Bundle bundle = new Bundle();
+                                    bundle.putString("memberid", memberid);
+                                    bundle.putString("googleid",EnterBsBpActivity.my_google);
+                                    it.putExtras(bundle);
+                                    startActivity(it);
+                                }
+                                else {
+                                    Toast.makeText(getActivity().getApplicationContext(), "還沒到紀錄血壓的時間哦!", Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                           else{
+                                Toast.makeText(getActivity().getApplicationContext(), "尚未設定紀錄血壓的時間哦!", Toast.LENGTH_SHORT).show();
+                            }
+
+
+                            count++;
+
+                        }
+                    }
+
+
+
+                }catch (JSONException e){
+                    e.printStackTrace();
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        },
+                new com.android.volley.Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.d("777",error.toString());
+                    }
+                });
+        RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
+        requestQueue.add(jsonObjectRequest);
+
+
+
+
     }
-
-
+//    public void getTime(){
+//        Log.d("777","in method");
+//        requestQueue = Volley.newRequestQueue(getActivity().getApplicationContext());
+//        Log.d("777","1");
+//        final Calendar rightNow = Calendar.getInstance();
+//        rightNow.add(Calendar.MINUTE,30);
+//        Log.d("9898","settime: "+rightNow.getTime());
+//        final SimpleDateFormat format = new SimpleDateFormat("HH:mm:ss");
+//        final Calendar current = Calendar.getInstance();
+//
+//        final String currenttime = format.format(current.getTime());
+//        final String intime = format.format(rightNow.getTime());
+//        Log.d("9999","Current Time :  "+currenttime);
+//        Log.d("9999","time:  "+intime);
+//        final JsonArrayRequest jsonObjectRequest = new JsonArrayRequest(com.android.volley.Request.Method.POST, url2, new com.android.volley.Response.Listener<JSONArray>() {
+//            @Override
+//            public void onResponse(final JSONArray response) {
+//
+//                Log.d("777","in response");
+//                try {
+//                    count=0;
+//                    for (int i = 0; i < response.length(); i++) {
+//                        JSONObject object = response.getJSONObject(i);
+//                        String members_id = object.getString("member_id");
+//                        if (members_id.equals(memberid)) {
+//                            settingtime = object.getString("time");
+//                            type = object.getString("type");
+//                            Log.d("4567","Time: "+settingtime);
+//                            Calendar timebefore = Calendar.getInstance();
+//                            timebefore.setTime(format.parse(settingtime));
+//
+//                            timebefore.add(Calendar.MINUTE,30);//設定時間後30分鐘
+//                            Calendar nowtime = Calendar.getInstance();//現在時間
+//                            Date cur= format.parse(currenttime);
+//
+////                            Log.d("8989","nowtime: "+format.format(nowtime.getTime()));
+//
+//                            Calendar settime = Calendar.getInstance();
+//                            settime.setTime(format.parse(settingtime));//設定的時間
+////                            Log.d("8989","setting time: "+format.format(settime.getTime()));
+////                            Log.d("8989","after 30 minutes: "+format.format(timebefore.getTime()));
+//                            if(type.equals("bp_1") || type.equals("bp_2") || type.equals("bp_3")) {
+//
+//                                if (cur.after(settime.getTime()) && cur.before(timebefore.getTime())) {
+//                                    Log.d("8989", "do this ");
+//                                    Log.d("8989","nowtime: "+format.format(nowtime.getTime()));
+//                                    Log.d("8989","setting time: "+format.format(settime.getTime()));
+//                                    Log.d("8989","after 30 minutes: "+format.format(timebefore.getTime()));
+//                                    press = (FloatingActionButton)rootView.findViewById(R.id.press1);
+//                                    press.setOnClickListener(new View.OnClickListener() {
+//                                        @Override
+//                                        public void onClick(View v) {
+//                                            if(response==null){
+//                                                Toast.makeText(getActivity().getApplicationContext(), "尚未設定紀錄血壓的時間哦!", Toast.LENGTH_SHORT).show();
+//                                            }else {
+////                                                AddBp();
+//                                            }
+//                                        }
+//                                    });
+//                                }
+//                            }
+//                            else {
+//                                    press.setOnClickListener(new View.OnClickListener() {
+//                                        @Override
+//                                        public void onClick(View v) {
+//                                            Toast.makeText(getActivity().getApplicationContext(), "還沒到紀錄血壓的時間哦!", Toast.LENGTH_SHORT).show();
+//                                        }
+//                                    });
+//                                }
+//
+//                            count++;
+//
+//                        }
+//                    }
+//
+//
+//                }catch (JSONException e){
+//                    e.printStackTrace();
+//                } catch (ParseException e) {
+//                    e.printStackTrace();
+//                }
+//
+//            }
+//        },
+//                new com.android.volley.Response.ErrorListener() {
+//                    @Override
+//                    public void onErrorResponse(VolleyError error) {
+//                        Log.d("777",error.toString());
+//                    }
+//                });
+//        RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
+//        requestQueue.add(jsonObjectRequest);
+//
+//
+//    }
+//
+//
 }

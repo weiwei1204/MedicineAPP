@@ -25,12 +25,20 @@
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
             tools:layout_editor_absoluteX="8dp"
             tools:layout_editor_absoluteY="0dp" />
-        <ListView
-            android:id="@+id/mlistView"
+        <android.support.v4.widget.SwipeRefreshLayout
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/laySwipe"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            tools:layout_editor_absoluteX="8dp"
-            tools:layout_editor_absoluteY="8dp" />
+            android:layout_height="match_parent" >
+            <ListView
+                android:id="@+id/mlistView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                tools:layout_editor_absoluteX="8dp"
+                tools:layout_editor_absoluteY="8dp"
+                android:divider="#ADADAD"
+                android:dividerHeight="1dp"/>
+        </android.support.v4.widget.SwipeRefreshLayout>
     </LinearLayout>
 
     <android.support.design.widget.CoordinatorLayout

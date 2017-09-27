@@ -27,6 +27,7 @@ public class EnterBpValue extends AppCompatActivity {
     public static String highmmhg = "";
     public static String lowmmhg = "";
     public static String bpm ="";
+    public static String googleid;
     Button btn;
 
 
@@ -54,6 +55,7 @@ public class EnterBpValue extends AppCompatActivity {
                 Log.v("EditText", etlowmmhg.getText().toString());
                 Log.v("EditText", etbpm.getText().toString());
                 final String memberid = getIntent().getExtras().getString("memberid");
+                final String googleid = getIntent().getExtras().getString("googleid");
                 if(highmmhg.matches("") || lowmmhg.matches("") || bpm.matches("")) {
                     Toast.makeText(getApplicationContext(), "有地方忘了填哦", Toast.LENGTH_SHORT).show();
                 }else{
@@ -97,6 +99,7 @@ public class EnterBpValue extends AppCompatActivity {
                             it.putExtra("highmmhg", highmmhg);
                             it.putExtra("lowmmhg", lowmmhg);
                             it.putExtra("bpm", bpm);
+                            it.putExtra("my_google_id",googleid);
                             startActivity(it);
                             ethighmmhg.setText("");
                             etlowmmhg.setText("");

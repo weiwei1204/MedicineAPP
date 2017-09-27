@@ -12,9 +12,10 @@ import android.os.Vibrator;
 import android.support.annotation.RequiresApi;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.util.Log;
-import android.view.Menu;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
@@ -77,6 +78,8 @@ public class ThirdActivity extends AppCompatActivity {
     String getm_recordtimeUrl = "http://54.65.194.253/Medicine_Calendar/getm_recordtime.php";
     ArrayAdapter<CharSequence> adapterbeacon;
     Spinner spinnerbeacon;
+    LayoutInflater inflater;
+    private ArrayList<ArrayList<String>> bconarray = new ArrayList<ArrayList<String>>();
     String memberid,beaconUUID,beaconid,m_calendarid,drugid,drugname;
     int entertype,checkbtn;
     RequestQueue requestQueue;
@@ -102,9 +105,10 @@ public class ThirdActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_third);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
         Log.v("1111","123");
-        Bundle bundle1 = getIntent().getExtras();
-        memberid=bundle1.getString("memberid");
+        memberid=memberdata.getMember_id();
         Bundle bundle = getIntent().getExtras();
         entertype=bundle.getInt("entertype");
         drugid=bundle.getString("drugid");
@@ -142,7 +146,7 @@ public class ThirdActivity extends AppCompatActivity {
 //            mdrugs.get(mdrugs.size()-1).add(drugname);
 
 
-        }else if (entertype == 0){
+        }else if (entertype == 0){  //第一次進到這個頁面
             mtimes.clear();
             mdrugs.clear();
         }
@@ -162,63 +166,43 @@ public class ThirdActivity extends AppCompatActivity {
 
 
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-
-// Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
-        return true;
-    }
-
-
     public void getBeacon(){//取此會員的beacon
         requestQueue = Volley.newRequestQueue(getApplicationContext());
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, getBeaconUrl, new Response.Listener<JSONObject>() {
+        final StringRequest request = new StringRequest(Request.Method.POST, getBeaconUrl, new Response.Listener<String>() {
             @Override
-            public void onResponse(JSONObject response) {
+            public void onResponse(String response) {
                 try {
-
-                    JSONArray beacons = response.getJSONArray("Beacons");
-                    int count=0;
-                    for (int i=0 ; i<beacons.length() ; i++){
-                        JSONObject beacon = beacons.getJSONObject(i);
-                        String Member_id = beacon.getString("member_id");
-                        if (Member_id.equals(memberid)){
-                            count++;
-                            Log.d("fffabc", String.valueOf(count));
-                        };
-                    }
-                    Log.d("vvv123", String.valueOf(count));
-                    final String[] beaconarray=new String[count];
-                    final String[] beaconaidrray=new String[count];
-                    count=0;
-                    for (int i=0 ; i<beacons.length() ; i++){
-                        JSONObject beacon = beacons.getJSONObject(i);
+                    Log.d("nn11",response.toString());
+                    JSONArray jarray = new JSONArray(response);
+                    final String[] beaconarray=new String[jarray.length()];
+                    final String[] beaconaidrray=new String[jarray.length()];
+                    bconarray.clear();
+                    for (int i=0 ; i<jarray.length() ; i++){
+                        JSONObject beacon = jarray.getJSONObject(i);
                         String UUID = beacon.getString("UUID");
                         String Member_id = beacon.getString("member_id");
                         String id = beacon.getString("id");
-                        if (Member_id.equals(memberid)){
-                            beaconaidrray[count] = id;
-                            beaconarray[count] = UUID;
-                            Log.d("vvvvv",beaconarray[count]);
-                            count++;
-                        };
-                    }//取值結束
-                    adapterbeacon = new ArrayAdapter(ThirdActivity.this,android.R.layout.simple_spinner_item,beaconarray);
-                    adapterbeacon.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                    spinnerbeacon.setSelection(0,false);
-                    spinnerbeacon.setAdapter(adapterbeacon);
-                    spinnerbeacon.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                        String name = beacon.getString("newname");
+                        beaconaidrray[i] = id;
+                        beaconarray[i] = UUID;
+                        bconarray.add(new ArrayList<String>());
+                        bconarray.get(i).add(name);
+                        bconarray.get(i).add(id);
 
+                    }//取值結束
+                    myspinner myspinner = new myspinner(ThirdActivity.this,R.layout.myspinner,R.id.mysipnner,bconarray);
+                    spinnerbeacon.setAdapter(myspinner);
+//                    adapterbeacon = new ArrayAdapter(ThirdActivity.this,android.R.layout.simple_list_item_1,beaconarray);
+//                    adapterbeacon.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+//                    spinnerbeacon.setSelection(0,false);
+//                    spinnerbeacon.setAdapter(adapterbeacon);
+                    spinnerbeacon.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                         @Override
                         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 //                            Toast.makeText(getBaseContext(),parent.getItemAtPosition(position)+"selected",Toast.LENGTH_LONG).show();
-                            beaconUUID= (String) parent.getItemAtPosition(position);
-                            for (int i=0;i<beaconaidrray.length;i++){
-                                if (beaconUUID.equals(beaconarray[i])){
-                                    beaconid = beaconaidrray[i];
-                                }
-                            }
+//                            beaconUUID= (String) parent.getItemAtPosition(position);
+                            beaconid=bconarray.get(position).get(1);
+                            Log.d("bbbbbbcon", beaconid);
                         }
                         @Override
                         public void onNothingSelected(AdapterView<?> parent) {}//~~~~
@@ -231,8 +215,16 @@ public class ThirdActivity extends AppCompatActivity {
             @Override
             public void onErrorResponse(VolleyError error) {
             }
-        });
-        requestQueue.add(jsonObjectRequest);
+        }) {
+            protected Map<String, String> getParams() throws AuthFailureError {//把值丟到php
+                Map<String, String> parameters = new HashMap<String, String>();
+                parameters.put("member_id",memberid);
+                Log.d("nn11",parameters.toString());
+                return parameters;
+            }
+        };
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(request);
     }
 
 //    public void spinnerbcon(){
@@ -274,9 +266,6 @@ public class ThirdActivity extends AppCompatActivity {
         startActivity(it);
     }
 
-    public void goback(View v){
-        finish();
-    }
 
 
 
@@ -312,25 +301,39 @@ public class ThirdActivity extends AppCompatActivity {
                     }
 
                 }
-                Log.d("fff", String.valueOf(txtTime));
-                txtTime.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-                    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
-                    @RequiresApi(api = Build.VERSION_CODES.HONEYCOMB)
+                txtTime.setOnClickListener(new View.OnClickListener() {
                     @Override
-                    public void onFocusChange(View v, boolean hasFocus) {
-                        if (hasFocus){
-                            TimeDialog tdialog=new TimeDialog(v,gettime);
-                            try {
-                                android.app.FragmentTransaction ft=getFragmentManager().beginTransaction();
-                                Log.d("ff12345",ft.toString());
-                                tdialog.show(ft,"TimePicker");
-                            }
-                            catch (Exception e){
-                                Log.d("ffffffff",e.toString());
-                            }
+                    public void onClick(View v) {
+                        TimeDialog tdialog=new TimeDialog(v,gettime);
+                        try {
+                            android.app.FragmentTransaction ft=getFragmentManager().beginTransaction();
+                            Log.d("ff12345",ft.toString());
+                            tdialog.show(ft,"TimePicker");
+                        }
+                        catch (Exception e){
+                            Log.d("ffffffff",e.toString());
                         }
                     }
                 });
+                Log.d("fff", String.valueOf(txtTime));
+//                txtTime.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+//                    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
+//                    @RequiresApi(api = Build.VERSION_CODES.HONEYCOMB)
+//                    @Override
+//                    public void onFocusChange(View v, boolean hasFocus) {
+//                        if (hasFocus){
+//                            TimeDialog tdialog=new TimeDialog(v,gettime);
+//                            try {
+//                                android.app.FragmentTransaction ft=getFragmentManager().beginTransaction();
+//                                Log.d("ff12345",ft.toString());
+//                                tdialog.show(ft,"TimePicker");
+//                            }
+//                            catch (Exception e){
+//                                Log.d("ffffffff",e.toString());
+//                            }
+//                        }
+//                    }
+//                });
                 ImageButton btnRemove = (ImageButton) newView.findViewById(R.id.btnRemove);
                 btnRemove.setOnClickListener(new View.OnClickListener() {
 
@@ -501,17 +504,21 @@ public class ThirdActivity extends AppCompatActivity {
         final StringRequest request = new StringRequest(Request.Method.POST, m_caledarUrl, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                Log.d("nnnmm",response);
+                Log.d("nnnmm11",response);
                 if (response.equals("beaconed")){
                     Toast.makeText(getApplicationContext(), "這個beacon已用過!!!", Toast.LENGTH_LONG).show();
 
                 }
-                else {get_M_calendart_id(count);}
+                else {
+                    get_M_calendart_id(count);
+                    DeviceData.getBeacon(getApplicationContext());
+                    DeviceData.getAP(getApplicationContext());
+                }
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.d("nnnmm", error.toString());
+                Log.d("nnnmm11", error.toString());
                 Toast.makeText(getApplicationContext(), "Error read insertm_calendar.php!!!", Toast.LENGTH_LONG).show();
             }})
         {
@@ -526,8 +533,8 @@ public class ThirdActivity extends AppCompatActivity {
                 parameters.put("finish","0");
                 parameters.put("open","0");
 //                parameters.put("google_id", googleid);
-                Log.d("my111", parameters.toString());
-                Log.d("my","checck!!!");
+                Log.d("my11111", parameters.toString());
+                Log.d("my11111","checck!!!");
                 return parameters;
             }
         };
@@ -769,7 +776,7 @@ public class ThirdActivity extends AppCompatActivity {
                 try {
                     Date date = format.parse(begindate);   //轉為時間格式
                     Calendar now = Calendar.getInstance();
-                    now.setTime(date); //日期為2001/3/1
+                    now.setTime(date);
                     if (today == false){        //起始日不為今日，日期就不用先+1
                         today = true;           //日期開始+1
                     }
@@ -849,6 +856,7 @@ public class ThirdActivity extends AppCompatActivity {
                         my_intent.putExtra("alarmid",id);
                         my_intent.putExtra("mcalid",m_calendarid);
                         my_intent.putExtra("memberid",memberid);
+                        my_intent.putExtra("alarmtype","medicine");
                         pending_intent= PendingIntent.getBroadcast(ThirdActivity.this,Integer.parseInt(id),
                                 my_intent,PendingIntent.FLAG_CANCEL_CURRENT);
                         alarm_manager.setExact(AlarmManager.RTC_WAKEUP, ldate,pending_intent);
@@ -951,6 +959,18 @@ public class ThirdActivity extends AppCompatActivity {
         }
     }
 
+    public void goback(View v){finish();}
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent i = new Intent(getApplicationContext(), m_calendarlist.class);
+        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        i.putExtra("memberid", memberdata.getMember_id());
+        startActivity(i);
+        finish();
+    }
 
 
 

@@ -1,8 +1,11 @@
 package com.example.carrie.carrie_test1;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.NavigationView;
@@ -18,6 +21,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -38,6 +42,7 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -46,6 +51,9 @@ import okhttp3.OkHttpClient;
 public class MainActivity extends LoginActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     private ImageButton SignOut;
+    ImageButton robot;
+    private Intent serviceIntent;
+    private static final int CODE_DRAW_OVER_OTHER_APP_PERMISSION = 2084;
     Spinner spinner;
     ArrayAdapter<CharSequence> adapter;
     String googleid;
@@ -63,6 +71,14 @@ public class MainActivity extends LoginActivity
     String weight;
     String height;
     String birth;
+    private ArrayList<String> needBeacon = new ArrayList<String>();
+    private ArrayList<String> Beaconcal = new ArrayList<String>();
+    private ArrayList<String> storeAPBSSID = new ArrayList<String>();
+    private int UUIDnum = 0 ;
+    private int SSIDnum = 0 ;
+    String getm_BeaconUrl = "http://54.65.194.253/Beacon/getm_Beacon.php";
+    String getAPUrl = "http://54.65.194.253/Beacon/getAP.php";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,6 +102,8 @@ public class MainActivity extends LoginActivity
 //        weight=bundle.getString("weight");
 //        height=bundle.getString("height");
 //        birth=bundle.getString("birth");
+        memberdata.setGoogle_id(googleid);
+
 //        Log.d("GOOGLEID",name);
 //        Log.d("GOOGLEID",gender);
 //        Log.d("GOOGLEID",weight);
@@ -94,6 +112,9 @@ public class MainActivity extends LoginActivity
         getMonitorId();
         getid();
         getpersonal();
+
+        Log.d("UUIDnum123",Integer.toString(UUIDnum));
+        Log.d("SSIDnum123",Integer.toString(SSIDnum));
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -101,7 +122,14 @@ public class MainActivity extends LoginActivity
         toggle.syncState();
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        View hView =  navigationView.getHeaderView(0);
+        TextView memberName = (TextView) hView.findViewById(R.id.namee);
+        Log.d("nameeee: ",memberdata.getName());
+        memberName.setText(memberdata.getName());
+        TextView memberEmail = (TextView) hView.findViewById(R.id.emaill);
+        memberEmail.setText(memberdata.getEmail());
         navigationView.setNavigationItemSelectedListener(this);
+
 
         BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomNavView_Bar);
         BottomNavigationViewHelper.disableShiftMode(bottomNavigationView);
@@ -146,12 +174,13 @@ public class MainActivity extends LoginActivity
                         bundle3.putString("my_id", memberid);
                         bundle3.putString("my_google_id", googleid);
                         bundle3.putString("my_supervise_id", my_mon_id);
+                        bundle3.putString("m_calid","-1");
                         intent3.putExtras(bundle3);
                         startActivity(intent3);
                         break;
 
                     case R.id.ic_beacon:
-                        Intent intent4 = new Intent(MainActivity.this, Beacon.class);
+                        Intent intent4 = new Intent(MainActivity.this, MyBeaconActivity.class);
                         Bundle bundle4 = new Bundle();
                         bundle4.putString("my_id", memberid);
                         bundle4.putString("my_google_id", googleid);
@@ -165,6 +194,30 @@ public class MainActivity extends LoginActivity
                 return false;
             }
         });
+
+        robot = (ImageButton) findViewById(R.id.robotbtn);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && !Settings.canDrawOverlays(this)) {
+            Intent pintent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION, Uri.parse("package:" + getPackageName()));
+            startActivityForResult(pintent, CODE_DRAW_OVER_OTHER_APP_PERMISSION);
+        }
+
+            robot.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    serviceIntent = new Intent(MainActivity.this, ChatHeadService.class);
+                    startService(serviceIntent);
+                    Log.d("8989", "clicked");
+                }
+            });
+
+
+        memberdata.setNeedBeacon(needBeacon);
+        memberdata.setBeaconcal(Beaconcal);
+        UUIDnum = needBeacon.size();
+        SSIDnum = storeAPBSSID.size();
+        Intent intent = new Intent(MainActivity.this,CheckBeacon.class);
+        startService(intent);
+
     }
 
     private void signOut() {
@@ -174,8 +227,8 @@ public class MainActivity extends LoginActivity
             public void onResult(@NonNull Status status) {
             }
         });
-        Intent it = new Intent(this, LoginActivity.class);
-        startActivity(it);
+//        Intent it = new Intent(this, LoginActivity.class);
+//        startActivity(it);
 
     }
 
@@ -204,7 +257,7 @@ public class MainActivity extends LoginActivity
         bundle.putString("my_google_id", googleid);
         bundle.putString("my_supervise_id", my_mon_id);
         bundle.putString("memberid", memberid);
-        Log.d("fffaaa", memberid);
+//        Log.d("fffaaa", memberid);
         it.putExtras(bundle);   // 記得put進去，不然資料不會帶過去哦
         startActivity(it);
     }
@@ -215,6 +268,7 @@ public class MainActivity extends LoginActivity
         bundle3.putString("my_id", memberid);
         bundle3.putString("my_google_id", googleid);
         bundle3.putString("my_supervise_id", my_mon_id);
+        bundle3.putString("m_calid","-1");
         it.putExtras(bundle3);
         startActivity(it);
     }
@@ -275,7 +329,7 @@ public class MainActivity extends LoginActivity
         it.putExtras(bundle);   // 記得put進去，不然資料不會帶過去哦
         startActivity(it);
     }
-    public void gotoLoginActivity(View v) { //連到搜尋藥品資訊頁面
+//    public void gotoLoginActivity(View v) { //連到搜尋藥品資訊頁面
 //        Intent it = new Intent(this,LoginActivity.class);
 //        Log.d("hh","4");
 //        LoginActivity la=new LoginActivity();
@@ -285,7 +339,7 @@ public class MainActivity extends LoginActivity
 //        Log.d("hh","1");
 //        startActivity(it);
 
-    }
+ //   }
 
     public void getid() {
         requestQueue = Volley.newRequestQueue(getApplicationContext());
@@ -295,7 +349,10 @@ public class MainActivity extends LoginActivity
             public void onResponse(String response) {
                 Log.d("rrr123", response);
                 memberid = response;
+                memberdata.setMember_id(response);
                 getMeasureInformation();
+                getAP();
+                getbeacon();
             }
         }, new Response.ErrorListener() {
             @Override
@@ -360,6 +417,7 @@ public class MainActivity extends LoginActivity
                     //Log.d("monitor_response",response);
                     my_mon_id = response;
                     Log.d("my_mon_id222", my_mon_id);
+                    memberdata.setMy_mon_id(response);
                     //addMonitor();//新增監控者至監視列表
                 }
             }
@@ -613,7 +671,92 @@ public class MainActivity extends LoginActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
-
+    public void getbeacon(){
+        requestQueue = Volley.newRequestQueue(getApplicationContext());
+        final StringRequest drugrequest = new StringRequest(Request.Method.POST, getm_BeaconUrl, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Log.d("nn1111",response);
+                try {
+                    JSONArray jarray = new JSONArray(response);
+                    UUIDnum = jarray.length() ;
+                    needBeacon.clear();
+                    Beaconcal.clear();
+                    for (int i=0;i<jarray.length();i++){
+                        JSONObject obj = jarray.getJSONObject(i);
+                        String UUID = obj.getString("UUID");
+                        String name = obj.getString("name");
+                        needBeacon.add(i,UUID);
+                        Beaconcal.add(i,name);
+                        Log.d("needBeacon",needBeacon.get(i));
+                    }
+                    memberdata.setNeedBeacon(needBeacon);
+                    memberdata.setBeaconcal(Beaconcal);
+                    UUIDnum = needBeacon.size();
+                    SSIDnum = storeAPBSSID.size();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(getApplicationContext(), "Error read getm_Beacon.php!!!", Toast.LENGTH_LONG).show();
+            }
+        })
+        {
+            protected Map<String, String> getParams() throws AuthFailureError {//把值丟到php
+                Map<String, String> parameters = new HashMap<String, String>();
+                parameters.put("member_id",memberdata.getMember_id());
+                Log.d("nn1111",parameters.toString());
+                return parameters;
+            }
+        };
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(drugrequest);
+    }
+    public void getAP(){
+        requestQueue = Volley.newRequestQueue(getApplicationContext());
+        final StringRequest drugrequest = new StringRequest(Request.Method.POST, getAPUrl, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+//                Log.d("nn1122",response);
+                try {
+                    JSONArray jarray = new JSONArray(response);
+                    final String[] SSIDarray=new String[jarray.length()];
+                    final String[] BSSIDarray=new String[jarray.length()];
+                    storeAPBSSID.clear();
+                    SSIDnum = jarray.length();
+                    for (int i=0;i<jarray.length();i++){
+                        JSONObject obj = jarray.getJSONObject(i);
+                        String SSID = obj.getString("SSID");
+                        String BSSID = obj.getString("BSSID");
+                        SSIDarray[i]=SSID;
+                        storeAPBSSID.add(i,BSSID);
+                        Log.d("nn11",BSSID);
+                    }
+                    memberdata.setStoreAPBSSID(storeAPBSSID);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(getApplicationContext(), "Error read getm_AP.php!!!", Toast.LENGTH_LONG).show();
+            }
+        })
+        {
+            protected Map<String, String> getParams() throws AuthFailureError {//把值丟到php
+                Map<String, String> parameters = new HashMap<String, String>();
+                parameters.put("member_id",memberdata.getMember_id());
+                Log.d("nn1122",parameters.toString());
+                return parameters;
+            }
+        };
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(drugrequest);
+    }
 
 
 }

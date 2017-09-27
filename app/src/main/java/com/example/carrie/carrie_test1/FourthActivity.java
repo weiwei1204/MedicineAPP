@@ -1,19 +1,12 @@
 package com.example.carrie.carrie_test1;
 
-import android.content.Context;
-import android.content.SharedPreferences;
-import android.graphics.Bitmap;
-import android.graphics.Paint;
-import android.net.Uri;
-
 import android.content.Intent;
+import android.graphics.Paint;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
-import android.util.AttributeSet;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -22,15 +15,9 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.example.carrie.carrie_test1.R;
-import com.google.android.gms.cast.framework.media.RemoteMediaClient;
-import com.google.android.gms.games.multiplayer.ParticipantEntityCreator;
-
-import org.xml.sax.Parser;
 import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 
 public class FourthActivity extends AppCompatActivity {
@@ -44,6 +31,7 @@ public class FourthActivity extends AppCompatActivity {
     String appli;
     String maker_Nam;
     String ima;
+    android.support.design.widget.CoordinatorLayout coordinatorLayout;
 
     private int drugid;
     private String drugname;
@@ -60,10 +48,15 @@ public class FourthActivity extends AppCompatActivity {
         Log.d("drug","1");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_fourth);
+        coordinatorLayout = (CoordinatorLayout)findViewById(R.id.addlayout);
         Log.d("drug","2");
         Bundle bundle5=getIntent().getExtras();
-        m_calid = bundle5.getString("m_calid");
+        m_calid = bundle5.getString("m_calid",m_calid);
         Log.d("qqqqq123",m_calid);
+
+        if (m_calid.equals("-1")){//如果直接從搜尋add符號隱藏
+            coordinatorLayout.setVisibility(View.GONE);
+        }
 
 
         addnmcal = (FloatingActionButton)findViewById(R.id.addmcal);
@@ -143,7 +136,62 @@ public class FourthActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        String member_id = memberdata.getMember_id();
+        String google_id= memberdata.getGoogle_id();
+        String m_id=memberdata.getMy_mon_id();
+        Intent i = new Intent(getApplicationContext(), druginfo.class);
+        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        i.putExtra("my_id", member_id);
+        i.putExtra("my_google_id", google_id);
+        i.putExtra("my_supervise_id", m_id);
+        i.putExtra("m_calid",m_calid);
+        startActivity(i);
+        finish();
+    }
 
+
+    //
+//    将textview中的文字进行排版
+    private String autoSplitText(final TextView tv) {
+        final String rawText = tv.getText().toString(); //原始文本
+        final Paint tvPaint = tv.getPaint(); //paint，包含字体等信息
+        final float tvWidth = tv.getWidth() - tv.getPaddingLeft() - tv.getPaddingRight(); //控件可用宽度
+
+        //将原始文本按行拆分
+        String [] rawTextLines = rawText.replaceAll("\r", "").split("\n");
+        StringBuilder sbNewText = new StringBuilder();
+        for (String rawTextLine : rawTextLines) {
+            if (tvPaint.measureText(rawTextLine) <= tvWidth) {
+                //如果整行宽度在控件可用宽度之内，就不处理了
+                sbNewText.append(rawTextLine);
+            } else {
+                //如果整行宽度超过控件可用宽度，则按字符测量，在超过可用宽度的前一个字符处手动换行
+                float lineWidth = 0;
+                for (int cnt = 0; cnt != rawTextLine.length(); ++cnt) {
+                    char ch = rawTextLine.charAt(cnt);
+                    lineWidth += tvPaint.measureText(String.valueOf(ch));
+                    if (lineWidth <= tvWidth) {
+                        sbNewText.append(ch);
+                    } else {
+                        sbNewText.append("\n");
+                        lineWidth = 0;
+                        --cnt;
+                    }
+                }
+            }
+            sbNewText.append("\n");
+        }
+
+        //把结尾多余的\n去掉
+        if (!rawText.endsWith("\n")) {
+            sbNewText.deleteCharAt(sbNewText.length() - 1);
+        }
+        return sbNewText.toString();
+    }
 
 
     public void inserttomcal(){

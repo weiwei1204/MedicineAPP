@@ -1,7 +1,6 @@
 package com.example.carrie.carrie_test1;
 
 import android.Manifest;
-import android.app.DialogFragment;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -129,11 +128,9 @@ public class MonitorActivity extends AppCompatActivity {
                         break;
 
                     case R.id.ic_beacon:
-                        Intent intent4 = new Intent(MonitorActivity.this, Beacon.class);
+                        Intent intent4 = new Intent(MonitorActivity.this, MyBeaconActivity.class);
                         Bundle bundle4 = new Bundle();
-                        bundle4.putString("my_id", my_id);
-                        bundle4.putString("my_google_id", my_google_id);
-                        bundle4.putString("my_supervise_id", my_mon_id);
+                        bundle4.putString("memberid", memberdata.getMember_id());
                         intent4.putExtras(bundle4);
                         startActivity(intent4);
                         break;
@@ -325,6 +322,8 @@ public class MonitorActivity extends AppCompatActivity {
             public void onClick(View v) {
                 BsBpDialogFragment f1 = new BsBpDialogFragment();
                 f1.show(getSupportFragmentManager(),"yuanma_dialog");
+                Intent it = new Intent(MonitorActivity.this,BotControl.class);
+                startActivity(it);
 
             }
         });
@@ -398,6 +397,7 @@ public class MonitorActivity extends AppCompatActivity {
             Log.d("mon_idte213st", "12212321231");
             Log.d("mon_idte213st", "http://54.65.194.253/Monitor/addMember.php?my_mon_id1=" + my_mon_id + "&mon_id1=" + mon_id);
             Log.d("mon_idte213st", "122");
+            refresch();
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -444,6 +444,40 @@ public class MonitorActivity extends AppCompatActivity {
                     }
                 })
                 .show();
+    }
+    public void refresch(){
+        Bundle bundle = new Bundle();
+        Intent it = new Intent(this,MonitorActivity.class);
+
+        bundle.putString("my_id",my_id);
+        bundle.putString("my_google_id",my_google_id);
+        bundle.putString("my_supervise_id",my_mon_id);
+        it.putExtras(bundle);
+        startActivity(it);
+
+    }
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent i=new Intent(this,MainActivity.class);
+        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        i.putExtra("googleid",my_google_id);
+        startActivity(i);
+        finish();
+
+//        int count = getFragmentManager().getBackStackEntryCount();
+//
+//        if (count == 0) {
+//            super.onBackPressed();
+//
+//            Log.d("9876","do");
+//            //additional code
+//        } else {
+//            getFragmentManager().popBackStack();
+//            Log.d("9876","do do do");
+//        }
+
     }
 
 

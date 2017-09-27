@@ -3,6 +3,7 @@ package com.example.carrie.carrie_test1;
 /**
  * Created by jonathan on 2017/8/6.
  */
+import android.graphics.Color;
 import android.support.design.widget.TabLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -380,7 +381,9 @@ public class BsPlotTab extends Fragment{
             Axis axisY = new Axis().setHasLines(true);
             if (hasAxesNames) {
                 axisX.setName("3日內變化");
+                axisX.setTextColor(Color.BLACK);
                 axisY.setName("血糖  BPM");
+                axisY.setTextColor(Color.BLACK);
             }
             data.setAxisXBottom(axisX);
             data.setAxisYLeft(axisY);

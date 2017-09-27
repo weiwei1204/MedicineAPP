@@ -8,7 +8,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentStatePagerAdapter;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -29,9 +28,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -86,6 +83,8 @@ public class SwipePlot extends AppCompatActivity implements ViewPager.OnPageChan
     public static String myid;
     public static String my_google_id;
     public static String my_supervise_id;
+    public String objectArray="";
+    public  String objectDetailArray="";
 
 
 
@@ -103,6 +102,8 @@ public class SwipePlot extends AppCompatActivity implements ViewPager.OnPageChan
         myid = bundle.getString("userid");//從監控頁傳自己的id
         my_google_id = bundle.getString("googleid");
         my_supervise_id = bundle.getString("my_supervise_id");
+        objectArray = bundle.getString("objectArray");
+        objectDetailArray = bundle.getString("objectDetailArray");
         if(current_id!=null){
             memberid = current_id;
         }
@@ -139,9 +140,11 @@ public class SwipePlot extends AppCompatActivity implements ViewPager.OnPageChan
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        Intent i=new Intent(this,SwipePlot.class);
+        Intent i=new Intent(getApplicationContext(),MainActivity.class);
         i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        i.putExtra("googleid",my_google_id);
+        startActivity(i);
         finish();
 
 //        int count = getFragmentManager().getBackStackEntryCount();
@@ -294,6 +297,10 @@ public class SwipePlot extends AppCompatActivity implements ViewPager.OnPageChan
                     PillPlot tab3 = new PillPlot();
                     Bundle bundle3 = new Bundle();
                     bundle3.putString("memberid", memberid);
+                    bundle3.putString("objectArray",objectArray);
+                    bundle3.putString("objectDetailArray", objectDetailArray);
+                    tab3.setArguments(bundle3);
+                    Log.d("bundle3:",bundle3.toString());
                     return tab3;
                 default:
                     return null;

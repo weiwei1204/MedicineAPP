@@ -145,7 +145,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="監控模式"
+                android:text="關注模式"
                 android:textColor="@android:color/background_light"
                 android:textSize="18sp"
                 android:layout_marginLeft="5sp"
@@ -153,20 +153,21 @@
                 android:layout_below="@+id/imageButton2"
                 android:layout_alignParentEnd="true" />
         </RelativeLayout>
+
         <RelativeLayout
             android:id="@+id/bottomBar"
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:layout_alignParentBottom="true"
-            >
+            android:elevation="0dp">
 
             <android.support.design.widget.BottomNavigationView
                 android:id="@+id/bottomNavView_Bar"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:background="#218790"
                 android:elevation="2dp"
-                app:menu="@menu/bottom_bar"
-                android:background="#218790">
+                app:menu="@menu/bottom_bar">
 
 
             </android.support.design.widget.BottomNavigationView>

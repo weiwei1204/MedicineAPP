@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -24,7 +23,7 @@ public class Choice extends Activity {
         memberid=bundle.getString("memberid");
         my_google_id = bundle.getString("my_google_id");//get 自己google_ id
         my_mon_id = bundle.getString("my_supervise_id");
-        Log.d("qwe123455",memberid);
+//        Log.d("qwe123455",memberid);
         BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomNavView_Bar);
         BottomNavigationViewHelper.disableShiftMode(bottomNavigationView);
         Menu menu = bottomNavigationView.getMenu();
@@ -74,14 +73,13 @@ public class Choice extends Activity {
                         break;
 
                     case R.id.ic_beacon:
-                        Intent intent4 = new Intent(Choice.this, Beacon.class);
+                        Intent intent4 = new Intent(Choice.this, MyBeaconActivity.class);
                         Bundle bundle4 = new Bundle();
-                        bundle4.putString("my_id", memberid);
-                        bundle4.putString("my_google_id", my_google_id);
-                        bundle4.putString("my_supervise_id", my_mon_id);
+                        bundle4.putString("memberid", memberdata.getMember_id());
                         intent4.putExtras(bundle4);
                         startActivity(intent4);
                         break;
+                        
                 }
 
 

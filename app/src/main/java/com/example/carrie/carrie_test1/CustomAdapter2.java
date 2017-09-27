@@ -84,7 +84,7 @@ public class CustomAdapter2 extends RecyclerView.Adapter<CustomAdapter2.ViewHold
 
                 Log.d("customadapter2","5");
                 it.putExtras(bundle);
-
+                it.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.startActivity(it);
                 Log.d("customadapter2","6");
 

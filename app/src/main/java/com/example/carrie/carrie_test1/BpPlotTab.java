@@ -4,6 +4,7 @@ package com.example.carrie.carrie_test1;
  * Created by jonathan on 2017/8/6.
  */
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -439,7 +440,9 @@ public class BpPlotTab extends Fragment{
                         Axis axisY = new Axis().setHasLines(true);
                         if (hasAxesNames) {
                             axisX.setName("3日內變化");
+                            axisX.setTextColor(Color.BLACK);
                             axisY.setName("舒張壓  mmhg");
+                            axisY.setTextColor(Color.BLACK);
                         }
                         data.setAxisXBottom(axisX);
                         data.setAxisYLeft(axisY);
@@ -556,7 +559,9 @@ public class BpPlotTab extends Fragment{
                         Axis axisY = new Axis().setHasLines(true);
                         if (hasAxesNames) {
                             axisX.setName("3日內變化");
+                            axisX.setTextColor(Color.BLACK);
                             axisY.setName("心跳  bpm");
+                            axisY.setTextColor(Color.BLACK);
                         }
                         data.setAxisXBottom(axisX);
                         data.setAxisYLeft(axisY);
@@ -674,7 +679,9 @@ public class BpPlotTab extends Fragment{
             Axis axisY = new Axis().setHasLines(true);
             if (hasAxesNames) {
                 axisX.setName("3日內變化");
+                axisX.setTextColor(Color.BLACK);
                 axisY.setName("收縮壓  mmhg");
+                axisY.setTextColor(Color.BLACK);
             }
             data.setAxisXBottom(axisX);
             data.setAxisYLeft(axisY);

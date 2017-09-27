@@ -1,418 +1,414 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FAFAFA"
+    android:background="#FCFCFC"
+    android:orientation="vertical"
     tools:context="com.example.carrie.carrie_test1.ThirdActivity">
 
-
-
-    <TableLayout
-        android:layout_width="344dp"
-        android:layout_height="495dp"
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:background="?attr/colorPrimary"
+        android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
         tools:layout_editor_absoluteX="8dp"
-        tools:layout_editor_absoluteY="8dp">
+        tools:layout_editor_absoluteY="0dp" />
+    <ScrollView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp">
 
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" >
+        <TableLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:layout_editor_absoluteX="8dp"
+            tools:layout_editor_absoluteY="8dp">
 
-            <LinearLayout
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/m_calendar"
+                        android:layout_width="110dp"
+                        android:layout_height="30dp"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginTop="20dp"
+                        android:layout_weight="1"
+                        android:text="排程名稱"
+                        android:textColor="#8E8E8E"
+                        android:textSize="9pt" />
+
+
+                    <android.support.design.widget.TextInputLayout
+                        android:id="@+id/m_cal_name1"
+                        android:layout_width="250dp"
+                        android:layout_height="wrap_content">
+
+                        <EditText
+                            android:id="@+id/m_cal_name"
+                            android:layout_width="200dp"
+                            android:layout_height="45sp"
+                            android:layout_marginTop="20dp"
+                            android:layout_weight="1"
+                            android:backgroundTint="#ADADAD"
+                            android:ems="15"
+                            android:inputType="textPersonName"
+                            android:text=""
+                            android:textColor="#272727"
+                            android:textSize="9pt"/>
+                    </android.support.design.widget.TextInputLayout>
+
+
+                </LinearLayout>
+
+            </TableRow>
+
+            <TableRow
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="horizontal">
+                android:layout_marginTop="5dp">
 
-                <TextView
-                    android:id="@+id/m_calendar"
-                    android:layout_width="100dp"
-                    android:layout_height="30dp"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginTop="20dp"
-                    android:layout_weight="1"
-                    android:text="排程名稱"
-                    android:textColor="#272727"
-                    android:textSize="10pt" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/textView9"
+                        android:layout_width="110dp"
+                        android:layout_height="30dp"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginTop="20dp"
+                        android:layout_weight="1"
+                        android:text="起始日"
+                        android:textColor="#8E8E8E"
+                        android:textSize="9pt" />
+
+                    <android.support.design.widget.TextInputLayout
+                        android:id="@+id/txtdate1"
+                        android:layout_width="250dp"
+                        android:layout_height="wrap_content">
+
+                        <EditText
+                            android:id="@+id/txtdate"
+                            android:layout_width="200dp"
+                            android:layout_height="45dp"
+                            android:layout_marginTop="20dp"
+                            android:layout_weight="1"
+                            android:backgroundTint="#ADADAD"
+                            android:ems="10"
+                            android:inputType="date"
+                            android:textColor="#272727"
+                            android:textSize="9pt"/>
+                    </android.support.design.widget.TextInputLayout>
 
 
+                </LinearLayout>
 
-                <android.support.design.widget.TextInputLayout
-                    android:id="@+id/m_cal_name1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
-                <EditText
-                    android:id="@+id/m_cal_name"
-                    android:layout_width="200dp"
-                    android:layout_height="35sp"
-                    android:layout_marginTop="20dp"
-                    android:layout_weight="1"
-                    android:background="@drawable/thirdsettext"
-                    android:ems="10"
-                    android:inputType="textPersonName"
-                    android:text=""
-                    android:textColor="#272727" />
-                </android.support.design.widget.TextInputLayout>
+            </TableRow>
 
-
-            </LinearLayout>
-
-        </TableRow>
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" >
-
-            <LinearLayout
+            <TableRow
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="horizontal">
+                android:layout_marginTop="5dp">
 
-                <TextView
-                    android:id="@+id/textView9"
-                    android:layout_width="100dp"
-                    android:layout_height="30dp"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginTop="20dp"
-                    android:layout_weight="1"
-                    android:text="起始日"
-                    android:textColor="#272727"
-                    android:textSize="10pt" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
 
-                <android.support.design.widget.TextInputLayout
-                    android:id="@+id/txtdate1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
-                <EditText
-                    android:id="@+id/txtdate"
-                    android:layout_width="200dp"
-                    android:layout_height="35dp"
-                    android:textColor="#272727"
-                    android:layout_marginTop="20dp"
-                    android:layout_weight="1"
-                    android:background="@drawable/thirdsettext"
-                    android:ems="10"
-                    android:inputType="date" />
-                </android.support.design.widget.TextInputLayout>
+                    <TextView
+                        android:id="@+id/textView10"
+                        android:layout_width="110dp"
+                        android:layout_height="30dp"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginTop="20dp"
+                        android:layout_weight="1"
+                        android:text="療程天數"
+                        android:textColor="#8E8E8E"
+                        android:textSize="9pt" />
+
+                    <android.support.design.widget.TextInputLayout
+                        android:id="@+id/txtday1"
+                        android:layout_width="120dp"
+                        android:layout_height="wrap_content">
+
+                        <EditText
+                            android:id="@+id/txtday"
+                            android:layout_width="130dp"
+                            android:layout_height="45sp"
+                            android:layout_marginTop="20dp"
+                            android:layout_weight="1"
+                            android:backgroundTint="#ADADAD"
+                            android:ems="10"
+                            android:inputType="number"
+                            android:textColor="#272727"
+                            android:textSize="10pt"/>
+                    </android.support.design.widget.TextInputLayout>
 
 
-            </LinearLayout>
+                    <TextView
+                        android:id="@+id/textView19"
+                        android:layout_width="110dp"
+                        android:layout_height="30dp"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginTop="20dp"
+                        android:layout_weight="1"
+                        android:text="天"
+                        android:textColor="#8E8E8E"
+                        android:textSize="10pt" />
+                </LinearLayout>
 
-        </TableRow>
+            </TableRow>
 
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" >
-
-            <LinearLayout
+            <TableRow
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="horizontal">
+                android:layout_marginTop="9dp">
 
-                <TextView
-                    android:id="@+id/textView10"
-                    android:layout_width="60dp"
-                    android:layout_height="30dp"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginTop="20dp"
-                    android:layout_weight="1"
-                    android:text="療程天數"
-                    android:textColor="#272727"
-                    android:textSize="10pt" />
+                <LinearLayout
+                    android:id="@+id/layoutTeste"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
 
-                <android.support.design.widget.TextInputLayout
-                    android:id="@+id/txtday1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
-                <EditText
-                    android:id="@+id/txtday"
-                    android:layout_width="100dp"
-                    android:layout_height="35sp"
-                    android:layout_marginTop="20dp"
-                    android:layout_weight="1"
-                    android:background="@drawable/thirdsettext"
-                    android:textColor="#272727"
-                    android:ems="10"
-                    android:inputType="number" />
-                </android.support.design.widget.TextInputLayout>
+                    <!--<TextView-->
+                    <!--android:id="@+id/txttime"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="30dp"-->
+                    <!--android:layout_marginLeft="20dp"-->
+                    <!--android:layout_marginTop="20dp"-->
+                    <!--android:layout_weight="1"-->
+                    <!--android:text="每日提醒時間"-->
+                    <!--android:textColor="#272727"-->
+                    <!--android:textSize="10pt" />-->
 
 
-                <TextView
-                    android:id="@+id/textView19"
-                    android:layout_width="1dp"
-                    android:layout_height="30dp"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginTop="20dp"
-                    android:layout_weight="1"
-                    android:text="天"
-                    android:textColor="#272727"
-                    android:textSize="10pt" />
-            </LinearLayout>
+                    <!--<EditText-->
+                    <!--android:id="@+id/timetxt"-->
+                    <!--android:layout_width="200dp"-->
+                    <!--android:layout_height="35dp"-->
+                    <!--android:layout_marginLeft="20dp"-->
+                    <!--android:layout_marginTop="20dp"-->
+                    <!--android:layout_weight="1"-->
+                    <!--android:background="@drawable/thirdsettext"-->
+                    <!--android:ems="10"-->
+                    <!--android:inputType="time"-->
+                    <!--android:textColor="#272727" />-->
 
-        </TableRow>
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" >
-
-            <LinearLayout
-                android:id="@+id/layoutTeste"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
-
-                <!--<TextView-->
-                <!--android:id="@+id/txttime"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="30dp"-->
-                <!--android:layout_marginLeft="20dp"-->
-                <!--android:layout_marginTop="20dp"-->
-                <!--android:layout_weight="1"-->
-                <!--android:text="每日提醒時間"-->
-                <!--android:textColor="#272727"-->
-                <!--android:textSize="10pt" />-->
-
-
-                <!--<EditText-->
-                <!--android:id="@+id/timetxt"-->
-                <!--android:layout_width="200dp"-->
-                <!--android:layout_height="35dp"-->
-                <!--android:layout_marginLeft="20dp"-->
-                <!--android:layout_marginTop="20dp"-->
-                <!--android:layout_weight="1"-->
-                <!--android:background="@drawable/thirdsettext"-->
-                <!--android:ems="10"-->
-                <!--android:inputType="time"-->
-                <!--android:textColor="#272727" />-->
-
-                <!--<ImageButton-->
-                <!--android:id="@+id/imageButton14"-->
-                <!--android:layout_width="50dp"-->
-                <!--android:layout_height="50dp"-->
-                <!--android:layout_weight="1"-->
-                <!--app:srcCompat="@drawable/add" />-->
-                <!--<android.support.design.widget.TextInputLayout-->
+                    <!--<ImageButton-->
+                    <!--android:id="@+id/imageButton14"-->
+                    <!--android:layout_width="50dp"-->
+                    <!--android:layout_height="50dp"-->
+                    <!--android:layout_weight="1"-->
+                    <!--app:srcCompat="@drawable/add" />-->
+                    <!--<android.support.design.widget.TextInputLayout-->
                     <!--android:id="@+id/time1"-->
                     <!--android:layout_width="wrap_content"-->
                     <!--android:layout_height="wrap_content">-->
 
                     <!--<EditText-->
-                        <!--android:layout_width="100dp"-->
-                        <!--android:layout_height="20sp"-->
-                        <!--android:layout_marginTop="20dp"-->
-                        <!--android:layout_toLeftOf="@+id/btnAdd"-->
-                        <!--android:layout_weight="1"-->
-                        <!--android:textColor="#FAFAFA"-->
-                        <!--/>-->
-                <!--</android.support.design.widget.TextInputLayout>-->
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-
-                    <TextView
-                        android:id="@+id/txttime"
-                        android:layout_width="match_parent"
-                        android:layout_height="30dp"
-                        android:layout_alignBottom="@+id/btnAdd"
-                        android:layout_alignParentLeft="true"
-                        android:layout_marginLeft="20dp"
-                        android:layout_marginTop="20dp"
-                        android:layout_toLeftOf="@+id/btnAdd"
-                        android:layout_weight="1"
-                        android:gravity="center_vertical|center_horizontal"
-                        android:text="每日提醒時間"
-                        android:textAppearance="?android:attr/textAppearanceLarge"
-                        android:textColor="#272727"
-                        android:textSize="10pt" />
-
-                    <ImageButton
-                        android:id="@+id/btnAdd"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:layout_alignParentTop="true"
-                        android:contentDescription="@string/btnAdd"
-                        android:src="@android:drawable/ic_input_add" />
-
-                </RelativeLayout>
-                <android.support.design.widget.TextInputLayout
-                    android:id="@+id/time1"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="50dp">
-
-                    <EditText
-                        android:layout_width="0dp"
-                        android:layout_height="0sp"
-                        android:layout_marginLeft="50dp"
-                        android:textColor="#FAFAFA"
-                        />
-                </android.support.design.widget.TextInputLayout>
-
-                <LinearLayout
-                    android:id="@+id/scrollView1"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-
-
-                    <LinearLayout
-                        android:id="@+id/linearLayoutForm"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:orientation="vertical"></LinearLayout>
-
-                </LinearLayout>
-
-                <Button
-                    android:id="@+id/btnDisplay"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/btnDisplay" />
-
-            </LinearLayout>
-
-
-        </TableRow>
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" >
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
-
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <TextView
-                        android:id="@+id/textView18"
-                        android:layout_width="85dp"
-                        android:layout_height="30dp"
-                        android:layout_marginLeft="20dp"
-                        android:layout_marginTop="20dp"
-                        android:layout_weight="1"
-                        android:text="藥品項目"
-                        android:textColor="#272727"
-                        android:textSize="10pt" />
-
-                    <ImageButton
-                        android:id="@+id/adddrug"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:layout_alignParentTop="true"
-                        android:contentDescription="@string/btnAdd"
-                        android:src="@android:drawable/ic_input_add" />
-
-                </RelativeLayout>
-
-                <LinearLayout
-                    android:id="@+id/scrollView2"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-
-                    <android.support.design.widget.TextInputLayout
-                        android:id="@+id/newdrug1"
+                    <!--android:layout_width="100dp"-->
+                    <!--android:layout_height="20sp"-->
+                    <!--android:layout_marginTop="20dp"-->
+                    <!--android:layout_toLeftOf="@+id/btnAdd"-->
+                    <!--android:layout_weight="1"-->
+                    <!--android:textColor="#FAFAFA"-->
+                    <!--/>-->
+                    <!--</android.support.design.widget.TextInputLayout>-->
+                    <RelativeLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content">
-                    <LinearLayout
-                        android:id="@+id/newdrug"
+
+
+                        <TextView
+                            android:id="@+id/txttime"
+                            android:layout_width="125dp"
+                            android:layout_height="100dp"
+                            android:layout_alignBottom="@+id/btnAdd"
+                            android:layout_marginLeft="20dp"
+                            android:layout_marginTop="25dp"
+                            android:text="每日提醒時間"
+                            android:textAppearance="?android:attr/textAppearanceLarge"
+                            android:textColor="#8E8E8E"
+                            android:textSize="9pt" />
+
+                        <ImageButton
+                            android:id="@+id/btnAdd"
+                            android:layout_width="35dp"
+                            android:layout_height="35dp"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginRight="130dp"
+                            android:layout_marginTop="18dp"
+                            android:layout_toRightOf="@id/txttime"
+                            android:background="@drawable/add1"
+                            android:contentDescription="@string/btnAdd" />
+
+                    </RelativeLayout>
+
+                    <android.support.design.widget.TextInputLayout
+                        android:id="@+id/time1"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:orientation="vertical"></LinearLayout>
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="50dp">
+
+                        <EditText
+                            android:layout_width="0dp"
+                            android:layout_height="0sp"
+                            android:layout_marginLeft="50dp"
+                            android:textColor="#FAFAFA"
+                            android:textSize="9pt"/>
                     </android.support.design.widget.TextInputLayout>
+
+                    <LinearLayout
+                        android:id="@+id/scrollView1"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+
+                        <LinearLayout
+                            android:id="@+id/linearLayoutForm"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical"></LinearLayout>
+
+                    </LinearLayout>
+
+                    <Button
+                        android:id="@+id/btnDisplay"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:text="@string/btnDisplay" />
 
                 </LinearLayout>
 
 
-                <Button
-                    android:id="@+id/button2"
-                    android:layout_width="18dp"
-                    android:layout_height="30dp"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginTop="15dp"
-                    android:layout_weight="1"
-                    android:background="@drawable/search"
-                    android:onClick="gotoalarm" />
+            </TableRow>
 
-            </LinearLayout>
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
-        </TableRow>
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1">
-            <TextView
-                android:id="@+id/textbeacon"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="20dp"
-                android:layout_weight="1"
-                android:text="Beacon"
-                android:textColor="#272727"
-                android:textSize="10pt" />
-            <Spinner
-                android:id="@+id/spinnerbeacon"
-                android:layout_width="150dp"
-                android:layout_height="35sp"
-                android:layout_marginTop="20dp"
-                android:layout_marginRight="70dp"
-                android:background="@drawable/thirdsettext"
-                android:textColor="#272727"
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
 
 
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
 
-                ></Spinner>
-        </TableRow>
+                        <TextView
+                            android:id="@+id/textView18"
+                            android:layout_width="95dp"
+                            android:layout_height="30dp"
+                            android:layout_marginLeft="20dp"
+                            android:layout_marginTop="25dp"
+                            android:text="藥品項目"
+                            android:textColor="#8E8E8E"
+                            android:textSize="9pt" />
 
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center">
+                        <ImageButton
+                            android:id="@+id/adddrug"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_marginTop="20dp"
+                            android:layout_toRightOf="@+id/textView18"
+                            android:background="@drawable/add2"
+                            android:contentDescription="@string/btnAdd" />
 
-            <LinearLayout
+                    </RelativeLayout>
+
+                    <LinearLayout
+                        android:id="@+id/scrollView2"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <android.support.design.widget.TextInputLayout
+                            android:id="@+id/newdrug1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content">
+
+                            <LinearLayout
+                                android:id="@+id/newdrug"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:orientation="vertical"></LinearLayout>
+                        </android.support.design.widget.TextInputLayout>
+
+                    </LinearLayout>
+
+
+                </LinearLayout>
+
+            </TableRow>
+
+
+            <TableRow
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="horizontal">
+                android:layout_marginTop="10dp"
+                android:layout_weight="1">
+
+                <TextView
+                    android:id="@+id/textbeacon"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="25dp"
+                    android:layout_weight="1"
+                    android:text="Beacon"
+                    android:textColor="#8E8E8E"
+                    android:textSize="9pt" />
+
+                <Spinner
+                    android:id="@+id/spinnerbeacon"
+                    android:layout_width="150dp"
+                    android:layout_height="42sp"
+                    android:layout_marginRight="70dp"
+                    android:layout_marginTop="25dp"
+                    android:background="@drawable/thirdsettext"
+                    android:textColor="#272727"
+                    ></Spinner>
+            </TableRow>
+
+            <TableRow
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="30dp"
+                android:layout_marginTop="50dp"
+                android:gravity="center">
+
 
                 <Button
                     android:id="@+id/m_store"
-                    android:layout_width="10dp"
+                    android:layout_width="20dp"
                     android:layout_height="35dp"
-                    android:layout_marginLeft="90dp"
-                    android:layout_marginRight="2dp"
-                    android:layout_marginTop="20dp"
-                    android:layout_weight="1"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginLeft="120dp"
+                    android:layout_marginRight="120dp"
+                    android:layout_marginTop="50dp"
                     android:background="@drawable/buttonthird"
                     android:onClick="checkinsert"
                     android:text="儲存"
                     android:textSize="55px" />
 
-                <Button
-                    android:id="@+id/button4"
-                    android:layout_width="10dp"
-                    android:layout_height="35dp"
-                    android:layout_marginLeft="2dp"
-                    android:layout_marginRight="90dp"
-                    android:layout_marginTop="20dp"
-                    android:layout_weight="1"
-                    android:background="@drawable/buttonthird"
-                    android:onClick="gotomedicinevertify"
-                    android:text="認證"
-                    android:textSize="55px" />
 
-            </LinearLayout>
-
-        </TableRow>
+            </TableRow>
 
 
+        </TableLayout>
 
-    </TableLayout>
-
-</ScrollView>
+    </ScrollView>
+</LinearLayout>

@@ -28,18 +28,21 @@ public class EnterBsValue extends AppCompatActivity {
     EditText etsugarvalue;
     public static String sugarvalue;
     Button btn;
+    public static String googleid;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.bstab);
-
         etsugarvalue = (EditText) findViewById(R.id.sugar);
         btn = (Button) findViewById(R.id.button1);
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 final String memberid = getIntent().getExtras().getString("memberid");
+                Log.d("4441","memberid: "+memberid);
+                final String googleid = getIntent().getExtras().getString("googleid");
+                Log.d("4441","googleid: "+googleid);
                 sugarvalue = etsugarvalue.getText().toString();
                 if(sugarvalue.matches("")){
                     Toast.makeText(getApplicationContext(), "有地方忘了填哦", Toast.LENGTH_SHORT).show();
@@ -77,6 +80,7 @@ public class EnterBsValue extends AppCompatActivity {
                             Intent it = new Intent(EnterBsValue.this, EnterBsBpActivity.class);
                             it.putExtra("memberid", memberid);
                             it.putExtra("sugarvalue", sugarvalue);
+                            it.putExtra("my_google_id",googleid);
                             startActivity(it);
                             etsugarvalue.setText("");
                         }

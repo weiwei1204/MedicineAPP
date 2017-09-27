@@ -7,14 +7,16 @@ package com.example.carrie.carrie_test1;
 public class m_calendar {
     private int id;
     private String mcalname;
-    private String mcaldate;
+    private String mcaldelay;
     private String mcalpercent;
+    private int status;
 
-    public m_calendar(int id, String mcalname, String mcaldate, String mcalpercent) {
+    public m_calendar(int id, String mcalname, String mcalpercent, String mcaldelay,int status) {
         this.id = id;
         this.mcalname = mcalname;
-        this.mcaldate = mcaldate;
+        this.mcaldelay = mcaldelay;
         this.mcalpercent = mcalpercent;
+        this.status = status;
     }
 
     public int getId() {
@@ -33,12 +35,12 @@ public class m_calendar {
         this.mcalname = mcalname;
     }
 
-    public String getMcaldate() {
-        return mcaldate;
+    public String getMcaldelay() {
+        return mcaldelay;
     }
 
-    public void setMcaldate(String mcaldate) {
-        this.mcaldate = mcaldate;
+    public void setMcaldelay(String mcaldelay) {
+        this.mcaldelay = mcaldelay;
     }
 
     public String getMcalpercent() {
@@ -47,5 +49,13 @@ public class m_calendar {
 
     public void setMcalpercent(String mcalpercent) {
         this.mcalpercent = mcalpercent;
+    }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
     }
 }

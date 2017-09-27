@@ -24,29 +24,59 @@ android {
 }
 
 dependencies {
-    compile 'com.android.support:multidex:1.0.+'
-    compile 'com.amazonaws:aws-android-sdk-pinpoint:2.6.0'
-    compile 'com.amazonaws:aws-android-sdk-ddb-mapper:2.6.0'
     compile('com.amazonaws:aws-android-sdk-auth-core:2.6.0@aar') { transitive = true; }
     compile fileTree(include: ['*.jar'], dir: 'libs')
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     }
     )
-
     compile files('libs/GenAsync.jar')
     compile files('libs/hellocharts-library-1.5.8.jar')
-
+    compile('com.amazonaws:aws-android-sdk-lex:2.6.0@aar') { transitive = true; }
     //    compile 'com.android.volley:volley:1.0.0'
 
-//    compile 'com.android.volley:volley:1.0.0'
-
-
+    //    compile 'com.android.volley:volley:1.0.0'
+    allprojects {
+        repositories {
+            jcenter()
+            maven {
+                url "https://maven.google.com"
+            }
+        }
+    }
+    compile files('libs/aws-android-sdk-apigateway-core-2.6.0.jar')
+    compile files('libs/aws-android-sdk-autoscaling-2.6.0.jar')
+    compile files('libs/aws-android-sdk-cloudwatch-2.6.0.jar')
+    compile files('libs/aws-android-sdk-cognito-2.6.0.jar')
+    compile files('libs/aws-android-sdk-cognitoidentityprovider-2.6.0.jar')
+    compile files('libs/aws-android-sdk-core-2.6.0.jar')
+    compile files('libs/aws-android-sdk-ddb-2.6.0.jar')
+    compile files('libs/aws-android-sdk-ddb-document-2.6.0.jar')
+    compile files('libs/aws-android-sdk-ddb-mapper-2.6.0.jar')
+    compile files('libs/aws-android-sdk-ec2-2.6.0.jar')
+    compile files('libs/aws-android-sdk-elb-2.6.0.jar')
+    compile files('libs/aws-android-sdk-iot-2.6.0.jar')
+    compile files('libs/aws-android-sdk-kinesis-2.6.0.jar')
+    compile files('libs/aws-android-sdk-kms-2.6.0.jar')
+    compile files('libs/aws-android-sdk-lambda-2.6.0.jar')
+    compile files('libs/aws-android-sdk-logs-2.6.0.jar')
+    compile files('libs/aws-android-sdk-machinelearning-2.6.0.jar')
+    compile files('libs/aws-android-sdk-mobileanalytics-2.6.0.jar')
+    compile files('libs/aws-android-sdk-pinpoint-2.6.0.jar')
+    compile files('libs/aws-android-sdk-polly-2.6.0.jar')
+    compile files('libs/aws-android-sdk-rekognition-2.6.0.jar')
+    compile files('libs/aws-android-sdk-s3-2.6.0.jar')
+    compile files('libs/aws-android-sdk-sdb-2.6.0.jar')
+    compile files('libs/aws-android-sdk-ses-2.6.0.jar')
+    compile files('libs/aws-android-sdk-sns-2.6.0.jar')
+    compile files('libs/aws-android-sdk-sqs-2.6.0.jar')
     compile 'com.android.support:design:25.3.1'
-
+    compile 'com.android.support:design:25.3.1'
+    compile 'com.google.gms:google-services:3.1.0'
     compile 'com.android.support:multidex:1.0.1'
+    compile 'com.amazonaws:aws-android-sdk-pinpoint:2.6.0'
+    compile 'com.amazonaws:aws-android-sdk-ddb-mapper:2.6.0'
     compile 'com.amazonaws:aws-android-sdk-core:2.6.0'
-    compile 'com.android.support:design:25.3.1'
     compile 'com.android.support:appcompat-v7:25.3.1'
     compile 'com.android.support:mediarouter-v7:25.3.1'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
@@ -63,6 +93,10 @@ dependencies {
     compile 'com.android.support:support-v4:25.3.1'
     compile 'me.grantland:autofittextview:0.2.+'
     compile 'com.google.android.gms:play-services-location:10.0.1'
+    compile 'com.google.firebase:firebase-messaging:10.0.1'
+    compile 'com.google.firebase:firebase-auth:10.0.1'
+    compile 'com.google.firebase:firebase-core:10.0.1'
     testCompile 'junit:junit:4.12'
 }
+
 apply plugin: 'com.google.gms.google-services'
