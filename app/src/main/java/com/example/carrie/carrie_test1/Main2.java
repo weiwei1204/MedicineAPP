@@ -13,8 +13,7 @@ import android.util.Log;
 import android.widget.TextView;
 
 import com.amazonaws.auth.AWSCredentials;
-import com.amazonaws.auth.AWSCredentialsProviderChain;
-import com.amazonaws.auth.AWSIdentityProvider;
+import com.amazonaws.auth.AWSCredentialsProvider;
 import com.amazonaws.auth.BasicAWSCredentials;
 import com.amazonaws.auth.CognitoCachingCredentialsProvider;
 import com.amazonaws.internal.StaticCredentialsProvider;
@@ -22,39 +21,24 @@ import com.amazonaws.mobile.auth.core.IdentityManager;
 import com.amazonaws.mobile.auth.core.StartupAuthResult;
 import com.amazonaws.mobile.auth.core.StartupAuthResultHandler;
 import com.amazonaws.mobile.config.AWSConfiguration;
-import com.amazonaws.auth.AWSCredentialsProvider;
+import com.amazonaws.mobileconnectors.dynamodbv2.dynamodbmapper.DynamoDBMapper;
 import com.amazonaws.mobileconnectors.pinpoint.PinpointConfiguration;
 import com.amazonaws.mobileconnectors.pinpoint.PinpointManager;
-import com.amazonaws.mobileconnectors.pinpoint.*;
-import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClient;
-import com.amazonaws.services.sns.AmazonSNS;
+import com.amazonaws.regions.Regions;
 import com.amazonaws.services.sns.AmazonSNSClient;
 import com.amazonaws.services.sns.model.CreatePlatformEndpointRequest;
 import com.amazonaws.services.sns.model.CreatePlatformEndpointResult;
-import com.amazonaws.services.sns.model.CreateTopicRequest;
-import com.amazonaws.services.sns.model.CreateTopicResult;
 import com.amazonaws.services.sns.model.GetEndpointAttributesRequest;
 import com.amazonaws.services.sns.model.GetEndpointAttributesResult;
-import com.amazonaws.services.sns.model.GetTopicAttributesRequest;
-import com.amazonaws.services.sns.model.GetTopicAttributesResult;
 import com.amazonaws.services.sns.model.InvalidParameterException;
 import com.amazonaws.services.sns.model.NotFoundException;
 import com.amazonaws.services.sns.model.SetEndpointAttributesRequest;
-import com.amazonaws.services.sns.model.SetTopicAttributesRequest;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.google.android.gms.iid.InstanceID;
-import com.amazonaws.mobileconnectors.dynamodbv2.dynamodbmapper.DynamoDBMapper;
-import static com.amazonaws.auth.policy.actions.DynamoDBv2Actions.Query;
-import static com.google.android.gms.wearable.DataMap.TAG;
-
-import com.amazonaws.mobileconnectors.pinpoint.*;
-import com.amazonaws.regions.Regions;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.iid.FirebaseInstanceId;
 
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Matcher;
@@ -134,8 +118,8 @@ public class Main2 extends Activity {
 
         setContentView(R.layout.activity_main2);
         mAuth = FirebaseAuth.getInstance();
-        String Token = FirebaseInstanceId.getInstance().getToken();
-        Log.d("9090", "token: " + Token);
+        token = FirebaseInstanceId.getInstance().getToken();
+        Log.d("9090", "token: " + token);
 
 
 
@@ -205,8 +189,10 @@ public class Main2 extends Activity {
         }, SPLASH_TIME_OUT);
         Runnable runnable = new Runnable() {
             public void run() {
-                sendRegistrationToServer();
-                finish();
+                if(token!=null) {
+                    sendRegistrationToServer();
+                    finish();
+                }
                 //DynamoDB calls go here
             }
         };

@@ -3,7 +3,6 @@ package com.example.carrie.carrie_test1;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
-
 import android.graphics.PixelFormat;
 import android.os.Build;
 import android.os.IBinder;
@@ -16,19 +15,8 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
-
-import static android.content.ContentValues.TAG;
-import static android.view.WindowManager.LayoutParams.TYPE_INPUT_METHOD;
-import static android.view.WindowManager.LayoutParams.TYPE_PHONE;
-import static android.view.WindowManager.LayoutParams.TYPE_PRIORITY_PHONE;
-import static android.view.WindowManager.LayoutParams.TYPE_SYSTEM_ALERT;
-import static android.view.WindowManager.LayoutParams.TYPE_SYSTEM_ERROR;
-import static android.view.WindowManager.LayoutParams.TYPE_SYSTEM_OVERLAY;
-import static android.view.WindowManager.LayoutParams.TYPE_TOAST;
-import static android.view.WindowManager.LayoutParams.TYPE_WALLPAPER;
 
 /**
  * Created by jonathan on 2017/9/25.
@@ -208,6 +196,9 @@ public class ChatHeadService extends Service {
             Log.i("head", "clicked");
             Toast.makeText(ChatHeadService.this, "Hello There!", Toast.LENGTH_SHORT).show();
             Intent it = new Intent(ChatHeadService.this,TextActivity.class);
+            it.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            it.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            it.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
             startActivity(it);
             return true;
         }

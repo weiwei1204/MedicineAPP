@@ -94,7 +94,7 @@ public class MainActivity extends LoginActivity
         weight=bundle.getString("weight");
         height=bundle.getString("height");
         birth=bundle.getString("birth");
-        Log.d("GOOGLEID",nname);
+//        Log.d("GOOGLEID",nname);
 
 //        Log.d("GOOGLEID",googleid);
 //        name = bundle.getString("name");
