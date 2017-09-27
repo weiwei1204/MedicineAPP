@@ -232,8 +232,8 @@ public class CheckBeacon extends Service {
 //                        alert.show ();
 //                    }
 //                }
-                needBeacon.clear();
-                bringBeacon.clear();
+//                needBeacon.clear();
+//                bringBeacon.clear();
                 mBleDevices.clear();
                 Log.d("needBeaconSize", Integer.toString(needBeacon.size()));
                 Log.d("bringBeaconSize", Integer.toString(bringBeacon.size()));
