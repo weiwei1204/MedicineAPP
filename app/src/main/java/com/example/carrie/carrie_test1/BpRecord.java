@@ -312,23 +312,24 @@ public class BpRecord extends Fragment {
                             settime.setTime(format.parse(settingtime));//設定的時間
 //                            Log.d("8989","setting time: "+format.format(settime.getTime()));
 //                            Log.d("8989","after 30 minutes: "+format.format(timebefore.getTime()));
-                            if(type.equals("bp_1") || type.equals("bp_2") || type.equals("bp_3")) {
+                            if(!type.equals("bs_1") || !type.equals("bs_2") || !type.equals("bs_3")) {
+                                if (type.equals("bp_1") || type.equals("bp_2") || type.equals("bp_3")) {
 
-                                if (cur.after(settime.getTime()) && cur.before(timebefore.getTime())) {
-                                    Log.d("8989", "do this ");
-                                    Log.d("8989","nowtime: "+format.format(nowtime.getTime()));
-                                    Log.d("8989","setting time: "+format.format(settime.getTime()));
-                                    Log.d("8989","after 30 minutes: "+format.format(timebefore.getTime()));
-                                    press = (FloatingActionButton)rootView.findViewById(R.id.press1);
-                                    Intent it = new Intent(getActivity(),EnterBpValue.class);
-                                    Bundle bundle = new Bundle();
-                                    bundle.putString("memberid", memberid);
-                                    bundle.putString("googleid",EnterBsBpActivity.my_google);
-                                    it.putExtras(bundle);
-                                    startActivity(it);
-                                }
-                                else {
-                                    Toast.makeText(getActivity().getApplicationContext(), "還沒到紀錄血壓的時間哦!", Toast.LENGTH_SHORT).show();
+                                    if (cur.after(settime.getTime()) && cur.before(timebefore.getTime())) {
+                                        Log.d("8989", "do this ");
+                                        Log.d("8989", "nowtime: " + format.format(nowtime.getTime()));
+                                        Log.d("8989", "setting time: " + format.format(settime.getTime()));
+                                        Log.d("8989", "after 30 minutes: " + format.format(timebefore.getTime()));
+                                        press = (FloatingActionButton) rootView.findViewById(R.id.press1);
+                                        Intent it = new Intent(getActivity(), EnterBpValue.class);
+                                        Bundle bundle = new Bundle();
+                                        bundle.putString("memberid", memberid);
+                                        bundle.putString("googleid", EnterBsBpActivity.my_google);
+                                        it.putExtras(bundle);
+                                        startActivity(it);
+                                    } else {
+                                        Toast.makeText(getActivity().getApplicationContext(), "還沒到紀錄血壓的時間哦!", Toast.LENGTH_SHORT).show();
+                                    }
                                 }
                             }
                            else{
