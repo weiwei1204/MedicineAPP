@@ -73,6 +73,7 @@ public class PersonalInformationctivity extends AppCompatActivity {
         birth=bundle.getString("birth");
 
 
+
 //        Log.d("p", p_name);
 //        Log.d("p", p_birth);
 

@@ -485,7 +485,7 @@ public class MainActivity extends LoginActivity
 
 
                 String p2;
-                p2=getIntent().getExtras().getString("gender_man", "not found");
+                p2=repairData.getGender_man();
                 bundle1.putString("gender_man", repairData.getGender_man());
                 repairData.setGender_man(p2);
 
