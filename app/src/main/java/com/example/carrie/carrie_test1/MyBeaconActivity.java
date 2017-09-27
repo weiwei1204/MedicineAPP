@@ -14,7 +14,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AbsListView;
-import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -51,7 +50,7 @@ public class MyBeaconActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         Bundle bundle = getIntent().getExtras();
-        memberid=bundle.getString("memberid");
+        memberid=memberdata.getMember_id();
         lv = (ListView) findViewById(R.id.mlistView);
         Log.d("test2",memberid);
         fabscanap = (FloatingActionButton)findViewById(R.id.fabscanap);
