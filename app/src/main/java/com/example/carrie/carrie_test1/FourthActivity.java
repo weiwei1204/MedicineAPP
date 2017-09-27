@@ -8,7 +8,11 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.ListAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -82,11 +86,6 @@ public class FourthActivity extends AppCompatActivity {
     //    indi = autoSplitText(indication);
    //     indication.setText(indi);
 
-
-
-
-
-
         String string2= getIntent().getExtras().getString("englishName", "not found");
         eng = bundle.getString("englishName");//get 中文名字
         TextView englishName=(TextView) findViewById(R.id.englishName3);
@@ -155,9 +154,6 @@ public class FourthActivity extends AppCompatActivity {
     }
 
 
-
-
-
     //
 //    将textview中的文字进行排版
     private String autoSplitText(final TextView tv) {
@@ -196,7 +192,6 @@ public class FourthActivity extends AppCompatActivity {
         }
         return sbNewText.toString();
     }
-
 
 
     public void inserttomcal(){

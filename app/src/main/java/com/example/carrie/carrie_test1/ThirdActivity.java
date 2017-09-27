@@ -509,7 +509,11 @@ public class ThirdActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "這個beacon已用過!!!", Toast.LENGTH_LONG).show();
 
                 }
-                else {get_M_calendart_id(count);}
+                else {
+                    get_M_calendart_id(count);
+                    DeviceData.getBeacon(getApplicationContext());
+                    DeviceData.getAP(getApplicationContext());
+                }
             }
         }, new Response.ErrorListener() {
             @Override

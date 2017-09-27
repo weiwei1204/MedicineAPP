@@ -2,15 +2,18 @@ package com.example.carrie.carrie_test1;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
+import android.support.design.widget.FloatingActionButton;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
+import android.widget.AbsListView;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -31,13 +34,13 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class MyBeaconActivity extends AppCompatActivity {
-    Button scanbtn;
+    private FloatingActionButton fabscanap;
     String memberid;
     private ListView lv ;
     RequestQueue requestQueue;
     String getBeaconUrl = "http://54.65.194.253/Beacon/getBeacon.php";
     String getm_BeaconUrl = "http://54.65.194.253/Beacon/getm_Beacon.php";
-
+    private SwipeRefreshLayout laySwipe;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,10 +49,21 @@ public class MyBeaconActivity extends AppCompatActivity {
         setContentView(R.layout.activity_mybeacon);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        scanbtn = (Button)findViewById(R.id.action_add);
         Bundle bundle = getIntent().getExtras();
-        memberid=bundle.getString("memberid");
+        memberid=memberdata.getMember_id();
         lv = (ListView) findViewById(R.id.mlistView);
+        Log.d("test2",memberid);
+        fabscanap = (FloatingActionButton)findViewById(R.id.fabscanap);
+        final Intent it = new Intent(this,ScanBeaconActivity.class);
+        Bundle bundle1 = new Bundle();
+        bundle1.putString("memberid", memberid);
+        it.putExtras(bundle1);   // 記得put進去，不然資料不會帶過去哦
+        fabscanap.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(it);
+            }
+        });
         putDataToListView();
         BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomNavView_Bar);
         BottomNavigationViewHelper.disableShiftMode(bottomNavigationView);
@@ -106,61 +120,15 @@ public class MyBeaconActivity extends AppCompatActivity {
                         startActivity(intent4);
                         break;
                 }
-
-
                 return false;
             }
         });
-
     }
-
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_mybeacon, menu);
-        return true;
-
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        if(id == R.id.action_add){
-            Intent it = new Intent(this,ScanBeaconActivity.class);
-            Bundle bundle = new Bundle();
-//            bundle.putString("memberid", memberid);
-//            Log.d("fffaaa",memberid);
-            it.putExtras(bundle);   // 記得put進去，不然資料不會帶過去哦
-            startActivity(it);
-        }
-        return super.onOptionsItemSelected(item);
-    }
-    //Beacon資訊列表
-
-//    @Override
-//
-//    protected void onResume() {
-//
-//        super.onResume();
-//
-//        onCreate(null);
-//        Intent intent = new Intent(MyBeaconActivity.this, MyBeaconActivity.class);
-//        Bundle bundle1 = new Bundle();
-//        bundle1.putString("memberid", memberid);
-//        intent.putExtras(bundle1);   // 記得put進去，不然資料不會帶過去哦
-//        startActivity(intent);
-//        finish();
-
-//    }
-
-    @Override
-
     protected void onResume() {
-
         super.onResume();
         lv = (ListView) findViewById(R.id.mlistView);
         putDataToListView();
-
     }
     public void putDataToListView() {//取此會員的beacon
             requestQueue = Volley.newRequestQueue(getApplicationContext());
@@ -169,6 +137,13 @@ public class MyBeaconActivity extends AppCompatActivity {
                 public void onResponse(String response) {
                     Log.d("nn11",response);
                     try {
+                        laySwipe = (SwipeRefreshLayout) findViewById(R.id.laySwipe);
+                        laySwipe.setOnRefreshListener(onSwipeToRefresh);
+                        laySwipe.setColorSchemeResources(
+                                android.R.color.holo_red_light,
+                                android.R.color.holo_blue_light,
+                                android.R.color.holo_green_light,
+                                android.R.color.holo_orange_light);
                         JSONArray jarray = new JSONArray(response);
                         ArrayList<HashMap<String, Object>> Item = new ArrayList<HashMap<String, Object>>();
                         for (int i=0;i<jarray.length();i++){
@@ -196,6 +171,7 @@ public class MyBeaconActivity extends AppCompatActivity {
                                 new String[] {"ItemImage","ItemName", "ItemAddress","ItemUUID","ItemRSSI","ItemButton","ItemID"},
                                 new int[] {R.id.ItemImage,R.id.ItemName,R.id.ItemAddress,R.id.ItemUUID,R.id.ItemRSSI,R.id.ItemButton,R.id.ItemID} );
                         lv.setAdapter(btnadapter_mybeacon);
+                        lv.setOnScrollListener(onListScroll);
                     } catch (JSONException e) {
                         Log.d("nn11",e.toString());
                         e.printStackTrace();
@@ -219,58 +195,36 @@ public class MyBeaconActivity extends AppCompatActivity {
             RequestQueue requestQueue = Volley.newRequestQueue(this);
             requestQueue.add(request);
         }
+    private SwipeRefreshLayout.OnRefreshListener onSwipeToRefresh = new SwipeRefreshLayout.OnRefreshListener() {
+        @Override
+        public void onRefresh() {
+            laySwipe.setRefreshing(true);
+            lv = (ListView) findViewById(R.id.mlistView);
+            putDataToListView();
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    laySwipe.setRefreshing(false);
+                    Toast.makeText(getApplicationContext(), "Refresh done!", Toast.LENGTH_SHORT).show();
+                }
+            }, 4000);
+        }
+    };
+    private AbsListView.OnScrollListener onListScroll = new AbsListView.OnScrollListener() {
+        @Override
+        public void onScrollStateChanged(AbsListView view, int scrollState) {
+        }
+        @Override
+        public void onScroll(AbsListView view, int firstVisibleItem,
+                             int visibleItemCount, int totalItemCount) {
+            if (firstVisibleItem == 0) {
+                laySwipe.setEnabled(true);
 
-//    public void myAP(View v){ //連到搜尋藥品資訊頁面
-//        Intent it = new Intent(this,MyAPActivity.class);
-//        Bundle bundle = new Bundle();
-//        bundle.putString("memberid", memberid);
-//        Log.d("fffaaa","*"+memberid);
-//        it.putExtras(bundle);   // 記得put進去，不然資料不會帶過去哦
-//        startActivity(it);
-//    }
-
-
-//    public void deletebeacon(final Activity activity) {
-//
-//        Log.d("bcon","1h6");
-//        ItemButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Log.d("bcon","1");
-//
-//                BtnAdapter_mybeacon btnAdapter_mybeacon = new BtnAdapter_mybeacon();
-//
-//                requestQueue = Volley.newRequestQueue(getApplicationContext());
-//
-//                final StringRequest request = new StringRequest(Request.Method.POST, deletebeaconUrl, new Response.Listener<String>() {
-//                    @Override
-//                    public void onResponse(String response) {
-//                    }
-//                }, new Response.ErrorListener() {
-//                    @Override
-//                    public void onErrorResponse(VolleyError error) {
-//                        Log.d("nnnmm", error.toString());
-//                        Toast.makeText(getApplicationContext(), "Error read deletebeacon.php!!!", Toast.LENGTH_LONG).show();
-//                    }
-//                })
-//                {
-//                    protected Map<String, String> getParams() throws AuthFailureError {//把值丟到php
-//                        Map<String, String> parameters = new HashMap<String, String>();
-//                        parameters.put("UUID",BtnAdapter_mybeacon.getUuid());
-//                        Log.d("bcon",parameters.toString());
-//
-//
-//                        return parameters;
-//
-//                    }
-//                };
-//                Log.d("bcon","2");
-//                RequestQueue requestQueue = Volley.newRequestQueue(MyBeaconActivity.this);
-//                requestQueue.add(request);
-//            }
-//        });
-//
-//    }
+            }else{
+                laySwipe.setEnabled(false);
+            }
+        }
+    };
     public void goback(View v){
         finish();
     }

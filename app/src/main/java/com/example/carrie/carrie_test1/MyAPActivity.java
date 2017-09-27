@@ -36,7 +36,7 @@ import java.util.Map;
 /**
  * Created by User on 2017/8/25.
  */
-public class MyAPActivity extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener {
+public class MyAPActivity extends AppCompatActivity {
     private FloatingActionButton fabscanap;
     String memberid;
     private Context context;
@@ -68,31 +68,15 @@ public class MyAPActivity extends AppCompatActivity implements SwipeRefreshLayou
         });
         myWifiList();
     }
-//    @Override
-//    protected void onStart() {
-//        super.onStart();
-//    }
-//    @Override
-//    protected void onResume() {
-//        super.onResume();
-//        onCreate(null);
-//    }
-//    @Override
-//    protected void onPause() {
-//        super.onPause();
-//    }
 
     @Override
-
     protected void onResume() {
-
         super.onResume();
         lv = (ListView) findViewById(R.id.mlistView);
         myWifiList();
-
     }
-    public void myWifiList(){
 
+    public void myWifiList(){
         requestQueue = Volley.newRequestQueue(getApplicationContext());
         final StringRequest request = new StringRequest(Request.Method.POST, getAPUrl, new Response.Listener<String>() {
             @Override
@@ -165,13 +149,15 @@ public class MyAPActivity extends AppCompatActivity implements SwipeRefreshLayou
         @Override
         public void onRefresh() {
             laySwipe.setRefreshing(true);
+            lv = (ListView) findViewById(R.id.mlistView);
+            myWifiList();
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
                     laySwipe.setRefreshing(false);
                     Toast.makeText(getApplicationContext(), "Refresh done!", Toast.LENGTH_SHORT).show();
                 }
-            }, 3000);
+            }, 4000);
         }
     };
     private AbsListView.OnScrollListener onListScroll = new AbsListView.OnScrollListener() {
@@ -191,10 +177,5 @@ public class MyAPActivity extends AppCompatActivity implements SwipeRefreshLayou
     };
     public void goback(View v){
         finish();
-    }
-
-    @Override
-    public void onRefresh() {
-        onCreate(null);
     }
 }

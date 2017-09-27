@@ -189,7 +189,8 @@ public class BtnAdapter_scanap extends BaseAdapter {
             @Override
             public void onResponse(String response) {
                 Toast.makeText(mContext, "加入成功", Toast.LENGTH_LONG).show();
-
+                DeviceData.getBeacon(mContext);
+                DeviceData.getAP(mContext);
             }
         }, new Response.ErrorListener() {
             @Override

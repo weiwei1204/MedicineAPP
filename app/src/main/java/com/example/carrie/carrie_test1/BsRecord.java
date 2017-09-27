@@ -134,7 +134,7 @@ public class BsRecord extends Fragment {
                     laySwipe.setRefreshing(false);
                     Toast.makeText(getActivity().getApplicationContext(), "Refresh done!", Toast.LENGTH_SHORT).show();
                 }
-            }, 3000);
+            }, 4000);
         }
     };
     private AbsListView.OnScrollListener onListScroll = new AbsListView.OnScrollListener() {

@@ -21,7 +21,9 @@ public class transparent extends AppCompatActivity {
         Bundle bundle = getIntent().getExtras();
         mcalname = bundle.getString("extra");
         media_song=MediaPlayer.create(this,R.raw.piano);//raw裡的音樂
+        media_song.setLooping(true);
         media_song.start();
+
 
         AlertDialog.Builder builder = new AlertDialog.Builder(transparent.this);
                         builder.setMessage(mcalname)

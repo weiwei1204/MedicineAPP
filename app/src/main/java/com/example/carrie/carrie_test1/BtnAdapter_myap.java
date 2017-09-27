@@ -167,6 +167,9 @@ public class BtnAdapter_myap extends BaseAdapter {
         final StringRequest request = new StringRequest(Request.Method.POST, deleteAPUrl, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
+                Toast.makeText(mContext, "刪除成功", Toast.LENGTH_LONG).show();
+                DeviceData.getBeacon(mContext);
+                DeviceData.getAP(mContext);
             }
         }, new Response.ErrorListener() {
             @Override
