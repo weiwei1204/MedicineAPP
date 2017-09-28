@@ -336,10 +336,12 @@ public class BpRecord extends Fragment {
                                 Toast.makeText(getActivity().getApplicationContext(), "尚未設定紀錄血壓的時間哦!", Toast.LENGTH_SHORT).show();
                             }
 
+
                         }
-                        if(count==0) {
-                            Toast.makeText(getActivity().getApplicationContext(), "還沒到紀錄血壓的時間哦!", Toast.LENGTH_SHORT).show();
-                        }
+
+                    }
+                    if(count==0) {
+                        Toast.makeText(getActivity().getApplicationContext(), "還沒到紀錄血壓的時間哦!", Toast.LENGTH_SHORT).show();
                     }
 
 

@@ -268,10 +268,12 @@ public class BsRecord extends Fragment {
                             }
 
                         }
-                        if(count==0){
-                            Toast.makeText(getActivity().getApplicationContext(), "還沒到紀錄血糖的時間哦!", Toast.LENGTH_SHORT).show();
-                        }
+
                     }
+                    if(count==0){
+                        Toast.makeText(getActivity().getApplicationContext(), "還沒到紀錄血糖的時間哦!", Toast.LENGTH_SHORT).show();
+                    }
+
 
 
 
