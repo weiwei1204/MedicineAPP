@@ -23,6 +23,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.RequestQueue;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
@@ -37,7 +38,9 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class BsRecord extends Fragment {
     private ListView listView;
@@ -45,7 +48,7 @@ public class BsRecord extends Fragment {
     private ArrayAdapter<BloodSugar> listAdapter;
     RequestQueue requestQueue;
     public String url = "http://54.65.194.253/Health_Calendar/ShowBs.php";
-    public String url2 = "http://54.65.194.253/Health_Calendar/onTime.php";
+    public String url2 = "http://54.65.194.253/Health_Calendar/BsOnTime.php?member_id="+memberdata.getMember_id();
     private String[]list={};
     public List<BloodSugar> record_list;
     private BloodSugar data ;
@@ -214,12 +217,13 @@ public class BsRecord extends Fragment {
         final String intime = format.format(rightNow.getTime());
         Log.d("9999","Current Time :  "+currenttime);
         Log.d("9999","time:  "+intime);
-        final JsonArrayRequest jsonObjectRequest = new JsonArrayRequest(com.android.volley.Request.Method.POST, url2, new com.android.volley.Response.Listener<JSONArray>() {
+        final JsonArrayRequest jsonObjectRequest = new JsonArrayRequest(com.android.volley.Request.Method.GET, url2, new com.android.volley.Response.Listener<JSONArray>() {
             @Override
             public void onResponse(final JSONArray response) {
 
 
                 Log.d("777","in response");
+                int count = 0;
                 try {
 
                     for (int i = 0; i < response.length(); i++) {
@@ -242,8 +246,7 @@ public class BsRecord extends Fragment {
                             settime.setTime(format.parse(settingtime));//設定的時間
 //                            Log.d("8989","setting time: "+format.format(settime.getTime()));
 //                            Log.d("8989","after 30 minutes: "+format.format(timebefore.getTime()));
-                            if(!type.equals("bp_1") || !type.equals("bp_2") || !type.equals("bp_3")) {
-                                if (type.equals("bs_1") || type.equals("bs_2") || type.equals("bs_3")) {
+
 
                                     if (cur.after(settime.getTime()) && cur.before(timebefore.getTime())) {
                                         Log.d("7979", "do this ");
@@ -257,16 +260,16 @@ public class BsRecord extends Fragment {
                                         bundle.putString("googleid", EnterBsBpActivity.my_google);
                                         it.putExtras(bundle);
                                         startActivity(it);
+                                        count++;
 
-                                    } else {
-                                        Toast.makeText(getActivity().getApplicationContext(), "還沒到紀錄血糖的時間哦!", Toast.LENGTH_SHORT).show();
                                     }
-                                }
-                            }
-                          else{
+                                    if(type == null){
                                 Toast.makeText(getActivity().getApplicationContext(), "尚未設定紀錄血糖的時間哦!", Toast.LENGTH_SHORT).show();
                             }
 
+                        }
+                        if(count==0){
+                            Toast.makeText(getActivity().getApplicationContext(), "還沒到紀錄血糖的時間哦!", Toast.LENGTH_SHORT).show();
                         }
                     }
 
@@ -285,7 +288,14 @@ public class BsRecord extends Fragment {
                     public void onErrorResponse(VolleyError error) {
                         Log.d("777",error.toString());
                     }
-                });
+                }){
+            protected Map<String, String> getParams() throws AuthFailureError {//把值丟到php
+                Map<String, String> parameters = new HashMap<String, String>();
+                parameters.put("member_id",memberdata.getMember_id());
+                Log.d("nn1122",parameters.toString());
+                return parameters;
+            }
+        };
         RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
         requestQueue.add(jsonObjectRequest);
     }

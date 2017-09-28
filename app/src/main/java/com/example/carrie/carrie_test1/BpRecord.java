@@ -27,6 +27,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.RequestQueue;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
@@ -43,7 +44,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static com.example.carrie.carrie_test1.R.id.dark;
 import static com.example.carrie.carrie_test1.R.id.drawer_layout;
@@ -56,7 +59,7 @@ public class BpRecord extends Fragment {
     RequestQueue requestQueue;
     private String[] list1 = {"Mindy","Rita","Jonathan","Shana","Carrie"};
     public String url = "http://54.65.194.253/Health_Calendar/ShowBp.php";
-    public String url2 = "http://54.65.194.253/Health_Calendar/onTime.php";
+    public String url2 = "http://54.65.194.253/Health_Calendar/BpOnTime.php?member_id="+memberdata.getMember_id();
     public List<BloodPressure> record_list;
     private BloodPressure data ;
     public static ArrayList<BloodPressure>bloodPressureList;
@@ -291,6 +294,7 @@ public class BpRecord extends Fragment {
             public void onResponse(final JSONArray response) {
 
                 Log.d("777","in response");
+                int count = 0;
                 try {
                     count=0;
                     for (int i = 0; i < response.length(); i++) {
@@ -312,8 +316,6 @@ public class BpRecord extends Fragment {
                             settime.setTime(format.parse(settingtime));//設定的時間
 //                            Log.d("8989","setting time: "+format.format(settime.getTime()));
 //                            Log.d("8989","after 30 minutes: "+format.format(timebefore.getTime()));
-                            if(!type.equals("bs_1") || !type.equals("bs_2") || !type.equals("bs_3")) {
-                                if (type.equals("bp_1") || type.equals("bp_2") || type.equals("bp_3")) {
 
                                     if (cur.after(settime.getTime()) && cur.before(timebefore.getTime())) {
                                         Log.d("8989", "do this ");
@@ -327,18 +329,16 @@ public class BpRecord extends Fragment {
                                         bundle.putString("googleid", EnterBsBpActivity.my_google);
                                         it.putExtras(bundle);
                                         startActivity(it);
-                                    } else {
-                                        Toast.makeText(getActivity().getApplicationContext(), "還沒到紀錄血壓的時間哦!", Toast.LENGTH_SHORT).show();
+                                        count++;
                                     }
-                                }
-                            }
-                           else{
+
+                           if(type==null){
                                 Toast.makeText(getActivity().getApplicationContext(), "尚未設定紀錄血壓的時間哦!", Toast.LENGTH_SHORT).show();
                             }
 
-
-                            count++;
-
+                        }
+                        if(count==0) {
+                            Toast.makeText(getActivity().getApplicationContext(), "還沒到紀錄血壓的時間哦!", Toast.LENGTH_SHORT).show();
                         }
                     }
 
@@ -357,7 +357,14 @@ public class BpRecord extends Fragment {
                     public void onErrorResponse(VolleyError error) {
                         Log.d("777",error.toString());
                     }
-                });
+                }){
+            protected Map<String, String> getParams() throws AuthFailureError {//把值丟到php
+                Map<String, String> parameters = new HashMap<String, String>();
+                parameters.put("member_id",memberdata.getMember_id());
+                Log.d("nn1122",parameters.toString());
+                return parameters;
+            }
+        };
         RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
         requestQueue.add(jsonObjectRequest);
 
