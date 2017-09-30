@@ -160,7 +160,7 @@ public class CheckBeacon extends Service {
         if (mBluetoothAdapter.isEnabled() == false) {
             Log.d("qq","444");
             Intent enableBluetooth = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
-            startActivityForResult(enableBluetooth, 0);
+//            startActivityForResult(enableBluetooth, 0);
         }
     }
 
@@ -221,7 +221,7 @@ public class CheckBeacon extends Service {
 //                    }
 //                }
 //                needBeacon.clear();
-//                bringBeacon.clear();
+                bringBeacon.clear();
                 mBleDevices.clear();
                 Log.d("needBeaconSize", Integer.toString(needBeacon.size()));
                 Log.d("bringBeaconSize", Integer.toString(bringBeacon.size()));
@@ -283,7 +283,7 @@ public class CheckBeacon extends Service {
     public void finish() {
         throw new RuntimeException("Stub!");
     }
-    public void startActivityForResult(Intent intent, int requestCode) {
-        throw new RuntimeException("Stub!");
-    }
+//    public void startActivityForResult(Intent intent, int requestCode) {
+//        throw new RuntimeException("Stub!");
+//    }
 }
