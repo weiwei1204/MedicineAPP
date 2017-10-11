@@ -40,6 +40,7 @@ import java.util.Date;
 import java.util.List;
 
 import lecho.lib.hellocharts.listener.ComboLineColumnChartOnValueSelectListener;
+import lecho.lib.hellocharts.listener.LineChartOnValueSelectListener;
 import lecho.lib.hellocharts.model.Axis;
 import lecho.lib.hellocharts.model.AxisValue;
 import lecho.lib.hellocharts.model.Column;
@@ -49,8 +50,11 @@ import lecho.lib.hellocharts.model.Line;
 import lecho.lib.hellocharts.model.LineChartData;
 import lecho.lib.hellocharts.model.PointValue;
 import lecho.lib.hellocharts.model.SubcolumnValue;
+import lecho.lib.hellocharts.model.ValueShape;
+import lecho.lib.hellocharts.model.Viewport;
 import lecho.lib.hellocharts.util.ChartUtils;
 import lecho.lib.hellocharts.view.ComboLineColumnChartView;
+import lecho.lib.hellocharts.view.LineChartView;
 
 public class BpPlotTab extends Fragment{
     public BpPlotTab(){
@@ -65,6 +69,8 @@ public class BpPlotTab extends Fragment{
     }
     private ComboLineColumnChartView chart;
     private ComboLineColumnChartData data;
+    private LineChartView lineChartView;
+    private LineChartData linedata;
 
     private static int numberOfLines = 1;
     private static int maxNumberOfLines = 4;
@@ -78,6 +84,10 @@ public class BpPlotTab extends Fragment{
     private boolean hasLines = true;
     private boolean isCubic = false;
     private boolean hasLabels = false;
+    private ValueShape shape = ValueShape.CIRCLE;
+    private boolean isFilled = false;
+    private boolean hasLabelForSelected = false;
+    private boolean pointsHaveDifferentColor;
     public String url = "http://54.65.194.253/Health_Calendar/getBpRecordDate.php";
     private BloodPressure record ;
     private List<BloodPressure> data_list;
@@ -432,9 +442,11 @@ public class BpPlotTab extends Fragment{
                             }
                         }
                     }
+//                    generatelineData();
+//                    resetViewport();
 
                     generateLineData();
-                    data = new ComboLineColumnChartData(generateColumnData(), generateLineData());
+                    data = new ComboLineColumnChartData(generateColumnData2(), generateLineData());
                     if (hasAxes) {
                         Axis axisX = new Axis();
                         Axis axisY = new Axis().setHasLines(true);
@@ -550,10 +562,12 @@ public class BpPlotTab extends Fragment{
                             }
                         }
                     }
+//                    generateline2Data();
+//                    resetViewport();
 
 
                     generateLineData();
-                    data = new ComboLineColumnChartData(generateColumnData(), generateLineData());
+                    data = new ComboLineColumnChartData(generateColumnData3(), generateLineData());
                     if (hasAxes) {
                         Axis axisX = new Axis();
                         Axis axisY = new Axis().setHasLines(true);
@@ -754,6 +768,80 @@ public class BpPlotTab extends Fragment{
         return NoAnyData;
 
     }
+    private ColumnChartData generateColumnData2() {
+        int numSubcolumns = 1;
+        int numColumns ;
+        // Column can have many subcolumns, here by default I use 1 subcolumn in each of 8 columns.
+        List<Column> columns = new ArrayList<Column>();
+        List<SubcolumnValue> values;
+        numColumns = numberOfPoints;
+        if(numColumns!=0) {
+            for (int i = 0; i < lowvaluearray.length; ++i) {
+
+                values = new ArrayList<SubcolumnValue>();
+                for (int j = 0; j < numSubcolumns; ++j) {
+                    values.add(new SubcolumnValue(lowvaluearray[i], ChartUtils.COLOR_GREEN));
+                }
+
+                columns.add(new Column(values));
+            }
+
+            ColumnChartData columnChartData = new ColumnChartData(columns);
+            return columnChartData;
+        }
+
+        for (int i = 0; i < numColumns; ++i) {
+
+            values = new ArrayList<SubcolumnValue>();
+            for (int j = 0; j < numSubcolumns; ++j) {
+                values.add(new SubcolumnValue(i, ChartUtils.COLOR_GREEN));
+            }
+
+            columns.add(new Column(values));
+        }
+
+        ColumnChartData NoAnyData = new ColumnChartData(columns);
+        Toast.makeText(this.getActivity(), "您尚未新增血壓相關的紀錄哦！趕快去新增吧！", Toast.LENGTH_LONG).show();
+        return NoAnyData;
+
+    }
+    private ColumnChartData generateColumnData3() {
+        int numSubcolumns = 1;
+        int numColumns ;
+        // Column can have many subcolumns, here by default I use 1 subcolumn in each of 8 columns.
+        List<Column> columns = new ArrayList<Column>();
+        List<SubcolumnValue> values;
+        numColumns = numberOfPoints;
+        if(numColumns!=0) {
+            for (int i = 0; i < bpmvaluearray.length; ++i) {
+
+                values = new ArrayList<SubcolumnValue>();
+                for (int j = 0; j < numSubcolumns; ++j) {
+                    values.add(new SubcolumnValue(bpmvaluearray[i], ChartUtils.COLOR_GREEN));
+                }
+
+                columns.add(new Column(values));
+            }
+
+            ColumnChartData columnChartData = new ColumnChartData(columns);
+            return columnChartData;
+        }
+
+        for (int i = 0; i < numColumns; ++i) {
+
+            values = new ArrayList<SubcolumnValue>();
+            for (int j = 0; j < numSubcolumns; ++j) {
+                values.add(new SubcolumnValue(i, ChartUtils.COLOR_GREEN));
+            }
+
+            columns.add(new Column(values));
+        }
+
+        ColumnChartData NoAnyData = new ColumnChartData(columns);
+        Toast.makeText(this.getActivity(), "您尚未新增血壓相關的紀錄哦！趕快去新增吧！", Toast.LENGTH_LONG).show();
+        return NoAnyData;
+
+    }
     private void addLineToData() {
         data_list = new ArrayList<>();
         getRecord2();
@@ -762,7 +850,7 @@ public class BpPlotTab extends Fragment{
             data_list = new ArrayList<>();
             return;
         } else {
-        numberOfLines++;
+//        numberOfLines++;
         }
 
 
@@ -776,8 +864,123 @@ public class BpPlotTab extends Fragment{
             data_list = new ArrayList<>();
             return;
         } else {
-            numberOfLines++;
+//            numberOfLines++;
         }
+
+    }
+    private void resetViewport() {
+        // Reset viewport height range to (0,100)
+        final Viewport v = new Viewport(lineChartView.getMaximumViewport());
+        v.bottom = 0;
+        v.top = 180;
+        v.left = 0;
+        v.right = numberOfPoints - 1;
+        lineChartView.setMaximumViewport(v);
+        lineChartView.setCurrentViewport(v);
+    }
+    private void generatelineData() {
+        if(numberOfPoints==0){
+            Toast.makeText(getActivity(),"您尚未新增血糖相關紀錄哦！趕快去新增吧！",Toast.LENGTH_LONG).show();
+        }
+
+
+        List<Line> lines = new ArrayList<Line>();
+        for (int i = 0; i < numberOfLines; ++i) {
+
+            List<PointValue> values = new ArrayList<PointValue>();
+            for (int j = 0; j < numberOfPoints; ++j) {
+                Log.d("2223","points"+numberOfPoints);
+                values.add(new PointValue(j, randomNumbersTab[i][j]));
+            }
+            Log.d("5566","values: "+values);
+
+            Line line = new Line(values);
+            line.setColor(ChartUtils.COLORS[i]);
+            line.setShape(shape);
+            line.setCubic(isCubic);
+            line.setFilled(isFilled);
+            line.setHasLabels(hasLabels);
+            line.setHasLabelsOnlyForSelected(hasLabelForSelected);
+            line.setHasLines(hasLines);
+            line.setHasPoints(hasPoints);
+//            line.setHasGradientToTransparent(hasGradientToTransparent);
+            if (pointsHaveDifferentColor){
+                line.setPointColor(ChartUtils.COLORS[(i + 1) % ChartUtils.COLORS.length]);
+            }
+            lines.add(line);
+        }
+
+        linedata = new LineChartData(lines);
+
+        if (hasAxes) {
+            Axis axisX = new Axis();
+            Axis axisY = new Axis().setHasLines(true);
+            if (hasAxesNames) {
+                axisX.setName("3日內變化");
+                axisX.setTextColor(Color.BLACK);
+                axisY.setName("舒張壓  mmhg");
+                axisY.setTextColor(Color.BLACK);
+            }
+            linedata.setAxisXBottom(axisX);
+            linedata.setAxisYLeft(axisY);
+        } else {
+            linedata.setAxisXBottom(null);
+            linedata.setAxisYLeft(null);
+        }
+        linedata.setBaseValue(Float.NEGATIVE_INFINITY);
+        lineChartView.setLineChartData(linedata);
+
+    }
+    private void generateline2Data() {
+        if(numberOfPoints==0){
+            Toast.makeText(getActivity(),"您尚未新增血糖相關紀錄哦！趕快去新增吧！",Toast.LENGTH_LONG).show();
+        }
+
+        List<Line> lines = new ArrayList<Line>();
+        for (int i = 0; i < numberOfLines; ++i) {
+
+            List<PointValue> values = new ArrayList<PointValue>();
+            for (int j = 0; j < numberOfPoints; ++j) {
+                Log.d("2223","points"+numberOfPoints);
+                values.add(new PointValue(j, randomNumbersTab[i][j]));
+            }
+            Log.d("5566","values: "+values);
+
+            Line line = new Line(values);
+            line.setColor(ChartUtils.COLORS[i]);
+            line.setShape(shape);
+            line.setCubic(isCubic);
+            line.setFilled(isFilled);
+            line.setHasLabels(hasLabels);
+            line.setHasLabelsOnlyForSelected(hasLabelForSelected);
+            line.setHasLines(hasLines);
+            line.setHasPoints(hasPoints);
+//            line.setHasGradientToTransparent(hasGradientToTransparent);
+            if (pointsHaveDifferentColor){
+                line.setPointColor(ChartUtils.COLORS[(i + 1) % ChartUtils.COLORS.length]);
+            }
+            lines.add(line);
+        }
+
+        linedata = new LineChartData(lines);
+
+        if (hasAxes) {
+            Axis axisX = new Axis();
+            Axis axisY = new Axis().setHasLines(true);
+            if (hasAxesNames) {
+                axisX.setName("3日內變化");
+                axisX.setTextColor(Color.BLACK);
+                axisY.setName("心跳  bpm");
+                axisY.setTextColor(Color.BLACK);
+            }
+            linedata.setAxisXBottom(axisX);
+            linedata.setAxisYLeft(axisY);
+        } else {
+            linedata.setAxisXBottom(null);
+            linedata.setAxisYLeft(null);
+        }
+        linedata.setBaseValue(Float.NEGATIVE_INFINITY);
+        lineChartView.setLineChartData(linedata);
 
     }
 
@@ -827,7 +1030,7 @@ public class BpPlotTab extends Fragment{
             }
         }
     }
-    private class ValueTouchListener implements ComboLineColumnChartOnValueSelectListener {
+    private class ValueTouchListener implements ComboLineColumnChartOnValueSelectListener, LineChartOnValueSelectListener {
 
         @Override
         public void onValueDeselected() {
@@ -850,6 +1053,10 @@ public class BpPlotTab extends Fragment{
 
         }
 
+        @Override
+        public void onValueSelected(int lineIndex, int pointIndex, PointValue value) {
+
+        }
     }
 
 
