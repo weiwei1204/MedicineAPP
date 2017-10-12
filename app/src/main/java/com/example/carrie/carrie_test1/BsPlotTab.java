@@ -187,6 +187,8 @@ public class BsPlotTab extends Fragment{
                         System.out.println(Arrays.deepToString(randomNumbersTab).replace("], ", "]\n"));
                         generateData();
                         resetViewport();
+                        toggleFilled();
+                        toggleLabelForSelected();
                         Log.d("1996", "num:" + numberOfPoints);
                     } catch (JSONException e) {
                         e.printStackTrace();

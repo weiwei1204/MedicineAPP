@@ -132,9 +132,19 @@ public class BpPlotTab extends Fragment{
     @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         setHasOptionsMenu(true);
-        View rootView = inflater.inflate(R.layout.fragment_combo_line_column_chart, container, false);
-        chart = (ComboLineColumnChartView) rootView.findViewById(R.id.chart);
-        chart.setOnValueTouchListener(new ValueTouchListener());
+        View rootView = inflater.inflate(R.layout.tab1_bloodsugar, container, false);
+        lineChartView = (LineChartView) rootView.findViewById(R.id.chart);
+        lineChartView.setOnValueTouchListener(new LineChartOnValueSelectListener() {
+            @Override
+            public void onValueSelected(int lineIndex, int pointIndex, PointValue value) {
+                Toast.makeText(getActivity(), "Selected: " + value.getY(), Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onValueDeselected() {
+
+            }
+        });
         data_list = new ArrayList<>();
         getRecord();
         Bundle bundle = this.getArguments();
@@ -341,8 +351,13 @@ public class BpPlotTab extends Fragment{
                             }
                         }
 
-                        generateLineData();
-                        generateData();
+//                        generateLineData();
+//                        generateData();
+                        toggleLabelForSelected();
+                        toggleFilled();
+                        generatelineData();
+                        resetViewport();
+
                         System.out.println(Arrays.deepToString(randomNumbersTab).replace("], ", "]\n"));
                         Log.d("9995", "num:" + numberOfPoints);
                         Log.d("8721", "count:" + count);
@@ -442,28 +457,30 @@ public class BpPlotTab extends Fragment{
                             }
                         }
                     }
-//                    generatelineData();
-//                    resetViewport();
+                    toggleLabelForSelected();
+                    generateline1Data();
+                    resetViewport();
 
-                    generateLineData();
-                    data = new ComboLineColumnChartData(generateColumnData2(), generateLineData());
-                    if (hasAxes) {
-                        Axis axisX = new Axis();
-                        Axis axisY = new Axis().setHasLines(true);
-                        if (hasAxesNames) {
-                            axisX.setName("3日內變化");
-                            axisX.setTextColor(Color.BLACK);
-                            axisY.setName("舒張壓  mmhg");
-                            axisY.setTextColor(Color.BLACK);
-                        }
-                        data.setAxisXBottom(axisX);
-                        data.setAxisYLeft(axisY);
-                    } else {
-                        data.setAxisXBottom(null);
-                        data.setAxisYLeft(null);
-                    }
 
-                    chart.setComboLineColumnChartData(data);
+//                    generateLineData();
+//                    data = new ComboLineColumnChartData(generateColumnData2(), generateLineData());
+//                    if (hasAxes) {
+//                        Axis axisX = new Axis();
+//                        Axis axisY = new Axis().setHasLines(true);
+//                        if (hasAxesNames) {
+//                            axisX.setName("3日內變化");
+//                            axisX.setTextColor(Color.BLACK);
+//                            axisY.setName("舒張壓  mmhg");
+//                            axisY.setTextColor(Color.BLACK);
+//                        }
+//                        data.setAxisXBottom(axisX);
+//                        data.setAxisYLeft(axisY);
+//                    } else {
+//                        data.setAxisXBottom(null);
+//                        data.setAxisYLeft(null);
+//                    }
+//
+//                    chart.setComboLineColumnChartData(data);
                     System.out.println(Arrays.deepToString(randomNumbersTab).replace("], ", "]\n"));
                     Log.d("9995", "num:" + numberOfPoints);
                     Log.d("8721", "count:" + counter);
@@ -562,29 +579,31 @@ public class BpPlotTab extends Fragment{
                             }
                         }
                     }
-//                    generateline2Data();
-//                    resetViewport();
+                    toggleLabelForSelected();
+                    generateline2Data();
+                    resetViewport();
 
 
-                    generateLineData();
-                    data = new ComboLineColumnChartData(generateColumnData3(), generateLineData());
-                    if (hasAxes) {
-                        Axis axisX = new Axis();
-                        Axis axisY = new Axis().setHasLines(true);
-                        if (hasAxesNames) {
-                            axisX.setName("3日內變化");
-                            axisX.setTextColor(Color.BLACK);
-                            axisY.setName("心跳  bpm");
-                            axisY.setTextColor(Color.BLACK);
-                        }
-                        data.setAxisXBottom(axisX);
-                        data.setAxisYLeft(axisY);
-                    } else {
-                        data.setAxisXBottom(null);
-                        data.setAxisYLeft(null);
-                    }
 
-                    chart.setComboLineColumnChartData(data);
+//                    generateLineData();
+//                    data = new ComboLineColumnChartData(generateColumnData3(), generateLineData());
+//                    if (hasAxes) {
+//                        Axis axisX = new Axis();
+//                        Axis axisY = new Axis().setHasLines(true);
+//                        if (hasAxesNames) {
+//                            axisX.setName("3日內變化");
+//                            axisX.setTextColor(Color.BLACK);
+//                            axisY.setName("心跳  bpm");
+//                            axisY.setTextColor(Color.BLACK);
+//                        }
+//                        data.setAxisXBottom(axisX);
+//                        data.setAxisYLeft(axisY);
+//                    } else {
+//                        data.setAxisXBottom(null);
+//                        data.setAxisYLeft(null);
+//                    }
+//
+//                    chart.setComboLineColumnChartData(data);
                     System.out.println(Arrays.deepToString(randomNumbersTab).replace("], ", "]\n"));
                     Log.d("9995", "num:" + numberOfPoints);
                     Log.d("8721", "count:" + counting);
@@ -625,15 +644,19 @@ public class BpPlotTab extends Fragment{
             reset();
             data_list = new ArrayList<>();
             getRecord();
+            toggleLabelForSelected();
+            toggleFilled();
 //            generateData();
             return true;
         }
         if (id == R.id.action_add_line) {
             addLineToData();
+            toggleFilled();
             return true;
         }
         if (id == R.id.action_toggle_lines) {
             toggleLines();
+            toggleFilled();
             return true;
         }
 //        if (id == R.id.action_toggle_points) {
@@ -683,6 +706,7 @@ public class BpPlotTab extends Fragment{
         hasPoints = true;
         hasLabels = false;
         isCubic = false;
+
 
     }
     private void generateData() {
@@ -845,7 +869,9 @@ public class BpPlotTab extends Fragment{
     private void addLineToData() {
         data_list = new ArrayList<>();
         getRecord2();
-        if (data.getLineChartData().getLines().size() >= maxNumberOfLines) {
+        toggleLabelForSelected();
+        toggleFilled();
+        if (linedata.getLines().size() >= maxNumberOfLines) {
             Toast.makeText(getActivity(), "再看看其他的血壓資訊吧!", Toast.LENGTH_SHORT).show();
             data_list = new ArrayList<>();
             return;
@@ -859,7 +885,9 @@ public class BpPlotTab extends Fragment{
 //        hasLines = !hasLines;
         data_list = new ArrayList<>();
         getRecord3();
-        if (data.getLineChartData().getLines().size() >= maxNumberOfLines) {
+        toggleLabelForSelected();
+        toggleFilled();
+        if (linedata.getLines().size() >= maxNumberOfLines) {
             Toast.makeText(getActivity(), "再看看其他的血壓資訊吧!", Toast.LENGTH_SHORT).show();
             data_list = new ArrayList<>();
             return;
@@ -895,7 +923,59 @@ public class BpPlotTab extends Fragment{
             Log.d("5566","values: "+values);
 
             Line line = new Line(values);
-            line.setColor(ChartUtils.COLORS[i]);
+            line.setColor(ChartUtils.COLOR_VIOLET);
+            line.setShape(shape);
+            line.setCubic(isCubic);
+            line.setFilled(isFilled);
+            line.setHasLabels(hasLabels);
+            line.setHasLabelsOnlyForSelected(hasLabelForSelected);
+            line.setHasLines(hasLines);
+            line.setHasPoints(hasPoints);
+//            line.setHasGradientToTransparent(hasGradientToTransparent);
+            if (pointsHaveDifferentColor){
+                line.setPointColor(ChartUtils.COLORS[(i + 1) % ChartUtils.COLORS.length]);
+            }
+            lines.add(line);
+        }
+
+        linedata = new LineChartData(lines);
+
+        if (hasAxes) {
+            Axis axisX = new Axis();
+            Axis axisY = new Axis().setHasLines(true);
+            if (hasAxesNames) {
+                axisX.setName("3日內變化");
+                axisX.setTextColor(Color.BLACK);
+                axisY.setName("收縮壓  mmhg");
+                axisY.setTextColor(Color.BLACK);
+            }
+            linedata.setAxisXBottom(axisX);
+            linedata.setAxisYLeft(axisY);
+        } else {
+            linedata.setAxisXBottom(null);
+            linedata.setAxisYLeft(null);
+        }
+        linedata.setBaseValue(Float.NEGATIVE_INFINITY);
+        lineChartView.setLineChartData(linedata);
+
+    }
+    private void generateline1Data(){
+        if(numberOfPoints==0){
+            Toast.makeText(getActivity(),"您尚未新增血糖相關紀錄哦！趕快去新增吧！",Toast.LENGTH_LONG).show();
+        }
+
+        List<Line> lines = new ArrayList<Line>();
+        for (int i = 0; i < numberOfLines; ++i) {
+
+            List<PointValue> values = new ArrayList<PointValue>();
+            for (int j = 0; j < numberOfPoints; ++j) {
+                Log.d("2223","points"+numberOfPoints);
+                values.add(new PointValue(j, randomNumbersTab[i][j]));
+            }
+            Log.d("5566","values: "+values);
+
+            Line line = new Line(values);
+            line.setColor(ChartUtils.COLOR_ORANGE);
             line.setShape(shape);
             line.setCubic(isCubic);
             line.setFilled(isFilled);
@@ -947,7 +1027,7 @@ public class BpPlotTab extends Fragment{
             Log.d("5566","values: "+values);
 
             Line line = new Line(values);
-            line.setColor(ChartUtils.COLORS[i]);
+            line.setColor(ChartUtils.COLOR_RED);
             line.setShape(shape);
             line.setCubic(isCubic);
             line.setFilled(isFilled);
@@ -1013,6 +1093,19 @@ public class BpPlotTab extends Fragment{
 
         generateData();
     }
+    private void toggleFilled() {
+        isFilled = !isFilled;
+    }
+    private void toggleLabelForSelected() {
+        hasLabelForSelected = !hasLabelForSelected;
+
+        lineChartView.setValueSelectionEnabled(hasLabelForSelected);
+
+        if (hasLabelForSelected) {
+            hasLabels = false;
+        }
+
+    }
     private void prepareDataAnimation() {
 
         // Line animations
@@ -1058,6 +1151,7 @@ public class BpPlotTab extends Fragment{
 
         }
     }
+
 
 
 
