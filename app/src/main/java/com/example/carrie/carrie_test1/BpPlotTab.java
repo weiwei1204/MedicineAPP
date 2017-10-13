@@ -5,11 +5,15 @@ package com.example.carrie.carrie_test1;
  */
 import android.content.Context;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.res.TypedArrayUtils;
+import android.text.SpannableString;
+import android.text.SpannableStringBuilder;
+import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -17,7 +21,9 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -71,12 +77,17 @@ public class BpPlotTab extends Fragment{
     private ComboLineColumnChartData data;
     private LineChartView lineChartView;
     private LineChartData linedata;
+    LinearLayout linearLayout;
+    TextView plotdetail;
+    View rootView;
 
     private static int numberOfLines = 1;
     private static int maxNumberOfLines = 4;
     private static int numberOfPoints ;
 
     static float[][] randomNumbersTab = new float[maxNumberOfLines][numberOfPoints];
+    static float[][] randomNumbersTab2 = new float[maxNumberOfLines][numberOfPoints];
+    static float[][] randomNumbersTab3 = new float[maxNumberOfLines][numberOfPoints];
 
     private boolean hasAxes = true;
     private boolean hasAxesNames = true;
@@ -132,8 +143,9 @@ public class BpPlotTab extends Fragment{
     @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         setHasOptionsMenu(true);
-        View rootView = inflater.inflate(R.layout.tab1_bloodsugar, container, false);
+        rootView = inflater.inflate(R.layout.tab1_bloodsugar, container, false);
         lineChartView = (LineChartView) rootView.findViewById(R.id.chart);
+//        linearLayout =  (LinearLayout) rootView.findViewById(R.id.ly);
         lineChartView.setOnValueTouchListener(new LineChartOnValueSelectListener() {
             @Override
             public void onValueSelected(int lineIndex, int pointIndex, PointValue value) {
@@ -142,6 +154,12 @@ public class BpPlotTab extends Fragment{
 
             @Override
             public void onValueDeselected() {
+
+            }
+        });
+        rootView.setOnScrollChangeListener(new View.OnScrollChangeListener() {
+            @Override
+            public void onScrollChange(View v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
 
             }
         });
@@ -630,6 +648,75 @@ public class BpPlotTab extends Fragment{
         requestQueue.add(jsonObjectRequest);
 
     }
+    public void compare(){
+        requestQueue = Volley.newRequestQueue(getActivity().getApplicationContext());
+        final JsonArrayRequest jsonObjectRequest = new JsonArrayRequest(Request.Method.POST, url, new Response.Listener<JSONArray>() {
+            @Override
+            public void onResponse(JSONArray response) {
+                int counting = 0;
+                try {
+                    rd = true;
+                    for (int i = 0; i < response.length(); i++) {
+                        JSONObject object = response.getJSONObject(i);
+                        record = new BloodPressure(object.getInt("id"), object.getString("member_id"), object.getString("highmmhg"), object.getString("lowmmhg"), object.getString("bpm"), object.getString("savetime"));
+                        userid = object.getInt("id");
+                        member_id = object.getString("member_id");
+                        if (member_id.equals(sentmember_id)) {
+                            data_list.add(record);
+                            usrhighmmhg = object.getString("highmmhg");
+                            usrlowmmhg = object.getString("lowmmhg");
+                            usrbpm = object.getString("bpm");
+                            usrsavetime = object.getString("savetime");
+                            counting++;
+                            highvaluearray = new int[counting];
+                            lowvaluearray = new int[counting];
+                            bpmvaluearray = new int[counting];
+                            datearray = new String[counting];
+
+                            numberOfPoints = counting;
+                            randomNumbersTab = new float[maxNumberOfLines][numberOfPoints];
+                            randomNumbersTab2 = new float[maxNumberOfLines][numberOfPoints];
+                            randomNumbersTab3 = new float[maxNumberOfLines][numberOfPoints];
+
+
+                            for (int k = 0; k < maxNumberOfLines; k++) {
+                                for (int j = 0; j < data_list.size(); j++) {
+                                    Log.d("9996", "number of points:" + numberOfPoints);
+                                    highvaluearray[j] = Integer.parseInt(data_list.get(j).getHighmmhg());
+                                    lowvaluearray[j] = Integer.parseInt(data_list.get(j).getLowmmhg());
+                                    bpmvaluearray[j] = Integer.parseInt(data_list.get(j).getBpm());
+                                    randomNumbersTab[k][j] = highvaluearray[j];
+                                    randomNumbersTab2[k][j] = lowvaluearray[j];
+                                    randomNumbersTab3[k][j] = bpmvaluearray[j];
+                                }
+                            }
+                            maxNumberOfLines++;
+                            generateline3Data();
+
+                        }
+                    }
+                    toggleLabelForSelected();
+                    resetViewport();
+                    System.out.println(Arrays.deepToString(randomNumbersTab).replace("], ", "]\n"));
+                    Log.d("9995", "num:" + numberOfPoints);
+                    Log.d("8721", "count:" + counting);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+
+
+            }
+        },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.d("777",error.toString());
+                    }
+                });
+        RequestQueue requestQueue = Volley.newRequestQueue(this.getActivity());
+        requestQueue.add(jsonObjectRequest);
+    }
 
 
 
@@ -641,6 +728,7 @@ public class BpPlotTab extends Fragment{
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.action_reset) {
+            plotdetail.setVisibility(View.INVISIBLE);
             reset();
             data_list = new ArrayList<>();
             getRecord();
@@ -650,13 +738,21 @@ public class BpPlotTab extends Fragment{
             return true;
         }
         if (id == R.id.action_add_line) {
+            plotdetail.setVisibility(View.INVISIBLE);
             addLineToData();
             toggleFilled();
             return true;
         }
         if (id == R.id.action_toggle_lines) {
+            plotdetail.setVisibility(View.INVISIBLE);
             toggleLines();
             toggleFilled();
+            return true;
+        }
+        if (id == R.id.compare){
+            data_list = new ArrayList<>();
+            compare();
+            toggleLabelForSelected();
             return true;
         }
 //        if (id == R.id.action_toggle_points) {
@@ -900,7 +996,7 @@ public class BpPlotTab extends Fragment{
         // Reset viewport height range to (0,100)
         final Viewport v = new Viewport(lineChartView.getMaximumViewport());
         v.bottom = 0;
-        v.top = 180;
+        v.top = 200;
         v.left = 0;
         v.right = numberOfPoints - 1;
         lineChartView.setMaximumViewport(v);
@@ -1051,6 +1147,119 @@ public class BpPlotTab extends Fragment{
                 axisX.setName("3日內變化");
                 axisX.setTextColor(Color.BLACK);
                 axisY.setName("心跳  bpm");
+                axisY.setTextColor(Color.BLACK);
+            }
+            linedata.setAxisXBottom(axisX);
+            linedata.setAxisYLeft(axisY);
+        } else {
+            linedata.setAxisXBottom(null);
+            linedata.setAxisYLeft(null);
+        }
+        linedata.setBaseValue(Float.NEGATIVE_INFINITY);
+        lineChartView.setLineChartData(linedata);
+
+    }
+    private void generateline3Data(){
+        if(numberOfPoints==0){
+            Toast.makeText(getActivity(),"您尚未新增血糖相關紀錄哦！趕快去新增吧！",Toast.LENGTH_LONG).show();
+        }
+
+        List<Line> lines = new ArrayList<Line>();
+        for (int i = 0; i < numberOfLines; ++i) {
+
+            List<PointValue> values = new ArrayList<PointValue>();
+            List<PointValue> values2 = new ArrayList<PointValue>();
+            List<PointValue> values3 = new ArrayList<PointValue>();
+            for (int j = 0; j < numberOfPoints; ++j) {
+                Log.d("2223","points"+numberOfPoints);
+                values.add(new PointValue(j, randomNumbersTab[i][j]));
+                values2.add(new PointValue(j, randomNumbersTab2[i][j]));
+                values3.add(new PointValue(j, randomNumbersTab3[i][j]));
+            }
+            Log.d("5566","values: "+values);
+
+            Line line = new Line(values);
+            line.setColor(ChartUtils.COLOR_VIOLET);
+            line.setShape(shape);
+            line.setCubic(isCubic);
+//            line.setFilled(isFilled);
+            line.setHasLabels(hasLabels);
+            line.setHasLabelsOnlyForSelected(hasLabelForSelected);
+            line.setHasLines(hasLines);
+            line.setHasPoints(hasPoints);
+            Line line2 = new Line(values2);
+            line2.setColor(ChartUtils.COLOR_ORANGE);
+            line2.setShape(shape);
+            line2.setCubic(isCubic);
+//            line2.setFilled(isFilled);
+            line2.setHasLabels(hasLabels);
+            line2.setHasLabelsOnlyForSelected(hasLabelForSelected);
+            line2.setHasLines(hasLines);
+            line2.setHasPoints(hasPoints);
+            Line line3 = new Line(values3);
+            line3.setColor(ChartUtils.COLOR_RED);
+            line3.setShape(shape);
+            line3.setCubic(isCubic);
+//            line3.setFilled(isFilled);
+            line3.setHasLabels(hasLabels);
+            line3.setHasLabelsOnlyForSelected(hasLabelForSelected);
+            line3.setHasLines(hasLines);
+            line3.setHasPoints(hasPoints);
+//            line.setHasGradientToTransparent(hasGradientToTransparent);
+            if (pointsHaveDifferentColor){
+                line.setPointColor(ChartUtils.COLORS[(i + 1) % ChartUtils.COLORS.length]);
+            }
+            if (pointsHaveDifferentColor){
+                line2.setPointColor(ChartUtils.COLORS[(i + 1) % ChartUtils.COLORS.length]);
+            }
+            if (pointsHaveDifferentColor){
+                line3.setPointColor(ChartUtils.COLORS[(i + 1) % ChartUtils.COLORS.length]);
+            }
+            lines.add(line);
+            lines.add(line2);
+            lines.add(line3);
+        }
+
+        linedata = new LineChartData(lines);
+
+        if (hasAxes) {
+            Axis axisX = new Axis();
+            Axis axisY = new Axis().setHasLines(true);
+
+            if (hasAxesNames) {
+                SpannableStringBuilder builder = new SpannableStringBuilder();
+                String high = "收縮壓數值(高) ";
+                SpannableString Spannable1= new SpannableString(high);
+                Spannable1.setSpan(new ForegroundColorSpan(ChartUtils.COLOR_VIOLET), 0, high.length(), 0);
+                builder.append(Spannable1);
+                String low = "舒張壓數值(低) ";
+                SpannableString Spannable2= new SpannableString(low);
+                Spannable2.setSpan(new ForegroundColorSpan(ChartUtils.COLOR_ORANGE), 0, low.length(), 0);
+                builder.append(Spannable2);
+                String heart = "心跳數值";
+                SpannableString Spannable3= new SpannableString(heart);
+                Spannable3.setSpan(new ForegroundColorSpan(ChartUtils.COLOR_RED), 0, heart.length(), 0);
+                builder.append(Spannable3);
+                plotdetail =(TextView) rootView.findViewById(R.id.section_label);
+                plotdetail.setVisibility(View.VISIBLE);
+                plotdetail.setText(builder, TextView.BufferType.SPANNABLE);
+                String setin = plotdetail.getText().toString();
+                TextView tv = new TextView(this.getActivity());
+                tv.setText("收縮壓數值(高)");
+                tv.setTextColor(ChartUtils.COLOR_VIOLET);
+                String str1 = tv.getText().toString();
+                TextView tv2 = new TextView(this.getActivity());
+                tv2.setText("舒張壓數值(低)");
+                tv2.setTextColor(ChartUtils.COLOR_ORANGE);
+                String str2 = tv2.getText().toString();
+                TextView tv3 = new TextView(this.getActivity());
+                tv3.setText("心跳數值");
+                tv3.setTextColor(ChartUtils.COLOR_RED);
+                String str3 = tv3.getText().toString();
+                axisX.setName("3日內變化");
+                axisX.setTextColor(Color.BLACK);
+                axisX.setTypeface(Typeface.defaultFromStyle(Typeface.BOLD_ITALIC));
+                axisY.setName("綜合比較");
                 axisY.setTextColor(Color.BLACK);
             }
             linedata.setAxisXBottom(axisX);

@@ -12,12 +12,18 @@
         android:id="@+id/section_label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text=""/>
+        android:layout_marginLeft="60dp"
+        android:text=""
+        android:textStyle="bold"/>
+    <!--<LinearLayout-->
+        <!--android:id="@+id/ly"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent">-->
     <lecho.lib.hellocharts.view.LineChartView
         android:id="@+id/chart"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginBottom="45dp">
     </lecho.lib.hellocharts.view.LineChartView>
-
+    <!--</LinearLayout>-->
 </RelativeLayout>

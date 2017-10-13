@@ -255,5 +255,6 @@
     <string name="screen_options_main_message">Amazon Lex</string>
     <string name="title_activity_transparent">transparent</string>
     <string name="google_cloud_messaging_package">gcmlistener</string>
+    <string name="title_activity_scrolling">ScrollingActivity</string>
 
 </resources>
