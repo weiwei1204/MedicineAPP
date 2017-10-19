@@ -255,6 +255,10 @@
     <string name="screen_options_main_message">Amazon Lex</string>
     <string name="title_activity_transparent">transparent</string>
     <string name="google_cloud_messaging_package">gcmlistener</string>
-    <string name="title_activity_scrolling">ScrollingActivity</string>
+    <string name="bs">正常人的血糖值：飯前空腹：70-100 mg/dL，飯後2小時：小於140 mg/dL
+        <font fgcolor='#FF0000'>糖尿病病人應控制值：飯前空腹：80-130 mg/dL，飯後2小時：小於180 mg/dL</font></string>
+    <string name="bphigh"></string>
+    <string name="bplow"></string>
+    <string name="bpheart"></string>
 
 </resources>

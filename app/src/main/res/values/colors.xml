@@ -36,4 +36,8 @@
     <color name="grey_500">#404142</color>
     <color name="grey_600">#303232</color>
     <color name="grey_700">#1D1E1E</color>
+    <color name="yellow">#FFDD33</color>
+    <color name="pink">#ED1A57</color>
+    <color name="dark_pink">#e75480</color>
+    <color name="transparent">#66FFFFFF</color>
 </resources>
