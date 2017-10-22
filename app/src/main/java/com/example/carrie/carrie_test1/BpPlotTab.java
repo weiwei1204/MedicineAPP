@@ -1668,6 +1668,13 @@ public class BpPlotTab extends Fragment{
             reset();
             data_list = new ArrayList<>();
             getRecord();
+            warning.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    highwarn.setVisibility(View.VISIBLE);
+                    highwarn.setText(Html.fromHtml("<b><font color=\"#FF0000\">" + "收縮壓(上壓) mmHg" + "</font></b>" +"<b><small><font color=\"#000000\">" + "正常血壓：90 - 119 mmhg，正常高值：120 – 139 mmhg，"+ "</font></small></b>" +"<b><small><font color=\"#FF0000\">" + "1期高血壓：140 - 159 mmhg，低血壓：< 90 mmhg" + "</font></small></b>" + "</font>"));
+                }
+            });
             radiogroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(RadioGroup group, @IdRes int checkedId) {

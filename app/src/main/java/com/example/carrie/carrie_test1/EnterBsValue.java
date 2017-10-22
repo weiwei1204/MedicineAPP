@@ -1,5 +1,6 @@
 package com.example.carrie.carrie_test1;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -23,8 +24,10 @@ import com.amazonaws.auth.AWSCredentials;
 import com.amazonaws.auth.AWSCredentialsProvider;
 import com.amazonaws.auth.BasicAWSCredentials;
 import com.amazonaws.auth.ClasspathPropertiesFileCredentialsProvider;
+import com.amazonaws.auth.CognitoCachingCredentialsProvider;
 import com.amazonaws.auth.PropertiesFileCredentialsProvider;
 import com.amazonaws.internal.StaticCredentialsProvider;
+import com.amazonaws.regions.Regions;
 import com.amazonaws.services.sns.AmazonSNSAsyncClient;
 import com.amazonaws.services.sns.AmazonSNSClient;
 import com.amazonaws.services.sns.model.CreatePlatformEndpointRequest;
@@ -36,9 +39,22 @@ import com.amazonaws.services.sns.model.InvalidParameterException;
 import com.amazonaws.services.sns.model.NotFoundException;
 import com.amazonaws.services.sns.model.PublishRequest;
 import com.amazonaws.services.sns.model.SetEndpointAttributesRequest;
+import com.android.volley.AuthFailureError;
+import com.android.volley.RequestQueue;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.Volley;
 import com.google.firebase.iid.FirebaseInstanceId;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.IOException;
+import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Matcher;
@@ -55,11 +71,16 @@ public class EnterBsValue extends AppCompatActivity {
     public static String googleid;
     AmazonSNSClient client ;
     public static String arnStorage;
+    public static String arnStorage2;
     public static String token;
+    public static String mtoken;
     public static String arnTopic;
     public String send="今天的血糖過高要小心哦";
-    private static String accessKey = "";
-    private static String secretKey = "";
+    public String send2="您的廢物病患今天血糖過高哦";
+    public String url = "http://54.65.194.253/Monitor/getMonitorToken.php?member_id="+memberdata.getMember_id();
+    ArrayList<String> TokenList = new ArrayList<String>();
+    String mtokens;
+    AmazonSNSClient snsbs;
 
 
     @Override
@@ -67,8 +88,13 @@ public class EnterBsValue extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         token = FirebaseInstanceId.getInstance().getToken();
         setContentView(R.layout.bstab);
+        Context appContext = getApplicationContext();
+        CognitoCachingCredentialsProvider cognitoCachingCredentialsProvider = new CognitoCachingCredentialsProvider(appContext,"us-east-1:9d8262a8-fa3c-4449-91bd-fc4841000a24", Regions.US_EAST_1);
+        snsbs = new AmazonSNSClient(cognitoCachingCredentialsProvider);
         etsugarvalue = (EditText) findViewById(R.id.sugar);
         btn = (Button) findViewById(R.id.button1);
+        Log.d("2424","do getMonitorToken");
+        getMonitorToken();
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -151,9 +177,9 @@ public class EnterBsValue extends AppCompatActivity {
 //        String topicArn = retrieveTopicArn();
         token = FirebaseInstanceId.getInstance().getToken();
 //        StaticCredentialsProvider creds = new StaticCredentialsProvider(new BasicAWSCredentials(accessKey, secretKey));
-        AWSCredentials credentials = new BasicAWSCredentials(accessKey,secretKey);
-        AWSCredentialsProvider provider = new StaticCredentialsProvider(credentials);
-        client = new AmazonSNSClient(new BasicAWSCredentials(accessKey,secretKey));
+//        AWSCredentials credentials = new BasicAWSCredentials(accessKey,secretKey);
+//        AWSCredentialsProvider provider = new StaticCredentialsProvider(credentials);
+//        client = new AmazonSNSClient(new BasicAWSCredentials(accessKey,secretKey));
         Log.d("7070","client: "+client);
         Log.d("7070","token: "+token);
         boolean updateNeeded = false;
@@ -173,7 +199,7 @@ public class EnterBsValue extends AppCompatActivity {
         // it was just created.
         try {
             GetEndpointAttributesRequest geaReq = new GetEndpointAttributesRequest().withEndpointArn(endpointArn);
-            GetEndpointAttributesResult geaRes = client.getEndpointAttributes(geaReq);
+            GetEndpointAttributesResult geaRes = snsbs.getEndpointAttributes(geaReq);
 
 //            GetTopicAttributesRequest topicAttributesRequest = new GetTopicAttributesRequest().withTopicArn(topicArn);
 //            GetTopicAttributesResult topicAttributesResult = client.getTopicAttributes(topicAttributesRequest);
@@ -203,7 +229,7 @@ public class EnterBsValue extends AppCompatActivity {
             SetEndpointAttributesRequest saeReq = new SetEndpointAttributesRequest().withEndpointArn(endpointArn).withAttributes(attribs);
 
 //            SetTopicAttributesRequest setTopicAttributesRequest = new SetTopicAttributesRequest().withTopicArn(topicArn).withAttributeName("SendMessage");
-            client.setEndpointAttributes(saeReq);
+            snsbs.setEndpointAttributes(saeReq);
 //            client.setTopicAttributes(setTopicAttributesRequest);
         }
     }
@@ -215,12 +241,27 @@ public class EnterBsValue extends AppCompatActivity {
             String applicationArn = "arn:aws:sns:us-east-1:610465842429:app/GCM/PillHelper";
 //            String topicArn = "arn:aws:sns:us-east-1:610465842429:SendMessage";
             CreatePlatformEndpointRequest cpeReq = new CreatePlatformEndpointRequest().withPlatformApplicationArn(applicationArn).withToken(token);
-            CreatePlatformEndpointResult cpeRes = client.createPlatformEndpoint(cpeReq);
+            CreatePlatformEndpointResult cpeRes = snsbs.createPlatformEndpoint(cpeReq);
             endpointArn = cpeRes.getEndpointArn();
             PublishRequest publishRequest = new PublishRequest().withTargetArn(endpointArn).withMessage(send);
-            client.publish(publishRequest);
+            snsbs.publish(publishRequest);
             DeleteEndpointRequest deleteEndpointRequest = new DeleteEndpointRequest().withEndpointArn(endpointArn);
-            client.deleteEndpoint(deleteEndpointRequest);
+            snsbs.deleteEndpoint(deleteEndpointRequest);
+            //////////////////////////////////////////////////上面送自己下面送監控者
+
+            Log.d("3333","TokenList's Size: "+TokenList.size());
+            for(int i = 0; i<TokenList.size();i++) {
+                mtokens = TokenList.get(i);
+                Log.d("2424","mtokensssss"+mtokens);
+                Log.d("2424", "mToken: " + mtoken);
+                CreatePlatformEndpointRequest cpeReq2 = new CreatePlatformEndpointRequest().withPlatformApplicationArn(applicationArn).withToken(mtokens);
+                CreatePlatformEndpointResult cpeRes2 = snsbs.createPlatformEndpoint(cpeReq2);
+                String endpointArn2 = cpeRes2.getEndpointArn();
+                PublishRequest publishRequest2 = new PublishRequest().withTargetArn(endpointArn2).withMessage(send2);
+                snsbs.publish(publishRequest2);
+                DeleteEndpointRequest deleteEndpointRequest2 = new DeleteEndpointRequest().withEndpointArn(endpointArn2);
+                snsbs.deleteEndpoint(deleteEndpointRequest2);
+            }
 
         } catch (InvalidParameterException ipe) {
             String message = ipe.getErrorMessage();
@@ -288,6 +329,48 @@ public class EnterBsValue extends AppCompatActivity {
         // Write the platform endpoint ARN to permanent storage.
         arnStorage = endpointArn;
     }
+
+    public void getMonitorToken(){
+        final JsonArrayRequest jsonObjectRequest = new JsonArrayRequest(com.android.volley.Request.Method.GET, url, new com.android.volley.Response.Listener<JSONArray>() {
+            @Override
+            public void onResponse(final JSONArray response) {
+                TokenList = new ArrayList<>();
+
+                try {
+
+                    for (int i = 0; i < response.length(); i++) {
+                        JSONObject object = response.getJSONObject(i);
+                        String member_id = object.getString("supervisor_id");
+                        mtoken = object.getString("token");
+                        TokenList.add(mtoken);
+
+                        Log.d("2424","monitor's Token: "+mtoken);
+                        Log.d("2424","TokenList's Size: "+TokenList.size());
+                    }
+                }catch (JSONException e){
+                    e.printStackTrace();
+                    Log.d("2424","error: "+e.toString());
+                }
+
+            }
+        },
+                new com.android.volley.Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.d("777",error.toString());
+                    }
+                }){
+            protected Map<String, String> getParams() throws AuthFailureError {//把值丟到php
+                Map<String, String> parameters = new HashMap<String, String>();
+                parameters.put("member_id",memberdata.getMember_id());
+                Log.d("nn1122",parameters.toString());
+                return parameters;
+            }
+        };
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(jsonObjectRequest);
+    }
+
 
 
 }

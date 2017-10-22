@@ -71,8 +71,7 @@ public class Main2 extends Activity {
     public static String arnStorage;
     public static String token;
     public static String arnTopic;
-    private static String accessKey = "";
-    private static String secretKey = "";
+    AmazonSNSClient sns;
 
 
     @Override
@@ -145,6 +144,7 @@ public class Main2 extends Activity {
         //imageView.setAnimation(animation);
         Context appContext = getApplicationContext();
         CognitoCachingCredentialsProvider cognitoCachingCredentialsProvider = new CognitoCachingCredentialsProvider(appContext,"us-east-1:9d8262a8-fa3c-4449-91bd-fc4841000a24",Regions.US_EAST_1);
+        sns = new AmazonSNSClient(cognitoCachingCredentialsProvider);
 
         PinpointConfiguration config = new PinpointConfiguration(appContext, "391944f4b405494a8445c7c01d1455cf", Regions.US_EAST_1, cognitoCachingCredentialsProvider);
 
@@ -222,9 +222,9 @@ public class Main2 extends Activity {
 //        String topicArn = retrieveTopicArn();
         token = FirebaseInstanceId.getInstance().getToken();
 //        StaticCredentialsProvider creds = new StaticCredentialsProvider(new BasicAWSCredentials(accessKey, secretKey));
-        AWSCredentials credentials = new BasicAWSCredentials(accessKey,secretKey);
-        AWSCredentialsProvider provider = new StaticCredentialsProvider(credentials);
-        client = new AmazonSNSClient(new BasicAWSCredentials(accessKey,secretKey));
+//        AWSCredentials credentials = new BasicAWSCredentials(accessKey,secretKey);
+//        AWSCredentialsProvider provider = new StaticCredentialsProvider(credentials);
+//        client = new AmazonSNSClient(new BasicAWSCredentials(accessKey,secretKey));
         Log.d("7070","client: "+client);
         Log.d("7070","token: "+token);
         boolean updateNeeded = false;
@@ -244,7 +244,7 @@ public class Main2 extends Activity {
         // it was just created.
         try {
             GetEndpointAttributesRequest geaReq = new GetEndpointAttributesRequest().withEndpointArn(endpointArn);
-            GetEndpointAttributesResult geaRes = client.getEndpointAttributes(geaReq);
+            GetEndpointAttributesResult geaRes = sns.getEndpointAttributes(geaReq);
 
 //            GetTopicAttributesRequest topicAttributesRequest = new GetTopicAttributesRequest().withTopicArn(topicArn);
 //            GetTopicAttributesResult topicAttributesResult = client.getTopicAttributes(topicAttributesRequest);
@@ -274,7 +274,7 @@ public class Main2 extends Activity {
             SetEndpointAttributesRequest saeReq = new SetEndpointAttributesRequest().withEndpointArn(endpointArn).withAttributes(attribs);
 
 //            SetTopicAttributesRequest setTopicAttributesRequest = new SetTopicAttributesRequest().withTopicArn(topicArn).withAttributeName("SendMessage");
-            client.setEndpointAttributes(saeReq);
+            sns.setEndpointAttributes(saeReq);
 //            client.setTopicAttributes(setTopicAttributesRequest);
         }
     }
@@ -286,12 +286,12 @@ public class Main2 extends Activity {
             String applicationArn = "arn:aws:sns:us-east-1:610465842429:app/GCM/PillHelper";
 //            String topicArn = "arn:aws:sns:us-east-1:610465842429:SendMessage";
             CreatePlatformEndpointRequest cpeReq = new CreatePlatformEndpointRequest().withPlatformApplicationArn(applicationArn).withToken(token);
-            CreatePlatformEndpointResult cpeRes = client.createPlatformEndpoint(cpeReq);
+            CreatePlatformEndpointResult cpeRes = sns.createPlatformEndpoint(cpeReq);
             endpointArn = cpeRes.getEndpointArn();
             PublishRequest publishRequest = new PublishRequest().withTargetArn(endpointArn).withMessage(send);
-            client.publish(publishRequest);
+            sns.publish(publishRequest);
             DeleteEndpointRequest deleteEndpointRequest = new DeleteEndpointRequest().withEndpointArn(endpointArn);
-            client.deleteEndpoint(deleteEndpointRequest);
+            sns.deleteEndpoint(deleteEndpointRequest);
 
         } catch (InvalidParameterException ipe) {
             String message = ipe.getErrorMessage();
