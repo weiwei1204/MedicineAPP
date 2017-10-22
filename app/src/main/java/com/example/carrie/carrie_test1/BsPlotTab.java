@@ -3,7 +3,10 @@ package com.example.carrie.carrie_test1;
 /**
  * Created by jonathan on 2017/8/6.
  */
+import android.content.Context;
 import android.graphics.Color;
+import android.support.annotation.IdRes;
+import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -16,14 +19,20 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
+import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 
+import android.widget.CompoundButton;
+import android.widget.ImageButton;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -85,7 +94,10 @@ public class BsPlotTab extends Fragment{
     public static String memberid;
     private BloodSugar record ;
     RequestQueue requestQueue;
+    Context mContext;
     public String url = "http://54.65.194.253/Health_Calendar/getBsRecordDate.php";
+    public String url2 = "http://54.65.194.253/Health_Calendar/getBsRecordWeek.php";
+    public String url3 = "http://54.65.194.253/Health_Calendar/getBsRecordMonth.php";
     public static String member_id;//getRecord抓的
     public static int userid;
     public static String bloodsugar="";
@@ -95,15 +107,71 @@ public class BsPlotTab extends Fragment{
     ArrayList<BloodSugar>sugarArrayList;
     private static final String TAG = "FragmentOne";
     FragmentManager fragmentManager;
+    TextView showwarn;
+    RadioGroup rg;
+
 
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         setHasOptionsMenu(true);
         View rootView = inflater.inflate(R.layout.tab1_bloodsugar, container, false);
         chart = (LineChartView) rootView.findViewById(R.id.chart);
         chart.setOnValueTouchListener(new ValueTouchListener());
+        chart.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                showwarn.setVisibility(View.INVISIBLE);
+                return false;
+            }
+        });
+        final ImageButton warn = (ImageButton) rootView.findViewById(R.id.warn);
+        showwarn = (TextView) rootView.findViewById(R.id.showbswarn);
+        warn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showwarn.setVisibility(View.VISIBLE);
+                showwarn.setText(Html.fromHtml("<b><small><font color=\"#000000\">" + "正常人的血糖值：飯前空腹：70-100 mg/dL，飯後2小時：小於140 mg/dL"+ "</font></small></b>" +"<b><small><font color=\"#FF0000\">" + "糖尿病病人應控制值：飯前空腹：80-130 mg/dL，飯後2小時：小於180 mg/dL" + "</font></small></b>" + "</font>"));
+            }
+        });
+        rootView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                showwarn.setVisibility(View.INVISIBLE);
+                return false;
+            }
+        });
+//        rg = (RadioGroup) getActivity().findViewById(R.id.toggle);
+//        rg.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+//            @Override
+//            public void onCheckedChanged(RadioGroup group, @IdRes int checkedId) {
+//                switch(checkedId){
+//                    case R.id.three:
+//                        showwarn.setVisibility(View.INVISIBLE);
+//                        getRecord();
+//                        toggleFilled();
+//                        toggleLabelForSelected();
+//                        break;
+//                    case R.id.week:
+//                        showwarn.setVisibility(View.INVISIBLE);
+//                        sugarArrayList = new ArrayList<>();
+//                        getRecordWeek();
+//                        toggleFilled2();
+//                        toggleLabelForSelected2();
+//                        break;
+//                    case R.id.month:
+//                        showwarn.setVisibility(View.INVISIBLE);
+//                        sugarArrayList = new ArrayList<>();
+//                        getRecordMonth();
+//                        toggleFilled3();
+//                        toggleLabelForSelected3();
+//                        break;
+//                    default:
+//                        break;
+//                }
+//
+//            }
+//        });
         Bundle bundle = this.getArguments();
 //        Bundle bundle2 = getActivity().getIntent().getExtras();
         memberid = bundle.getString("memberid");
@@ -114,8 +182,23 @@ public class BsPlotTab extends Fragment{
 //        generateData();
         chart.setViewportCalculationEnabled(false);
         fragmentManager = getFragmentManager();
+        setHasOptionsMenu(true);
         return rootView;
     }
+//    @Override
+//    public void onViewCreated(View view, @Nullable Bundle savedInstanceState){
+//        super.onViewCreated(view, savedInstanceState);
+//    }
+@Override
+public void onAttach(Context context) {
+    super.onAttach(context);
+    mContext = context;
+}
+    @Override
+    public void onResume() {
+        super.onResume();
+    }
+
 
     @Override
     public void onDestroyView()
@@ -123,9 +206,14 @@ public class BsPlotTab extends Fragment{
         // TODO Auto-generated method stub
         super.onDestroyView();
 
-        numberOfPoints = 0;
-
+//        numberOfPoints = 0;
+        numberOfLines = 1;
         Log.e(TAG, "onDestroyView");
+    }
+    @Override
+    public void onDetach(){
+        super.onDetach();
+        Log.d("4343","do this");
     }
 
 
@@ -133,6 +221,7 @@ public class BsPlotTab extends Fragment{
     public void getRecord(){
         requestQueue = Volley.newRequestQueue(getActivity().getApplicationContext());
         Log.d("689","1");
+        sugarArrayList = new ArrayList<>();
         final JsonArrayRequest jsonObjectRequest = new JsonArrayRequest(Request.Method.POST, url, new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray response) {
@@ -142,6 +231,7 @@ public class BsPlotTab extends Fragment{
                     try {
 //                    JSONArray array = new JSONArray(response);
 //                    Log.d("777",array.toString());
+                        sugarArrayList = new ArrayList<>();
 
 
                         for (int i = 0; i < response.length(); i++) {
@@ -200,7 +290,6 @@ public class BsPlotTab extends Fragment{
                             randomNumbersTab[i][j] = (float) Math.random() * 100f;
                         }
                     }
-
                 }
             }
         },
@@ -214,12 +303,221 @@ public class BsPlotTab extends Fragment{
         requestQueue.add(jsonObjectRequest);
 
     }
+    public void getRecordWeek(){
+        requestQueue = Volley.newRequestQueue(getActivity().getApplicationContext());
+        Log.d("689","1");
+        final JsonArrayRequest jsonObjectRequest = new JsonArrayRequest(Request.Method.POST, url2, new Response.Listener<JSONArray>() {
+            @Override
+            public void onResponse(JSONArray response) {
+                if (response != null) {
+                    Log.d("689", "in response");
+                    int counter = 0;
+                    try {
+                        sugarArrayList = new ArrayList<>();
+//                    JSONArray array = new JSONArray(response);
+//                    Log.d("777",array.toString());
+
+
+                        for (int i = 0; i < response.length(); i++) {
+                            JSONObject object = response.getJSONObject(i);
+                            record = new BloodSugar(object.getInt("id"), object.getString("member_id"), object.getString("bloodsugar"), object.getString("savetime"));
+
+
+                            userid = object.getInt("id");
+                            member_id = object.getString("member_id");
+                            Log.d("689", "saw id:" + member_id);
+                            if (member_id.equals(memberid)) {
+                                sugarArrayList.add(record);
+                                bloodsugar = object.getString("bloodsugar");
+                                savetime = object.getString("savetime");
+                                counter++;
+                                bsarray = new int[counter];
+                                datearray = new String[counter];
+
+                                Log.d("6899", "member_id:" + member_id);
+                                Log.d("6899", "bloodsugar:" + bloodsugar);
+                                Log.d("6899", "savetime:" + savetime);
+
+
+                                numberOfPoints = counter;
+                                randomNumbersTab = new float[maxNumberOfLines][numberOfPoints];
+                                for (int k = 0; k < maxNumberOfLines; k++) {
+                                    for (int j = 0; j < sugarArrayList.size(); j++) {
+
+
+                                        Log.d("5555", "length:  " + bsarray.length);
+                                        bsarray[j] = Integer.parseInt(sugarArrayList.get(j).getBloodsugar());
+                                        sugarArrayList.get(j).getBloodsugar();
+                                        randomNumbersTab[k][j] = bsarray[j];
+                                        Log.d("1345", "bsarray:  " + bsarray[j]);
+
+
+
+                                    }
+                                }
+                            }
+                        }
+
+                        System.out.println(Arrays.deepToString(randomNumbersTab).replace("], ", "]\n"));
+                        generateData2();
+                        resetViewport();
+                        toggleFilled2();
+                        toggleLabelForSelected2();
+                        Log.d("1996", "num:" + numberOfPoints);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+                }else{
+                    for (int i = 0; i < maxNumberOfLines; ++i) {
+                        for (int j = 0; j < numberOfPoints; ++j) {
+                            randomNumbersTab[i][j] = (float) Math.random() * 100f;
+                        }
+                    }
+
+                }
+            }
+        },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.d("777",error.toString());
+                    }
+                });
+        RequestQueue requestQueue = Volley.newRequestQueue(this.getActivity());
+        requestQueue.add(jsonObjectRequest);
+    }
+    public void getRecordMonth(){
+        requestQueue = Volley.newRequestQueue(getActivity().getApplicationContext());
+        Log.d("689","1");
+        final JsonArrayRequest jsonObjectRequest = new JsonArrayRequest(Request.Method.POST, url3, new Response.Listener<JSONArray>() {
+            @Override
+            public void onResponse(JSONArray response) {
+                if (response != null) {
+                    Log.d("689", "in response");
+                    int counter = 0;
+                    try {
+                        sugarArrayList = new ArrayList<>();
+//                    JSONArray array = new JSONArray(response);
+//                    Log.d("777",array.toString());
+
+
+                        for (int i = 0; i < response.length(); i++) {
+                            JSONObject object = response.getJSONObject(i);
+                            record = new BloodSugar(object.getInt("id"), object.getString("member_id"), object.getString("bloodsugar"), object.getString("savetime"));
+
+
+                            userid = object.getInt("id");
+                            member_id = object.getString("member_id");
+                            Log.d("689", "saw id:" + member_id);
+                            if (member_id.equals(memberid)) {
+                                sugarArrayList.add(record);
+                                bloodsugar = object.getString("bloodsugar");
+                                savetime = object.getString("savetime");
+                                counter++;
+                                bsarray = new int[counter];
+                                datearray = new String[counter];
+
+                                Log.d("6899", "member_id:" + member_id);
+                                Log.d("6899", "bloodsugar:" + bloodsugar);
+                                Log.d("6899", "savetime:" + savetime);
+
+
+                                numberOfPoints = counter;
+                                randomNumbersTab = new float[maxNumberOfLines][numberOfPoints];
+                                for (int k = 0; k < maxNumberOfLines; k++) {
+                                    for (int j = 0; j < sugarArrayList.size(); j++) {
+
+
+                                        Log.d("5555", "length:  " + bsarray.length);
+                                        bsarray[j] = Integer.parseInt(sugarArrayList.get(j).getBloodsugar());
+                                        sugarArrayList.get(j).getBloodsugar();
+                                        randomNumbersTab[k][j] = bsarray[j];
+                                        Log.d("1345", "bsarray:  " + bsarray[j]);
+
+
+
+                                    }
+                                }
+                            }
+                        }
+
+                        System.out.println(Arrays.deepToString(randomNumbersTab).replace("], ", "]\n"));
+                        generateData3();
+                        resetViewport();
+                        toggleFilled3();
+                        toggleLabelForSelected3();
+                        Log.d("1996", "num:" + numberOfPoints);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+                }else{
+                    for (int i = 0; i < maxNumberOfLines; ++i) {
+                        for (int j = 0; j < numberOfPoints; ++j) {
+                            randomNumbersTab[i][j] = (float) Math.random() * 100f;
+                        }
+                    }
+                }
+            }
+        },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.d("777",error.toString());
+                    }
+                });
+        RequestQueue requestQueue = Volley.newRequestQueue(this.getActivity());
+        requestQueue.add(jsonObjectRequest);
+    }
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.line_chart, menu);
+        rg = (RadioGroup) getActivity().findViewById(R.id.toggle);
+        sugarArrayList = new ArrayList<>();
+        getRecord();
+        toggleFilled();
+        toggleLabelForSelected();
+        rg.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, @IdRes int checkedId) {
+                switch(checkedId){
+                    case R.id.three:
+                        showwarn.setVisibility(View.INVISIBLE);
+                        getRecord();
+                        toggleFilled();
+                        toggleLabelForSelected();
+                        break;
+                    case R.id.week:
+                        showwarn.setVisibility(View.INVISIBLE);
+                        sugarArrayList = new ArrayList<>();
+                        getRecordWeek();
+                        toggleFilled2();
+                        toggleLabelForSelected2();
+                        break;
+                    case R.id.month:
+                        showwarn.setVisibility(View.INVISIBLE);
+                        sugarArrayList = new ArrayList<>();
+                        getRecordMonth();
+                        toggleFilled3();
+                        toggleLabelForSelected3();
+                        break;
+                    default:
+                        break;
+                }
+
+            }
+        });
+        rg.check(R.id.three);
     }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
+        switch (id){
+            case R.id.toolbar :
+            {
+
+            }
+        }
 //        if (id == R.id.action_reset) {
 //            reset();
 //            generateData();
@@ -347,54 +645,158 @@ public class BsPlotTab extends Fragment{
     }
     private void generateData() {
         if(numberOfPoints==0){
-            Toast.makeText(getActivity(),"您尚未新增血糖相關紀錄哦！趕快去新增吧！",Toast.LENGTH_LONG).show();
+            Toast.makeText(getActivity(),"您3日內尚未新增血糖相關紀錄哦！趕快去新增吧！",Toast.LENGTH_LONG).show();
         }
 
-        List<Line> lines = new ArrayList<Line>();
-        for (int i = 0; i < numberOfLines; ++i) {
+            List<Line> lines = new ArrayList<Line>();
+            for (int i = 0; i < numberOfLines; ++i) {
 
-            List<PointValue> values = new ArrayList<PointValue>();
-            for (int j = 0; j < numberOfPoints; ++j) {
-                Log.d("2223","points"+numberOfPoints);
-                values.add(new PointValue(j, randomNumbersTab[i][j]));
-            }
-            Log.d("5566","values: "+values);
+                List<PointValue> values = new ArrayList<PointValue>();
+                for (int j = 0; j < numberOfPoints; ++j) {
+                    Log.d("2223", "points" + numberOfPoints);
+                    values.add(new PointValue(j, randomNumbersTab[i][j]));
+                }
+                Log.d("5566", "values: " + values);
 
-            Line line = new Line(values);
-            line.setColor(ChartUtils.COLORS[i]);
-            line.setShape(shape);
-            line.setCubic(isCubic);
-            line.setFilled(isFilled);
-            line.setHasLabels(hasLabels);
-            line.setHasLabelsOnlyForSelected(hasLabelForSelected);
-            line.setHasLines(hasLines);
-            line.setHasPoints(hasPoints);
+                Line line = new Line(values);
+                line.setColor(ChartUtils.COLORS[i]);
+                line.setShape(shape);
+                line.setCubic(isCubic);
+                line.setFilled(isFilled);
+                line.setHasLabels(hasLabels);
+                line.setHasLabelsOnlyForSelected(hasLabelForSelected);
+                line.setHasLines(hasLines);
+                line.setHasPoints(hasPoints);
 //            line.setHasGradientToTransparent(hasGradientToTransparent);
-            if (pointsHaveDifferentColor){
-                line.setPointColor(ChartUtils.COLORS[(i + 1) % ChartUtils.COLORS.length]);
+                if (pointsHaveDifferentColor) {
+                    line.setPointColor(ChartUtils.COLORS[(i + 1) % ChartUtils.COLORS.length]);
+                }
+                lines.add(line);
             }
-            lines.add(line);
-        }
 
-        data = new LineChartData(lines);
+            data = new LineChartData(lines);
 
-        if (hasAxes) {
-            Axis axisX = new Axis();
-            Axis axisY = new Axis().setHasLines(true);
-            if (hasAxesNames) {
-                axisX.setName("3日內變化");
-                axisX.setTextColor(Color.BLACK);
-                axisY.setName("血糖  BPM");
-                axisY.setTextColor(Color.BLACK);
+            if (hasAxes) {
+                Axis axisX = new Axis();
+                Axis axisY = new Axis().setHasLines(true);
+                if (hasAxesNames) {
+                    axisX.setName("3日內變化");
+                    axisX.setTextColor(Color.BLACK);
+                    axisY.setName("血糖  BPM");
+                    axisY.setTextColor(Color.BLACK);
+                }
+                data.setAxisXBottom(axisX);
+                data.setAxisYLeft(axisY);
+            } else {
+                data.setAxisXBottom(null);
+                data.setAxisYLeft(null);
             }
-            data.setAxisXBottom(axisX);
-            data.setAxisYLeft(axisY);
-        } else {
-            data.setAxisXBottom(null);
-            data.setAxisYLeft(null);
-        }
-        data.setBaseValue(Float.NEGATIVE_INFINITY);
-        chart.setLineChartData(data);
+            data.setBaseValue(Float.NEGATIVE_INFINITY);
+            chart.setLineChartData(data);
+
+    }
+    private void generateData2() {
+//        if(numberOfPoints==0){
+//            Toast.makeText(getActivity(),"您7日內尚未新增血糖相關紀錄哦！趕快去新增吧！",Toast.LENGTH_LONG).show();
+//        }
+
+            List<Line> lines = new ArrayList<Line>();
+            for (int i = 0; i < numberOfLines; ++i) {
+
+                List<PointValue> values = new ArrayList<PointValue>();
+                for (int j = 0; j < numberOfPoints; ++j) {
+                    Log.d("2223", "points" + numberOfPoints);
+                    values.add(new PointValue(j, randomNumbersTab[i][j]));
+                }
+                Log.d("5566", "values: " + values);
+
+                Line line = new Line(values);
+                line.setColor(ChartUtils.COLORS[i]);
+                line.setShape(shape);
+                line.setCubic(isCubic);
+                line.setFilled(isFilled);
+                line.setHasLabels(hasLabels);
+                line.setHasLabelsOnlyForSelected(hasLabelForSelected);
+                line.setHasLines(hasLines);
+                line.setHasPoints(hasPoints);
+//            line.setHasGradientToTransparent(hasGradientToTransparent);
+                if (pointsHaveDifferentColor) {
+                    line.setPointColor(ChartUtils.COLORS[(i + 1) % ChartUtils.COLORS.length]);
+                }
+                lines.add(line);
+            }
+
+            data = new LineChartData(lines);
+
+            if (hasAxes) {
+                Axis axisX = new Axis();
+                Axis axisY = new Axis().setHasLines(true);
+                if (hasAxesNames) {
+                    axisX.setName("7天內變化");
+                    axisX.setTextColor(Color.BLACK);
+                    axisY.setName("血糖  BPM");
+                    axisY.setTextColor(Color.BLACK);
+                }
+                data.setAxisXBottom(axisX);
+                data.setAxisYLeft(axisY);
+            } else {
+                data.setAxisXBottom(null);
+                data.setAxisYLeft(null);
+            }
+            data.setBaseValue(Float.NEGATIVE_INFINITY);
+            chart.setLineChartData(data);
+
+    }
+    private void generateData3() {
+//        if(numberOfPoints==0){
+//            Toast.makeText(getActivity(),"您30日內尚未新增血糖相關紀錄哦！趕快去新增吧！",Toast.LENGTH_LONG).show();
+//        }
+
+            List<Line> lines = new ArrayList<Line>();
+            for (int i = 0; i < numberOfLines; ++i) {
+
+                List<PointValue> values = new ArrayList<PointValue>();
+                for (int j = 0; j < numberOfPoints; ++j) {
+                    Log.d("2223", "points" + numberOfPoints);
+                    values.add(new PointValue(j, randomNumbersTab[i][j]));
+                }
+                Log.d("5566", "values: " + values);
+
+                Line line = new Line(values);
+                line.setColor(ChartUtils.COLORS[i]);
+                line.setShape(shape);
+                line.setCubic(isCubic);
+                line.setFilled(isFilled);
+                line.setHasLabels(hasLabels);
+                line.setHasLabelsOnlyForSelected(hasLabelForSelected);
+                line.setHasLines(hasLines);
+                line.setHasPoints(hasPoints);
+//            line.setHasGradientToTransparent(hasGradientToTransparent);
+                if (pointsHaveDifferentColor) {
+                    line.setPointColor(ChartUtils.COLORS[(i + 1) % ChartUtils.COLORS.length]);
+                }
+                lines.add(line);
+            }
+
+            data = new LineChartData(lines);
+
+            if (hasAxes) {
+                Axis axisX = new Axis();
+                Axis axisY = new Axis().setHasLines(true);
+                if (hasAxesNames) {
+                    axisX.setName("30天內變化");
+                    axisX.setTextColor(Color.BLACK);
+                    axisY.setName("血糖  BPM");
+                    axisY.setTextColor(Color.BLACK);
+                }
+                data.setAxisXBottom(axisX);
+                data.setAxisYLeft(axisY);
+            } else {
+                data.setAxisXBottom(null);
+                data.setAxisYLeft(null);
+            }
+            data.setBaseValue(Float.NEGATIVE_INFINITY);
+            chart.setLineChartData(data);
 
     }
     private void addLineToData() {
@@ -480,6 +882,16 @@ public class BsPlotTab extends Fragment{
 
         generateData();
     }
+    private void toggleFilled2() {
+        isFilled = !isFilled;
+
+        generateData2();
+    }
+    private void toggleFilled3() {
+        isFilled = !isFilled;
+
+        generateData3();
+    }
 
     private void togglePointColor() {
         pointsHaveDifferentColor = !pointsHaveDifferentColor;
@@ -526,6 +938,28 @@ public class BsPlotTab extends Fragment{
         }
 
         generateData();
+    }
+    private void toggleLabelForSelected2() {
+        hasLabelForSelected = !hasLabelForSelected;
+
+        chart.setValueSelectionEnabled(hasLabelForSelected);
+
+        if (hasLabelForSelected) {
+            hasLabels = false;
+        }
+
+        generateData2();
+    }
+    private void toggleLabelForSelected3() {
+        hasLabelForSelected = !hasLabelForSelected;
+
+        chart.setValueSelectionEnabled(hasLabelForSelected);
+
+        if (hasLabelForSelected) {
+            hasLabels = false;
+        }
+
+        generateData3();
     }
 
     private void toggleAxes() {

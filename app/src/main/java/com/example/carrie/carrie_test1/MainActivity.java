@@ -35,6 +35,7 @@ import com.android.volley.toolbox.Volley;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
+import com.google.firebase.iid.FirebaseInstanceId;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -46,7 +47,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
+import okhttp3.RequestBody;
 
 public class MainActivity extends LoginActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -419,6 +422,7 @@ public class MainActivity extends LoginActivity
                     Log.d("my_mon_id222", my_mon_id);
                     memberdata.setMy_mon_id(response);
                     //addMonitor();//新增監控者至監視列表
+                    sendToken();
                 }
             }
         }, new Response.ErrorListener() {
@@ -756,6 +760,39 @@ public class MainActivity extends LoginActivity
         };
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         requestQueue.add(drugrequest);
+    }
+    public void sendToken(){
+        final String token = FirebaseInstanceId.getInstance().getToken();
+        Log.d("2233","Token: "+token);
+        AsyncTask<Integer, Void, Void> task = new AsyncTask<Integer, Void, Void>() {
+            @Override
+            protected Void doInBackground(Integer... integers) {
+                RequestBody formBody = new MultipartBody.Builder()
+                        .setType(MultipartBody.FORM)
+                        .addFormDataPart("memberid", my_mon_id)
+                        .addFormDataPart("token", token)
+                        .build();
+                OkHttpClient client = new OkHttpClient();
+                okhttp3.Request request = new okhttp3.Request.Builder()
+                        .url("http://54.65.194.253/Monitor/sendToken.php?memberid=" + my_mon_id + "&token=" + token)
+                        .post(formBody)
+                        .build();
+                try {
+                    okhttp3.Response response = client.newCall(request).execute();
+                    Log.d("mon_idte213st", "http://54.65.194.253/Monitor/sendToken.php?memberid=" + my_mon_id + "&token=" + token);
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                return null;
+            }
+
+            @Override
+            protected void onPostExecute(Void aVoid) {
+
+            }
+        };
+        task.execute();
     }
 
 

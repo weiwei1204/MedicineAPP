@@ -15,7 +15,9 @@ import android.widget.TextView;
 import com.amazonaws.auth.AWSCredentials;
 import com.amazonaws.auth.AWSCredentialsProvider;
 import com.amazonaws.auth.BasicAWSCredentials;
+import com.amazonaws.auth.ClasspathPropertiesFileCredentialsProvider;
 import com.amazonaws.auth.CognitoCachingCredentialsProvider;
+import com.amazonaws.auth.CognitoCredentialsProvider;
 import com.amazonaws.internal.StaticCredentialsProvider;
 import com.amazonaws.mobile.auth.core.IdentityManager;
 import com.amazonaws.mobile.auth.core.StartupAuthResult;
@@ -24,15 +26,23 @@ import com.amazonaws.mobile.config.AWSConfiguration;
 import com.amazonaws.mobileconnectors.dynamodbv2.dynamodbmapper.DynamoDBMapper;
 import com.amazonaws.mobileconnectors.pinpoint.PinpointConfiguration;
 import com.amazonaws.mobileconnectors.pinpoint.PinpointManager;
+import com.amazonaws.mobileconnectors.pinpoint.analytics.monetization.AmazonMonetizationEventBuilder;
+import com.amazonaws.regions.Region;
 import com.amazonaws.regions.Regions;
+import com.amazonaws.services.sns.AmazonSNS;
+import com.amazonaws.services.sns.AmazonSNSAsync;
 import com.amazonaws.services.sns.AmazonSNSClient;
 import com.amazonaws.services.sns.model.CreatePlatformEndpointRequest;
 import com.amazonaws.services.sns.model.CreatePlatformEndpointResult;
+import com.amazonaws.services.sns.model.CreateTopicRequest;
+import com.amazonaws.services.sns.model.DeleteEndpointRequest;
 import com.amazonaws.services.sns.model.GetEndpointAttributesRequest;
 import com.amazonaws.services.sns.model.GetEndpointAttributesResult;
 import com.amazonaws.services.sns.model.InvalidParameterException;
 import com.amazonaws.services.sns.model.NotFoundException;
+import com.amazonaws.services.sns.model.PublishRequest;
 import com.amazonaws.services.sns.model.SetEndpointAttributesRequest;
+import com.amazonaws.services.sns.model.SubscribeRequest;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.google.android.gms.iid.InstanceID;
 import com.google.firebase.auth.FirebaseAuth;
@@ -53,7 +63,7 @@ public class Main2 extends Activity {
     public static PinpointManager pinpointManager;
     public static final String LOG_TAG = Main2.class.getSimpleName();
     DynamoDBMapper dynamoDBMapper;
-
+    public String send="hello";
     private TextView mTextMessage;
     String userId = "";
     private FirebaseAuth mAuth;
@@ -61,8 +71,7 @@ public class Main2 extends Activity {
     public static String arnStorage;
     public static String token;
     public static String arnTopic;
-    private static String accessKey = "AKIAJUTGDY6RCIIC5BDA";
-    private static String secretKey = "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";
+    AmazonSNSClient sns;
 
 
     @Override
@@ -135,6 +144,7 @@ public class Main2 extends Activity {
         //imageView.setAnimation(animation);
         Context appContext = getApplicationContext();
         CognitoCachingCredentialsProvider cognitoCachingCredentialsProvider = new CognitoCachingCredentialsProvider(appContext,"us-east-1:9d8262a8-fa3c-4449-91bd-fc4841000a24",Regions.US_EAST_1);
+        sns = new AmazonSNSClient(cognitoCachingCredentialsProvider);
 
         PinpointConfiguration config = new PinpointConfiguration(appContext, "391944f4b405494a8445c7c01d1455cf", Regions.US_EAST_1, cognitoCachingCredentialsProvider);
 
@@ -203,6 +213,8 @@ public class Main2 extends Activity {
     //*********************************************************************************************
     //*********************************************************************************************
     // below doing SNS things
+
+
     private void sendRegistrationToServer() {
         Log.d("9988","do aaa");
 
@@ -210,9 +222,9 @@ public class Main2 extends Activity {
 //        String topicArn = retrieveTopicArn();
         token = FirebaseInstanceId.getInstance().getToken();
 //        StaticCredentialsProvider creds = new StaticCredentialsProvider(new BasicAWSCredentials(accessKey, secretKey));
-        AWSCredentials credentials = new BasicAWSCredentials(accessKey,secretKey);
-        AWSCredentialsProvider provider = new StaticCredentialsProvider(credentials);
-        client = new AmazonSNSClient(new BasicAWSCredentials(accessKey,secretKey));
+//        AWSCredentials credentials = new BasicAWSCredentials(accessKey,secretKey);
+//        AWSCredentialsProvider provider = new StaticCredentialsProvider(credentials);
+//        client = new AmazonSNSClient(new BasicAWSCredentials(accessKey,secretKey));
         Log.d("7070","client: "+client);
         Log.d("7070","token: "+token);
         boolean updateNeeded = false;
@@ -226,12 +238,13 @@ public class Main2 extends Activity {
             createNeeded = false;
         }
 
+
         System.out.println("Retrieving platform endpoint data...");
         // Look up the platform endpoint and make sure the data in it is current, even if
         // it was just created.
         try {
             GetEndpointAttributesRequest geaReq = new GetEndpointAttributesRequest().withEndpointArn(endpointArn);
-            GetEndpointAttributesResult geaRes = client.getEndpointAttributes(geaReq);
+            GetEndpointAttributesResult geaRes = sns.getEndpointAttributes(geaReq);
 
 //            GetTopicAttributesRequest topicAttributesRequest = new GetTopicAttributesRequest().withTopicArn(topicArn);
 //            GetTopicAttributesResult topicAttributesResult = client.getTopicAttributes(topicAttributesRequest);
@@ -261,7 +274,7 @@ public class Main2 extends Activity {
             SetEndpointAttributesRequest saeReq = new SetEndpointAttributesRequest().withEndpointArn(endpointArn).withAttributes(attribs);
 
 //            SetTopicAttributesRequest setTopicAttributesRequest = new SetTopicAttributesRequest().withTopicArn(topicArn).withAttributeName("SendMessage");
-            client.setEndpointAttributes(saeReq);
+            sns.setEndpointAttributes(saeReq);
 //            client.setTopicAttributes(setTopicAttributesRequest);
         }
     }
@@ -273,9 +286,13 @@ public class Main2 extends Activity {
             String applicationArn = "arn:aws:sns:us-east-1:610465842429:app/GCM/PillHelper";
 //            String topicArn = "arn:aws:sns:us-east-1:610465842429:SendMessage";
             CreatePlatformEndpointRequest cpeReq = new CreatePlatformEndpointRequest().withPlatformApplicationArn(applicationArn).withToken(token);
-            CreatePlatformEndpointResult cpeRes = client.createPlatformEndpoint(cpeReq);
-
+            CreatePlatformEndpointResult cpeRes = sns.createPlatformEndpoint(cpeReq);
             endpointArn = cpeRes.getEndpointArn();
+            PublishRequest publishRequest = new PublishRequest().withTargetArn(endpointArn).withMessage(send);
+            sns.publish(publishRequest);
+            DeleteEndpointRequest deleteEndpointRequest = new DeleteEndpointRequest().withEndpointArn(endpointArn);
+            sns.deleteEndpoint(deleteEndpointRequest);
+
         } catch (InvalidParameterException ipe) {
             String message = ipe.getErrorMessage();
             System.out.println("Exception message: " + message);
