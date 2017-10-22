@@ -257,7 +257,6 @@ public class BpPlotTab extends Fragment{
 //                }
 //            }
 //        });
-
         data_list = new ArrayList<>();
         getRecord();
         Bundle bundle = this.getArguments();

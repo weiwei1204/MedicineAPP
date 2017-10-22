@@ -206,7 +206,7 @@ public void onAttach(Context context) {
         // TODO Auto-generated method stub
         super.onDestroyView();
 
-        numberOfPoints = 0;
+//        numberOfPoints = 0;
         numberOfLines = 1;
         Log.e(TAG, "onDestroyView");
     }

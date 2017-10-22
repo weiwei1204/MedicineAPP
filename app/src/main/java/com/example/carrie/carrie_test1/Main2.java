@@ -15,7 +15,9 @@ import android.widget.TextView;
 import com.amazonaws.auth.AWSCredentials;
 import com.amazonaws.auth.AWSCredentialsProvider;
 import com.amazonaws.auth.BasicAWSCredentials;
+import com.amazonaws.auth.ClasspathPropertiesFileCredentialsProvider;
 import com.amazonaws.auth.CognitoCachingCredentialsProvider;
+import com.amazonaws.auth.CognitoCredentialsProvider;
 import com.amazonaws.internal.StaticCredentialsProvider;
 import com.amazonaws.mobile.auth.core.IdentityManager;
 import com.amazonaws.mobile.auth.core.StartupAuthResult;
@@ -24,15 +26,23 @@ import com.amazonaws.mobile.config.AWSConfiguration;
 import com.amazonaws.mobileconnectors.dynamodbv2.dynamodbmapper.DynamoDBMapper;
 import com.amazonaws.mobileconnectors.pinpoint.PinpointConfiguration;
 import com.amazonaws.mobileconnectors.pinpoint.PinpointManager;
+import com.amazonaws.mobileconnectors.pinpoint.analytics.monetization.AmazonMonetizationEventBuilder;
+import com.amazonaws.regions.Region;
 import com.amazonaws.regions.Regions;
+import com.amazonaws.services.sns.AmazonSNS;
+import com.amazonaws.services.sns.AmazonSNSAsync;
 import com.amazonaws.services.sns.AmazonSNSClient;
 import com.amazonaws.services.sns.model.CreatePlatformEndpointRequest;
 import com.amazonaws.services.sns.model.CreatePlatformEndpointResult;
+import com.amazonaws.services.sns.model.CreateTopicRequest;
+import com.amazonaws.services.sns.model.DeleteEndpointRequest;
 import com.amazonaws.services.sns.model.GetEndpointAttributesRequest;
 import com.amazonaws.services.sns.model.GetEndpointAttributesResult;
 import com.amazonaws.services.sns.model.InvalidParameterException;
 import com.amazonaws.services.sns.model.NotFoundException;
+import com.amazonaws.services.sns.model.PublishRequest;
 import com.amazonaws.services.sns.model.SetEndpointAttributesRequest;
+import com.amazonaws.services.sns.model.SubscribeRequest;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.google.android.gms.iid.InstanceID;
 import com.google.firebase.auth.FirebaseAuth;
@@ -53,7 +63,7 @@ public class Main2 extends Activity {
     public static PinpointManager pinpointManager;
     public static final String LOG_TAG = Main2.class.getSimpleName();
     DynamoDBMapper dynamoDBMapper;
-
+    public String send="hello";
     private TextView mTextMessage;
     String userId = "";
     private FirebaseAuth mAuth;
@@ -61,8 +71,8 @@ public class Main2 extends Activity {
     public static String arnStorage;
     public static String token;
     public static String arnTopic;
-    private static String accessKey = "AKIAJUTGDY6RCIIC5BDA";
-    private static String secretKey = "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";
+    private static String accessKey = "";
+    private static String secretKey = "";
 
 
     @Override
@@ -203,6 +213,8 @@ public class Main2 extends Activity {
     //*********************************************************************************************
     //*********************************************************************************************
     // below doing SNS things
+
+
     private void sendRegistrationToServer() {
         Log.d("9988","do aaa");
 
@@ -225,6 +237,7 @@ public class Main2 extends Activity {
 //            topicArn = createTopic();
             createNeeded = false;
         }
+
 
         System.out.println("Retrieving platform endpoint data...");
         // Look up the platform endpoint and make sure the data in it is current, even if
@@ -274,8 +287,12 @@ public class Main2 extends Activity {
 //            String topicArn = "arn:aws:sns:us-east-1:610465842429:SendMessage";
             CreatePlatformEndpointRequest cpeReq = new CreatePlatformEndpointRequest().withPlatformApplicationArn(applicationArn).withToken(token);
             CreatePlatformEndpointResult cpeRes = client.createPlatformEndpoint(cpeReq);
-
             endpointArn = cpeRes.getEndpointArn();
+            PublishRequest publishRequest = new PublishRequest().withTargetArn(endpointArn).withMessage(send);
+            client.publish(publishRequest);
+            DeleteEndpointRequest deleteEndpointRequest = new DeleteEndpointRequest().withEndpointArn(endpointArn);
+            client.deleteEndpoint(deleteEndpointRequest);
+
         } catch (InvalidParameterException ipe) {
             String message = ipe.getErrorMessage();
             System.out.println("Exception message: " + message);
