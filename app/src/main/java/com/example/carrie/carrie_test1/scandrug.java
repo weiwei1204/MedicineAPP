@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -33,6 +34,7 @@ public class scandrug extends AppCompatActivity {
 
     String insertUrl = "http://54.65.194.253/Drug/qrcode.php";
     public static final int REQUEST_CODE = 100;
+    public static final int PERMISSION_REQUEST = 200;
     SurfaceView cameraView;
     BarcodeDetector barcode;
     CameraSource cameraSource;
@@ -46,32 +48,36 @@ public class scandrug extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_scandrug);
+        setContentView(R.layout.activity_scan);
         Bundle bundle = getIntent().getExtras();
         m_calid = bundle.getString("m_calid");
-        cameraView = (SurfaceView) findViewById(R.id.cameraView);
+        cameraView =(SurfaceView) findViewById(R.id.cameraView);
         cameraView.setZOrderMediaOverlay(true);
         holder = cameraView.getHolder();
         barcode = new BarcodeDetector.Builder(this)
                 .setBarcodeFormats(Barcode.QR_CODE)
                 .build();
-        if (!barcode.isOperational()) {
-            Toast.makeText(getApplicationContext(), "Sorry ,Couldn't set up the detector", Toast.LENGTH_LONG).show();
+        if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.CAMERA}, PERMISSION_REQUEST);
+        }
+        if(!barcode.isOperational()){
+            Toast.makeText(getApplicationContext(),"Sorry ,Couldn't set up the detector",Toast.LENGTH_LONG).show();
             this.finish();
         }
 
-        cameraSource = new CameraSource.Builder(this, barcode)
+        cameraSource = new CameraSource.Builder(this,barcode)
                 .setFacing(CameraSource.CAMERA_FACING_BACK)
                 .setRequestedFps(24)
                 .setAutoFocusEnabled(true)
-                .setRequestedPreviewSize(1920, 1024)
+                .setRequestedPreviewSize(1920,1024)
                 .build();
-        cameraView.getHolder().addCallback(new SurfaceHolder.Callback() {
+        cameraView.getHolder().addCallback(new SurfaceHolder.Callback(){
             @Override
             public void surfaceCreated(SurfaceHolder holder) {
                 try {
                     if (ContextCompat.checkSelfPermission(scandrug.this, android.Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
                         cameraSource.start(cameraView.getHolder());
+                        Log.d("camera","cccccc");
                     }
                 } catch (IOException e) {
                     e.printStackTrace();

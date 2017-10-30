@@ -47,7 +47,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             Log.d("9090", "Message Notification Body: " + remoteMessage.getNotification().getBody());
         }
 
-        String message = String.valueOf(remoteMessage.getData().toString().replace("message","貼心小提醒").replace("="," : ").replace("{"," ").replace("}"," "));
+        String message = String.valueOf(remoteMessage.getData().toString().replace("default","貼心小提醒").replace("="," : ").replace("{"," ").replace("}"," "));
         sendNotification(message);
 
         // Also if you intend on generating your own notifications as a result of a received FCM

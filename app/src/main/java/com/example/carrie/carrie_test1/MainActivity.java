@@ -18,6 +18,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -34,6 +35,7 @@ import com.android.volley.toolbox.Volley;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
+import com.google.firebase.iid.FirebaseInstanceId;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -45,7 +47,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
+import okhttp3.RequestBody;
 
 public class MainActivity extends LoginActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -57,12 +61,15 @@ public class MainActivity extends LoginActivity
     ArrayAdapter<CharSequence> adapter;
     String googleid;
     String getidUrl = "http://54.65.194.253/Member/getid.php";
+    private Button nav_gallery;
+
     RequestQueue requestQueue;
+    RequestQueue requestQueue2;
     String memberid;
     String my_mon_id;
     BsBpMeasureObject bsBpMeasureObject;
     RepairData repairData;
-    String name;
+    String nname;
     String gender;
     String weight;
     String height;
@@ -84,6 +91,20 @@ public class MainActivity extends LoginActivity
         setSupportActionBar(toolbar);
         Bundle bundle = getIntent().getExtras();
         googleid = bundle.getString("googleid");
+        Log.d("GOOGLEID",googleid);
+        nname = bundle.getString("name");
+        gender = bundle.getString("gender_man");
+        weight=bundle.getString("weight");
+        height=bundle.getString("height");
+        birth=bundle.getString("birth");
+//        Log.d("GOOGLEID",nname);
+
+//        Log.d("GOOGLEID",googleid);
+//        name = bundle.getString("name");
+//        gender=bundle.getString("gender_man");
+//        weight=bundle.getString("weight");
+//        height=bundle.getString("height");
+//        birth=bundle.getString("birth");
         memberdata.setGoogle_id(googleid);
 
 //        Log.d("GOOGLEID",name);
@@ -278,6 +299,11 @@ public class MainActivity extends LoginActivity
         Bundle bundle = new Bundle();
         bundle.putString("googleid", googleid);
         bundle.putString("memberid", memberid);
+        bundle.putString("name", nname);
+        bundle.putString("gender_man",gender );
+        bundle.putString("weight",weight);
+        bundle.putString("height", height);
+        bundle.putString("birth", birth);
         bundle.putString("name", repairData.getName());
         bundle.putString("gender_man",repairData.getGender_man() );
         bundle.putString("weight",repairData.getWeight());
@@ -396,6 +422,7 @@ public class MainActivity extends LoginActivity
                     Log.d("my_mon_id222", my_mon_id);
                     memberdata.setMy_mon_id(response);
                     //addMonitor();//新增監控者至監視列表
+                    sendToken();
                 }
             }
         }, new Response.ErrorListener() {
@@ -458,6 +485,7 @@ public class MainActivity extends LoginActivity
     }
 
     public void getpersonal() {
+
         AsyncTask<Integer, Void, Void> task = new AsyncTask<Integer, Void, Void>() {
             @Override
             protected Void doInBackground(Integer... integers) {
@@ -511,6 +539,39 @@ public class MainActivity extends LoginActivity
             @Override
             protected void onPostExecute(Void aVoid) {
 
+                Bundle bundle1 = new Bundle();
+
+                String p1= getIntent().getExtras().getString("name", "not found");
+                bundle1.putString("name", repairData.getName());
+                repairData.setName(p1);
+
+
+                String p2;
+                p2=repairData.getGender_man();
+                bundle1.putString("gender_man", repairData.getGender_man());
+                repairData.setGender_man(p2);
+
+                String p3;
+                p3=repairData.getWeight();
+                bundle1.putString("weight", repairData.getWeight());
+                repairData.setWeight(p3);
+
+                String p4;
+                p4=repairData.getHeight();
+                bundle1.putString("height", repairData.getHeight());
+                repairData.setHeight(p4);
+
+                String p5;
+                p5=repairData.getBirth();
+                bundle1.putString("birth", repairData.getBirth());
+                repairData.setBirth(p5);
+
+                Log.d("ppppp",p1);
+                Log.d("ppppp", p2);
+                Log.d("ppppp",p3);
+                Log.d("ppppp",p4);
+                Log.d("ppppp",p5);
+
 //                Bundle bundle1 = new Bundle();
 //
 //                String p1= getIntent().getExtras().getString("name", "not found");
@@ -544,12 +605,12 @@ public class MainActivity extends LoginActivity
 //                Log.d("ppppp",p5);
 
 
+
             }
         };
         task.execute();
 
     }
-
 
 
 
@@ -699,6 +760,39 @@ public class MainActivity extends LoginActivity
         };
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         requestQueue.add(drugrequest);
+    }
+    public void sendToken(){
+        final String token = FirebaseInstanceId.getInstance().getToken();
+        Log.d("2233","Token: "+token);
+        AsyncTask<Integer, Void, Void> task = new AsyncTask<Integer, Void, Void>() {
+            @Override
+            protected Void doInBackground(Integer... integers) {
+                RequestBody formBody = new MultipartBody.Builder()
+                        .setType(MultipartBody.FORM)
+                        .addFormDataPart("memberid", my_mon_id)
+                        .addFormDataPart("token", token)
+                        .build();
+                OkHttpClient client = new OkHttpClient();
+                okhttp3.Request request = new okhttp3.Request.Builder()
+                        .url("http://54.65.194.253/Monitor/sendToken.php?memberid=" + my_mon_id + "&token=" + token)
+                        .post(formBody)
+                        .build();
+                try {
+                    okhttp3.Response response = client.newCall(request).execute();
+                    Log.d("mon_idte213st", "http://54.65.194.253/Monitor/sendToken.php?memberid=" + my_mon_id + "&token=" + token);
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                return null;
+            }
+
+            @Override
+            protected void onPostExecute(Void aVoid) {
+
+            }
+        };
+        task.execute();
     }
 
 

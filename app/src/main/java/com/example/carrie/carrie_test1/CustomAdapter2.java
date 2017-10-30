@@ -88,7 +88,7 @@ public class CustomAdapter2 extends RecyclerView.Adapter<CustomAdapter2.ViewHold
                 context.startActivity(it);
                 Log.d("customadapter2","6");
 
-                Log.d("qqqqq3",m_calid);
+//                Log.d("qqqqq3",m_calid);
 
             }
         });

@@ -14,22 +14,10 @@ import android.os.IBinder;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.android.volley.AuthFailureError;
-import com.android.volley.Request;
 import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 
 public class CheckBeacon extends Service {
@@ -172,7 +160,7 @@ public class CheckBeacon extends Service {
         if (mBluetoothAdapter.isEnabled() == false) {
             Log.d("qq","444");
             Intent enableBluetooth = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
-            startActivityForResult(enableBluetooth, 0);
+//            startActivityForResult(enableBluetooth, 0);
         }
     }
 
@@ -232,7 +220,7 @@ public class CheckBeacon extends Service {
 //                        alert.show ();
 //                    }
 //                }
-                needBeacon.clear();
+//                needBeacon.clear();
                 bringBeacon.clear();
                 mBleDevices.clear();
                 Log.d("needBeaconSize", Integer.toString(needBeacon.size()));
@@ -295,7 +283,7 @@ public class CheckBeacon extends Service {
     public void finish() {
         throw new RuntimeException("Stub!");
     }
-    public void startActivityForResult(Intent intent, int requestCode) {
-        throw new RuntimeException("Stub!");
-    }
+//    public void startActivityForResult(Intent intent, int requestCode) {
+//        throw new RuntimeException("Stub!");
+//    }
 }
