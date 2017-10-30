@@ -170,7 +170,6 @@ public class BtnAdapter_mybeacon extends BaseAdapter {
     public void deletebeacon(final String id) {
 
         Log.d("bcon","1h6");
-
                 BtnAdapter_mybeacon btnAdapter_mybeacon = new BtnAdapter_mybeacon();
 
                 requestQueue = Volley.newRequestQueue(aContext);
