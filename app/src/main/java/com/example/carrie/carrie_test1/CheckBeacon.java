@@ -143,7 +143,6 @@ public class CheckBeacon extends Service {
             InitBLE ();
             SearchForBLEDevices();
             status = 1 ;
-
         }
     }
     private void InitBLE() {
@@ -201,6 +200,8 @@ public class CheckBeacon extends Service {
                     Intent my_intent=new Intent(getApplicationContext(),OnBootReceiver.class);
                     my_intent.putExtra("extra",lost);
                     sendBroadcast(my_intent);
+                }else{
+//                    Toast.makeText(getApplicationContext(), "掃描結束，無應帶而未帶之藥品", Toast.LENGTH_LONG).show();
                 }
 //                if(lost.size()!=0){
 //                    Log.d("bbb", "沒帶Beacon!!!!!!!!!!"+lost.get(0));
@@ -239,6 +240,7 @@ public class CheckBeacon extends Service {
                         mBleDevices.add(device);
                         for (int i=0; i<1; i++) {
                             String  uuid = "" ;
+                            Toast.makeText(getApplicationContext(), "已進入"+mWifiInfo.getSSID()+"("+mWifiInfo.getBSSID()+")範圍，正在開始掃描~", Toast.LENGTH_LONG).show();
                             if(scanRecord.length > 30) {
                                 //從scanRecord 分辦是固定封包是6byte還是9ybge。
                                 //if((scanRecord[5]  == (byte)0x4c) && (scanRecord[6] == (byte)0x00) && (scanRecord[7]  == (byte)0x02) && (scanRecord[8] == (byte)0x15)) {
