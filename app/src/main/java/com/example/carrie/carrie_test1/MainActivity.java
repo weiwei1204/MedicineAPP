@@ -94,7 +94,7 @@ public class MainActivity extends LoginActivity
         weight=bundle.getString("weight");
         height=bundle.getString("height");
         birth=bundle.getString("birth");
-        Log.d("GOOGLEID",nname);
+        //int googleid = Log.d("GOOGLEID", nname);
 
 //        Log.d("GOOGLEID",googleid);
 //        name = bundle.getString("name");
@@ -102,7 +102,7 @@ public class MainActivity extends LoginActivity
 //        weight=bundle.getString("weight");
 //        height=bundle.getString("height");
 //        birth=bundle.getString("birth");
-        memberdata.setGoogle_id(googleid);
+        memberdata.setGoogle_id(this.googleid);
 
 //        Log.d("GOOGLEID",name);
 //        Log.d("GOOGLEID",gender);
@@ -144,7 +144,7 @@ public class MainActivity extends LoginActivity
                         Intent intent0 = new Intent(MainActivity.this, Choice.class);
                         Bundle bundle0 = new Bundle();
                         bundle0.putString("memberid", memberid);
-                        bundle0.putString("my_google_id", googleid);
+                        bundle0.putString("my_google_id", MainActivity.this.googleid);
                         bundle0.putString("my_supervise_id", my_mon_id);
                         intent0.putExtras(bundle0);   // 記得put進去，不然資料不會帶過去哦
                         startActivity(intent0);
@@ -154,7 +154,7 @@ public class MainActivity extends LoginActivity
                         Intent intent1 = new Intent(MainActivity.this, MonitorActivity.class);
                         Bundle bundle1 = new Bundle();
                         bundle1.putString("my_id", memberid);
-                        bundle1.putString("my_google_id", googleid);
+                        bundle1.putString("my_google_id", MainActivity.this.googleid);
                         bundle1.putString("my_supervise_id", my_mon_id);
                         intent1.putExtras(bundle1);
                         startActivity(intent1);
@@ -163,7 +163,7 @@ public class MainActivity extends LoginActivity
                     case R.id.ic_home:
                         Intent intent2 = new Intent(MainActivity.this, MainActivity.class);
                         Bundle bundle2 = new Bundle();
-                        bundle2.putString("googleid", googleid);
+                        bundle2.putString("googleid", MainActivity.this.googleid);
                         intent2.putExtras(bundle2);
                         startActivity(intent2);
                         break;
@@ -172,7 +172,7 @@ public class MainActivity extends LoginActivity
                         Intent intent3 = new Intent(MainActivity.this, druginfo.class);
                         Bundle bundle3 = new Bundle();
                         bundle3.putString("my_id", memberid);
-                        bundle3.putString("my_google_id", googleid);
+                        bundle3.putString("my_google_id", MainActivity.this.googleid);
                         bundle3.putString("my_supervise_id", my_mon_id);
                         bundle3.putString("m_calid","-1");
                         intent3.putExtras(bundle3);
@@ -183,7 +183,7 @@ public class MainActivity extends LoginActivity
                         Intent intent4 = new Intent(MainActivity.this, MyBeaconActivity.class);
                         Bundle bundle4 = new Bundle();
                         bundle4.putString("my_id", memberid);
-                        bundle4.putString("my_google_id", googleid);
+                        bundle4.putString("my_google_id", MainActivity.this.googleid);
                         bundle4.putString("my_supervise_id", my_mon_id);
                         intent4.putExtras(bundle4);
                         startActivity(intent4);

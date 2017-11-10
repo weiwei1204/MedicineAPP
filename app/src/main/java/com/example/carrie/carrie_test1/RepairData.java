@@ -77,9 +77,7 @@ package com.example.carrie.carrie_test1;
         this.google_id = google_id;
     }
 
-    public String getGoogle_id() {
-        return google_id;
-    }
+    public String getGoogle_id() {return google_id;}
 
 
 
