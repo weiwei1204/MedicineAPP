@@ -14,22 +14,10 @@ import android.os.IBinder;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.android.volley.AuthFailureError;
-import com.android.volley.Request;
 import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 
 public class CheckBeacon extends Service {
@@ -155,7 +143,6 @@ public class CheckBeacon extends Service {
             InitBLE ();
             SearchForBLEDevices();
             status = 1 ;
-
         }
     }
     private void InitBLE() {
@@ -172,7 +159,7 @@ public class CheckBeacon extends Service {
         if (mBluetoothAdapter.isEnabled() == false) {
             Log.d("qq","444");
             Intent enableBluetooth = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
-            startActivityForResult(enableBluetooth, 0);
+//            startActivityForResult(enableBluetooth, 0);
         }
     }
 
@@ -213,6 +200,8 @@ public class CheckBeacon extends Service {
                     Intent my_intent=new Intent(getApplicationContext(),OnBootReceiver.class);
                     my_intent.putExtra("extra",lost);
                     sendBroadcast(my_intent);
+                }else{
+//                    Toast.makeText(getApplicationContext(), "掃描結束，無應帶而未帶之藥品", Toast.LENGTH_LONG).show();
                 }
 //                if(lost.size()!=0){
 //                    Log.d("bbb", "沒帶Beacon!!!!!!!!!!"+lost.get(0));
@@ -233,7 +222,7 @@ public class CheckBeacon extends Service {
 //                    }
 //                }
 //                needBeacon.clear();
-//                bringBeacon.clear();
+                bringBeacon.clear();
                 mBleDevices.clear();
                 Log.d("needBeaconSize", Integer.toString(needBeacon.size()));
                 Log.d("bringBeaconSize", Integer.toString(bringBeacon.size()));
@@ -251,6 +240,7 @@ public class CheckBeacon extends Service {
                         mBleDevices.add(device);
                         for (int i=0; i<1; i++) {
                             String  uuid = "" ;
+                            Toast.makeText(getApplicationContext(), "已進入"+mWifiInfo.getSSID()+"("+mWifiInfo.getBSSID()+")範圍，正在開始掃描~", Toast.LENGTH_LONG).show();
                             if(scanRecord.length > 30) {
                                 //從scanRecord 分辦是固定封包是6byte還是9ybge。
                                 //if((scanRecord[5]  == (byte)0x4c) && (scanRecord[6] == (byte)0x00) && (scanRecord[7]  == (byte)0x02) && (scanRecord[8] == (byte)0x15)) {
@@ -295,7 +285,7 @@ public class CheckBeacon extends Service {
     public void finish() {
         throw new RuntimeException("Stub!");
     }
-    public void startActivityForResult(Intent intent, int requestCode) {
-        throw new RuntimeException("Stub!");
-    }
+//    public void startActivityForResult(Intent intent, int requestCode) {
+//        throw new RuntimeException("Stub!");
+//    }
 }

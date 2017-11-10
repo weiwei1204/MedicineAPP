@@ -8,11 +8,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.ImageView;
-import android.widget.ListAdapter;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -52,7 +48,7 @@ public class FourthActivity extends AppCompatActivity {
         Log.d("drug","2");
         Bundle bundle5=getIntent().getExtras();
         m_calid = bundle5.getString("m_calid",m_calid);
-        Log.d("qqqqq123",m_calid);
+//        Log.d("qqqqq123",m_calid);
 
         if (m_calid.equals("-1")){//如果直接從搜尋add符號隱藏
             coordinatorLayout.setVisibility(View.GONE);
