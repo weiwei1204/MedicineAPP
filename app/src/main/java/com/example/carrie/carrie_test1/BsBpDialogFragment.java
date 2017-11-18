@@ -7,6 +7,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -35,8 +36,7 @@ public  class BsBpDialogFragment extends DialogFragment {
     TextView text_close;
     View rootView;
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout to use as dialog or embedded fragment
         rootView = inflater.inflate(R.layout.yuanma_dialog,null);
         btn_confirm = (Button)rootView.findViewById(R.id.btn_confirm);
@@ -72,6 +72,7 @@ public  class BsBpDialogFragment extends DialogFragment {
     }
 
 
+    @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
 //        Dialog dialog = super.onCreateDialog(savedInstanceState);

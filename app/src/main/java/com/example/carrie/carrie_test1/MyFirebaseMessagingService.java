@@ -67,6 +67,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                         .setColor(Color.BLUE)
                         .setAutoCancel(true);
 
+
         mBuilder.setContentIntent(contentIntent);
         mNotificationManager.notify(0, mBuilder.build());
 

@@ -66,7 +66,7 @@ public class EnterBpValue extends AppCompatActivity {
     public static String token;
     public static String mtoken;
     public String send="今天的血壓過高要小心哦";
-    public String send2="您的廢物病患今天血壓過高哦";
+    public String send2="您的看護者今天血壓過高哦";
     public String url = "http://54.65.194.253/Monitor/getMonitorToken.php?member_id="+memberdata.getMember_id();
     ArrayList<String> TokenList = new ArrayList<String>();
     String mtokens;
