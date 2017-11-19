@@ -62,9 +62,9 @@ public class MesureAdapter extends BaseAdapter{
         ImageView mimageView = (ImageView) convertView.findViewById(R.id.imageMeasure);
         mimageView.setImageResource(imageResource[position]);
         if(position==0){
-            medittextView.setText(my_measure.get(0).getBs_first());
+            medittextView.setText(memberdata.getBs_first());
             mtextView.setText("早上");
-            bs1 = my_measure.get(0).getBs_first();
+            bs1 = memberdata.getBs_first();
             medittextView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -105,9 +105,9 @@ public class MesureAdapter extends BaseAdapter{
                 }
             });
         }else if(position==1){
-            medittextView.setText(my_measure.get(0).getBs_second());
+            medittextView.setText(memberdata.getBs_second());
             mtextView.setText("中午");
-            bs2 = my_measure.get(0).getBs_second();
+            bs2 = memberdata.getBs_second();
             medittextView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -148,9 +148,9 @@ public class MesureAdapter extends BaseAdapter{
                 }
             });
         }else {
-            medittextView.setText(my_measure.get(0).getBs_third());
+            medittextView.setText(memberdata.getBs_third());
             mtextView.setText("晚上");
-            bs3 = my_measure.get(0).getBs_third();
+            bs3 = memberdata.getBs_third();
             medittextView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
