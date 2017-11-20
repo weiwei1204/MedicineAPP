@@ -4,18 +4,9 @@ import android.content.Intent;
 import android.util.Log;
 
 import com.amazonaws.auth.AWSCredentials;
-
 import com.amazonaws.auth.AWSCredentialsProvider;
 import com.amazonaws.auth.BasicAWSCredentials;
 import com.amazonaws.mobile.auth.core.IdentityManager;
-import com.amazonaws.services.sns.AmazonSNS;
-import com.google.android.gms.wearable.MessageApi;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.iid.FirebaseInstanceId;
-import com.google.firebase.iid.FirebaseInstanceIdService;
-
-import static com.google.android.gms.wearable.DataMap.TAG;
-
 import com.amazonaws.services.sns.AmazonSNSClient;
 import com.amazonaws.services.sns.model.CreatePlatformEndpointRequest;
 import com.amazonaws.services.sns.model.CreatePlatformEndpointResult;
@@ -42,17 +33,17 @@ public class MyFirebaseInstanceIDService extends FirebaseInstanceIdService {
     AWSCredentials awsCredentials = new AWSCredentials() {
         @Override
         public String getAWSAccessKeyId() {
-            return "AKIAIJBWJ3GH6OBW7PZQ";
+            return "AKIAJUTGDY6RCIIC5BDA";
         }
 
         @Override
         public String getAWSSecretKey() {
-            return "9soQ6XG2V7WCzYAbyYf3bZMuFoov4dudF7zFso";
+            return "kZZGB4NzwqKSV9BTBNj6Ml5CR+Aal+7PNUFHurfF";
         }
     };
 
     final AWSCredentialsProvider credentialsProvider = IdentityManager.getDefaultIdentityManager().getCredentialsProvider();
-    AmazonSNS client =  new AmazonSNSClient(credentialsProvider);
+    AmazonSNSClient client = new AmazonSNSClient(new BasicAWSCredentials(awsCredentials.getAWSAccessKeyId(),awsCredentials.getAWSSecretKey()));
     public static String arnStorage;
     public static String token;
     @Override
@@ -64,17 +55,20 @@ public class MyFirebaseInstanceIDService extends FirebaseInstanceIdService {
         Log.d("8080", "Refreshed token: " + refreshedToken);
         Log.d("8080", "credentialsProvider: " + awsCredentials.getAWSAccessKeyId());
 
+
         // If you want to send messages to this application instance or
         // manage this apps subscriptions on the server side, send the
         // Instance ID token to your app server.
-        sendRegistrationToServer(refreshedToken);
+        if(refreshedToken!=null) {
+            sendRegistrationToServer();
+        }
         Intent intent = new Intent(this, Main2.class);
         startService(intent);
         Log.d("9988","do this");
 
     }
 
-    private void sendRegistrationToServer(String refreshedToken) {
+    private void sendRegistrationToServer() {
         Log.d("9988","do aaa");
 
         String endpointArn = retrieveEndpointArn();

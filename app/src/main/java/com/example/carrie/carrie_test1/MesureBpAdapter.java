@@ -60,15 +60,15 @@ public class MesureBpAdapter extends BaseAdapter{
         ImageView mimageView = (ImageView) convertView.findViewById(R.id.imageMeasure);
         mimageView.setImageResource(imageResource[position]);
         if(position==0){
-            medittextView.setText(my_measure.get(0).getBp_first());
+            medittextView.setText(memberdata.getBp_first());
             mtextView.setText("早上");
 
         }else if(position==1){
-            medittextView.setText(my_measure.get(0).getBp_second());
+            medittextView.setText(memberdata.getBp_second());
             mtextView.setText("中午");
 
         }else {
-            medittextView.setText(my_measure.get(0).getBp_third());
+            medittextView.setText(memberdata.getBp_third());
             mtextView.setText("晚上");
         }
         medittextView.setOnClickListener(new View.OnClickListener() {

@@ -7,9 +7,8 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
-public class transparent extends AppCompatActivity {
+public class Transparent_bring extends AppCompatActivity {
 
-    private MediaPlayer media_song;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,20 +19,15 @@ public class transparent extends AppCompatActivity {
         String mcalname=null;
         Bundle bundle = getIntent().getExtras();
         mcalname = bundle.getString("extra");
-        media_song=MediaPlayer.create(this,R.raw.piano);//raw裡的音樂
-        media_song.setLooping(true);
-        media_song.start();
 
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(transparent.this);
+        AlertDialog.Builder builder = new AlertDialog.Builder(Transparent_bring.this);
                         builder.setMessage(mcalname)
-                                .setTitle("藥忘記帶囉")
+                                .setTitle("掃描結束，無應帶而未帶之藥品")
                                 .setCancelable(false)
                                 .setNegativeButton("確定", new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
-                                        media_song.stop();
-                                        media_song.reset();
 
                                     }
                                 });

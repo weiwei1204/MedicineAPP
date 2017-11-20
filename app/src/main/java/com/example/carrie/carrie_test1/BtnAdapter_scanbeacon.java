@@ -168,7 +168,6 @@ public class BtnAdapter_scanbeacon extends BaseAdapter {
             @Override
             public void onResponse(String response) {
                 Toast.makeText(mContext, "加入成功", Toast.LENGTH_LONG).show();
-
             }
         }, new Response.ErrorListener() {
             @Override

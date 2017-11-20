@@ -40,7 +40,7 @@ public class repair extends AppCompatActivity {
         setContentView(R.layout.activity_repair);
 
         Bundle bundle = getIntent().getExtras();
-        n_memberid = bundle.getString("memberid");
+        n_memberid = memberdata.getMember_id();
         n_googleid= bundle.getString("googleid");
         Log.d("wwwwww", n_memberid);
         Log.d("wwwwww", n_googleid);
@@ -106,6 +106,7 @@ public class repair extends AppCompatActivity {
                 Log.d("wwwwww", n_memberid);
                 bundle.putString("name", n_name);
                 Log.d("wwwwww", n_name);
+
                 bundle.putString("gender_man",n_gender);
                 bundle.putString("weight",n_weight);
                 bundle.putString("height", n_height);

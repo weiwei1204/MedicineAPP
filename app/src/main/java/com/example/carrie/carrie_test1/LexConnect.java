@@ -11,7 +11,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
-
+import android.Manifest;
 import com.amazonaws.auth.CognitoCredentialsProvider;
 import com.amazonaws.mobile.auth.core.IdentityManager;
 import com.amazonaws.mobileconnectors.lex.interactionkit.InteractionClient;
@@ -21,12 +21,14 @@ import com.amazonaws.mobileconnectors.lex.interactionkit.listeners.AudioPlayback
 import com.amazonaws.mobileconnectors.lex.interactionkit.ui.InteractiveVoiceView;
 import com.amazonaws.regions.Regions;
 import com.amazonaws.util.StringUtils;
-
+import android.support.v4.app.ActivityCompat;
+import static android.Manifest.permission.*;
 import java.util.Locale;
 import java.util.Map;
 
 public class LexConnect extends AppCompatActivity{
     public static final String TAG = "Lex doing";
+    private static final int REQUEST_RECORD_AUDIO = 0;
     private Context appContext;
     private InteractiveVoiceView voiceView;
     private TextView transcriptTextView;
@@ -38,9 +40,15 @@ public class LexConnect extends AppCompatActivity{
         setContentView(R.layout.activity_lex_connect);
         transcriptTextView = (TextView) findViewById(R.id.transcriptTextView);
         responseTextView = (TextView) findViewById(R.id.responseTextView);
+        int permission = ActivityCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO);
+        if (permission != PackageManager.PERMISSION_GRANTED) {
+            // 無權限，向使用者請求
+            ActivityCompat.requestPermissions(this, new String[] {RECORD_AUDIO, READ_EXTERNAL_STORAGE}, REQUEST_RECORD_AUDIO);
+        }
         init();
         StringUtils.isBlank("notempty");
     }
+
     @Override
     public void onBackPressed() {
         exit();
@@ -61,7 +69,7 @@ public class LexConnect extends AppCompatActivity{
         voiceView.setInteractiveVoiceListener(new InteractiveVoiceView.InteractiveVoiceListener() {
             @Override
             public void dialogReadyForFulfillment(Map slots, String intent) {
-                Log.d(TAG, String.format(
+                Log.d("1212", String.format(
                         Locale.US,
                         "Dialog ready for fulfillment:\n\tIntent: %s\n\tSlots: %s",
                         intent,
@@ -70,15 +78,15 @@ public class LexConnect extends AppCompatActivity{
 
             @Override
             public void onResponse(Response response) {
-                Log.d(TAG, "Bot response: " + response.getTextResponse());
-                Log.d(TAG, "Transcript: " + response.getInputTranscript());
+                Log.d("1212", "Bot response: " + response.getTextResponse());
+                Log.d("1212", "Transcript: " + response.getInputTranscript());
                 responseTextView.setText(response.getTextResponse());
                 transcriptTextView.setText(response.getInputTranscript());
             }
 
             @Override
             public void onError(String responseText, Exception e) {
-                Log.e(TAG, "Error: " + responseText, e);
+                Log.e("1212", "Error: " + responseText, e);
             }
         });
 
@@ -87,5 +95,7 @@ public class LexConnect extends AppCompatActivity{
 //        voiceView.getViewAdapter().setInteractionConfig(new InteractionConfig("YuanBot","$version")); //replace parameters with your botname, bot-alias
 //        voiceView.getViewAdapter().setAwsRegion(getApplicationContext().getString(R.string.aws_region));
     }
+
+
 
 }

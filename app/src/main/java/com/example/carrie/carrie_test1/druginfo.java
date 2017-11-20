@@ -59,6 +59,7 @@ public class druginfo extends AppCompatActivity {
     public  String my_id = "";
     public  String my_mon_id = "";//Supviser的id
     private String m_calid="0";
+    public int opencamera;
     @Override
     protected void onCreate( Bundle savedInstanceState) {
 
@@ -70,7 +71,7 @@ public class druginfo extends AppCompatActivity {
         my_mon_id = bundle.getString("my_supervise_id");
         m_calid = bundle.getString("m_calid");
 
-        Log.d("qqqqq",m_calid);
+//        Log.d("qqqqq",m_calid);
 
 
         btmbar = (RelativeLayout) findViewById(R.id.btmbar);

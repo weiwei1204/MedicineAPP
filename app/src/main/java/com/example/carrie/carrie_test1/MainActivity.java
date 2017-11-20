@@ -1,8 +1,11 @@
 package com.example.carrie.carrie_test1;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.NavigationView;
@@ -15,6 +18,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -31,6 +35,7 @@ import com.android.volley.toolbox.Volley;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
+import com.google.firebase.iid.FirebaseInstanceId;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -38,28 +43,48 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.Map;
 
+import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
+import okhttp3.RequestBody;
 
 public class MainActivity extends LoginActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     private ImageButton SignOut;
+    ImageButton robot;
+    private Intent serviceIntent;
+    private static final int CODE_DRAW_OVER_OTHER_APP_PERMISSION = 2084;
     Spinner spinner;
     ArrayAdapter<CharSequence> adapter;
     String googleid;
     String getidUrl = "http://54.65.194.253/Member/getid.php";
+    private Button nav_gallery;
+
     RequestQueue requestQueue;
+    RequestQueue requestQueue2;
     String memberid;
     String my_mon_id;
     BsBpMeasureObject bsBpMeasureObject;
     RepairData repairData;
-    String name;
+    String nname;
     String gender;
     String weight;
     String height;
     String birth;
+    private ArrayList<String> needBeacon = new ArrayList<String>();
+    private ArrayList<String> Beaconcal = new ArrayList<String>();
+    private ArrayList<String> storeAPBSSID = new ArrayList<String>();
+    private int UUIDnum = 0 ;
+    private int SSIDnum = 0 ;
+    String getm_BeaconUrl = "http://54.65.194.253/Beacon/getm_Beacon.php";
+    String getAPUrl = "http://54.65.194.253/Beacon/getAP.php";
 
 
     @Override
@@ -70,6 +95,20 @@ public class MainActivity extends LoginActivity
         setSupportActionBar(toolbar);
         Bundle bundle = getIntent().getExtras();
         googleid = bundle.getString("googleid");
+        Log.d("GOOGLEID",googleid);
+        nname = bundle.getString("name");
+        gender = bundle.getString("gender_man");
+        weight=bundle.getString("weight");
+        height=bundle.getString("height");
+        birth=bundle.getString("birth");
+//        Log.d("GOOGLEID",nname);
+
+//        Log.d("GOOGLEID",googleid);
+//        name = bundle.getString("name");
+//        gender=bundle.getString("gender_man");
+//        weight=bundle.getString("weight");
+//        height=bundle.getString("height");
+//        birth=bundle.getString("birth");
         memberdata.setGoogle_id(googleid);
 
 //        Log.d("GOOGLEID",name);
@@ -80,6 +119,9 @@ public class MainActivity extends LoginActivity
         getMonitorId();
         getid();
         getpersonal();
+
+        Log.d("UUIDnum123",Integer.toString(UUIDnum));
+        Log.d("SSIDnum123",Integer.toString(SSIDnum));
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -159,8 +201,30 @@ public class MainActivity extends LoginActivity
                 return false;
             }
         });
-//        Intent intent = new Intent(MainActivity.this,CheckBeacon.class);
-//        startService(intent);
+
+        robot = (ImageButton) findViewById(R.id.robotbtn);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && !Settings.canDrawOverlays(this)) {
+            Intent pintent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION, Uri.parse("package:" + getPackageName()));
+            startActivityForResult(pintent, CODE_DRAW_OVER_OTHER_APP_PERMISSION);
+        }
+
+        robot.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                serviceIntent = new Intent(MainActivity.this, ChatHeadService.class);
+                startService(serviceIntent);
+                Log.d("8989", "clicked");
+            }
+        });
+
+
+        memberdata.setNeedBeacon(needBeacon);
+        memberdata.setBeaconcal(Beaconcal);
+        UUIDnum = needBeacon.size();
+        SSIDnum = storeAPBSSID.size();
+        Intent intent = new Intent(MainActivity.this,CheckBeacon.class);
+        startService(intent);
+
     }
 
     private void signOut() {
@@ -170,8 +234,8 @@ public class MainActivity extends LoginActivity
             public void onResult(@NonNull Status status) {
             }
         });
-        Intent it = new Intent(this, LoginActivity.class);
-        startActivity(it);
+//        Intent it = new Intent(this, LoginActivity.class);
+//        startActivity(it);
 
     }
 
@@ -239,6 +303,11 @@ public class MainActivity extends LoginActivity
         Bundle bundle = new Bundle();
         bundle.putString("googleid", googleid);
         bundle.putString("memberid", memberid);
+        bundle.putString("name", nname);
+        bundle.putString("gender_man",gender );
+        bundle.putString("weight",weight);
+        bundle.putString("height", height);
+        bundle.putString("birth", birth);
         bundle.putString("name", repairData.getName());
         bundle.putString("gender_man",repairData.getGender_man() );
         bundle.putString("weight",repairData.getWeight());
@@ -267,7 +336,7 @@ public class MainActivity extends LoginActivity
         it.putExtras(bundle);   // 記得put進去，不然資料不會帶過去哦
         startActivity(it);
     }
-    public void gotoLoginActivity(View v) { //連到搜尋藥品資訊頁面
+//    public void gotoLoginActivity(View v) { //連到搜尋藥品資訊頁面
 //        Intent it = new Intent(this,LoginActivity.class);
 //        Log.d("hh","4");
 //        LoginActivity la=new LoginActivity();
@@ -277,7 +346,7 @@ public class MainActivity extends LoginActivity
 //        Log.d("hh","1");
 //        startActivity(it);
 
-    }
+    //   }
 
     public void getid() {
         requestQueue = Volley.newRequestQueue(getApplicationContext());
@@ -289,6 +358,8 @@ public class MainActivity extends LoginActivity
                 memberid = response;
                 memberdata.setMember_id(response);
                 getMeasureInformation();
+                getAP();
+                getbeacon();
             }
         }, new Response.ErrorListener() {
             @Override
@@ -355,6 +426,7 @@ public class MainActivity extends LoginActivity
                     Log.d("my_mon_id222", my_mon_id);
                     memberdata.setMy_mon_id(response);
                     //addMonitor();//新增監控者至監視列表
+                    sendToken();
                 }
             }
         }, new Response.ErrorListener() {
@@ -396,6 +468,14 @@ public class MainActivity extends LoginActivity
                 } else {
                     Log.d("measureInfor", "havedata");
                     try {
+                        memberdata.measure_id = response.getInt("id");
+                        memberdata.bp_first=getCurrentTimeStamp(response.getString("bp_first"));
+                        memberdata.bp_second=getCurrentTimeStamp(response.getString("bp_second"));
+                        memberdata.bp_third=getCurrentTimeStamp(response.getString("bp_third"));
+                        memberdata.bs_first=getCurrentTimeStamp(response.getString("bs_first"));
+                        memberdata.bs_second=getCurrentTimeStamp(response.getString("bs_second"));
+                        memberdata.bs_third=getCurrentTimeStamp(response.getString("bs_third"));
+
                         bsBpMeasureObject = new BsBpMeasureObject(response.getInt("id"), response.getString("member_id"), response.getString("bs_first"), response.getString("bs_second"), response.getString("bs_third"), response.getString("bp_first"), response.getString("bp_second"), response.getString("bp_third"));
                         Log.d("measureInfor", "object " + bsBpMeasureObject.toString());
                     } catch (JSONException e) {
@@ -417,6 +497,7 @@ public class MainActivity extends LoginActivity
     }
 
     public void getpersonal() {
+
         AsyncTask<Integer, Void, Void> task = new AsyncTask<Integer, Void, Void>() {
             @Override
             protected Void doInBackground(Integer... integers) {
@@ -470,6 +551,39 @@ public class MainActivity extends LoginActivity
             @Override
             protected void onPostExecute(Void aVoid) {
 
+                Bundle bundle1 = new Bundle();
+
+                String p1= getIntent().getExtras().getString("name", "not found");
+                bundle1.putString("name", repairData.getName());
+                repairData.setName(p1);
+
+
+                String p2;
+                p2=repairData.getGender_man();
+                bundle1.putString("gender_man", repairData.getGender_man());
+                repairData.setGender_man(p2);
+
+                String p3;
+                p3=repairData.getWeight();
+                bundle1.putString("weight", repairData.getWeight());
+                repairData.setWeight(p3);
+
+                String p4;
+                p4=repairData.getHeight();
+                bundle1.putString("height", repairData.getHeight());
+                repairData.setHeight(p4);
+
+                String p5;
+                p5=repairData.getBirth();
+                bundle1.putString("birth", repairData.getBirth());
+                repairData.setBirth(p5);
+
+                Log.d("ppppp",p1);
+                Log.d("ppppp", p2);
+                Log.d("ppppp",p3);
+                Log.d("ppppp",p4);
+                Log.d("ppppp",p5);
+
 //                Bundle bundle1 = new Bundle();
 //
 //                String p1= getIntent().getExtras().getString("name", "not found");
@@ -503,12 +617,12 @@ public class MainActivity extends LoginActivity
 //                Log.d("ppppp",p5);
 
 
+
             }
         };
         task.execute();
 
     }
-
 
 
 
@@ -573,7 +687,140 @@ public class MainActivity extends LoginActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+    public void getbeacon(){
+        requestQueue = Volley.newRequestQueue(getApplicationContext());
+        final StringRequest drugrequest = new StringRequest(Request.Method.POST, getm_BeaconUrl, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Log.d("nn1111",response);
+                try {
+                    JSONArray jarray = new JSONArray(response);
+                    UUIDnum = jarray.length() ;
+                    needBeacon.clear();
+                    Beaconcal.clear();
+                    for (int i=0;i<jarray.length();i++){
+                        JSONObject obj = jarray.getJSONObject(i);
+                        String UUID = obj.getString("UUID");
+                        String name = obj.getString("name");
+                        needBeacon.add(i,UUID);
+                        Beaconcal.add(i,name);
+                        Log.d("needBeacon",needBeacon.get(i));
+                    }
+                    memberdata.setNeedBeacon(needBeacon);
+                    memberdata.setBeaconcal(Beaconcal);
+                    UUIDnum = needBeacon.size();
+                    SSIDnum = storeAPBSSID.size();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(getApplicationContext(), "Error read getm_Beacon.php!!!", Toast.LENGTH_LONG).show();
+            }
+        })
+        {
+            protected Map<String, String> getParams() throws AuthFailureError {//把值丟到php
+                Map<String, String> parameters = new HashMap<String, String>();
+                parameters.put("member_id",memberdata.getMember_id());
+                Log.d("nn1111",parameters.toString());
+                return parameters;
+            }
+        };
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(drugrequest);
+    }
+    public void getAP(){
+        requestQueue = Volley.newRequestQueue(getApplicationContext());
+        final StringRequest drugrequest = new StringRequest(Request.Method.POST, getAPUrl, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+//                Log.d("nn1122",response);
+                try {
+                    JSONArray jarray = new JSONArray(response);
+                    final String[] SSIDarray=new String[jarray.length()];
+                    final String[] BSSIDarray=new String[jarray.length()];
+                    storeAPBSSID.clear();
+                    SSIDnum = jarray.length();
+                    for (int i=0;i<jarray.length();i++){
+                        JSONObject obj = jarray.getJSONObject(i);
+                        String SSID = obj.getString("SSID");
+                        String BSSID = obj.getString("BSSID");
+                        SSIDarray[i]=SSID;
+                        storeAPBSSID.add(i,BSSID);
+                        Log.d("nn11",BSSID);
+                    }
+                    memberdata.setStoreAPBSSID(storeAPBSSID);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(getApplicationContext(), "Error read getm_AP.php!!!", Toast.LENGTH_LONG).show();
+            }
+        })
+        {
+            protected Map<String, String> getParams() throws AuthFailureError {//把值丟到php
+                Map<String, String> parameters = new HashMap<String, String>();
+                parameters.put("member_id",memberdata.getMember_id());
+                Log.d("nn1122",parameters.toString());
+                return parameters;
+            }
+        };
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(drugrequest);
+    }
+    public void sendToken(){
+        final String token = FirebaseInstanceId.getInstance().getToken();
+        Log.d("2233","Token: "+token);
+        AsyncTask<Integer, Void, Void> task = new AsyncTask<Integer, Void, Void>() {
+            @Override
+            protected Void doInBackground(Integer... integers) {
+                RequestBody formBody = new MultipartBody.Builder()
+                        .setType(MultipartBody.FORM)
+                        .addFormDataPart("memberid", my_mon_id)
+                        .addFormDataPart("token", token)
+                        .build();
+                OkHttpClient client = new OkHttpClient();
+                okhttp3.Request request = new okhttp3.Request.Builder()
+                        .url("http://54.65.194.253/Monitor/sendToken.php?memberid=" + my_mon_id + "&token=" + token)
+                        .post(formBody)
+                        .build();
+                try {
+                    okhttp3.Response response = client.newCall(request).execute();
+                    Log.d("mon_idte213st", "http://54.65.194.253/Monitor/sendToken.php?memberid=" + my_mon_id + "&token=" + token);
 
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                return null;
+            }
 
+            @Override
+            protected void onPostExecute(Void aVoid) {
+
+            }
+        };
+        task.execute();
+    }
+    public static String getCurrentTimeStamp(String dateString) throws ParseException {//時間格式轉換
+        String strDate = "";
+        SimpleDateFormat sdfDate = new SimpleDateFormat("HH:mm");//format yyyy-MM-dd HH:mm:ss to HH:mm
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Calendar calendar = new GregorianCalendar();
+
+        Date date = sdf.parse(dateString);
+        calendar.setTime(date);
+        int month = calendar.get(Calendar.MONTH)+1;
+        if (month==1){
+            strDate ="";
+        }else {
+            strDate = sdfDate.format(date);
+        }
+        return strDate;
+    }
 
 }

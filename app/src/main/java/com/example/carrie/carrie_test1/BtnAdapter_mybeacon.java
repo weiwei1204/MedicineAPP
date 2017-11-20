@@ -170,7 +170,6 @@ public class BtnAdapter_mybeacon extends BaseAdapter {
     public void deletebeacon(final String id) {
 
         Log.d("bcon","1h6");
-
                 BtnAdapter_mybeacon btnAdapter_mybeacon = new BtnAdapter_mybeacon();
 
                 requestQueue = Volley.newRequestQueue(aContext);
@@ -180,8 +179,9 @@ public class BtnAdapter_mybeacon extends BaseAdapter {
                     @Override
                     public void onResponse(String response) {
                         Log.d("bcon",response.toString());
-                        Toast.makeText(mContext,"成功刪除",Toast.LENGTH_LONG).show();
-
+                        Toast.makeText(mContext,"刪除成功",Toast.LENGTH_LONG).show();
+                        DeviceData.getBeacon(mContext);
+                        DeviceData.getAP(mContext);
                     }
                 }, new Response.ErrorListener() {
                     @Override

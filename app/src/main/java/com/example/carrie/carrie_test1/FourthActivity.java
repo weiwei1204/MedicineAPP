@@ -48,7 +48,7 @@ public class FourthActivity extends AppCompatActivity {
         Log.d("drug","2");
         Bundle bundle5=getIntent().getExtras();
         m_calid = bundle5.getString("m_calid",m_calid);
-        Log.d("qqqqq123",m_calid);
+//        Log.d("qqqqq123",m_calid);
 
         if (m_calid.equals("-1")){//如果直接從搜尋add符號隱藏
             coordinatorLayout.setVisibility(View.GONE);
@@ -81,11 +81,6 @@ public class FourthActivity extends AppCompatActivity {
         indication.setText(string1);
     //    indi = autoSplitText(indication);
    //     indication.setText(indi);
-
-
-
-
-
 
         String string2= getIntent().getExtras().getString("englishName", "not found");
         eng = bundle.getString("englishName");//get 中文名字
@@ -155,9 +150,6 @@ public class FourthActivity extends AppCompatActivity {
     }
 
 
-
-
-
     //
 //    将textview中的文字进行排版
     private String autoSplitText(final TextView tv) {
@@ -196,7 +188,6 @@ public class FourthActivity extends AppCompatActivity {
         }
         return sbNewText.toString();
     }
-
 
 
     public void inserttomcal(){
