@@ -23,6 +23,7 @@ public class transparent extends AppCompatActivity {
         media_song=MediaPlayer.create(this,R.raw.piano);//raw裡的音樂
         media_song.start();
 
+
         AlertDialog.Builder builder = new AlertDialog.Builder(transparent.this);
                         builder.setMessage(mcalname)
                                 .setTitle("藥忘記帶囉")
