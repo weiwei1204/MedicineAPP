@@ -222,8 +222,8 @@ public class MainActivity extends LoginActivity
         memberdata.setBeaconcal(Beaconcal);
         UUIDnum = needBeacon.size();
         SSIDnum = storeAPBSSID.size();
-        Intent intent = new Intent(MainActivity.this,CheckBeacon.class);
-        startService(intent);
+//        Intent intent = new Intent(MainActivity.this,CheckBeacon.class);
+//        startService(intent);
 
     }
 
