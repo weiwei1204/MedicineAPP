@@ -43,7 +43,11 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -204,22 +208,22 @@ public class MainActivity extends LoginActivity
             startActivityForResult(pintent, CODE_DRAW_OVER_OTHER_APP_PERMISSION);
         }
 
-            robot.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    serviceIntent = new Intent(MainActivity.this, ChatHeadService.class);
-                    startService(serviceIntent);
-                    Log.d("8989", "clicked");
-                }
-            });
+        robot.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                serviceIntent = new Intent(MainActivity.this, ChatHeadService.class);
+                startService(serviceIntent);
+                Log.d("8989", "clicked");
+            }
+        });
 
 
         memberdata.setNeedBeacon(needBeacon);
         memberdata.setBeaconcal(Beaconcal);
         UUIDnum = needBeacon.size();
         SSIDnum = storeAPBSSID.size();
-        Intent intent = new Intent(MainActivity.this,CheckBeacon.class);
-        startService(intent);
+//        Intent intent = new Intent(MainActivity.this,CheckBeacon.class);
+//        startService(intent);
 
     }
 
@@ -342,7 +346,7 @@ public class MainActivity extends LoginActivity
 //        Log.d("hh","1");
 //        startActivity(it);
 
- //   }
+    //   }
 
     public void getid() {
         requestQueue = Volley.newRequestQueue(getApplicationContext());
@@ -464,6 +468,14 @@ public class MainActivity extends LoginActivity
                 } else {
                     Log.d("measureInfor", "havedata");
                     try {
+                        memberdata.measure_id = response.getInt("id");
+                        memberdata.bp_first=getCurrentTimeStamp(response.getString("bp_first"));
+                        memberdata.bp_second=getCurrentTimeStamp(response.getString("bp_second"));
+                        memberdata.bp_third=getCurrentTimeStamp(response.getString("bp_third"));
+                        memberdata.bs_first=getCurrentTimeStamp(response.getString("bs_first"));
+                        memberdata.bs_second=getCurrentTimeStamp(response.getString("bs_second"));
+                        memberdata.bs_third=getCurrentTimeStamp(response.getString("bs_third"));
+
                         bsBpMeasureObject = new BsBpMeasureObject(response.getInt("id"), response.getString("member_id"), response.getString("bs_first"), response.getString("bs_second"), response.getString("bs_third"), response.getString("bp_first"), response.getString("bp_second"), response.getString("bp_third"));
                         Log.d("measureInfor", "object " + bsBpMeasureObject.toString());
                     } catch (JSONException e) {
@@ -794,6 +806,21 @@ public class MainActivity extends LoginActivity
         };
         task.execute();
     }
+    public static String getCurrentTimeStamp(String dateString) throws ParseException {//時間格式轉換
+        String strDate = "";
+        SimpleDateFormat sdfDate = new SimpleDateFormat("HH:mm");//format yyyy-MM-dd HH:mm:ss to HH:mm
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Calendar calendar = new GregorianCalendar();
 
+        Date date = sdf.parse(dateString);
+        calendar.setTime(date);
+        int month = calendar.get(Calendar.MONTH)+1;
+        if (month==1){
+            strDate ="";
+        }else {
+            strDate = sdfDate.format(date);
+        }
+        return strDate;
+    }
 
 }

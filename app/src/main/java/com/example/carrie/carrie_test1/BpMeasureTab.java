@@ -66,7 +66,12 @@ public class BpMeasureTab  extends Fragment {
         Intent intent = getActivity().getIntent();
         Bundle bundle = getActivity().getIntent().getExtras();
         memberid=bundle.getString("memberid");
-        BsBpMeasureObject bsBpMeasureObject = (BsBpMeasureObject)intent.getSerializableExtra("bsBpMeasureObject");
+        BsBpMeasureObject bsBpMeasureObject = null;
+        try {
+            bsBpMeasureObject = new BsBpMeasureObject(memberdata.getMeasure_id(), memberdata.getMember_id(), memberdata.getBs_first(), memberdata.getBs_second(), memberdata.getBs_third(), memberdata.getBp_first(), memberdata.getBp_second(), memberdata.getBp_third());
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
         my_measure.add(bsBpMeasureObject);
         mesureBpAdapter=new MesureBpAdapter(getActivity(),my_measure);
         bpmeasure.setAdapter(mesureBpAdapter);
@@ -87,18 +92,21 @@ public class BpMeasureTab  extends Fragment {
                     bp1 = "2017-01-01 00:00:00";
 //                    bpat1 = null;
                 }else{
+                    memberdata.bp_first = bp_1.getText().toString();
                     bp1 = "2017-09-18 "+bp_1.getText().toString();
                 }
                 if (bp_2.getText().length()==0){
                     bp2 = "2017-01-01 00:00:00";
 //                    bpat2 = null;
                 }else{
+                    memberdata.bp_second = bp_2.getText().toString();
                     bp2 = "2017-09-18 "+bp_2.getText().toString();
                 }
                 if (bp_3.getText().length()==0){
                     bp3 = "2017-01-01 00:00:00";
 //                    bpat3 = null;
                 }else{
+                    memberdata.bp_third = bp_3.getText().toString();
                     bp3 = "2017-09-18 "+bp_3.getText().toString();
                 }
 //                Log.d("saveBpMeasureButton",bp_3.getText().toString());

@@ -179,12 +179,15 @@ public class CheckBeacon extends Service {
                 Log.d("bringBeaconSize", Integer.toString(bringBeacon.size()));
                 Log.d("BeaconcalSize", Integer.toString(Beaconcal.size()));
                 ArrayList<String> lost = new ArrayList<String>();
+                ArrayList<String> bring = new ArrayList<String>();
                 for(int i = 0; i < needBeacon.size(); i++){
                     Boolean check=false;
                     for(int j = 0; j < bringBeacon.size(); j++ ){
                         if(bringBeacon.get(j).get(0).equals(needBeacon.get(i))){
                             check=true;
                             Log.d("bbb", needBeacon.get(i));
+                            bring.add(Beaconcal.get(i));
+                            bring.add(bringBeacon.get(j).get(1));
                         }else{}
                     }
                     Log.d("bbb", "!!!!!!!!!!"+check);
@@ -197,10 +200,15 @@ public class CheckBeacon extends Service {
                     }
                 }
                 if (lost.size()!=0){
+                    Log.d("bbb1",lost.toString());
                     Intent my_intent=new Intent(getApplicationContext(),OnBootReceiver.class);
                     my_intent.putExtra("extra",lost);
                     sendBroadcast(my_intent);
                 }else{
+                    Log.d("bbb1",bring.toString());
+                    Intent my_intent=new Intent(getApplicationContext(),OnBootReceiver_bring.class);
+                    my_intent.putExtra("extra",bring);
+                    sendBroadcast(my_intent);
 //                    Toast.makeText(getApplicationContext(), "掃描結束，無應帶而未帶之藥品", Toast.LENGTH_LONG).show();
                 }
 //                if(lost.size()!=0){

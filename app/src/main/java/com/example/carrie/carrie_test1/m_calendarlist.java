@@ -101,6 +101,7 @@ public class m_calendarlist extends Activity{
                     final String[] mname=new String[jarray.length()];
                     final String[] mdelay=new String[jarray.length()];
                     final String[] mday=new String[jarray.length()];
+                    final int[] mnotify=new int[jarray.length()];
                     for (int i=0 ; i<jarray.length() ; i++){
                         JSONObject mcalendar = jarray.getJSONObject(i);
                         String id = mcalendar.getString("id");
@@ -110,13 +111,21 @@ public class m_calendarlist extends Activity{
                         String delay = mcalendar.getString("delay");
                         String count = mcalendar.getString("count");
                         String finish = mcalendar.getString("finish");
+                        String day = mcalendar.getString("day");
                         Double percent=(Double.valueOf(count)-Double.valueOf(time_count))/Double.valueOf(count)*100;
                         DecimalFormat df=new DecimalFormat("#.#");
+                        int surplusday = Integer.valueOf(count)/Integer.valueOf(day);//計算一天需吃幾次藥
+                        if(Integer.valueOf(time_count)<=surplusday){    //如果剩餘次數小於等於一天就提醒
+                            mnotify[i]=1;
+                        }
+                        else{
+                            mnotify[i]=0;
+                        }
                         mid[i] = id;
                         mname[i] = name;
                         mdelay[i] = delay;
                         mday[i] = df.format(percent);
-                        m_calendararray.add(new m_calendar(Integer.valueOf(mid[i]),mname[i],mday[i],mdelay[i],Integer.valueOf(finish)));
+                        m_calendararray.add(new m_calendar(Integer.valueOf(mid[i]),mname[i],mday[i],mdelay[i],Integer.valueOf(finish),mnotify[i]));
 
                     }//取值結束
                     madapter();
