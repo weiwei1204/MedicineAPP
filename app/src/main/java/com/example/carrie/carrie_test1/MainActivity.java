@@ -1,6 +1,11 @@
 package com.example.carrie.carrie_test1;
 
+import android.content.ContentValues;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -55,6 +60,7 @@ import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
 import okhttp3.RequestBody;
 
+
 public class MainActivity extends LoginActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     private ImageButton SignOut;
@@ -66,7 +72,7 @@ public class MainActivity extends LoginActivity
     String googleid;
     String getidUrl = "http://54.65.194.253/Member/getid.php";
     private Button nav_gallery;
-
+    SharedPreferences sharedPref;
     RequestQueue requestQueue;
     RequestQueue requestQueue2;
     String memberid;
@@ -85,6 +91,9 @@ public class MainActivity extends LoginActivity
     private int SSIDnum = 0 ;
     String getm_BeaconUrl = "http://54.65.194.253/Beacon/getm_Beacon.php";
     String getAPUrl = "http://54.65.194.253/Beacon/getAP.php";
+    SQLiteDatabase sqLiteDatabase;
+    public static final String DATABASE_NAME = "MedicineTest.db";
+    public static final String TABLE_NAME = "Member";
 
 
     @Override
@@ -95,7 +104,7 @@ public class MainActivity extends LoginActivity
         setSupportActionBar(toolbar);
         Bundle bundle = getIntent().getExtras();
         googleid = bundle.getString("googleid");
-        Log.d("GOOGLEID",googleid);
+//        Log.d("GOOGLEID",googleid);
         nname = bundle.getString("name");
         gender = bundle.getString("gender_man");
         weight=bundle.getString("weight");
@@ -234,8 +243,14 @@ public class MainActivity extends LoginActivity
             public void onResult(@NonNull Status status) {
             }
         });
-//        Intent it = new Intent(this, LoginActivity.class);
-//        startActivity(it);
+        sharedPref= getApplication().getSharedPreferences("data",MODE_PRIVATE);
+        //number = sharedPref.getInt("isLogged", 0);
+        SharedPreferences.Editor prefEditor = sharedPref.edit();
+        prefEditor.putInt("isLogged",0);
+
+        prefEditor.commit();
+        Intent it = new Intent(this, LoginActivity.class);
+        startActivity(it);
 
     }
 
@@ -349,36 +364,53 @@ public class MainActivity extends LoginActivity
  //   }
 
     public void getid() {
-        requestQueue = Volley.newRequestQueue(getApplicationContext());
+        sqLiteDatabase = openOrCreateDatabase(DATABASE_NAME, Context.MODE_PRIVATE,null);
+        Cursor c  = sqLiteDatabase.rawQuery("SELECT * FROM Member",null);
 
-        final StringRequest request = new StringRequest(Request.Method.POST, getidUrl, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                Log.d("rrr123", response);
-                memberid = response;
-                memberdata.setMember_id(response);
-                getMeasureInformation();
-                getAP();
-                getbeacon();
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Log.d("rrr111", error.toString());
-                Toast.makeText(getApplicationContext(), "Error read insert.php!!!", Toast.LENGTH_LONG).show();
-            }
-        }) {
-            protected Map<String, String> getParams() throws AuthFailureError {//把值丟到php
-                Map<String, String> parameters = new HashMap<String, String>();
-                parameters.put("google_id", googleid);
-                Log.d("my123", parameters.toString());
-                Log.d("my123", "checck!!!");
-                return parameters;
 
-            }
-        };
-        RequestQueue requestQueue = Volley.newRequestQueue(this);
-        requestQueue.add(request);
+        if(c.moveToFirst()){
+            do{
+                memberid = c.getString(0);
+                Log.d("idFormember",memberid);
+            }while (c.moveToNext());
+
+        }
+        if (memberid.equals("1")) {
+            requestQueue = Volley.newRequestQueue(getApplicationContext());
+
+            final StringRequest request = new StringRequest(Request.Method.POST, getidUrl, new Response.Listener<String>() {
+                @Override
+                public void onResponse(String response) {
+                    Log.d("rrr123", response);
+                    memberid = response;
+                    updateId(response);
+                    memberdata.setMember_id(response);
+                    getMeasureInformation();
+                    getAP();
+                    getbeacon();
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    Log.d("rrr111", error.toString());
+                    Toast.makeText(getApplicationContext(), "Error read insert.php!!!", Toast.LENGTH_LONG).show();
+                }
+            }) {
+                protected Map<String, String> getParams() throws AuthFailureError {//把值丟到php
+                    Map<String, String> parameters = new HashMap<String, String>();
+                    parameters.put("google_id", googleid);
+                    Log.d("my123", parameters.toString());
+                    Log.d("my123", "checck!!!");
+                    return parameters;
+
+                }
+            };
+            RequestQueue requestQueue = Volley.newRequestQueue(this);
+            requestQueue.add(request);
+
+
+        }
+
     }
 
 
@@ -554,7 +586,7 @@ public class MainActivity extends LoginActivity
                 Bundle bundle1 = new Bundle();
 
                 String p1= getIntent().getExtras().getString("name", "not found");
-                bundle1.putString("name", repairData.getName());
+                bundle1.putString("name", memberdata.getName());
                 repairData.setName(p1);
 
 
@@ -821,6 +853,17 @@ public class MainActivity extends LoginActivity
             strDate = sdfDate.format(date);
         }
         return strDate;
+    }
+    public void updateId(String a ){
+        ContentValues contentValues = new ContentValues(4);
+        contentValues.put("id",a);
+        //sqLiteDatabase.insert(TABLE_NAME,null,contentValues);
+        sqLiteDatabase.update(TABLE_NAME, contentValues, "id =" + "0", null);
+
+
+
+
+
     }
 
 }
