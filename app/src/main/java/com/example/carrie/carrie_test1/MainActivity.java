@@ -2,10 +2,13 @@ package com.example.carrie.carrie_test1;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -17,6 +20,7 @@ import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
@@ -168,13 +172,18 @@ public class MainActivity extends LoginActivity
                         break;
 
                     case R.id.ic_eye:
-                        Intent intent1 = new Intent(MainActivity.this, MonitorActivity.class);
-                        Bundle bundle1 = new Bundle();
-                        bundle1.putString("my_id", memberid);
-                        bundle1.putString("my_google_id", googleid);
-                        bundle1.putString("my_supervise_id", my_mon_id);
-                        intent1.putExtras(bundle1);
-                        startActivity(intent1);
+                        if(isNetworkAvailable()){
+                            Intent intent1 = new Intent(MainActivity.this, MonitorActivity.class);
+                            Bundle bundle1 = new Bundle();
+                            bundle1.putString("my_id", memberid);
+                            bundle1.putString("my_google_id", googleid);
+                            bundle1.putString("my_supervise_id", my_mon_id);
+                            intent1.putExtras(bundle1);
+                            startActivity(intent1);
+                        }else {
+                            networkCheck();
+                        }
+
                         break;
 
                     case R.id.ic_home:
@@ -265,13 +274,18 @@ public class MainActivity extends LoginActivity
     }
 
     public void gotoMonitorActivity(View v) {
-        Intent it = new Intent(this, MonitorActivity.class);
-        Bundle bundle = new Bundle();
-        bundle.putString("my_id", memberid);
-        bundle.putString("my_google_id", googleid);
-        bundle.putString("my_supervise_id", my_mon_id);
-        it.putExtras(bundle);
-        startActivity(it);
+        if(isNetworkAvailable()){
+            Intent it = new Intent(this, MonitorActivity.class);
+            Bundle bundle = new Bundle();
+            bundle.putString("my_id", memberid);
+            bundle.putString("my_google_id", googleid);
+            bundle.putString("my_supervise_id", my_mon_id);
+            it.putExtras(bundle);
+            startActivity(it);
+        }
+        else {
+            networkCheck();
+        }
     }
 
     public void gotoChoice(View v) {  //連到排程選擇頁面
@@ -837,5 +851,25 @@ public class MainActivity extends LoginActivity
 
 
     }
+    public  boolean isNetworkAvailable() {
+        ConnectivityManager connectivityMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connectivityMgr.getActiveNetworkInfo();
+        /// if no network is available networkInfo will be null
+        if (networkInfo != null && networkInfo.isConnected()) {
+            return true;
+        }
+        return false;
+    }
+    public  void networkCheck() {
+        new AlertDialog.Builder(this)
+                .setMessage("請確認網路連線")
+                .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+
+                    }
+                })
+                .show();
+    }
+
 
 }
