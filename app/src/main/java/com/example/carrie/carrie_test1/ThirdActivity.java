@@ -81,7 +81,7 @@ public class ThirdActivity extends AppCompatActivity {
     LayoutInflater inflater;
     private ArrayList<ArrayList<String>> bconarray = new ArrayList<ArrayList<String>>();
     String memberid,beaconUUID,beaconid,m_calendarid,drugid,drugname;
-    int entertype,checkbtn;
+    int entertype,checkbtn,copy;
     RequestQueue requestQueue;
     int counttime;
     final java.util.ArrayList<String> msg = new ArrayList<String>();
@@ -113,6 +113,7 @@ public class ThirdActivity extends AppCompatActivity {
         entertype=bundle.getInt("entertype");
         drugid=bundle.getString("drugid");
         drugname=bundle.getString("chineseName",drugname);
+        copy=bundle.getInt("copy");//判斷事不是複製的排程
         m_cal_name = (EditText)findViewById(R.id.m_cal_name);
         btnAdd = (ImageButton) findViewById(R.id.btnAdd);
         btnDisplay = (Button) findViewById(R.id.btnDisplay);
@@ -139,6 +140,10 @@ public class ThirdActivity extends AppCompatActivity {
             m_cal_name.setText(mcaldata.getMcalname());
             txtdate.setText(mcaldata.getMcaldate());
             txtday.setText(mcaldata.getMcalday());
+            mdrugs.clear();
+            mdrugs=mcaldata.getMcaldrugs();
+//            Log.d("entertype",mdrugs.get(0).get(1)+mdrugs.get(0).get(0));
+
 //            checkbtn=1;
 //            mdrugs.add(new ArrayList<String>());
 //            Log.d("drugsize",String.valueOf(mdrugs.size()));
@@ -149,6 +154,18 @@ public class ThirdActivity extends AppCompatActivity {
         }else if (entertype == 0){  //第一次進到這個頁面
             mtimes.clear();
             mdrugs.clear();
+            Log.d("entertype","00000");
+
+        }
+        else if (entertype == 2){  //複製排成按鈕到這
+            Log.d("entertype",mcaldata.getMcalname());
+            memberid=mcaldata.getMemberid();
+            m_cal_name.setText(mcaldata.getMcalname());
+            txtdate.setText(mcaldata.getMcaldate());
+            txtday.setText(mcaldata.getMcalday());
+            mdrugs=mcaldata.getMcaldrugs();
+            Log.d("entertype1",mdrugs.get(0).get(1)+mdrugs.get(0).get(0));
+
         }
 
         MyLayoutOperation.display(this, btnDisplay);
@@ -412,10 +429,16 @@ public class ThirdActivity extends AppCompatActivity {
                     adddrug.performClick();
                 }
             }
-            checkbtn=-2;//最新的藥
-            adddrug.performClick();
-
+            if (copy==1) {
             checkbtn=-1;
+            }
+            else {
+                checkbtn=-2;//最新的藥
+                adddrug.performClick();
+
+                checkbtn=-1;
+
+            }
 
         }
     }

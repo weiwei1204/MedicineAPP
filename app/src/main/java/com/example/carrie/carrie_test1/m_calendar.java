@@ -10,13 +10,16 @@ public class m_calendar {
     private String mcaldelay;
     private String mcalpercent;
     private int status;
+    private int mnotify;
 
-    public m_calendar(int id, String mcalname, String mcalpercent, String mcaldelay,int status) {
+
+    public m_calendar(int id, String mcalname, String mcalpercent, String mcaldelay,int status,int mnotify) {
         this.id = id;
         this.mcalname = mcalname;
         this.mcaldelay = mcaldelay;
         this.mcalpercent = mcalpercent;
         this.status = status;
+        this.mnotify = mnotify;
     }
 
     public int getId() {
@@ -57,5 +60,13 @@ public class m_calendar {
 
     public void setStatus(int status) {
         this.status = status;
+    }
+
+    public int getMnotify() {
+        return mnotify;
+    }
+
+    public void setMnotify(int mnotify) {
+        this.mnotify = mnotify;
     }
 }

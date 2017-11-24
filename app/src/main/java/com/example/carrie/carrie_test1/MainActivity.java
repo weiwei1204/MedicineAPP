@@ -217,22 +217,22 @@ public class MainActivity extends LoginActivity
             startActivityForResult(pintent, CODE_DRAW_OVER_OTHER_APP_PERMISSION);
         }
 
-            robot.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    serviceIntent = new Intent(MainActivity.this, ChatHeadService.class);
-                    startService(serviceIntent);
-                    Log.d("8989", "clicked");
-                }
-            });
+        robot.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                serviceIntent = new Intent(MainActivity.this, ChatHeadService.class);
+                startService(serviceIntent);
+                Log.d("8989", "clicked");
+            }
+        });
 
 
         memberdata.setNeedBeacon(needBeacon);
         memberdata.setBeaconcal(Beaconcal);
         UUIDnum = needBeacon.size();
         SSIDnum = storeAPBSSID.size();
-        Intent intent = new Intent(MainActivity.this,CheckBeacon.class);
-        startService(intent);
+//        Intent intent = new Intent(MainActivity.this,CheckBeacon.class);
+//        startService(intent);
 
     }
 
@@ -361,7 +361,7 @@ public class MainActivity extends LoginActivity
 //        Log.d("hh","1");
 //        startActivity(it);
 
- //   }
+    //   }
 
     public void getid() {
         sqLiteDatabase = openOrCreateDatabase(DATABASE_NAME, Context.MODE_PRIVATE,null);
