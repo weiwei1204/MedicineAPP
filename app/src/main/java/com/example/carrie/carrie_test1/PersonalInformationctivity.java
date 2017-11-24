@@ -1,17 +1,10 @@
 package com.example.carrie.carrie_test1;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
-import android.preference.DialogPreference;
-import android.support.design.widget.FloatingActionButton;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.KeyEvent;
-import android.view.Menu;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -60,12 +53,12 @@ public class PersonalInformationctivity extends AppCompatActivity {
         Bundle bundle = getIntent().getExtras();
         //setContentView(R.layout.activity_main);
 
-        my_google_id = bundle.getString("googleid");
-        nname = bundle.getString("name");
-        gender = bundle.getString("gender_man");
-        height=bundle.getString("height");
-        weight=bundle.getString("weight");
-        birth=bundle.getString("birth");
+        my_google_id = RepairData.google_id;
+        nname = RepairData.name;
+        gender = RepairData.gender_man;
+        height=RepairData.height;
+        weight=RepairData.weight;
+        birth=RepairData.birth;
         if(gender.equals("1")){
             gender = "男";
         }else
@@ -85,7 +78,7 @@ public class PersonalInformationctivity extends AppCompatActivity {
         buckyListview.setAdapter(buckyAdapter);
 
 
-        getgid();
+       // getgid();
         insteremial();
 //        TextView email=(TextView) findViewById(R.id.gmailPersonal);
 //        email.setText(repairData.getEmail());
@@ -124,7 +117,7 @@ public class PersonalInformationctivity extends AppCompatActivity {
         finish();
     }
 
-    public void gotorepair(View v) { //連到搜尋藥品資訊頁面
+    public void gotorepair(View v) { //連到修改個人資訊
         Intent it = new Intent(this, repair.class);
         startActivity(it);
     }
@@ -214,15 +207,15 @@ public class PersonalInformationctivity extends AppCompatActivity {
                     public void onClick(View v) {
                         Intent it = new Intent(PersonalInformationctivity.this, repair.class);
                         Bundle bundle = new Bundle();
-                        bundle.putString("googleid", repairData.getGoogle_id());
-                        bundle.putString("name", repairData.getName());
-                        bundle.putString("weight", repairData.getWeight());
-                        bundle.putString("email", repairData.getEmail());
-                        bundle.putString("height", repairData.getHeight());
-                        bundle.putString("gender_man", repairData.getGender_man());
-                        bundle.putString("birth", repairData.getBirth());
-                        bundle.putString("memberid", n_member);
                         bundle.putString("googleid", my_google_id);
+                        bundle.putString("name", name);
+                        bundle.putString("weight", weight);
+                        bundle.putString("email", email);
+                        bundle.putString("height", height);
+                        bundle.putString("gender_man", gender);
+                        bundle.putString("birth", birth);
+                        bundle.putString("memberid", memberdata.getMember_id());
+                        //bundle.putString("googleid", my_google_id);
                         Log.d("RRRRR", my_google_id);
                         Log.d("mmmm", n_member);
                         Log.d("aaaaa", "12");
