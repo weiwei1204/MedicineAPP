@@ -1,6 +1,9 @@
 package com.example.carrie.carrie_test1;
 
+import android.content.ContentValues;
+import android.content.Context;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -31,6 +34,9 @@ public class repair extends AppCompatActivity {
     String n_googleid;
     RequestQueue requestQueue2;
     String repairdata = "http://54.65.194.253/Member/repairdata.php";
+    SQLiteDatabase sqLiteDatabase;
+    public static final String DATABASE_NAME = "MedicineTest.db";
+    public static final String TABLE_NAME = "Member";
 
 
 
@@ -38,10 +44,10 @@ public class repair extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_repair);
-
+        sqLiteDatabase = openOrCreateDatabase(DATABASE_NAME, Context.MODE_PRIVATE,null);
         Bundle bundle = getIntent().getExtras();
         n_memberid = memberdata.getMember_id();
-        n_googleid= bundle.getString("googleid");
+        n_googleid= memberdata.getGoogle_id();
         Log.d("wwwwww", n_memberid);
         Log.d("wwwwww", n_googleid);
 
@@ -97,7 +103,7 @@ public class repair extends AppCompatActivity {
 
 
 
-            public void gotoperson(View v) { //連到搜尋藥品資訊頁面
+            public void gotoperson(View v) { //回到個人資訊頁
                 updatePersonalInfor();
                 Bundle bundle = new Bundle();
                 bundle.putString("googleid", n_googleid);
@@ -157,8 +163,24 @@ public class repair extends AppCompatActivity {
                 ;
         RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
         requestQueue.add(request);
+        updatePersonalInformationSQL();
+        updatePersonalInformationStatic();
     }
+    public void updatePersonalInformationSQL(){
+        ContentValues contentValues = new ContentValues(3);
+        contentValues.put("height",n_height);
+        contentValues.put("weight",n_weight);
+        contentValues.put("birth",n_birth);
+        //sqLiteDatabase.insert(TABLE_NAME,null,contentValues);
+        sqLiteDatabase.update(TABLE_NAME, contentValues, "id =" + memberdata.getMember_id(), null);
 
+    }
+    public void updatePersonalInformationStatic(){
+        RepairData.weight = n_weight;
+        RepairData.height = n_height;
+        RepairData.birth = n_birth;
+
+    }
 
 
     public void goback(View v) {

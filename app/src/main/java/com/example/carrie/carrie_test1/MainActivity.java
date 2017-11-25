@@ -1,6 +1,14 @@
 package com.example.carrie.carrie_test1;
 
+import android.content.ContentValues;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -12,6 +20,7 @@ import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
@@ -55,6 +64,7 @@ import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
 import okhttp3.RequestBody;
 
+
 public class MainActivity extends LoginActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     private ImageButton SignOut;
@@ -66,7 +76,7 @@ public class MainActivity extends LoginActivity
     String googleid;
     String getidUrl = "http://54.65.194.253/Member/getid.php";
     private Button nav_gallery;
-
+    SharedPreferences sharedPref;
     RequestQueue requestQueue;
     RequestQueue requestQueue2;
     String memberid;
@@ -85,6 +95,9 @@ public class MainActivity extends LoginActivity
     private int SSIDnum = 0 ;
     String getm_BeaconUrl = "http://54.65.194.253/Beacon/getm_Beacon.php";
     String getAPUrl = "http://54.65.194.253/Beacon/getAP.php";
+    SQLiteDatabase sqLiteDatabase;
+    public static final String DATABASE_NAME = "MedicineTest.db";
+    public static final String TABLE_NAME = "Member";
 
 
     @Override
@@ -95,7 +108,7 @@ public class MainActivity extends LoginActivity
         setSupportActionBar(toolbar);
         Bundle bundle = getIntent().getExtras();
         googleid = bundle.getString("googleid");
-        Log.d("GOOGLEID",googleid);
+//        Log.d("GOOGLEID",googleid);
         nname = bundle.getString("name");
         gender = bundle.getString("gender_man");
         weight=bundle.getString("weight");
@@ -118,7 +131,8 @@ public class MainActivity extends LoginActivity
 //        Log.d("GOOGLEID",birth);
         getMonitorId();
         getid();
-        getpersonal();
+        getpersonal_sql();
+        //getpersonal();
 
         Log.d("UUIDnum123",Integer.toString(UUIDnum));
         Log.d("SSIDnum123",Integer.toString(SSIDnum));
@@ -158,13 +172,18 @@ public class MainActivity extends LoginActivity
                         break;
 
                     case R.id.ic_eye:
-                        Intent intent1 = new Intent(MainActivity.this, MonitorActivity.class);
-                        Bundle bundle1 = new Bundle();
-                        bundle1.putString("my_id", memberid);
-                        bundle1.putString("my_google_id", googleid);
-                        bundle1.putString("my_supervise_id", my_mon_id);
-                        intent1.putExtras(bundle1);
-                        startActivity(intent1);
+                        if(isNetworkAvailable()){
+                            Intent intent1 = new Intent(MainActivity.this, MonitorActivity.class);
+                            Bundle bundle1 = new Bundle();
+                            bundle1.putString("my_id", memberid);
+                            bundle1.putString("my_google_id", googleid);
+                            bundle1.putString("my_supervise_id", my_mon_id);
+                            intent1.putExtras(bundle1);
+                            startActivity(intent1);
+                        }else {
+                            networkCheck();
+                        }
+
                         break;
 
                     case R.id.ic_home:
@@ -234,8 +253,14 @@ public class MainActivity extends LoginActivity
             public void onResult(@NonNull Status status) {
             }
         });
-//        Intent it = new Intent(this, LoginActivity.class);
-//        startActivity(it);
+        sharedPref= getApplication().getSharedPreferences("data",MODE_PRIVATE);
+        //number = sharedPref.getInt("isLogged", 0);
+        SharedPreferences.Editor prefEditor = sharedPref.edit();
+        prefEditor.putInt("isLogged",0);
+
+        prefEditor.commit();
+        Intent it = new Intent(this, LoginActivity.class);
+        startActivity(it);
 
     }
 
@@ -249,13 +274,18 @@ public class MainActivity extends LoginActivity
     }
 
     public void gotoMonitorActivity(View v) {
-        Intent it = new Intent(this, MonitorActivity.class);
-        Bundle bundle = new Bundle();
-        bundle.putString("my_id", memberid);
-        bundle.putString("my_google_id", googleid);
-        bundle.putString("my_supervise_id", my_mon_id);
-        it.putExtras(bundle);
-        startActivity(it);
+        if(isNetworkAvailable()){
+            Intent it = new Intent(this, MonitorActivity.class);
+            Bundle bundle = new Bundle();
+            bundle.putString("my_id", memberid);
+            bundle.putString("my_google_id", googleid);
+            bundle.putString("my_supervise_id", my_mon_id);
+            it.putExtras(bundle);
+            startActivity(it);
+        }
+        else {
+            networkCheck();
+        }
     }
 
     public void gotoChoice(View v) {  //連到排程選擇頁面
@@ -300,22 +330,7 @@ public class MainActivity extends LoginActivity
 
     public void gotoPersonalInformation() {
         Intent it = new Intent(this, PersonalInformationctivity.class);
-        Bundle bundle = new Bundle();
-        bundle.putString("googleid", googleid);
-        bundle.putString("memberid", memberid);
-        bundle.putString("name", nname);
-        bundle.putString("gender_man",gender );
-        bundle.putString("weight",weight);
-        bundle.putString("height", height);
-        bundle.putString("birth", birth);
-        bundle.putString("name", repairData.getName());
-        bundle.putString("gender_man",repairData.getGender_man() );
-        bundle.putString("weight",repairData.getWeight());
-        bundle.putString("height", repairData.getHeight());
-        bundle.putString("birth", repairData.getBirth());
 
-
-        it.putExtras(bundle);   // 記得put進去，不然資料不會帶過去哦
         startActivity(it);
     }
 
@@ -349,36 +364,54 @@ public class MainActivity extends LoginActivity
     //   }
 
     public void getid() {
-        requestQueue = Volley.newRequestQueue(getApplicationContext());
+        sqLiteDatabase = openOrCreateDatabase(DATABASE_NAME, Context.MODE_PRIVATE,null);
+        Cursor c  = sqLiteDatabase.rawQuery("SELECT * FROM Member",null);
 
-        final StringRequest request = new StringRequest(Request.Method.POST, getidUrl, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                Log.d("rrr123", response);
-                memberid = response;
-                memberdata.setMember_id(response);
-                getMeasureInformation();
-                getAP();
-                getbeacon();
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Log.d("rrr111", error.toString());
-                Toast.makeText(getApplicationContext(), "Error read insert.php!!!", Toast.LENGTH_LONG).show();
-            }
-        }) {
-            protected Map<String, String> getParams() throws AuthFailureError {//把值丟到php
-                Map<String, String> parameters = new HashMap<String, String>();
-                parameters.put("google_id", googleid);
-                Log.d("my123", parameters.toString());
-                Log.d("my123", "checck!!!");
-                return parameters;
 
-            }
-        };
-        RequestQueue requestQueue = Volley.newRequestQueue(this);
-        requestQueue.add(request);
+        if(c.moveToFirst()){
+            do{
+                memberid = c.getString(0);
+                memberdata.setMember_id(memberid);
+                Log.d("idFormember",memberid);
+            }while (c.moveToNext());
+
+        }
+        if (memberid.equals("1")) {
+            requestQueue = Volley.newRequestQueue(getApplicationContext());
+
+            final StringRequest request = new StringRequest(Request.Method.POST, getidUrl, new Response.Listener<String>() {
+                @Override
+                public void onResponse(String response) {
+                    Log.d("rrr123", response);
+                    memberid = response;
+                    updateId(response);
+                    memberdata.setMember_id(response);
+                    getMeasureInformation();
+                    getAP();
+                    getbeacon();
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    Log.d("rrr111", error.toString());
+                    Toast.makeText(getApplicationContext(), "Error read insert.php!!!", Toast.LENGTH_LONG).show();
+                }
+            }) {
+                protected Map<String, String> getParams() throws AuthFailureError {//把值丟到php
+                    Map<String, String> parameters = new HashMap<String, String>();
+                    parameters.put("google_id", googleid);
+                    Log.d("my123", parameters.toString());
+                    Log.d("my123", "checck!!!");
+                    return parameters;
+
+                }
+            };
+            RequestQueue requestQueue = Volley.newRequestQueue(this);
+            requestQueue.add(request);
+
+
+        }
+
     }
 
 
@@ -495,7 +528,25 @@ public class MainActivity extends LoginActivity
         });
         Volley.newRequestQueue(this).add(jsonObjectRequest);
     }
+    public void getpersonal_sql(){
+        sqLiteDatabase = openOrCreateDatabase(DATABASE_NAME, Context.MODE_PRIVATE,null);
+        Cursor c  = sqLiteDatabase.rawQuery("SELECT * FROM Member",null);
 
+        if(c.moveToFirst()){
+
+            do{
+                RepairData.google_id = memberdata.getMember_id();
+                RepairData.name =  memberdata.getName();
+                RepairData.email = memberdata.getEmail();
+                RepairData.gender_man = c.getString(3);
+                RepairData.weight = c.getString(4);
+                RepairData.height = c.getString(5);
+                RepairData.birth = c.getString(6);
+
+            }while (c.moveToNext());
+
+        }
+    }
     public void getpersonal() {
 
         AsyncTask<Integer, Void, Void> task = new AsyncTask<Integer, Void, Void>() {
@@ -554,7 +605,7 @@ public class MainActivity extends LoginActivity
                 Bundle bundle1 = new Bundle();
 
                 String p1= getIntent().getExtras().getString("name", "not found");
-                bundle1.putString("name", repairData.getName());
+                bundle1.putString("name", memberdata.getName());
                 repairData.setName(p1);
 
 
@@ -583,39 +634,6 @@ public class MainActivity extends LoginActivity
                 Log.d("ppppp",p3);
                 Log.d("ppppp",p4);
                 Log.d("ppppp",p5);
-
-//                Bundle bundle1 = new Bundle();
-//
-//                String p1= getIntent().getExtras().getString("name", "not found");
-//                bundle1.putString("name", repairData.getName());
-//                repairData.setName(p1);
-//
-//                String p2;
-//                p2=repairData.getGender_man();
-//                bundle1.putString("gender_man", repairData.getGender_man());
-//                repairData.setGender_man(p2);
-//
-//                String p3;
-//                p3=repairData.getWeight();
-//                bundle1.putString("weight", repairData.getWeight());
-//                repairData.setWeight(p3);
-//
-//                String p4;
-//                p4=repairData.getHeight();
-//                bundle1.putString("height", repairData.getHeight());
-//                repairData.setHeight(p4);
-//
-//                String p5;
-//                p5=repairData.getBirth();
-//                bundle1.putString("birth", repairData.getBirth());
-//                repairData.setBirth(p5);
-//
-//                Log.d("ppppp",p1);
-//                Log.d("ppppp", p2);
-//                Log.d("ppppp",p3);
-//                Log.d("ppppp",p4);
-//                Log.d("ppppp",p5);
-
 
 
             }
@@ -822,5 +840,36 @@ public class MainActivity extends LoginActivity
         }
         return strDate;
     }
+    public void updateId(String a ){
+        ContentValues contentValues = new ContentValues(4);
+        contentValues.put("id",a);
+        //sqLiteDatabase.insert(TABLE_NAME,null,contentValues);
+        sqLiteDatabase.update(TABLE_NAME, contentValues, "id =" + "0", null);
+
+
+
+
+
+    }
+    public  boolean isNetworkAvailable() {
+        ConnectivityManager connectivityMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connectivityMgr.getActiveNetworkInfo();
+        /// if no network is available networkInfo will be null
+        if (networkInfo != null && networkInfo.isConnected()) {
+            return true;
+        }
+        return false;
+    }
+    public  void networkCheck() {
+        new AlertDialog.Builder(this)
+                .setMessage("請確認網路連線")
+                .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+
+                    }
+                })
+                .show();
+    }
+
 
 }
