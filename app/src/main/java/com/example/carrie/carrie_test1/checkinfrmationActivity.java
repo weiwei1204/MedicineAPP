@@ -211,7 +211,7 @@ public class checkinfrmationActivity extends Activity {
         finish();
     }
     public void addData(String a ,String b,String c ,String d,String e ,String f,String g ,String h,String i){
-        ContentValues contentValues = new ContentValues(4);
+        ContentValues contentValues = new ContentValues(9);
         contentValues.put("id","1");
         contentValues.put("name",b);
         contentValues.put("email",c);

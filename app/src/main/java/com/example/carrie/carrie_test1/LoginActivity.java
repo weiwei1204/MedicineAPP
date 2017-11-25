@@ -1,7 +1,13 @@
 package com.example.carrie.carrie_test1;
 
+import android.app.Dialog;
+import android.app.ProgressDialog;
+import android.content.ContentValues;
+import android.content.Context;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -27,8 +33,15 @@ import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.kosalgeek.asynctask.AsyncResponse;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+
+import okhttp3.OkHttpClient;
 
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener,GoogleApiClient.OnConnectionFailedListener,AsyncResponse {
@@ -42,7 +55,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     Uri gphoto;
     RequestQueue requestQueue;
     String insertUrl = "http://54.65.194.253/Member/login.php";
-
+    public static final String DATABASE_NAME = "MedicineTest.db";
+    SQLiteDatabase sqLiteDatabase;
+    private Dialog dialog;
 
 
     @Override
@@ -88,7 +103,23 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     public void gotoMain() { //連到首頁
         Log.d("rrr", "4");
-
+        dialog = ProgressDialog.show(LoginActivity.this,
+                "讀取中", "載入資料中...",true);
+        new Thread(new Runnable(){
+            @Override
+            public void run() {
+                try{
+                    getpersonal();
+                    Thread.sleep(3000);
+                }
+                catch(Exception e){
+                    e.printStackTrace();
+                }
+                finally{
+                    dialog.dismiss();
+                }
+            }
+        }).start();
         Intent it = new Intent(this, MainActivity.class);
         Bundle bundle = new Bundle();
         bundle.putString("name", gname);
@@ -206,7 +237,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 Toast.makeText(getApplicationContext(), "Error read insert.php!!!", Toast.LENGTH_LONG).show();
             }
         })
- {
+        {
             protected Map<String, String> getParams() throws AuthFailureError {//把值丟到php
                 Map<String, String> parameters = new HashMap<String, String>();
 //                parameters.put("username", gname);
@@ -216,9 +247,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 return parameters;
             }
         }
-        ;
+                ;
         RequestQueue requestQueue = Volley.newRequestQueue(this);
-      requestQueue.add(request);
+        requestQueue.add(request);
 
 
 
@@ -263,6 +294,86 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     public void goback(View v){
         finish();
     }
+
+    public void getpersonal() {
+
+        AsyncTask<Integer, Void, Void> task = new AsyncTask<Integer, Void, Void>() {
+            @Override
+            protected Void doInBackground(Integer... integers) {
+                String insertUrl = "http://54.65.194.253/Member/personal.php?google_id=" + googleid;
+                OkHttpClient client = new OkHttpClient();
+                Log.d("ppppp", insertUrl);
+                okhttp3.Request request = new okhttp3.Request.Builder()
+                        .url(insertUrl)
+                        .build();
+                Log.d("ppppp", "2222");
+                try {
+                    okhttp3.Response response = client.newCall(request).execute();
+                    Log.d("ppppp", "1111");
+                    JSONArray array = new JSONArray(response.body().string());
+                    Log.d("ppppp", array.toString());
+                    JSONObject object = array.getJSONObject(0);
+                    Log.d("ppppp", "16666");
+
+                    if ((object.getString("id")).equals("nodata")) {
+                        Log.d("okht2tp", "4442222");
+                        //normalDialogEvent();
+                    } else {
+
+                    }
+
+
+                    Log.d("searchtest", array.toString());
+                    for (int i = 0; i < array.length(); i++) {
+
+                        object = array.getJSONObject(i);
+                        addData(object.getString("id"),object.getString("name"), object.getString("email")
+                                , object.getString("gender_man"), object.getString("weight"), object.getString("height")
+                                , object.getString("birth"), object.getString("google_id"),object.getString("photo"));
+
+
+                    }
+
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                return null;
+            }
+
+
+            @Override
+            protected void onPostExecute(Void aVoid) {
+
+
+
+            }
+        };
+        task.execute();
+
+    }
+    public void addData(String a ,String b,String c ,String d,String e ,String f,String g ,String h,String i){
+        sqLiteDatabase = openOrCreateDatabase(DATABASE_NAME, Context.MODE_PRIVATE,null);
+        ContentValues contentValues = new ContentValues(9);
+        contentValues.put("id",a);
+        contentValues.put("name",b);
+        contentValues.put("email",c);
+        contentValues.put("genderman",d);
+        contentValues.put("weight",e);
+        contentValues.put("height",f);
+        contentValues.put("birth",g);
+        contentValues.put("google_id",h);
+        contentValues.put("photo",i);
+
+
+        sqLiteDatabase.insert("Member",null,contentValues);
+
+
+    }
+
 
 
 }
