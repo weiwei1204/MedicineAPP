@@ -253,13 +253,14 @@ public class MainActivity extends LoginActivity
             public void onResult(@NonNull Status status) {
             }
         });
-        sharedPref= getApplication().getSharedPreferences("data",MODE_PRIVATE);
-        //number = sharedPref.getInt("isLogged", 0);
-        SharedPreferences.Editor prefEditor = sharedPref.edit();
-        prefEditor.putInt("isLogged",0);
-
-        prefEditor.commit();
-        Intent it = new Intent(this, LoginActivity.class);
+//        sharedPref= getApplication().getSharedPreferences("data",MODE_PRIVATE);
+//        //number = sharedPref.getInt("isLogged", 0);
+//        SharedPreferences.Editor prefEditor = sharedPref.edit();
+//        prefEditor.putInt("isLogged",0);
+//
+//        prefEditor.commit();
+        this.deleteDatabase(DATABASE_NAME);
+        Intent it = new Intent(this, Main2.class);
         startActivity(it);
 
     }
@@ -367,16 +368,16 @@ public class MainActivity extends LoginActivity
         sqLiteDatabase = openOrCreateDatabase(DATABASE_NAME, Context.MODE_PRIVATE,null);
         Cursor c  = sqLiteDatabase.rawQuery("SELECT * FROM Member",null);
 
+        if(c.getCount()!=0){
+            if(c.moveToFirst()){
+                do{
+                    memberid = c.getString(0);
+                    memberdata.setMember_id(memberid);
+                    Log.d("idFormember",memberid);
+                }while (c.moveToNext());
 
-        if(c.moveToFirst()){
-            do{
-                memberid = c.getString(0);
-                memberdata.setMember_id(memberid);
-                Log.d("idFormember",memberid);
-            }while (c.moveToNext());
-
-        }
-        if (memberid.equals("1")) {
+            }
+        }else {
             requestQueue = Volley.newRequestQueue(getApplicationContext());
 
             final StringRequest request = new StringRequest(Request.Method.POST, getidUrl, new Response.Listener<String>() {
@@ -844,7 +845,7 @@ public class MainActivity extends LoginActivity
         ContentValues contentValues = new ContentValues(4);
         contentValues.put("id",a);
         //sqLiteDatabase.insert(TABLE_NAME,null,contentValues);
-        sqLiteDatabase.update(TABLE_NAME, contentValues, "id =" + "0", null);
+        sqLiteDatabase.update(TABLE_NAME, contentValues, "google_id =" + memberdata.getGoogle_id(), null);
 
 
 

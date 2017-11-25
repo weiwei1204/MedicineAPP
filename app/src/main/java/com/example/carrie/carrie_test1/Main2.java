@@ -69,6 +69,15 @@ public class Main2 extends Activity {
     SharedPreferences sharedPref;
     int number = 0;
     SQLiteDatabase sqLiteDatabase;
+    public static final String col_id = "id";
+    public static final String col_name = "name";
+    public static final String col_email = "email";
+    public static final String col_genderman = "genderman";
+    public static final String col_weight = "weight";
+    public static final String col_height = "height";
+    public static final String col_birth = "birth";
+    public static final String col_google_id = "google_id";
+    public static final String col_photo = "photo";
     @Override
     public void onStart() {
         super.onStart();
@@ -188,23 +197,28 @@ public class Main2 extends Activity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                sharedPref= getApplication().getSharedPreferences("data",MODE_PRIVATE);
-                number = sharedPref.getInt("isLogged", 0);
-                if(number == 0) {
+                sqLiteDatabase = openOrCreateDatabase(DATABASE_NAME, Context.MODE_PRIVATE,null);
+                String SQL_String = "CREATE  TABLE  IF NOT EXISTS  Member" + "(" + col_id + " VARCHAR(32)," + col_name + " VARCHAR(32)," + col_email + " VARCHAR(32)," + col_genderman +" VARCHAR(32),"+ col_weight +" VARCHAR(32),"+ col_height +" VARCHAR(32),"+ col_birth +" VARCHAR(32),"+ col_google_id +" VARCHAR(32),"+  col_photo +" VARCHAR(32)"+")";
+                sqLiteDatabase.execSQL(SQL_String);
+                Cursor c  = sqLiteDatabase.rawQuery("SELECT * FROM Member",null);
+//                sharedPref= getApplication().getSharedPreferences("data",MODE_PRIVATE);
+//                number = sharedPref.getInt("isLogged", 0);
+//                Log.d("sharedPref", String.valueOf(number));
+                if(c.getCount()==0) {
                     Log.d("SHARE : ", String.valueOf(number));
                     //Open the login activity and set this so that next it value is 1 then this conditin will be false.
 
-                    SharedPreferences.Editor prefEditor = sharedPref.edit();
-                    prefEditor.putInt("isLogged",1);
-                    prefEditor.commit();
+//                    SharedPreferences.Editor prefEditor = sharedPref.edit();
+//                    prefEditor.putInt("isLogged",1);
+//                    prefEditor.commit();
                     Intent homeIntent = new Intent(Main2.this, LoginActivity.class);
                     startActivity(homeIntent);
                     finish();
                 } else {
                     //Open this Home activity
                     Intent homeIntent = new Intent(Main2.this, MainActivity.class);
-                    sqLiteDatabase = openOrCreateDatabase(DATABASE_NAME, Context.MODE_PRIVATE,null);
-                    Cursor c  = sqLiteDatabase.rawQuery("SELECT * FROM Member",null);
+                    //sqLiteDatabase = openOrCreateDatabase(DATABASE_NAME, Context.MODE_PRIVATE,null);
+                    //Cursor c  = sqLiteDatabase.rawQuery("SELECT * FROM Member",null);
                     Bundle bundle = new Bundle();
 
                     if(c.moveToFirst()){
