@@ -200,6 +200,7 @@ public class Main2 extends Activity {
                 sqLiteDatabase = openOrCreateDatabase(DATABASE_NAME, Context.MODE_PRIVATE,null);
                 String SQL_String = "CREATE  TABLE  IF NOT EXISTS  Member" + "(" + col_id + " VARCHAR(32)," + col_name + " VARCHAR(32)," + col_email + " VARCHAR(32)," + col_genderman +" VARCHAR(32),"+ col_weight +" VARCHAR(32),"+ col_height +" VARCHAR(32),"+ col_birth +" VARCHAR(32),"+ col_google_id +" VARCHAR(32),"+  col_photo +" VARCHAR(32)"+")";
                 sqLiteDatabase.execSQL(SQL_String);
+                createmeasureTable();
                 Cursor c  = sqLiteDatabase.rawQuery("SELECT * FROM Member",null);
 //                sharedPref= getApplication().getSharedPreferences("data",MODE_PRIVATE);
 //                number = sharedPref.getInt("isLogged", 0);
@@ -231,6 +232,8 @@ public class Main2 extends Activity {
                             bundle.putString("googleid",c.getString(7));
                             memberdata.setName(c.getString(1));
                             memberdata.setEmail(c.getString(2));
+                            memberdata.setMember_id(c.getString(0));
+                            memberdata.setGoogle_id(c.getString(7));
                             Log.d("1111111" ,c.getString(4));
                         }while (c.moveToNext());
 
@@ -246,7 +249,7 @@ public class Main2 extends Activity {
         Runnable runnable = new Runnable() {
             public void run() {
                 if(token!=null) {
-                    sendRegistrationToServer();
+//                    sendRegistrationToServer();
                     finish();
                 }
                 //DynamoDB calls go here
@@ -411,6 +414,23 @@ public class Main2 extends Activity {
 //    private void storeTopicArn(String topicArn){
 //        arnTopic = topicArn;
 //    }
+    public void  createmeasureTable(){
+
+    String col_id = "id";
+    String col_member_id = "member_id";
+    String col_bs_first = "bs_first";
+    String col_bs_second = "bs_second";
+    String col_bs_third = "bs_third";
+    String col_bp_first  = "bp_first";
+    String col_bp_second = "bp_second";
+    String col_bp_third = "bp_third";
+    String TABLE_NAME = "Health_BsBpMeasureTime";
+    sqLiteDatabase = openOrCreateDatabase(DATABASE_NAME, Context.MODE_PRIVATE,null);
+    String SQL_String = "CREATE  TABLE  IF NOT EXISTS " + TABLE_NAME + "(" + col_id + " VARCHAR(32)," + col_member_id + " VARCHAR(32)," +col_bs_first + " VARCHAR(32)," + col_bs_second + " VARCHAR(32)," + col_bs_third +" VARCHAR(32),"+ col_bp_first +" VARCHAR(32),"+ col_bp_second +" VARCHAR(32),"+ col_bp_third +" VARCHAR(32))";
+        sqLiteDatabase.execSQL(SQL_String);
+
+}
+
 
 
 

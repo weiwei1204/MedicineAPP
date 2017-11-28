@@ -22,6 +22,7 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.gms.auth.api.Auth;
@@ -38,6 +39,11 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -58,6 +64,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     public static final String DATABASE_NAME = "MedicineTest.db";
     SQLiteDatabase sqLiteDatabase;
     private Dialog dialog;
+    BsBpMeasureObject bsBpMeasureObject;
 
 
     @Override
@@ -110,7 +117,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             public void run() {
                 try{
                     getpersonal();
-                    Thread.sleep(3000);
+                    Thread.sleep(5000);
+
                 }
                 catch(Exception e){
                     e.printStackTrace();
@@ -327,12 +335,15 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     for (int i = 0; i < array.length(); i++) {
 
                         object = array.getJSONObject(i);
+                        memberdata.setMember_id(object.getString("id"));
+                        memberdata.setGoogle_id(object.getString("google_id"));
+                        memberdata.setEmail(object.getString("email"));
                         addData(object.getString("id"),object.getString("name"), object.getString("email")
                                 , object.getString("gender_man"), object.getString("weight"), object.getString("height")
                                 , object.getString("birth"), object.getString("google_id"),object.getString("photo"));
 
-
                     }
+                    getMeasureInformation();
 
 
                 } catch (IOException e) {
@@ -370,6 +381,80 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
 
         sqLiteDatabase.insert("Member",null,contentValues);
+
+
+    }
+    public void getMeasureInformation() {//取得血壓血糖測量時間
+        requestQueue = Volley.newRequestQueue(getApplicationContext());
+        String getMeasureInformationURL = "http://54.65.194.253/Member/getMeasureInformation.php?member_id=" + memberdata.getMember_id();
+        Map<String, String> params = new HashMap();
+
+        //params.put("member_id", memberid);
+        //Log.d("measureInfor",params.toString());
+        //JSONObject parameters = new JSONObject(params);
+        final JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, getMeasureInformationURL, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                Log.d("measureInfor", response.toString());
+
+                if (response.toString().contains("null")) {
+                    Log.d("measureInfor", "nodata");
+                } else {
+                    Log.d("measureInfor", "havedata");
+                    try {
+                        memberdata.measure_id = response.getInt("id");
+                        memberdata.bp_first=getCurrentTimeStamp(response.getString("bp_first"));
+                        memberdata.bp_second=getCurrentTimeStamp(response.getString("bp_second"));
+                        memberdata.bp_third=getCurrentTimeStamp(response.getString("bp_third"));
+                        memberdata.bs_first=getCurrentTimeStamp(response.getString("bs_first"));
+                        memberdata.bs_second=getCurrentTimeStamp(response.getString("bs_second"));
+                        memberdata.bs_third=getCurrentTimeStamp(response.getString("bs_third"));
+                        addBsBpData(response.getString("id"),memberdata.getMember_id(),response.getString("bs_first"),response.getString("bs_second"),response.getString("bs_third"),response.getString("bp_first"),response.getString("bp_second"),response.getString("bp_third"));
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.d("measureInfor", error.toString());
+                Toast.makeText(getApplicationContext(), "Error read getMeasureInformation.php!!!", Toast.LENGTH_LONG).show();
+//                refreshNormalDialogEvent();
+            }
+        });
+        Volley.newRequestQueue(this).add(jsonObjectRequest);
+    }
+    public static String getCurrentTimeStamp(String dateString) throws ParseException {//時間格式轉換
+        String strDate = "";
+        SimpleDateFormat sdfDate = new SimpleDateFormat("HH:mm");//format yyyy-MM-dd HH:mm:ss to HH:mm
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Calendar calendar = new GregorianCalendar();
+
+        Date date = sdf.parse(dateString);
+        calendar.setTime(date);
+        int month = calendar.get(Calendar.MONTH)+1;
+        if (month==1){
+            strDate ="";
+        }else {
+            strDate = sdfDate.format(date);
+        }
+        return strDate;
+    }
+    public void addBsBpData(String a ,String b,String c ,String d,String e ,String f,String g ,String h){
+        sqLiteDatabase = openOrCreateDatabase(DATABASE_NAME, Context.MODE_PRIVATE,null);
+        ContentValues contentValues = new ContentValues(8);
+        contentValues.put("id","0");
+        contentValues.put("member_id",b);
+        contentValues.put("bs_first",c);
+        contentValues.put("bs_second",d);
+        contentValues.put("bs_third",e);
+        contentValues.put("bp_first",f);
+        contentValues.put("bp_second",g);
+        contentValues.put("bp_third",h);
+        sqLiteDatabase.insert("Health_BsBpMeasureTime",null,contentValues);
 
 
     }

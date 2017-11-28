@@ -3,8 +3,11 @@ package com.example.carrie.carrie_test1;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.app.TimePickerDialog;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -60,6 +63,17 @@ public class FirstSaveBsBpActivity extends AppCompatActivity  {
     private PendingIntent pending_intent1;
     private AlarmManager alarm_manager;
     Context context;
+    SQLiteDatabase sqLiteDatabase;
+    String col_id = "id";
+    String col_member_id = "member_id";
+    String col_bs_first = "bs_first";
+    String col_bs_second = "bs_second";
+    String col_bs_third = "bs_third";
+    String col_bp_first  = "bp_first";
+    String col_bp_second = "bp_second";
+    String col_bp_third = "bp_third";
+    String TABLE_NAME = "Health_BsBpMeasureTime";
+    public static final String DATABASE_NAME = "MedicineTest.db";
 
 
 
@@ -300,6 +314,7 @@ public class FirstSaveBsBpActivity extends AppCompatActivity  {
         timearray.add(4,bpSecondsave.getText().toString());
         timearray.add(5,bpThirdsave.getText().toString());
         getMemberid();
+        getMesure();
         Intent it = new Intent(this,MainActivity.class);
         Bundle bundle = new Bundle();
         bundle.putString("googleid", googleid);
@@ -499,6 +514,36 @@ public class FirstSaveBsBpActivity extends AppCompatActivity  {
             }};
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         requestQueue.add(drugrequest);
+    }
+    public void addBsBpData(String a ,String b,String c ,String d,String e ,String f,String g ,String h){
+        ContentValues contentValues = new ContentValues(8);
+        contentValues.put("id","0");
+        contentValues.put("member_id",b);
+        contentValues.put("bs_first",c);
+        contentValues.put("bs_second",d);
+        contentValues.put("bs_third",e);
+        contentValues.put("bp_first",f);
+        contentValues.put("bp_second",g);
+        contentValues.put("bp_third",h);
+        sqLiteDatabase.insert(TABLE_NAME,null,contentValues);
+
+
+    }
+    public void getMesure(){
+        sqLiteDatabase = openOrCreateDatabase(DATABASE_NAME, Context.MODE_PRIVATE,null);
+        String SQL_String = "CREATE  TABLE  IF NOT EXISTS " + TABLE_NAME + "(" + col_id + " VARCHAR(32)," + col_member_id + " VARCHAR(32)," +col_bs_first + " VARCHAR(32)," + col_bs_second + " VARCHAR(32)," + col_bs_third +" VARCHAR(32),"+ col_bp_first +" VARCHAR(32),"+ col_bp_second +" VARCHAR(32),"+ col_bp_third +" VARCHAR(32))";
+        sqLiteDatabase.execSQL(SQL_String);
+        Cursor c  = sqLiteDatabase.rawQuery("SELECT * FROM "+TABLE_NAME,null);
+        if (c.getCount() == 0) {
+            addBsBpData("0",memberid,bs_first,bs_second,bs_third,bp_first,bp_second,bp_third);
+            c  = sqLiteDatabase.rawQuery("SELECT * FROM "+TABLE_NAME,null);
+            if(c.moveToFirst()){
+                do {
+                    Log.d("testMeasure : ",c.getString(0)+","+c.getString(1)+","+c.getString(2)+","+c.getString(3)+","+c.getString(4)+","+c.getString(5)+","+c.getString(6)+","+c.getString(7));
+                }while (c.moveToNext());
+            }
+
+        }
     }
 
 
