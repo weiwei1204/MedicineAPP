@@ -40,7 +40,10 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -72,8 +75,9 @@ public class medicine_cal extends AppCompatActivity {
     private TextInputLayout drugnameid1;
     int entertype,checkbtn;
     int counttime;
+    private ArrayList<ArrayList<String>> mtimes = new ArrayList<ArrayList<String>>();
     private ArrayList<ArrayList<String>> mdrugs = new ArrayList<ArrayList<String>>();
-    private ImageButton modifydrug;
+    private ImageButton modifydrug,copybtn;
     String drug0,drug1;
 
 
@@ -92,6 +96,7 @@ public class medicine_cal extends AppCompatActivity {
         spinnerbeaconid = (Spinner)findViewById(R.id.spinnerbeaconid);
         m_delete = (Button)findViewById(R.id.m_delete);
         m_modify = (Button)findViewById(R.id.m_modify);
+        copybtn = (ImageButton)findViewById(R.id.copybtn);
         animShake = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.shake);
         vib = (Vibrator)getSystemService(Context.VIBRATOR_SERVICE);
         modifydrug = (ImageButton)findViewById(R.id.modifydrug);
@@ -131,7 +136,26 @@ public class medicine_cal extends AppCompatActivity {
         });
 
 
-
+        final Intent it = new Intent(this,ThirdActivity.class);
+        Bundle bundle3 = new Bundle();
+        bundle3.putString("memberid", memberid);
+        bundle3.putInt("entertype", 1);
+        bundle3.putInt("copy", 1);
+        it.putExtras(bundle3);   // 記得put進去，不然資料不會帶過去哦
+        copybtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+//                mdrugs.clear();
+//                getdrugs(medicine_cal.this);
+                mcaldata.setMcalname(m_cal_nameid.getText().toString());
+                mcaldata.setMemberid(memberdata.getMember_id());
+                mcaldata.setMcaldate(txtdateid.getText().toString());
+                mcaldata.setMcalday(txtdayid.getText().toString());
+                mcaldata.setMcaltimes(mtimes);
+                mcaldata.setMcaldrugs(dbmdrugs);
+                startActivity(it);
+            }
+        });
 
         requestQueue = Volley.newRequestQueue(getApplicationContext());
         final StringRequest request = new StringRequest(Request.Method.POST, getm_calendarUrl, new Response.Listener<String>() {
@@ -280,7 +304,7 @@ public class medicine_cal extends AppCompatActivity {
             protected Map<String, String> getParams() throws AuthFailureError {//把值丟到php
                 Map<String, String> parameters = new HashMap<String, String>();
                 parameters.put("mcalid",m_calid);
-                Log.d("nn11",parameters.toString());
+                Log.d("nnnmcalid",parameters.toString());
                 return parameters;
             }};
         RequestQueue requestQueue = Volley.newRequestQueue(this);
@@ -296,6 +320,7 @@ public class medicine_cal extends AppCompatActivity {
             @Override
             public void onResponse(String response) {
                 Log.d("nnn",response);
+                mtimes.clear();
                 try {
                     JSONArray jarray = new JSONArray(response);
                     final String[] timearray=new String[jarray.length()];
@@ -304,6 +329,9 @@ public class medicine_cal extends AppCompatActivity {
                         String time = obj.getString("time");
                         String TimeInMillis = obj.getString("TimeInMillis");
 
+                        mtimes.add(new ArrayList<String>());
+                        mtimes.get(i).add(time);
+                        timetonow(i,time);
                         add(medicine_cal.this,time,TimeInMillis);       //呼叫add()
                     }
                 } catch (JSONException e) {
@@ -329,6 +357,28 @@ public class medicine_cal extends AppCompatActivity {
     }
 
 
+    public void timetonow(int i,String time){ //為了複製排成先算出現在時間點
+        Long mmdate = null;
+//        Calendar c=Calendar.getInstance();
+//        int year=c.get(Calendar.YEAR);
+//        int month=c.get(Calendar.MONTH);
+//        int day=c.get(Calendar.DAY_OF_MONTH);
+//        final Calendar calendar = Calendar.getInstance();
+//        calendar.set(year, month, day, Integer.valueOf(TIM[0]), Integer.valueOf(TIM[1]),0);
+        SimpleDateFormat ymd = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date dt = new  Date();
+        String ymds=ymd.format(dt);
+        String date = ymds+" "+time;
+        try {
+            Date ddate = sdf.parse(date);
+            mmdate = ddate.getTime();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        mtimes.get(i).add(String.valueOf(mmdate));
+        Log.d("nowwwwwww",mtimes.get(i).get(1));
+    }
 
     public void add(final Activity activity , String time , String TimeInMillis) //資料庫time顯示
     {

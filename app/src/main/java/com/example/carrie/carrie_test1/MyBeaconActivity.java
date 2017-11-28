@@ -1,12 +1,17 @@
 package com.example.carrie.carrie_test1;
 
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -85,13 +90,18 @@ public class MyBeaconActivity extends AppCompatActivity {
                         break;
 
                     case R.id.ic_eye:
-                        Intent intent1 = new Intent(MyBeaconActivity.this, MonitorActivity.class);
-                        Bundle bundle1 = new Bundle();
-                        bundle1.putString("my_id", memberdata.getMember_id());
-                        bundle1.putString("my_google_id", memberdata.getGoogle_id());
-                        bundle1.putString("my_supervise_id", memberdata.getMy_mon_id());
-                        intent1.putExtras(bundle1);
-                        startActivity(intent1);
+                        if(isNetworkAvailable()){
+                            Intent intent1 = new Intent(MyBeaconActivity.this, MonitorActivity.class);
+                            Bundle bundle1 = new Bundle();
+                            bundle1.putString("my_id", memberdata.getMember_id());
+                            bundle1.putString("my_google_id", memberdata.getGoogle_id());
+                            bundle1.putString("my_supervise_id", memberdata.getMy_mon_id());
+                            intent1.putExtras(bundle1);
+                            startActivity(intent1);
+                        }
+                        else {
+                            networkCheck();
+                        }
                         break;
 
                     case R.id.ic_home:
@@ -227,5 +237,24 @@ public class MyBeaconActivity extends AppCompatActivity {
     };
     public void goback(View v){
         finish();
+    }
+    public  boolean isNetworkAvailable() {
+        ConnectivityManager connectivityMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connectivityMgr.getActiveNetworkInfo();
+        /// if no network is available networkInfo will be null
+        if (networkInfo != null && networkInfo.isConnected()) {
+            return true;
+        }
+        return false;
+    }
+    public  void networkCheck() {
+        new AlertDialog.Builder(this)
+                .setMessage("請確認網路連線")
+                .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+
+                    }
+                })
+                .show();
     }
 }

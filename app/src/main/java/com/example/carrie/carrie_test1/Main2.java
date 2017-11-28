@@ -6,19 +6,17 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 import android.widget.TextView;
 
-import com.amazonaws.auth.AWSCredentials;
 import com.amazonaws.auth.AWSCredentialsProvider;
-import com.amazonaws.auth.BasicAWSCredentials;
-import com.amazonaws.auth.ClasspathPropertiesFileCredentialsProvider;
 import com.amazonaws.auth.CognitoCachingCredentialsProvider;
-import com.amazonaws.auth.CognitoCredentialsProvider;
-import com.amazonaws.internal.StaticCredentialsProvider;
 import com.amazonaws.mobile.auth.core.IdentityManager;
 import com.amazonaws.mobile.auth.core.StartupAuthResult;
 import com.amazonaws.mobile.auth.core.StartupAuthResultHandler;
@@ -26,15 +24,10 @@ import com.amazonaws.mobile.config.AWSConfiguration;
 import com.amazonaws.mobileconnectors.dynamodbv2.dynamodbmapper.DynamoDBMapper;
 import com.amazonaws.mobileconnectors.pinpoint.PinpointConfiguration;
 import com.amazonaws.mobileconnectors.pinpoint.PinpointManager;
-import com.amazonaws.mobileconnectors.pinpoint.analytics.monetization.AmazonMonetizationEventBuilder;
-import com.amazonaws.regions.Region;
 import com.amazonaws.regions.Regions;
-import com.amazonaws.services.sns.AmazonSNS;
-import com.amazonaws.services.sns.AmazonSNSAsync;
 import com.amazonaws.services.sns.AmazonSNSClient;
 import com.amazonaws.services.sns.model.CreatePlatformEndpointRequest;
 import com.amazonaws.services.sns.model.CreatePlatformEndpointResult;
-import com.amazonaws.services.sns.model.CreateTopicRequest;
 import com.amazonaws.services.sns.model.DeleteEndpointRequest;
 import com.amazonaws.services.sns.model.GetEndpointAttributesRequest;
 import com.amazonaws.services.sns.model.GetEndpointAttributesResult;
@@ -42,7 +35,6 @@ import com.amazonaws.services.sns.model.InvalidParameterException;
 import com.amazonaws.services.sns.model.NotFoundException;
 import com.amazonaws.services.sns.model.PublishRequest;
 import com.amazonaws.services.sns.model.SetEndpointAttributesRequest;
-import com.amazonaws.services.sns.model.SubscribeRequest;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.google.android.gms.iid.InstanceID;
 import com.google.firebase.auth.FirebaseAuth;
@@ -73,13 +65,26 @@ public class Main2 extends Activity {
     public static String arnTopic;
     AmazonSNSClient sns;
 
-
+    public static final String DATABASE_NAME = "MedicineTest.db";
+    SharedPreferences sharedPref;
+    int number = 0;
+    SQLiteDatabase sqLiteDatabase;
+    public static final String col_id = "id";
+    public static final String col_name = "name";
+    public static final String col_email = "email";
+    public static final String col_genderman = "genderman";
+    public static final String col_weight = "weight";
+    public static final String col_height = "height";
+    public static final String col_birth = "birth";
+    public static final String col_google_id = "google_id";
+    public static final String col_photo = "photo";
     @Override
     public void onStart() {
         super.onStart();
         // Check if user is signed in (non-null) and update UI accordingly.
         FirebaseUser currentUser = mAuth.getCurrentUser();
         updateUI(currentUser);
+
     }
 
     private void updateUI(FirebaseUser currentUser) {
@@ -192,9 +197,50 @@ public class Main2 extends Activity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                Intent homeIntent = new Intent(Main2.this, LoginActivity.class);
-                startActivity(homeIntent);
-                finish();
+                sqLiteDatabase = openOrCreateDatabase(DATABASE_NAME, Context.MODE_PRIVATE,null);
+                String SQL_String = "CREATE  TABLE  IF NOT EXISTS  Member" + "(" + col_id + " VARCHAR(32)," + col_name + " VARCHAR(32)," + col_email + " VARCHAR(32)," + col_genderman +" VARCHAR(32),"+ col_weight +" VARCHAR(32),"+ col_height +" VARCHAR(32),"+ col_birth +" VARCHAR(32),"+ col_google_id +" VARCHAR(32),"+  col_photo +" VARCHAR(32)"+")";
+                sqLiteDatabase.execSQL(SQL_String);
+                Cursor c  = sqLiteDatabase.rawQuery("SELECT * FROM Member",null);
+//                sharedPref= getApplication().getSharedPreferences("data",MODE_PRIVATE);
+//                number = sharedPref.getInt("isLogged", 0);
+//                Log.d("sharedPref", String.valueOf(number));
+                if(c.getCount()==0) {
+                    Log.d("SHARE : ", String.valueOf(number));
+                    //Open the login activity and set this so that next it value is 1 then this conditin will be false.
+
+//                    SharedPreferences.Editor prefEditor = sharedPref.edit();
+//                    prefEditor.putInt("isLogged",1);
+//                    prefEditor.commit();
+                    Intent homeIntent = new Intent(Main2.this, LoginActivity.class);
+                    startActivity(homeIntent);
+                    finish();
+                } else {
+                    //Open this Home activity
+                    Intent homeIntent = new Intent(Main2.this, MainActivity.class);
+                    //sqLiteDatabase = openOrCreateDatabase(DATABASE_NAME, Context.MODE_PRIVATE,null);
+                    //Cursor c  = sqLiteDatabase.rawQuery("SELECT * FROM Member",null);
+                    Bundle bundle = new Bundle();
+
+                    if(c.moveToFirst()){
+
+                        do{
+
+                            bundle.putString("name", c.getString(1));
+                            bundle.putString("email", c.getString(2));
+                            Log.d("test weiight:" ,c.getString(4));
+                            bundle.putString("googleid",c.getString(7));
+                            memberdata.setName(c.getString(1));
+                            memberdata.setEmail(c.getString(2));
+                            Log.d("1111111" ,c.getString(4));
+                        }while (c.moveToNext());
+
+                    }
+
+                    homeIntent.putExtras(bundle);
+                    startActivity(homeIntent);
+                    finish();
+                }
+
             }
         }, SPLASH_TIME_OUT);
         Runnable runnable = new Runnable() {

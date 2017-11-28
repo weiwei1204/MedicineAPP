@@ -305,12 +305,11 @@
                     android:layout_marginLeft="5dp"
                     android:layout_marginTop="15dp"
                     android:layout_weight="1"
-                    android:ems="10"
                     android:background="@drawable/informationborder"
+                    android:ems="10"
                     android:inputType="text"
                     android:textColor="#272727"
                     android:textSize="8pt" />
-
 
 
             </LinearLayout>

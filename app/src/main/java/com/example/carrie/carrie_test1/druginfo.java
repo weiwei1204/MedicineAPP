@@ -1,13 +1,18 @@
 package com.example.carrie.carrie_test1;
 
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -101,13 +106,17 @@ public class druginfo extends AppCompatActivity {
                             break;
 
                         case R.id.ic_eye:
-                            Intent intent1 = new Intent(druginfo.this,MonitorActivity.class);
-                            Bundle bundle1 = new Bundle();
-                            bundle1.putString("my_id", my_id);
-                            bundle1.putString("my_google_id", my_google_id);
-                            bundle1.putString("my_supervise_id", my_mon_id);
-                            intent1.putExtras(bundle1);
-                            startActivity(intent1);
+                            if(isNetworkAvailable()) {
+                                Intent intent1 = new Intent(druginfo.this, MonitorActivity.class);
+                                Bundle bundle1 = new Bundle();
+                                bundle1.putString("my_id", my_id);
+                                bundle1.putString("my_google_id", my_google_id);
+                                bundle1.putString("my_supervise_id", my_mon_id);
+                                intent1.putExtras(bundle1);
+                                startActivity(intent1);
+                            }else {
+                                networkCheck();
+                            }
                             break;
 
                         case R.id.ic_home:
@@ -404,6 +413,25 @@ public class druginfo extends AppCompatActivity {
         bundle3.putString("m_calid",m_calid);
         it.putExtras(bundle3);
         startActivity(it);
+    }
+    public  boolean isNetworkAvailable() {
+        ConnectivityManager connectivityMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connectivityMgr.getActiveNetworkInfo();
+        /// if no network is available networkInfo will be null
+        if (networkInfo != null && networkInfo.isConnected()) {
+            return true;
+        }
+        return false;
+    }
+    public  void networkCheck() {
+        new AlertDialog.Builder(this)
+                .setMessage("請確認網路連線")
+                .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+
+                    }
+                })
+                .show();
     }
 
 
