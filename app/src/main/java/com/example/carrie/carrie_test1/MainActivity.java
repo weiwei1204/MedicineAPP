@@ -221,11 +221,9 @@ public class MainActivity extends LoginActivity
         memberdata.setBeaconcal(Beaconcal);
         UUIDnum = needBeacon.size();
         SSIDnum = storeAPBSSID.size();
-//        Intent intent = new Intent(MainActivity.this,CheckBeacon.class);
-//        startService(intent);
-
+        Intent checkBeaconIntent = new Intent(MainActivity.this,CheckBeacon_AP.class);
+        startService(checkBeaconIntent);
     }
-
     private void signOut() {
 
         Auth.GoogleSignInApi.signOut(googleApiCliente).setResultCallback(new ResultCallback<Status>() {
@@ -317,6 +315,14 @@ public class MainActivity extends LoginActivity
         Intent it = new Intent(this,MyAPActivity.class);
         Bundle bundle = new Bundle();
         bundle.putString("memberid", memberdata.getMember_id());
+        Log.d("fffaaa","*"+memberid);
+        it.putExtras(bundle);   // 記得put進去，不然資料不會帶過去哦
+        startActivity(it);
+    }
+    public void gotoBeaconMode() {
+        Intent it = new Intent(this,BeaconModeActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putString("memberid", memberid);
         Log.d("fffaaa","*"+memberid);
         it.putExtras(bundle);   // 記得put進去，不然資料不會帶過去哦
         startActivity(it);
@@ -618,6 +624,8 @@ public class MainActivity extends LoginActivity
             gotoBsBpMeasure();
         } else if (id == R.id.nav_manage) {
             gotoMyAP();
+        } else if (id == R.id.nav_manage2) {
+            gotoBeaconMode();
         } else if (id == R.id.nav_share) {
             signOut();
         } else if (id == R.id.nav_send) {
