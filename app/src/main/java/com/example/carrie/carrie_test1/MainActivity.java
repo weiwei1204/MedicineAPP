@@ -322,7 +322,7 @@ public class MainActivity extends LoginActivity
     public void gotoBeaconMode() {
         Intent it = new Intent(this,BeaconModeActivity.class);
         Bundle bundle = new Bundle();
-        bundle.putString("memberid", memberid);
+        bundle.putString("memberid", memberdata.getMember_id());
         Log.d("fffaaa","*"+memberid);
         it.putExtras(bundle);   // 記得put進去，不然資料不會帶過去哦
         startActivity(it);
