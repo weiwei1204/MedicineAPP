@@ -51,14 +51,14 @@ public class repair extends AppCompatActivity {
         Log.d("wwwwww", n_memberid);
         Log.d("wwwwww", n_googleid);
 
-        String st1= getIntent().getExtras().getString("name", "not found");
-        n_name = bundle.getString("name");//get 中文名字
+        String st1= memberdata.getName();
+        n_name = memberdata.getName();//get 中文名字
         TextView name=(TextView) findViewById(R.id.repairName);
         name.setText(st1);
         Log.d("rrr","1");
 
-        String st2= getIntent().getExtras().getString("email", "not found");
-        n_email = bundle.getString("email");//get 中文名字
+        String st2= memberdata.getEmail();
+        n_email = memberdata.getEmail();//get 中文名字
         TextView email=(TextView) findViewById(R.id.repairemailc);
         email.setText(st2);
         Log.d("rrr","2");

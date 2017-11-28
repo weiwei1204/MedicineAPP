@@ -107,13 +107,7 @@ public class MainActivity extends LoginActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbarMain);
         setSupportActionBar(toolbar);
         Bundle bundle = getIntent().getExtras();
-        googleid = bundle.getString("googleid");
-//        Log.d("GOOGLEID",googleid);
-        nname = bundle.getString("name");
-        gender = bundle.getString("gender_man");
-        weight=bundle.getString("weight");
-        height=bundle.getString("height");
-        birth=bundle.getString("birth");
+
 //        Log.d("GOOGLEID",nname);
 
 //        Log.d("GOOGLEID",googleid);
@@ -122,7 +116,6 @@ public class MainActivity extends LoginActivity
 //        weight=bundle.getString("weight");
 //        height=bundle.getString("height");
 //        birth=bundle.getString("birth");
-        memberdata.setGoogle_id(googleid);
 
 //        Log.d("GOOGLEID",name);
 //        Log.d("GOOGLEID",gender);
@@ -141,7 +134,7 @@ public class MainActivity extends LoginActivity
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
         toggle.syncState();
-
+        Log.d("iddddd: ",memberdata.getMember_id());
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         View hView =  navigationView.getHeaderView(0);
         TextView memberName = (TextView) hView.findViewById(R.id.namee);
@@ -164,9 +157,6 @@ public class MainActivity extends LoginActivity
                     case R.id.ic_list:
                         Intent intent0 = new Intent(MainActivity.this, Choice.class);
                         Bundle bundle0 = new Bundle();
-                        bundle0.putString("memberid", memberid);
-                        bundle0.putString("my_google_id", googleid);
-                        bundle0.putString("my_supervise_id", my_mon_id);
                         intent0.putExtras(bundle0);   // 記得put進去，不然資料不會帶過去哦
                         startActivity(intent0);
                         break;
@@ -175,9 +165,6 @@ public class MainActivity extends LoginActivity
                         if(isNetworkAvailable()){
                             Intent intent1 = new Intent(MainActivity.this, MonitorActivity.class);
                             Bundle bundle1 = new Bundle();
-                            bundle1.putString("my_id", memberid);
-                            bundle1.putString("my_google_id", googleid);
-                            bundle1.putString("my_supervise_id", my_mon_id);
                             intent1.putExtras(bundle1);
                             startActivity(intent1);
                         }else {
@@ -189,7 +176,6 @@ public class MainActivity extends LoginActivity
                     case R.id.ic_home:
                         Intent intent2 = new Intent(MainActivity.this, MainActivity.class);
                         Bundle bundle2 = new Bundle();
-                        bundle2.putString("googleid", googleid);
                         intent2.putExtras(bundle2);
                         startActivity(intent2);
                         break;
@@ -197,9 +183,6 @@ public class MainActivity extends LoginActivity
                     case R.id.ic_information:
                         Intent intent3 = new Intent(MainActivity.this, druginfo.class);
                         Bundle bundle3 = new Bundle();
-                        bundle3.putString("my_id", memberid);
-                        bundle3.putString("my_google_id", googleid);
-                        bundle3.putString("my_supervise_id", my_mon_id);
                         bundle3.putString("m_calid","-1");
                         intent3.putExtras(bundle3);
                         startActivity(intent3);
@@ -208,9 +191,6 @@ public class MainActivity extends LoginActivity
                     case R.id.ic_beacon:
                         Intent intent4 = new Intent(MainActivity.this, MyBeaconActivity.class);
                         Bundle bundle4 = new Bundle();
-                        bundle4.putString("my_id", memberid);
-                        bundle4.putString("my_google_id", googleid);
-                        bundle4.putString("my_supervise_id", my_mon_id);
                         intent4.putExtras(bundle4);
                         startActivity(intent4);
                         break;
@@ -241,11 +221,9 @@ public class MainActivity extends LoginActivity
         memberdata.setBeaconcal(Beaconcal);
         UUIDnum = needBeacon.size();
         SSIDnum = storeAPBSSID.size();
-//        Intent intent = new Intent(MainActivity.this,CheckBeacon.class);
-//        startService(intent);
-
+        Intent checkBeaconIntent = new Intent(MainActivity.this,CheckBeacon_AP.class);
+        startService(checkBeaconIntent);
     }
-
     private void signOut() {
 
         Auth.GoogleSignInApi.signOut(googleApiCliente).setResultCallback(new ResultCallback<Status>() {
@@ -268,8 +246,6 @@ public class MainActivity extends LoginActivity
     public void gotoFirstActivity(View v) { //連到MyBeacon頁面
         Intent it = new Intent(this, MyBeaconActivity.class);
         Bundle bundle = new Bundle();
-        bundle.putString("memberid", memberid);
-        Log.d("fffaaa", memberid);
         it.putExtras(bundle);   // 記得put進去，不然資料不會帶過去哦
         startActivity(it);
     }
@@ -278,9 +254,6 @@ public class MainActivity extends LoginActivity
         if(isNetworkAvailable()){
             Intent it = new Intent(this, MonitorActivity.class);
             Bundle bundle = new Bundle();
-            bundle.putString("my_id", memberid);
-            bundle.putString("my_google_id", googleid);
-            bundle.putString("my_supervise_id", my_mon_id);
             it.putExtras(bundle);
             startActivity(it);
         }
@@ -292,9 +265,6 @@ public class MainActivity extends LoginActivity
     public void gotoChoice(View v) {  //連到排程選擇頁面
         Intent it = new Intent(this, Choice.class);
         Bundle bundle = new Bundle();
-        bundle.putString("my_google_id", googleid);
-        bundle.putString("my_supervise_id", my_mon_id);
-        bundle.putString("memberid", memberid);
 //        Log.d("fffaaa", memberid);
         it.putExtras(bundle);   // 記得put進去，不然資料不會帶過去哦
         startActivity(it);
@@ -303,9 +273,6 @@ public class MainActivity extends LoginActivity
     public void gotodruginfo(View v) { //連到搜尋藥品資訊頁面
         Intent it = new Intent(this, druginfo.class);
         Bundle bundle3 = new Bundle();
-        bundle3.putString("my_id", memberid);
-        bundle3.putString("my_google_id", googleid);
-        bundle3.putString("my_supervise_id", my_mon_id);
         bundle3.putString("m_calid","-1");
         it.putExtras(bundle3);
         startActivity(it);
@@ -324,7 +291,7 @@ public class MainActivity extends LoginActivity
     public void gotoGenerate_Qrcode() { //連到製造qrcode頁面
         Intent it = new Intent(this, Generate_Qrcode.class);
         Bundle bundle = new Bundle();
-        bundle.putString("googleid", googleid);
+        bundle.putString("googleid", memberdata.getGoogle_id());
         it.putExtras(bundle);   // 記得put進去，不然資料不會帶過去哦
         startActivity(it);
     }
@@ -338,16 +305,24 @@ public class MainActivity extends LoginActivity
     public void gotoBsBpMeasure() {
         Intent it = new Intent(this, BsBpMeasureActivity.class);
         Bundle bundle = new Bundle();
-        bundle.putString("googleid", googleid);
-        bundle.putString("memberid", memberid);
+        bundle.putString("googleid", memberdata.getGoogle_id());
+        bundle.putString("memberid", memberdata.getMember_id());
         it.putExtras(bundle);   // 記得put進去，不然資料不會帶過去哦
-        it.putExtra("bsBpMeasureObject", bsBpMeasureObject);
+        it.putExtra("bsBpMeasureObject", memberdata.getMember_id());
         startActivity(it);
     }
     public void gotoMyAP() {
         Intent it = new Intent(this,MyAPActivity.class);
         Bundle bundle = new Bundle();
-        bundle.putString("memberid", memberid);
+        bundle.putString("memberid", memberdata.getMember_id());
+        Log.d("fffaaa","*"+memberid);
+        it.putExtras(bundle);   // 記得put進去，不然資料不會帶過去哦
+        startActivity(it);
+    }
+    public void gotoBeaconMode() {
+        Intent it = new Intent(this,BeaconModeActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putString("memberid", memberdata.getMember_id());
         Log.d("fffaaa","*"+memberid);
         it.putExtras(bundle);   // 記得put進去，不然資料不會帶過去哦
         startActivity(it);
@@ -371,74 +346,28 @@ public class MainActivity extends LoginActivity
         if(c.getCount()!=0){
             if(c.moveToFirst()){
                 do{
-                    memberid = c.getString(0);
-                    memberdata.setMember_id(memberid);
-                    Log.d("idFormember",memberid);
+                    if (c.getString(0).equals("0")){
+                        updateId();
+
+                    }
+//                    memberdata.setMember_id(memberid);
+//                    Log.d("idFormember",memberid);
+                    memberdata.setName(c.getString(1));
+                    memberdata.setEmail(c.getString(2));
+                    getMeasureInformationsql();
+                    getAP();
+                    getbeacon();
                 }while (c.moveToNext());
 
             }
         }else {
-            requestQueue = Volley.newRequestQueue(getApplicationContext());
-
-            final StringRequest request = new StringRequest(Request.Method.POST, getidUrl, new Response.Listener<String>() {
-                @Override
-                public void onResponse(String response) {
-                    Log.d("rrr123", response);
-                    memberid = response;
-                    updateId(response);
-                    memberdata.setMember_id(response);
-                    getMeasureInformation();
-                    getAP();
-                    getbeacon();
-                }
-            }, new Response.ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError error) {
-                    Log.d("rrr111", error.toString());
-                    Toast.makeText(getApplicationContext(), "Error read insert.php!!!", Toast.LENGTH_LONG).show();
-                }
-            }) {
-                protected Map<String, String> getParams() throws AuthFailureError {//把值丟到php
-                    Map<String, String> parameters = new HashMap<String, String>();
-                    parameters.put("google_id", googleid);
-                    Log.d("my123", parameters.toString());
-                    Log.d("my123", "checck!!!");
-                    return parameters;
-
-                }
-            };
-            RequestQueue requestQueue = Volley.newRequestQueue(this);
-            requestQueue.add(request);
-
-
+//            getMeasureInformation();
+            getAP();
+            getbeacon();
         }
 
     }
 
-
-//        requestQueue = Volley.newRequestQueue(getApplicationContext());
-//        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, getidUrl, new Response.Listener<JSONObject>() {
-//            @Override
-//            public void onResponse(JSONObject response) {
-//                try {
-//                    JSONArray members = response.getJSONArray("Members");
-//                    final String[] memberarray=new String[members.length()];
-//
-//                    for (int i=0 ; i<members.length() ; i++){
-//                        JSONObject member = members.getJSONObject(i);
-//                        String id = member.getString("id");
-//                        memberarray[i] = id;
-//                        Log.d("vvvvv",memberarray[i]);
-//                    }
-//                }catch (JSONException e){
-//                    e.printStackTrace();
-//                }
-//            }
-//        }, new Response.ErrorListener() {
-//            @Override
-//            public void onErrorResponse(VolleyError error) {}
-//        });
-//        requestQueue.add(jsonObjectRequest);
 
     public void getMonitorId() {//取得監控者的id
         requestQueue = Volley.newRequestQueue(getApplicationContext());
@@ -475,7 +404,7 @@ public class MainActivity extends LoginActivity
                 Map<String, String> parameters = new HashMap<String, String>();
 //                parameters.put("username", gname);
 //                parameters.put("password", gemail);
-                parameters.put("google_id_mymonitor", googleid);
+                parameters.put("google_id_mymonitor", memberdata.getGoogle_id());
                 Log.d("google_id_monitor", parameters.toString());
                 return parameters;
             }
@@ -486,7 +415,7 @@ public class MainActivity extends LoginActivity
 
     public void getMeasureInformation() {//取得血壓血糖測量時間
         requestQueue = Volley.newRequestQueue(getApplicationContext());
-        String getMeasureInformationURL = "http://54.65.194.253/Member/getMeasureInformation.php?member_id=" + memberid;
+        String getMeasureInformationURL = "http://54.65.194.253/Member/getMeasureInformation.php?member_id=" + memberdata.getMember_id();
         Map<String, String> params = new HashMap();
 
         //params.put("member_id", memberid);
@@ -534,7 +463,6 @@ public class MainActivity extends LoginActivity
         Cursor c  = sqLiteDatabase.rawQuery("SELECT * FROM Member",null);
 
         if(c.moveToFirst()){
-
             do{
                 RepairData.google_id = memberdata.getMember_id();
                 RepairData.name =  memberdata.getName();
@@ -548,12 +476,40 @@ public class MainActivity extends LoginActivity
 
         }
     }
+        public void getMeasureInformationsql(){
+        sqLiteDatabase = openOrCreateDatabase(DATABASE_NAME, Context.MODE_APPEND,null);
+        Cursor c1  = sqLiteDatabase.rawQuery("SELECT * FROM Health_BsBpMeasureTime",null);
+
+        if(c1.moveToFirst()){
+
+            do{
+                memberdata.measure_id = Integer.parseInt(c1.getString(0));
+                try {
+                    memberdata.bs_first=getCurrentTimeStamp(c1.getString(2));
+                    memberdata.bs_second=getCurrentTimeStamp(c1.getString(3));
+                    memberdata.bs_third=getCurrentTimeStamp(c1.getString(4));
+                    memberdata.bp_first=getCurrentTimeStamp(c1.getString(5));
+                    memberdata.bp_second=getCurrentTimeStamp(c1.getString(6));
+                    memberdata.bp_third=getCurrentTimeStamp(c1.getString(7));
+                    bsBpMeasureObject = new BsBpMeasureObject(Integer.parseInt(c1.getString(0)), memberdata.getMember_id(), c1.getString(2), c1.getString(3), c1.getString(4), c1.getString(5), c1.getString(6), c1.getString(7));
+                    Log.d("measureInfor", "object " + bsBpMeasureObject.toString());
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+
+
+
+            }while (c1.moveToNext());
+
+
+        }
+    }
     public void getpersonal() {
 
         AsyncTask<Integer, Void, Void> task = new AsyncTask<Integer, Void, Void>() {
             @Override
             protected Void doInBackground(Integer... integers) {
-                String insertUrl = "http://54.65.194.253/Member/personal.php?google_id=" + googleid;
+                String insertUrl = "http://54.65.194.253/Member/personal.php?google_id=" + memberdata.getGoogle_id();
                 OkHttpClient client = new OkHttpClient();
                 Log.d("ppppp", insertUrl);
                 okhttp3.Request request = new okhttp3.Request.Builder()
@@ -580,12 +536,13 @@ public class MainActivity extends LoginActivity
                     for (int i = 0; i < array.length(); i++) {
 
                         object = array.getJSONObject(i);
-
-                        repairData = new RepairData(object.getString("name"), object.getString("email")
+                        memberdata.setMember_id(object.getString("id"));
+                        memberdata.setGoogle_id(object.getString("google_id"));
+                        memberdata.setEmail(object.getString("email"));
+                        addData(object.getString("id"),object.getString("name"), object.getString("email")
                                 , object.getString("gender_man"), object.getString("weight"), object.getString("height")
-                                , object.getString("birth"), object.getString("google_id"));
+                                , object.getString("birth"), object.getString("google_id"),object.getString("photo"));
 
-                        Log.d("ppppp", repairData.getGender_man());
 
                     }
 
@@ -603,38 +560,6 @@ public class MainActivity extends LoginActivity
             @Override
             protected void onPostExecute(Void aVoid) {
 
-                Bundle bundle1 = new Bundle();
-
-                String p1= getIntent().getExtras().getString("name", "not found");
-                bundle1.putString("name", memberdata.getName());
-                repairData.setName(p1);
-
-
-                String p2;
-                p2=repairData.getGender_man();
-                bundle1.putString("gender_man", repairData.getGender_man());
-                repairData.setGender_man(p2);
-
-                String p3;
-                p3=repairData.getWeight();
-                bundle1.putString("weight", repairData.getWeight());
-                repairData.setWeight(p3);
-
-                String p4;
-                p4=repairData.getHeight();
-                bundle1.putString("height", repairData.getHeight());
-                repairData.setHeight(p4);
-
-                String p5;
-                p5=repairData.getBirth();
-                bundle1.putString("birth", repairData.getBirth());
-                repairData.setBirth(p5);
-
-                Log.d("ppppp",p1);
-                Log.d("ppppp", p2);
-                Log.d("ppppp",p3);
-                Log.d("ppppp",p4);
-                Log.d("ppppp",p5);
 
 
             }
@@ -642,6 +567,9 @@ public class MainActivity extends LoginActivity
         task.execute();
 
     }
+
+
+
 
 
 
@@ -696,6 +624,8 @@ public class MainActivity extends LoginActivity
             gotoBsBpMeasure();
         } else if (id == R.id.nav_manage) {
             gotoMyAP();
+        } else if (id == R.id.nav_manage2) {
+            gotoBeaconMode();
         } else if (id == R.id.nav_share) {
             signOut();
         } else if (id == R.id.nav_send) {
@@ -800,17 +730,17 @@ public class MainActivity extends LoginActivity
             protected Void doInBackground(Integer... integers) {
                 RequestBody formBody = new MultipartBody.Builder()
                         .setType(MultipartBody.FORM)
-                        .addFormDataPart("memberid", my_mon_id)
+                        .addFormDataPart("memberid", memberdata.getMy_mon_id())
                         .addFormDataPart("token", token)
                         .build();
                 OkHttpClient client = new OkHttpClient();
                 okhttp3.Request request = new okhttp3.Request.Builder()
-                        .url("http://54.65.194.253/Monitor/sendToken.php?memberid=" + my_mon_id + "&token=" + token)
+                        .url("http://54.65.194.253/Monitor/sendToken.php?memberid=" + memberdata.getMy_mon_id() + "&token=" + token)
                         .post(formBody)
                         .build();
                 try {
                     okhttp3.Response response = client.newCall(request).execute();
-                    Log.d("mon_idte213st", "http://54.65.194.253/Monitor/sendToken.php?memberid=" + my_mon_id + "&token=" + token);
+                    Log.d("mon_idte213st", "http://54.65.194.253/Monitor/sendToken.php?memberid=" + memberdata.getMy_mon_id() + "&token=" + token);
 
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -841,15 +771,11 @@ public class MainActivity extends LoginActivity
         }
         return strDate;
     }
-    public void updateId(String a ){
+    public void updateIdSql(String a ){
         ContentValues contentValues = new ContentValues(4);
         contentValues.put("id",a);
         //sqLiteDatabase.insert(TABLE_NAME,null,contentValues);
         sqLiteDatabase.update(TABLE_NAME, contentValues, "google_id =" + memberdata.getGoogle_id(), null);
-
-
-
-
 
     }
     public  boolean isNetworkAvailable() {
@@ -871,6 +797,38 @@ public class MainActivity extends LoginActivity
                 })
                 .show();
     }
+    public void  updateId(){
+        requestQueue = Volley.newRequestQueue(getApplicationContext());
+
+        final StringRequest request = new StringRequest(Request.Method.POST, getidUrl, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Log.d("rrr123", response);
+                memberid = response;
+                updateIdSql(response);
+                memberdata.setMember_id(response);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.d("rrr111", error.toString());
+                Toast.makeText(getApplicationContext(), "Error read insert.php!!!", Toast.LENGTH_LONG).show();
+            }
+        }) {
+            protected Map<String, String> getParams() throws AuthFailureError {//把值丟到php
+                Map<String, String> parameters = new HashMap<String, String>();
+                parameters.put("google_id", memberdata.getGoogle_id());
+                Log.d("my123", parameters.toString());
+                Log.d("my123", "checck!!!");
+                return parameters;
+
+            }
+        };
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(request);
+
+    }
+
 
 
 }

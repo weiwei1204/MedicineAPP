@@ -327,7 +327,7 @@
                 android:layout_marginRight="80dp"
                 android:layout_marginTop="30dp"
                 android:onClick="gotocheckinfrmationActivity"
-                android:text="Check" />
+                android:text="確認" />
         </TableRow>
 
     </TableLayout>
