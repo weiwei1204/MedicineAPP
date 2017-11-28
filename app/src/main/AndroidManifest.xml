@@ -127,6 +127,9 @@
             android:name=".MyAPActivity"
             android:label="@string/title_activity_ap" />
         <activity
+            android:name=".BeaconModeActivity"
+            android:label="@string/title_activity_beaconmode" />
+        <activity
             android:name=".medicinevertify"
             android:label="@string/title_activity_medicinevertify" />
         <activity
@@ -172,7 +175,10 @@
             android:name=".RingtonePlayingService"
             android:enabled="true" />
         <service
-            android:name=".CheckBeacon"
+            android:name=".CheckBeacon_AP"
+            android:enabled="true" />
+        <service
+            android:name=".CheckBeacon_Time"
             android:enabled="true" />
         <!-- <activity -->
         <!-- android:name=".edt" -->
