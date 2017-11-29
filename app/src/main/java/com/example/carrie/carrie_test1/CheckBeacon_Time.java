@@ -71,7 +71,7 @@ public class CheckBeacon_Time extends Service {
         UUIDnum = needBeacon.size();
 //        getAP();
 //        getbeacon();
-        handler.postDelayed(runnable, 5000);
+        handler.postDelayed(runnable, 180000);
     }
     public void onDestroy(){
         super.onDestroy();
@@ -92,7 +92,7 @@ public class CheckBeacon_Time extends Service {
                     InitBLE ();
                     SearchForBLEDevices();
                 }
-                handler.postDelayed(this, 5000);
+                handler.postDelayed(this, 180000);
             }
         };
     }
