@@ -36,10 +36,15 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.Cache;
+import com.android.volley.Network;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.BasicNetwork;
+import com.android.volley.toolbox.DiskBasedCache;
+import com.android.volley.toolbox.HurlStack;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
 
@@ -173,6 +178,18 @@ public class BsPlotTab extends Fragment{
 //            }
 //        });
         Bundle bundle = this.getArguments();
+        // Instantiate the cache
+        Cache cache = new DiskBasedCache(getActivity().getCacheDir(), 1024 * 1024); // 1MB cap
+
+// Set up the network to use HttpURLConnection as the HTTP client.
+        Network network = new BasicNetwork(new HurlStack());
+
+// Instantiate the RequestQueue with the cache and network.
+        requestQueue = new RequestQueue(cache, network);
+
+// Start the queue
+        requestQueue.start();
+
 //        Bundle bundle2 = getActivity().getIntent().getExtras();
         memberid = bundle.getString("memberid");
         Log.d("689","sent id"+memberid);
@@ -183,12 +200,20 @@ public class BsPlotTab extends Fragment{
         chart.setViewportCalculationEnabled(false);
         fragmentManager = getFragmentManager();
         setHasOptionsMenu(true);
+        requestQueue.cancelAll(TAG);
         return rootView;
     }
 //    @Override
 //    public void onViewCreated(View view, @Nullable Bundle savedInstanceState){
 //        super.onViewCreated(view, savedInstanceState);
 //    }
+@Override
+public void onStop () {
+    super.onStop();
+    if (requestQueue != null) {
+        requestQueue.cancelAll(TAG);
+    }
+}
 @Override
 public void onAttach(Context context) {
     super.onAttach(context);

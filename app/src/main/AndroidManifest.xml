@@ -14,7 +14,7 @@
     <!-- <uses-permission-sdk-23 android:name="android.permission.ACCESS_FINE_LOCATION" android:required="false"/> -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission-sdk-23 android:name="android.permission.INTERNET" />
     <uses-permission-sdk-23 android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission-sdk-23 android:name="android.permission.ACCESS_FINE_LOCATION" />
@@ -127,6 +127,9 @@
             android:name=".MyAPActivity"
             android:label="@string/title_activity_ap" />
         <activity
+            android:name=".BeaconModeActivity"
+            android:label="@string/title_activity_beaconmode" />
+        <activity
             android:name=".medicinevertify"
             android:label="@string/title_activity_medicinevertify" />
         <activity
@@ -172,7 +175,10 @@
             android:name=".RingtonePlayingService"
             android:enabled="true" />
         <service
-            android:name=".CheckBeacon"
+            android:name=".CheckBeacon_AP"
+            android:enabled="true" />
+        <service
+            android:name=".CheckBeacon_Time"
             android:enabled="true" />
         <!-- <activity -->
         <!-- android:name=".edt" -->

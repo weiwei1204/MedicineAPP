@@ -2,8 +2,11 @@ package com.example.carrie.carrie_test1;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;
+import android.content.ContentValues;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
@@ -56,6 +59,9 @@ public class BpMeasureTab  extends Fragment {
     String updateh_alerttimeUrl = "http://54.65.194.253/Health_Calendar/updateh_alerttime.php";
     PendingIntent pending_intent;
     AlarmManager alarm_manager;
+    SQLiteDatabase sqLiteDatabase;
+    String TABLE_NAME = "Health_BsBpMeasureTime";
+    public static final String DATABASE_NAME = "MedicineTest.db";
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -117,6 +123,7 @@ public class BpMeasureTab  extends Fragment {
                 inserh_alerttime(bpat2,"bp_2",false);
                 inserh_alerttime(bpat3,"bp_3",true);
                 insertMeasure();
+                updateMeasuuresql(bp1,bp2,bp3);
                 saveCheck();
             }
         });
@@ -269,6 +276,15 @@ public class BpMeasureTab  extends Fragment {
                     }
                 })
                 .show();
+    }
+    public void updateMeasuuresql(String a ,String b,String c ){
+        sqLiteDatabase = getActivity().openOrCreateDatabase(DATABASE_NAME, Context.MODE_PRIVATE,null);
+        ContentValues contentValues = new ContentValues(8);
+        contentValues.put("bp_first",a);
+        contentValues.put("bp_second",b);
+        contentValues.put("bp_third",c);
+        //sqLiteDatabase.insert(TABLE_NAME,null,contentValues);
+        sqLiteDatabase.update(TABLE_NAME, contentValues, "member_id =" + memberdata.getMember_id(), null);
     }
 
 }

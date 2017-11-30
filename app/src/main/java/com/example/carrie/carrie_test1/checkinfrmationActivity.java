@@ -1,7 +1,11 @@
 package com.example.carrie.carrie_test1;
 
 import android.app.Activity;
+import android.content.ContentValues;
+import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -31,6 +35,19 @@ public class checkinfrmationActivity extends Activity {
     RequestQueue requestQueue;
     String insertUrl = "http://54.65.194.253/Member/insert.php";
     String inserMonitortUrl = "http://54.65.194.253/Monitor/addMonitor.php";
+
+    public static final String DATABASE_NAME = "MedicineTest.db";
+    public static final String TABLE_NAME = "Member";
+    public static final String col_id = "id";
+    public static final String col_name = "name";
+    public static final String col_email = "email";
+    public static final String col_genderman = "genderman";
+    public static final String col_weight = "weight";
+    public static final String col_height = "height";
+    public static final String col_birth = "birth";
+    public static final String col_google_id = "google_id";
+    public static final String col_photo = "photo";
+    SQLiteDatabase sqLiteDatabase;
 
 
     @Override
@@ -114,6 +131,16 @@ public class checkinfrmationActivity extends Activity {
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         requestQueue.add(request);
 
+        sqLiteDatabase = openOrCreateDatabase(DATABASE_NAME, Context.MODE_PRIVATE,null);
+        String SQL_String = "CREATE  TABLE  IF NOT EXISTS " + TABLE_NAME + "(" + col_id + " VARCHAR(32)," + col_name + " VARCHAR(32)," + col_email + " VARCHAR(32)," + col_genderman +" VARCHAR(32),"+ col_weight +" VARCHAR(32),"+ col_height +" VARCHAR(32),"+ col_birth +" VARCHAR(32),"+ col_google_id +" VARCHAR(32),"+  col_photo +" VARCHAR(32)"+")";
+        sqLiteDatabase.execSQL(SQL_String);
+        Cursor c  = sqLiteDatabase.rawQuery("SELECT * FROM "+TABLE_NAME,null);
+        if (c.getCount() == 0) {
+            addData("0",name,email,gender,weight,height,age,googleid,"null");
+            c  = sqLiteDatabase.rawQuery("SELECT * FROM "+TABLE_NAME,null);
+        }
+        sqLiteDatabase.close();
+
     }
     public void insertMonitor() {
 
@@ -182,6 +209,23 @@ public class checkinfrmationActivity extends Activity {
 
     public void goback(View v){
         finish();
+    }
+    public void addData(String a ,String b,String c ,String d,String e ,String f,String g ,String h,String i){
+        ContentValues contentValues = new ContentValues(9);
+        contentValues.put("id","0");
+        contentValues.put("name",b);
+        contentValues.put("email",c);
+        contentValues.put("genderman",d);
+        contentValues.put("weight",e);
+        contentValues.put("height",f);
+        contentValues.put("birth",g);
+        contentValues.put("google_id",h);
+        contentValues.put("photo",i);
+
+
+        sqLiteDatabase.insert(TABLE_NAME,null,contentValues);
+
+
     }
 
 }

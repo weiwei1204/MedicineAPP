@@ -20,7 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class CheckBeacon extends Service {
+public class CheckBeacon_AP extends Service {
     String memberid;
     private Handler handler = new Handler( );
     private Runnable runnable;
@@ -78,6 +78,7 @@ public class CheckBeacon extends Service {
     public void onDestroy(){
         super.onDestroy();
         Toast.makeText(this, "Service stop", Toast.LENGTH_SHORT).show();
+        handler.removeCallbacks(runnable);
     }
     public void checkWifi(){
         runnable=new Runnable() {
@@ -215,7 +216,7 @@ public class CheckBeacon extends Service {
 //                    Log.d("bbb", "沒帶Beacon!!!!!!!!!!"+lost.get(0));
 //                    for (int i=0;i<lost.size();i++) {
 //                        Toast.makeText(getApplicationContext(), "沒帶"+lost.get(0)+"!!!!", Toast.LENGTH_LONG).show();
-//                        AlertDialog.Builder builder = new AlertDialog.Builder(CheckBeacon.this);
+//                        AlertDialog.Builder builder = new AlertDialog.Builder(CheckBeacon_AP.this);
 //                        builder.setMessage(lost.get(i)+"\n")
 //                                .setTitle("藥忘記帶囉")
 //                                .setCancelable(false)
