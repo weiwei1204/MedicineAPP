@@ -6,6 +6,7 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Intent;
+import android.graphics.BitmapFactory;
 import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Bundle;
@@ -119,8 +120,10 @@ public class RingtonePlayingService extends Service {
                     Log.d("nonono3", String.valueOf(memberid));
 
                     Notification notification_popup=new Notification.Builder(this)
-                            .setSmallIcon(R.drawable.add)
-                            .setContentTitle("an alarm is goin off!!")
+                            .setSmallIcon(R.drawable.megaphone)
+                            .setLargeIcon(BitmapFactory.decodeResource(RingtonePlayingService.this.getResources(),
+                                    R.drawable.megaphone))
+                            .setContentTitle("用藥時間到囉～")
                             .setContentText("click me")
                             .setContentIntent(pending_intent_alarm)
                             .setAutoCancel(true)
