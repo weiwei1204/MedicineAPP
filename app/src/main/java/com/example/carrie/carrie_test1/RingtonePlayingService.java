@@ -48,12 +48,14 @@ public class RingtonePlayingService extends Service {
         if (alarmtype.equals("health")){
             alarmid = intent.getExtras().getString("alarmid");
             memberid = intent.getExtras().getString("memberid");
+            memberid=memberdata.getMember_id();
 
         }
         else {
             alarmid = intent.getExtras().getString("alarmid");
             mcalid = intent.getExtras().getString("mcalid");
             memberid = intent.getExtras().getString("memberid");
+            memberid=memberdata.getMember_id();
         }
 
 
@@ -123,8 +125,9 @@ public class RingtonePlayingService extends Service {
                             .setContentIntent(pending_intent_alarm)
                             .setAutoCancel(true)
                             .build();
-
+                    Log.d("nononononononono","yes123");
                     notify_manager.notify(Integer.parseInt(alarmid),notification_popup);
+                    Log.d("nononononononono","yes");
                 }
 
 
