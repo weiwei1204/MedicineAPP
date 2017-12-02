@@ -260,5 +260,6 @@
     <string name="bphigh"></string>
     <string name="bplow"></string>
     <string name="bpheart"></string>
+    <string name="title_activity_hospital_calendar">hospital_calendar</string>
 
 </resources>

@@ -17,11 +17,13 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.android.gms.identity.intents.AddressConstants;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class checkinfrmationActivity extends Activity {
+//    String url= "http://54.65.194.253/Member/chronic.php";
 
     private TextView Namec,Emailc,heightc,weightc,agec,effectc;
     private RadioButton radiomanc,radiowomanc;
@@ -31,6 +33,7 @@ public class checkinfrmationActivity extends Activity {
     RequestQueue requestQueue;
     String insertUrl = "http://54.65.194.253/Member/insert.php";
     String inserMonitortUrl = "http://54.65.194.253/Monitor/addMonitor.php";
+    int arrayB[];
 
 
     @Override
@@ -49,15 +52,29 @@ public class checkinfrmationActivity extends Activity {
         btnreturn = (Button)findViewById(R.id.btnreturn);
         btnok = (Button)findViewById(R.id.btnok);
 
+
         Bundle bundle = getIntent().getExtras();
         email = bundle.getString("email");
         name = bundle.getString("name");
         height = bundle.getString("height");
         weight = bundle.getString("weight");
         age = bundle.getString("age");
-        effect = bundle.getString("effect");
+      //  effect = bundle.getString("effect");
         gender = bundle.getString("gender");
         googleid=bundle.getString("googleid");
+        Bundle extras= getIntent().getExtras();
+        int[] arrayB = extras.getIntArray("numbers");
+        effect="";
+        if(arrayB[0]==1){
+            effect+="高血壓 ";
+        }
+        if(arrayB[1]==1){
+            effect+="高血糖 ";
+        }
+        if(arrayB[2]==1){
+            effect+="高血脂 ";
+        }
+
 
         Namec.setText(name);
         Emailc.setText(email);
@@ -141,6 +158,9 @@ public class checkinfrmationActivity extends Activity {
                 parameters.put("Mheight",height);
                 parameters.put("Mbirth",age);
                 parameters.put("Mgoogle_id", googleid);
+                parameters.put("pressure", String.valueOf(arrayB[0]));
+                parameters.put("sugar",String.valueOf(arrayB[1]));
+                parameters.put("oil",String.valueOf(arrayB[2]));
                 Log.d("monitoradd", parameters.toString());
                 Log.d("monitoraddCheck","checck!!!");
                 return parameters;

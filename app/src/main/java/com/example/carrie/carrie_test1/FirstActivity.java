@@ -171,7 +171,7 @@
 //            String data;
 //            List<String> r = new ArrayList<String>();
 //            ArrayAdapter<String>adapter=new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_list_item_1,r);
-////            ListAdapter adapter = new SimpleAdapter(FirstActivity.this, contactList,
+////            com.example.carrie.carrie_test1.ListAdapter adapter = new SimpleAdapter(FirstActivity.this, contactList,
 ////                    R.layout.activity_first, new String[]{ "chineseName","englishName"},
 ////                    new int[]{R.id.chname,R.id.engname});
 ////            lv.setAdapter(adapter);
