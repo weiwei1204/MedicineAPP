@@ -1,5 +1,7 @@
 package com.example.carrie.carrie_test1;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -98,6 +100,10 @@ public class MainActivity extends LoginActivity
     SQLiteDatabase sqLiteDatabase;
     public static final String DATABASE_NAME = "MedicineTest.db";
     public static final String TABLE_NAME = "Member";
+    Button mfakebtn,hfakebtn;
+    PendingIntent pending_intent;
+    AlarmManager alarm_manager;
+
 
 
     @Override
@@ -106,16 +112,32 @@ public class MainActivity extends LoginActivity
         setContentView(R.layout.activity_main3);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbarMain);
         setSupportActionBar(toolbar);
+        mfakebtn = (Button)findViewById(R.id.mfakebtn);
+        hfakebtn = (Button)findViewById(R.id.hfakebtn);
         Bundle bundle = getIntent().getExtras();
+        googleid = bundle.getString("googleid");
+        Log.d("GOOGLEID",googleid);
+        nname = bundle.getString("name");
+        gender = bundle.getString("gender_man");
+        weight=bundle.getString("weight");
+        height=bundle.getString("height");
+        birth=bundle.getString("birth");
+
 
 //        Log.d("GOOGLEID",nname);
 
+
+        //int googleid = Log.d("GOOGLEID", nname);
+
+//        Log.d("GOOGLEID",nname);
 //        Log.d("GOOGLEID",googleid);
 //        name = bundle.getString("name");
 //        gender=bundle.getString("gender_man");
 //        weight=bundle.getString("weight");
 //        height=bundle.getString("height");
 //        birth=bundle.getString("birth");
+
+        memberdata.setGoogle_id(this.googleid);
 
 //        Log.d("GOOGLEID",name);
 //        Log.d("GOOGLEID",gender);
@@ -157,6 +179,9 @@ public class MainActivity extends LoginActivity
                     case R.id.ic_list:
                         Intent intent0 = new Intent(MainActivity.this, Choice.class);
                         Bundle bundle0 = new Bundle();
+                        bundle0.putString("memberid", memberid);
+                        bundle0.putString("my_google_id", MainActivity.this.googleid);
+                        bundle0.putString("my_supervise_id", my_mon_id);
                         intent0.putExtras(bundle0);   // 記得put進去，不然資料不會帶過去哦
                         startActivity(intent0);
                         break;
@@ -176,6 +201,7 @@ public class MainActivity extends LoginActivity
                     case R.id.ic_home:
                         Intent intent2 = new Intent(MainActivity.this, MainActivity.class);
                         Bundle bundle2 = new Bundle();
+                        bundle2.putString("googleid", MainActivity.this.googleid);
                         intent2.putExtras(bundle2);
                         startActivity(intent2);
                         break;
@@ -183,6 +209,9 @@ public class MainActivity extends LoginActivity
                     case R.id.ic_information:
                         Intent intent3 = new Intent(MainActivity.this, druginfo.class);
                         Bundle bundle3 = new Bundle();
+                        bundle3.putString("my_id", memberid);
+                        bundle3.putString("my_google_id", MainActivity.this.googleid);
+                        bundle3.putString("my_supervise_id", my_mon_id);
                         bundle3.putString("m_calid","-1");
                         intent3.putExtras(bundle3);
                         startActivity(intent3);
@@ -191,6 +220,9 @@ public class MainActivity extends LoginActivity
                     case R.id.ic_beacon:
                         Intent intent4 = new Intent(MainActivity.this, MyBeaconActivity.class);
                         Bundle bundle4 = new Bundle();
+                        bundle4.putString("my_id", memberid);
+                        bundle4.putString("my_google_id", MainActivity.this.googleid);
+                        bundle4.putString("my_supervise_id", my_mon_id);
                         intent4.putExtras(bundle4);
                         startActivity(intent4);
                         break;
@@ -221,8 +253,45 @@ public class MainActivity extends LoginActivity
         memberdata.setBeaconcal(Beaconcal);
         UUIDnum = needBeacon.size();
         SSIDnum = storeAPBSSID.size();
-        Intent checkBeaconIntent = new Intent(MainActivity.this,CheckBeacon_AP.class);
-        startService(checkBeaconIntent);
+//        Intent checkBeaconIntent = new Intent(MainActivity.this,CheckBeacon_AP.class);
+//        startService(checkBeaconIntent);
+
+        //用藥排程提醒假按鈕
+        mfakebtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alarm_manager = (AlarmManager)getSystemService(ALARM_SERVICE);
+                Calendar calendar = Calendar.getInstance();
+                long now = calendar.getTimeInMillis();
+                final Intent my_intent=new Intent(MainActivity.this,Alarm_Receiver.class);
+                my_intent.putExtra("extra","alarm on");
+                my_intent.putExtra("alarmid","0");
+                my_intent.putExtra("mcalid","513");
+                my_intent.putExtra("memberid",memberid);
+                my_intent.putExtra("alarmtype","medicine");
+                pending_intent= PendingIntent.getBroadcast(MainActivity.this,0,
+                        my_intent,PendingIntent.FLAG_CANCEL_CURRENT);
+                alarm_manager.setExact(AlarmManager.RTC_WAKEUP, now ,pending_intent);
+            }
+        });
+
+        //健康排成提醒假按鈕（血糖）
+        hfakebtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alarm_manager = (AlarmManager)getSystemService(ALARM_SERVICE);
+                Calendar calendar = Calendar.getInstance();
+                long now = calendar.getTimeInMillis();
+                final Intent my_intent=new Intent(MainActivity.this,Alarm_Receiver.class);
+                my_intent.putExtra("extra","alarm on");
+                my_intent.putExtra("alarmid","331");
+                my_intent.putExtra("memberid",memberid);
+                my_intent.putExtra("alarmtype","healthbs");
+                pending_intent= PendingIntent.getBroadcast(MainActivity.this,0,
+                        my_intent,PendingIntent.FLAG_CANCEL_CURRENT);
+                alarm_manager.setExact(AlarmManager.RTC_WAKEUP, now,pending_intent);
+            }
+        });
     }
     private void signOut() {
 

@@ -77,9 +77,7 @@ public class RepairData {
         this.google_id = google_id;
     }
 
-    public String getGoogle_id() {
-        return google_id;
-    }
+    public String getGoogle_id() {return google_id;}
 
 
 

@@ -4,6 +4,7 @@ import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Paint;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -336,6 +337,7 @@ public class alarm extends AppCompatActivity {
                         Log.d("nn11",drugeffect);
                     }
                     alarmdrug.setText(Arrays.toString(effect).replaceAll("\\[|\\]", ""));
+                    alarmdrug.setText(autoSplitText(alarmdrug));
 
                 } catch (JSONException e) {
                     Log.d("nn11",e.toString());
@@ -367,6 +369,42 @@ public class alarm extends AppCompatActivity {
         finish();
     }
 
+    private String autoSplitText(final TextView tv) {
+                 final String rawText = tv.getText().toString(); //原始文本
+                 final Paint tvPaint = tv.getPaint(); //paint，包含字體等信息
+                 final float tvWidth = tv.getWidth() - tv.getPaddingLeft() - tv.getPaddingRight(); //控制項可用寬度
+
+                 //將原始文本按行拆分
+                 String [] rawTextLines = rawText.replaceAll("\r", "").split("\n");
+                 StringBuilder sbNewText = new StringBuilder();
+                 for (String rawTextLine : rawTextLines) {
+                        if (tvPaint.measureText(rawTextLine) <= tvWidth) {
+                                 //如果整行寬度在控制項可用寬度之內，就不處理了
+                                 sbNewText.append(rawTextLine);
+                            } else {
+                                 //如果整行寬度超過控制項可用寬度，則按字元測量，在超過可用寬度的前一個字元處手動換行
+                                 float lineWidth = 0;
+                                 for (int cnt = 0; cnt != rawTextLine.length(); ++cnt) {
+                                         char ch = rawTextLine.charAt(cnt);
+                                         lineWidth += tvPaint.measureText(String.valueOf(ch));
+                                         if (lineWidth <= tvWidth) {
+                                                 sbNewText.append(ch);
+                                             } else {
+                                                 sbNewText.append("\n");
+                                                 lineWidth = 0;
+                                                 --cnt;
+                                             }
+                                     }
+                             }
+                         sbNewText.append("\n");
+                     }
+                 //把結尾多餘的\n去掉
+                 if (!rawText.endsWith("\n")) {
+                         sbNewText.deleteCharAt(sbNewText.length() - 1);
+                     }
+
+                 return sbNewText.toString();
+             }
 }
 
 //
