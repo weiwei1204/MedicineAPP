@@ -164,7 +164,7 @@ public class notification extends AppCompatActivity {
         {
             protected Map<String, String> getParams() throws AuthFailureError {//把值丟到php
                 Map<String, String> parameters = new HashMap<String, String>();
-                parameters.put("member_id",memberid);
+                parameters.put("member_id",memberdata.getMember_id());
                 Log.d("timeeeee",parameters.toString());
                 return parameters;
             }};

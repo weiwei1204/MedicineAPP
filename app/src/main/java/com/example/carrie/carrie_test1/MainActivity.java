@@ -1,5 +1,7 @@
 package com.example.carrie.carrie_test1;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -98,6 +100,10 @@ public class MainActivity extends LoginActivity
     SQLiteDatabase sqLiteDatabase;
     public static final String DATABASE_NAME = "MedicineTest.db";
     public static final String TABLE_NAME = "Member";
+    Button mfakebtn,hfakebtn;
+    PendingIntent pending_intent;
+    AlarmManager alarm_manager;
+
 
 
     @Override
@@ -106,6 +112,8 @@ public class MainActivity extends LoginActivity
         setContentView(R.layout.activity_main3);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbarMain);
         setSupportActionBar(toolbar);
+        mfakebtn = (Button)findViewById(R.id.mfakebtn);
+        hfakebtn = (Button)findViewById(R.id.hfakebtn);
         Bundle bundle = getIntent().getExtras();
 
 //        Log.d("GOOGLEID",nname);
@@ -221,8 +229,45 @@ public class MainActivity extends LoginActivity
         memberdata.setBeaconcal(Beaconcal);
         UUIDnum = needBeacon.size();
         SSIDnum = storeAPBSSID.size();
-        Intent checkBeaconIntent = new Intent(MainActivity.this,CheckBeacon_AP.class);
-        startService(checkBeaconIntent);
+//        Intent checkBeaconIntent = new Intent(MainActivity.this,CheckBeacon_AP.class);
+//        startService(checkBeaconIntent);
+
+        //用藥排程提醒假按鈕
+        mfakebtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alarm_manager = (AlarmManager)getSystemService(ALARM_SERVICE);
+                Calendar calendar = Calendar.getInstance();
+                long now = calendar.getTimeInMillis();
+                final Intent my_intent=new Intent(MainActivity.this,Alarm_Receiver.class);
+                my_intent.putExtra("extra","alarm on");
+                my_intent.putExtra("alarmid","0");
+                my_intent.putExtra("mcalid","513");
+                my_intent.putExtra("memberid",memberid);
+                my_intent.putExtra("alarmtype","medicine");
+                pending_intent= PendingIntent.getBroadcast(MainActivity.this,0,
+                        my_intent,PendingIntent.FLAG_CANCEL_CURRENT);
+                alarm_manager.setExact(AlarmManager.RTC_WAKEUP, now ,pending_intent);
+            }
+        });
+
+        //健康排成提醒假按鈕（血糖）
+        hfakebtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alarm_manager = (AlarmManager)getSystemService(ALARM_SERVICE);
+                Calendar calendar = Calendar.getInstance();
+                long now = calendar.getTimeInMillis();
+                final Intent my_intent=new Intent(MainActivity.this,Alarm_Receiver.class);
+                my_intent.putExtra("extra","alarm on");
+                my_intent.putExtra("alarmid","331");
+                my_intent.putExtra("memberid",memberid);
+                my_intent.putExtra("alarmtype","healthbs");
+                pending_intent= PendingIntent.getBroadcast(MainActivity.this,0,
+                        my_intent,PendingIntent.FLAG_CANCEL_CURRENT);
+                alarm_manager.setExact(AlarmManager.RTC_WAKEUP, now,pending_intent);
+            }
+        });
     }
     private void signOut() {
 
