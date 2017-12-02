@@ -88,20 +88,23 @@ public class LexConnect extends AppCompatActivity{
                 Log.d("1212", "Transcript: " + response.getInputTranscript());
                 responseTextView.setText(response.getTextResponse());
                 transcriptTextView.setText(response.getInputTranscript());
-                if(response.getTextResponse().equals("Yes, MineDicine is an incredible App ! Let me show you the logo !")) {
+                if(response.getInputTranscript().equals("do you like minedicine")) {
                     final VideoView videoView = (VideoView) LexConnect.this.findViewById(R.id.videoView);
                     MediaController mc = new MediaController(LexConnect.this);
-                        videoView.setVisibility(View.VISIBLE); 
+                        videoView.setVisibility(View.VISIBLE);
                         videoView.setMediaController(mc);
                         videoView.setVideoURI(Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.video));
                         videoView.requestFocus();
                         videoView.start();
+                        final TextView tv = (TextView)findViewById(R.id.show);
+                        tv.setVisibility(View.VISIBLE);
                         videoView.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
                             @Override
                             public void onCompletion(MediaPlayer mp) {
                                 videoView.setVisibility(View.INVISIBLE);
                                 ImageView showicon = (ImageView) findViewById(R.id.showicon);
                                 showicon.setVisibility(View.VISIBLE);
+                                tv.setVisibility(View.INVISIBLE);
                             }
                         });
                 }
