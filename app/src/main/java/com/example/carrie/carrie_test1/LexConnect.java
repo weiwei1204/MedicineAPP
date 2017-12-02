@@ -3,6 +3,8 @@ package com.example.carrie.carrie_test1;
 
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.media.MediaPlayer;
+import android.net.Uri;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -10,6 +12,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.MediaController;
 import android.widget.TextView;
 import android.Manifest;
 import com.amazonaws.auth.CognitoCredentialsProvider;
@@ -22,6 +26,8 @@ import com.amazonaws.mobileconnectors.lex.interactionkit.ui.InteractiveVoiceView
 import com.amazonaws.regions.Regions;
 import com.amazonaws.util.StringUtils;
 import android.support.v4.app.ActivityCompat;
+import android.widget.VideoView;
+
 import static android.Manifest.permission.*;
 import java.util.Locale;
 import java.util.Map;
@@ -82,6 +88,23 @@ public class LexConnect extends AppCompatActivity{
                 Log.d("1212", "Transcript: " + response.getInputTranscript());
                 responseTextView.setText(response.getTextResponse());
                 transcriptTextView.setText(response.getInputTranscript());
+                if(response.getTextResponse().equals("Yes, MineDicine is an incredible App ! Let me show you the logo !")) {
+                    final VideoView videoView = (VideoView) LexConnect.this.findViewById(R.id.videoView);
+                    MediaController mc = new MediaController(LexConnect.this);
+                        videoView.setVisibility(View.VISIBLE);
+                        videoView.setMediaController(mc);
+                        videoView.setVideoURI(Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.video));
+                        videoView.requestFocus();
+                        videoView.start();
+                        videoView.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                            @Override
+                            public void onCompletion(MediaPlayer mp) {
+                                videoView.setVisibility(View.INVISIBLE);
+                                ImageView showicon = (ImageView) findViewById(R.id.showicon);
+                                showicon.setVisibility(View.VISIBLE);
+                            }
+                        });
+                }
             }
 
             @Override
