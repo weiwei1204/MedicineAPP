@@ -4,15 +4,15 @@ package com.example.carrie.carrie_test1;
  * Created by shana on 2017/9/5.
  */
 
- class RepairData {
+public class RepairData {
 
-    public String name;
-    public String email;
-    public String gender_man;
-    public String weight;
-    public String height;
-    public String birth;
-    public String google_id;
+    public static String name;
+    public static String email;
+    public static String gender_man;
+    public static String weight;
+    public static String height;
+    public static String birth;
+    public static String google_id;
 
     public RepairData(String name, String email, String gender_man, String weight, String height, String birth, String google_id){
         this.name= name;

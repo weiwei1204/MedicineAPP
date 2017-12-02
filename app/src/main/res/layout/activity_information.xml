@@ -26,7 +26,8 @@
             android:layout_marginTop="30dp"
             android:text="姓名"
             android:textColor="#272727"
-            android:textSize="20sp" />
+            android:textSize="20sp"
+            android:layout_alignParentLeft="true" />
 
         <TextView
             android:id="@+id/Name"

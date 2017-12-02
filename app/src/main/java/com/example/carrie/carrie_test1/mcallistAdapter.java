@@ -47,6 +47,7 @@ public class mcallistAdapter extends BaseAdapter {
         TextView mcaldelay=(TextView)v.findViewById(R.id.mcaldelay);
         TextView mcalcomplete=(TextView)v.findViewById(R.id.mcalcomplete);
         LinearLayout mcalstatus = (LinearLayout)v.findViewById(R.id.mcalstatus);
+        TextView mcalnotify=(TextView)v.findViewById(R.id.notify);
         mcalname.setText(mcallist.get(position).getMcalname());
         mcalcomplete.setText(mcallist.get(position).getMcalpercent());
         if (mcallist.get(position).getStatus()==1){     //如果排程完成
@@ -58,8 +59,14 @@ public class mcallistAdapter extends BaseAdapter {
 
         }else {
             mcaldelay.setText(mcallist.get(position).getMcaldelay());
-
         }
+
+        if (mcallist.get(position).getMnotify()==1){
+            mcalnotify.setText(Html.fromHtml("<font color='#48A3A3'>＊藥品快沒了，若未康復記得再拿藥～</font>"));
+        }
+        else if (mcallist.get(position).getMnotify()==0){
+        }
+
 
         v.setTag(mcallist.get(position).getId());
 

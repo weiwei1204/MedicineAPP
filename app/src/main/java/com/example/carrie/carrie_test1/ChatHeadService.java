@@ -13,9 +13,11 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 /**
@@ -31,6 +33,9 @@ public class ChatHeadService extends Service {
     private FrameLayout mFrameLayout;
     private WindowManager mWindowManager;
     private WindowManager.LayoutParams params;
+    Context context;
+    WindowManager.LayoutParams layoutParams;
+    private WindowManager windowManager2;
 
     @Nullable
     @Override
@@ -40,7 +45,10 @@ public class ChatHeadService extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
-        mChatHeadView = LayoutInflater.from(this).inflate(R.layout.chathead_view ,null);
+        mChatHeadView = LayoutInflater.from(this).inflate(R.layout.activity_lex_connect ,null);
+//        RelativeLayout.LayoutParams params1 = (RelativeLayout.LayoutParams) mChatHeadView.getLayoutParams();
+//        params1.height = 130;
+//        mChatHeadView.setLayoutParams(params1);
 
         windowManager = (WindowManager) getSystemService(WINDOW_SERVICE);
 
@@ -84,9 +92,12 @@ public class ChatHeadService extends Service {
         params.height = WindowManager.LayoutParams.WRAP_CONTENT;
         windowManager.addView(chatHead, params);
 
+
+
         final GestureDetector gestureDetector = new GestureDetector(this, new MyGestureDetector());
         View.OnTouchListener gestureListener = new View.OnTouchListener() {
             public boolean onTouch(View view, MotionEvent motionEvent) {
+                chatHead.performClick();
                 return gestureDetector.onTouchEvent(motionEvent);
             }
         };
@@ -98,65 +109,72 @@ public class ChatHeadService extends Service {
                 stopSelf();
             }
         });
-
-        chatHead.setOnTouchListener(new View.OnTouchListener() {
-            private int lastAction;
-            private int initialX;
-            private int initialY;
-            private float initialTouchX;
-            private float initialTouchY;
-            @Override
-            public boolean onTouch(View view, MotionEvent motionEvent) {
-                switch (motionEvent.getAction()) {
-                    case MotionEvent.ACTION_DOWN:
-
-                        //remember the initial position.
-                        initialX = params.x;
-                        initialY = params.y;
-
-                        //get the touch location
-                        initialTouchX = motionEvent.getRawX();
-                        initialTouchY = motionEvent.getRawY();
-
-                        lastAction = motionEvent.getAction();
-                        return true;
-                    case MotionEvent.ACTION_UP:
-                        //As we implemented on touch listener with ACTION_MOVE,
-                        //we have to check if the previous action was ACTION_DOWN
-                        //to identify if the user clicked the view or not.
-                        if (lastAction == MotionEvent.ACTION_DOWN) {
-                            //Open the chat conversation click.
-                            Intent intent = new Intent(ChatHeadService.this, TextActivity.class);
-                            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                            intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-                            startActivity(intent);
-
-                            //close the service and remove the chat heads
-                            stopSelf();
-                        }
-                        lastAction = motionEvent.getAction();
-                        return true;
-                    case MotionEvent.ACTION_MOVE:
-                        //Calculate the X and Y coordinates of the view.
-                        params.x = initialX + (int) (motionEvent.getRawX() - initialTouchX);
-                        params.y = initialY + (int) (motionEvent.getRawY() - initialTouchY);
-
-                        //Update the layout with new X & Y coordinate
-                        windowManager.updateViewLayout(chatHead, params);
-                        lastAction = motionEvent.getAction();
-
-
-                        return true;
-                }
-
-                return false;
-            }
-        });
+//        chatHead.setOnTouchListener(new View.OnTouchListener() {
+//            private int lastAction;
+//            private int initialX;
+//            private int initialY;
+//            private float initialTouchX;
+//            private float initialTouchY;
+//
+//            @Override
+//            public boolean onTouch(View view, MotionEvent motionEvent) {
+//                switch (motionEvent.getAction()) {
+//                    case MotionEvent.ACTION_DOWN:
+//
+//                        //remember the initial position.
+//                        initialX = params.x;
+//                        initialY = params.y;
+//
+//                        //get the touch location
+//                        initialTouchX = motionEvent.getRawX();
+//                        initialTouchY = motionEvent.getRawY();
+//
+//                        lastAction = motionEvent.getAction();
+//                        return true;
+//                    case MotionEvent.ACTION_UP:
+//                        //As we implemented on touch listener with ACTION_MOVE,
+//                        //we have to check if the previous action was ACTION_DOWN
+//                        //to identify if the user clicked the view or not.
+//                        if (lastAction == MotionEvent.ACTION_DOWN) {
+//                            //Open the chat conversation click.
+//                            Intent intent = new Intent(ChatHeadService.this, TextActivity.class);
+//                            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+//                            intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+//                            startActivity(intent);
+//
+//                            //close the service and remove the chat heads
+//                            stopSelf();
+//                        }
+//                        lastAction = motionEvent.getAction();
+//                        return true;
+//                    case MotionEvent.ACTION_MOVE:
+//                        //Calculate the X and Y coordinates of the view.
+//                        params.x = initialX + (int) (motionEvent.getRawX() - initialTouchX);
+//                        params.y = initialY + (int) (motionEvent.getRawY() - initialTouchY);
+//
+//                        //Update the layout with new X & Y coordinate
+//                        windowManager.updateViewLayout(chatHead, params);
+//                        lastAction = motionEvent.getAction();
+//
+//
+//                        return true;
+//
+//                }
+//
+//                return false;
+//            }
+//
+//        }
+//
+//        );
 
         chatHead.setOnTouchListener(gestureListener);
 
     }
+
+
+
 
 
     @Override
@@ -172,6 +190,7 @@ public class ChatHeadService extends Service {
         private int initialY;
         private float initialTouchX;
         private float initialTouchY;
+
 
         @Override
         public boolean onDown(MotionEvent e) {
@@ -195,10 +214,8 @@ public class ChatHeadService extends Service {
         public boolean onSingleTapConfirmed(MotionEvent e) {
             Log.i("head", "clicked");
             Toast.makeText(ChatHeadService.this, "Hello There!", Toast.LENGTH_SHORT).show();
-            Intent it = new Intent(ChatHeadService.this,TextActivity.class);
+            Intent it = new Intent(ChatHeadService.this,LexConnect.class);
             it.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//            it.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-//            it.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
             startActivity(it);
             return true;
         }
@@ -209,6 +226,10 @@ public class ChatHeadService extends Service {
         }
         @Override
         public void onLongPress(MotionEvent ev) {
+            Intent i=new Intent(getApplicationContext(),MainActivity.class);
+            i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(i);
             stopSelf();
             Log.d("DEBUG","onLongPress");
         }

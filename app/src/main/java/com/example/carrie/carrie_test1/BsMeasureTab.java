@@ -2,8 +2,11 @@ package com.example.carrie.carrie_test1;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;
+import android.content.ContentValues;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
@@ -58,6 +61,9 @@ public class BsMeasureTab extends Fragment{
     String[] measure_time={"9:00","12:00","18:00"};
     PendingIntent pending_intent;
     AlarmManager alarm_manager;
+    SQLiteDatabase sqLiteDatabase;
+    String TABLE_NAME = "Health_BsBpMeasureTime";
+    public static final String DATABASE_NAME = "MedicineTest.db";
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -70,7 +76,13 @@ public class BsMeasureTab extends Fragment{
         Intent intent = getActivity().getIntent();
         Bundle bundle = getActivity().getIntent().getExtras();
         memberid=bundle.getString("memberid");
-        BsBpMeasureObject bsBpMeasureObject = (BsBpMeasureObject)intent.getSerializableExtra("bsBpMeasureObject");
+        BsBpMeasureObject bsBpMeasureObject = null;
+        try {
+            bsBpMeasureObject = new BsBpMeasureObject(memberdata.getMeasure_id(), memberdata.getMember_id(), memberdata.getBs_first(), memberdata.getBs_second(), memberdata.getBs_third(), memberdata.getBp_first(), memberdata.getBp_second(), memberdata.getBp_third());
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
         my_measure.add(bsBpMeasureObject);
         mesureAdapter=new MesureAdapter(getActivity(),my_measure);
         bsmeasure.setAdapter(mesureAdapter);
@@ -100,18 +112,21 @@ public class BsMeasureTab extends Fragment{
                     bs1 = "2017-01-01 00:00:00";
 //                    bsat1 = null;
                 }else{
+                    memberdata.bs_first = bs_1.getText().toString();
                     bs1 = "2017-09-18 "+bs_1.getText().toString();
                 }
                 if (bs_2.getText().length()==0){
                     bs2 = "2017-01-01 00:00:00";
 //                    bsat2 = null;
                 }else{
+                    memberdata.bs_second = bs_2.getText().toString();
                     bs2 = "2017-09-18 "+bs_2.getText().toString();
                 }
                 if (bs_3.getText().length()==0){
                     bs3 = "2017-01-01 00:00:00";
 //                     bsat3 = null;
                 }else{
+                    memberdata.bs_third = bs_3.getText().toString();
                     bs3 = "2017-09-18 "+bs_3.getText().toString();
                 }
 //                Log.d("saveBpMeasureButton",bp_3.getText().toString());
@@ -122,6 +137,7 @@ public class BsMeasureTab extends Fragment{
                 inserh_alerttime(bsat2,"bs_2",false);
                 inserh_alerttime(bsat3,"bs_3",true);
                 insertBsMeasure();
+                updateMeasuuresql(bs1,bs2,bs3);
                 saveCheck();
             }
         });
@@ -276,5 +292,13 @@ public class BsMeasureTab extends Fragment{
                 })
                 .show();
     }
-
+    public void updateMeasuuresql(String a ,String b,String c ){
+            sqLiteDatabase = getActivity().openOrCreateDatabase(DATABASE_NAME, Context.MODE_PRIVATE,null);
+            ContentValues contentValues = new ContentValues(8);
+            contentValues.put("bs_first",a);
+            contentValues.put("bs_second",b);
+            contentValues.put("bs_third",c);
+            //sqLiteDatabase.insert(TABLE_NAME,null,contentValues);
+            sqLiteDatabase.update(TABLE_NAME, contentValues, "member_id =" + memberdata.getMember_id(), null);
+    }
 }

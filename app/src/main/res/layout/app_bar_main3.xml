@@ -20,7 +20,7 @@
             <ImageButton
                 android:layout_width="50sp"
                 android:layout_height="50sp"
-                android:layout_marginLeft="75dp"
+                android:layout_marginLeft="130dp"
                 android:background="@drawable/robot"
                 android:id="@+id/robotbtn"/>
         </android.support.v7.widget.Toolbar>

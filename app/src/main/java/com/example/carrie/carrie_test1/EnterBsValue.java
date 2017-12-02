@@ -76,7 +76,7 @@ public class EnterBsValue extends AppCompatActivity {
     public static String mtoken;
     public static String arnTopic;
     public String send="今天的血糖過高要小心哦";
-    public String send2="您的廢物病患今天血糖過高哦";
+    public String send2="您的看護對象今天血糖過高哦";
     public String url = "http://54.65.194.253/Monitor/getMonitorToken.php?member_id="+memberdata.getMember_id();
     ArrayList<String> TokenList = new ArrayList<String>();
     String mtokens;
