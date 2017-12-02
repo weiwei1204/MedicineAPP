@@ -91,7 +91,7 @@ public class LexConnect extends AppCompatActivity{
                 if(response.getTextResponse().equals("Yes, MineDicine is an incredible App ! Let me show you the logo !")) {
                     final VideoView videoView = (VideoView) LexConnect.this.findViewById(R.id.videoView);
                     MediaController mc = new MediaController(LexConnect.this);
-                        videoView.setVisibility(View.VISIBLE);
+                        videoView.setVisibility(View.VISIBLE); 
                         videoView.setMediaController(mc);
                         videoView.setVideoURI(Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.video));
                         videoView.requestFocus();
