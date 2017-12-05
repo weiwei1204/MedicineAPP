@@ -74,7 +74,7 @@
                 android:gravity="center"
                 android:text=""
                 android:textColor="#272727"
-                android:textSize="15pt" />
+                android:textSize="10pt" />
         </TableRow>
 
         <TableRow

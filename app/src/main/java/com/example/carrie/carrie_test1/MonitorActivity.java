@@ -72,9 +72,9 @@ public class MonitorActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_monitor);
         Bundle bundle = getIntent().getExtras();
-        my_id = bundle.getString("my_id");//get 自己 id
-        my_google_id = bundle.getString("my_google_id");//get 自己google_ id
-        my_mon_id = bundle.getString("my_supervise_id");//取得自己supervise id
+        my_id = memberdata.getMember_id();//get 自己 id
+        my_google_id = memberdata.getGoogle_id();//get 自己google_ id
+        my_mon_id = memberdata.getMy_mon_id();//取得自己supervise id
 //        data_list = new ArrayList<>();
         manager = getSupportFragmentManager();
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);//find the tooolbar id
@@ -92,9 +92,6 @@ public class MonitorActivity extends AppCompatActivity {
                     case R.id.ic_list:
                         Intent intent0 = new Intent(MonitorActivity.this,Choice.class);
                         Bundle bundle0 = new Bundle();
-                        bundle0.putString("memberid", my_id);//put the parameter to bundle,so it can get this value
-                        bundle0.putString("my_google_id", my_google_id);
-                        bundle0.putString("my_supervise_id", my_mon_id);
                         intent0.putExtras(bundle0);   // 記得put進去，不然資料不會帶過去哦
                         startActivity(intent0);
                         break;
@@ -102,9 +99,6 @@ public class MonitorActivity extends AppCompatActivity {
                     case R.id.ic_eye:
                         Intent intent1 = new Intent(MonitorActivity.this,MonitorActivity.class);
                         Bundle bundle1 = new Bundle();
-                        bundle1.putString("my_id", my_id);
-                        bundle1.putString("my_google_id", my_google_id);
-                        bundle1.putString("my_supervise_id", my_mon_id);
                         intent1.putExtras(bundle1);
                         startActivity(intent1);
                         break;
@@ -112,7 +106,6 @@ public class MonitorActivity extends AppCompatActivity {
                     case R.id.ic_home:
                         Intent intent2 = new Intent(MonitorActivity.this, MainActivity.class);
                         Bundle bundle2 = new Bundle();
-                        bundle2.putString("googleid", my_google_id);
                         intent2.putExtras(bundle2);
                         startActivity(intent2);
                         break;
@@ -120,9 +113,6 @@ public class MonitorActivity extends AppCompatActivity {
                     case R.id.ic_information:
                         Intent intent3 = new Intent(MonitorActivity.this, druginfo.class);
                         Bundle bundle3 = new Bundle();
-                        bundle3.putString("my_id", my_id);
-                        bundle3.putString("my_google_id", my_google_id);
-                        bundle3.putString("my_supervise_id", my_mon_id);
                         intent3.putExtras(bundle3);
                         startActivity(intent3);
                         break;
@@ -130,7 +120,6 @@ public class MonitorActivity extends AppCompatActivity {
                     case R.id.ic_beacon:
                         Intent intent4 = new Intent(MonitorActivity.this, MyBeaconActivity.class);
                         Bundle bundle4 = new Bundle();
-                        bundle4.putString("memberid", memberdata.getMember_id());
                         intent4.putExtras(bundle4);
                         startActivity(intent4);
                         break;

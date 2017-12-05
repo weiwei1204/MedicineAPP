@@ -261,7 +261,7 @@
                 <action android:name="com.google.android.c2dm.intent.RECEIVE" />
             </intent-filter>
         </service>
-        <service android:name=".ChatHeadService"></service>
+        <service android:name=".ChatHeadService" />
 
         <activity android:name=".LexConnect" />
         <activity android:name=".TextActivity" />
@@ -287,6 +287,10 @@
             </intent-filter>
         </receiver>
 
+        <activity
+            android:name=".hospital_calendar"
+            android:label="@string/title_activity_hospital_calendar"
+            android:theme="@style/AppTheme"></activity>
     </application>
 
 </manifest>

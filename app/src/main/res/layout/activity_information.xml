@@ -1,334 +1,231 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FAFAFA"
+    android:id="@+id/relativelayout_info"
+    android:background="#E8FFF5"
     tools:context="com.example.carrie.carrie_test1.informationActivity">
 
-    <TableLayout
-        android:layout_width="344dp"
-        android:layout_height="495dp"
-        tools:layout_editor_absoluteX="8dp"
-        tools:layout_editor_absoluteY="8dp">
+    <RelativeLayout
+        android:layout_width="340dp"
+        android:layout_height="551dp"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:orientation="vertical"
+        tools:layout_editor_absoluteY="8dp"
+        tools:layout_editor_absoluteX="0dp">
 
-        <TableRow
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="30dp"
+            android:text="姓名"
+            android:textColor="#272727"
+            android:textSize="20sp"
+            android:layout_alignParentLeft="true" />
+
+        <TextView
+            android:id="@+id/Name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:layout_above="@+id/textView3"
+            android:layout_alignParentEnd="true"
+            android:textColor="#272727"
+            android:layout_alignTop="@+id/textView2" />
+
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/textView2"
+            android:layout_marginTop="10dp"
+            android:text="Email"
+            android:textColor="#272727"
+            android:textSize="20sp" />
+        <TextView
+            android:id="@+id/email"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignBottom="@+id/textView3"
+            android:textColor="#272727"
+            android:layout_alignTop="@+id/textView3" />
+
+
+        <RelativeLayout
+            android:id="@+id/gender_age"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:layout_marginTop="50dp"
+            android:layout_alignStart="@+id/textView2"
+            android:layout_below="@+id/textView2">
+            <TextView
+                android:id="@+id/textsex"
+                android:layout_width="100dp"
+                android:layout_height="25dp"
+                android:layout_marginTop="10dp"
+                android:layout_weight="1"
+                android:text="性別"
+                android:textColor="#272727"
+                android:textSize="8pt" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal">
+            <RadioGroup
+                android:id="@+id/rggender"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="30dp"
+                android:layout_marginRight="30dp">
 
-                <TextView
-                    android:id="@+id/textname"
-                    android:layout_width="60dp"
-                    android:layout_height="25dp"
-                    android:layout_marginLeft="25dp"
-                    android:layout_marginTop="25dp"
-                    android:layout_weight="1"
-                    android:text="姓名"
-                    android:textColor="#272727"
-                    android:textSize="8pt" />
-
-                <TextView
-                    android:id="@+id/Name"
-                    android:layout_width="220dp"
-                    android:layout_height="25dp"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginTop="25dp"
-                    android:textColor="#272727"
-                    android:textSize="8pt" />
-
-            </LinearLayout>
-        </TableRow>
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:id="@+id/textemail"
-                    android:layout_width="60dp"
-                    android:layout_height="25dp"
-                    android:layout_marginLeft="25dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_weight="1"
-                    android:text="E-mail"
-                    android:textColor="#272727"
-                    android:textSize="8pt" />
-
-                <TextView
-                    android:id="@+id/email"
-                    android:layout_width="220dp"
-                    android:layout_height="25dp"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginTop="10dp"
-                    android:text="TextView"
-                    android:textColor="#272727"
-                    android:textSize="8pt" />
-
-            </LinearLayout>
-        </TableRow>
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:id="@+id/textsex"
-                    android:layout_width="10dp"
-                    android:layout_height="25dp"
-                    android:layout_marginLeft="25dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_weight="1"
-                    android:text="性別"
-                    android:textColor="#272727"
-                    android:textSize="8pt" />
-
-                <RadioGroup
-                    android:id="@+id/rggender"
-                    android:layout_width="200dp"
+                <RadioButton
+                    android:id="@+id/radioman"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_marginRight="30dp">
-
-                    <RadioButton
-                        android:id="@+id/radioman"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
-                        android:layout_weight="1"
-                        android:text="男"
-                        android:textColor="#272727"
-                        android:textSize="8pt"
-                        android:buttonTint="#272727"/>
-
-                    <RadioButton
-                        android:id="@+id/radiowoman"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
-                        android:layout_weight="1"
-                        android:text="女"
-                        android:textColor="#272727"
-                        android:textSize="8pt"
-                        android:buttonTint="#272727"/>
-
-                </RadioGroup>
-            </LinearLayout>
-        </TableRow>
-
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:id="@+id/textheight"
-                    android:layout_width="10dp"
-                    android:layout_height="25dp"
-                    android:layout_marginLeft="25dp"
                     android:layout_marginTop="10dp"
                     android:layout_weight="1"
-                    android:text="身高"
-                    android:textColor="#272727"
-                    android:textSize="8pt" />
-
-
-                <EditText
-                    android:id="@+id/height"
-                    android:layout_width="100dp"
-                    android:layout_height="28dp"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_weight="1"
-                    android:ems="10"
-                    android:background="@drawable/informationborder"
+                    android:text="男"
                     android:textColor="#272727"
                     android:textSize="8pt"
-                    android:inputType="number"/>
+                    android:buttonTint="#272727"/>
 
-                <TextView
-                    android:id="@+id/textcm"
-                    android:layout_width="10dp"
-                    android:layout_height="25dp"
-                    android:layout_marginLeft="5dp"
+                <RadioButton
+                    android:id="@+id/radiowoman"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:layout_weight="1"
-                    android:text="cm"
+                    android:text="女"
                     android:textColor="#272727"
-                    android:textSize="8pt" />
+                    android:textSize="8pt"
+                    android:buttonTint="#272727"/>
 
-            </LinearLayout>
-        </TableRow>
+            </RadioGroup>
 
-        <TableRow
+            <TextView
+                android:id="@+id/textView7"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="年齡"
+                android:layout_marginTop="10dp"
+                android:layout_alignBaseline="@+id/textView4"
+                android:layout_alignBottom="@+id/textView4"
+                android:layout_alignStart="@+id/age"
+                android:textColor="#272727"
+                android:textSize="8pt"
+                />
+
+            <EditText
+                android:id="@+id/age"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/border"
+                android:ems="10"
+                android:layout_marginTop="10dp"
+                android:inputType="number"
+                android:layout_below="@+id/textView7"
+                android:textColor="#272727"
+                android:textSize="8pt"
+                android:layout_alignParentEnd="true"/>
+
+
+        </RelativeLayout>
+
+
+
+        <RelativeLayout
+            android:id="@+id/height_weight"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:layout_alignStart="@+id/gender_age"
+            android:layout_below="@+id/gender_age">
+            <TextView
+                android:id="@+id/textView5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="身高"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentStart="true"
+                android:layout_marginTop="10dp"
+                android:textColor="#272727"
+                android:textSize="8pt"/>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal">
+            <EditText
+                android:id="@+id/height"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/border"
+                android:ems="10"
+                android:hint=" ( cm ) "
+                android:inputType="number"
+                android:layout_below="@+id/textView5"
+                android:layout_alignParentStart="true"
+                android:layout_marginTop="10dp"
+                android:textColor="#272727"
+                android:textSize="8pt"/>
+            <TextView
+                android:id="@+id/textView6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="體重"
+                android:layout_marginTop="10dp"
+                android:layout_alignBaseline="@+id/textView5"
+                android:layout_alignBottom="@+id/textView5"
+                android:layout_alignStart="@+id/weight"
+                android:textColor="#272727"
+                android:textSize="8pt"
+                />
 
-                <TextView
-                    android:id="@+id/textweight"
-                    android:layout_width="10dp"
-                    android:layout_height="25dp"
-                    android:layout_marginLeft="25dp"
-                    android:layout_marginTop="12dp"
-                    android:layout_weight="1"
-                    android:text="體重"
-                    android:textColor="#272727"
-                    android:textSize="8pt" />
+            <EditText
+                android:id="@+id/weight"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/border"
+                android:ems="10"
+                android:hint=" ( kg ) "
+                android:layout_marginTop="10dp"
+                android:inputType="number"
+                android:layout_below="@+id/textView6"
+                android:layout_alignParentEnd="true"
+                android:textColor="#272727"
+                android:textSize="8pt"/>
 
-
-                <EditText
-                    android:id="@+id/weight"
-                    android:layout_width="100dp"
-                    android:layout_height="28dp"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginTop="15dp"
-                    android:layout_weight="1"
-                    android:ems="10"
-                    android:background="@drawable/informationborder"
-                    android:inputType="number"
-                    android:textColor="#272727"
-                    android:textSize="8pt" />
-
-                <TextView
-                    android:id="@+id/textkg"
-                    android:layout_width="10dp"
-                    android:layout_height="25dp"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_weight="1"
-                    android:text="kg"
-                    android:textColor="#272727"
-                    android:textSize="8pt" />
-
-            </LinearLayout>
-        </TableRow>
-
-        <TableRow
+        </RelativeLayout>
+        <ListView
+            android:id="@+id/list_chronic"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="140dp"
+            android:layout_marginTop="40dp"
+            android:layout_below="@+id/height_weight"
+            android:layout_alignStart="@+id/height_weight"
+            android:textColor="#272727"
+         />
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:id="@+id/textage"
-                    android:layout_width="10dp"
-                    android:layout_height="25dp"
-                    android:layout_marginLeft="25dp"
-                    android:layout_marginTop="12dp"
-                    android:layout_weight="1"
-                    android:text="年齡"
-                    android:textColor="#272727"
-                    android:textSize="8pt" />
-
-
-                <EditText
-                    android:id="@+id/age"
-                    android:layout_width="100dp"
-                    android:layout_height="28dp"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginTop="15dp"
-                    android:layout_weight="1"
-                    android:ems="10"
-                    android:background="@drawable/informationborder"
-                    android:inputType="number"
-                    android:textColor="#272727"
-                    android:textSize="8pt" />
-
-                <TextView
-                    android:id="@+id/textage2"
-                    android:layout_width="10dp"
-                    android:layout_height="25dp"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_weight="1"
-                    android:text="歲"
-                    android:textColor="#272727"
-                    android:textSize="8pt" />
-
-            </LinearLayout>
-        </TableRow>
-
-
-        <TableRow
+        <Button
+            android:id="@+id/buttonck"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:id="@+id/texteffect"
-                    android:layout_width="10dp"
-                    android:layout_height="25dp"
-                    android:layout_marginLeft="25dp"
-                    android:layout_marginTop="12dp"
-                    android:layout_weight="1"
-                    android:text="慢性疾病"
-                    android:textColor="#272727"
-                    android:textSize="8pt" />
+            android:layout_height="match_parent"
+            android:layout_alignStart="@+id/list_chronic"
+            android:layout_below="@+id/list_chronic"
+            android:layout_marginBottom="50dp"
+            android:layout_marginTop="30dp"
+            android:background="#4CA3A2"
+            android:onClick="gotocheckinfrmationActivity"
+            android:text="儲存"
+            android:textColor="#272727"
+            android:textSize="8pt" />
 
 
-                <EditText
-                    android:id="@+id/effect"
-                    android:layout_width="100dp"
-                    android:layout_height="28dp"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginTop="15dp"
-                    android:layout_weight="1"
-                    android:background="@drawable/informationborder"
-                    android:ems="10"
-                    android:inputType="text"
-                    android:textColor="#272727"
-                    android:textSize="8pt" />
 
 
-            </LinearLayout>
-        </TableRow>
+    </RelativeLayout>
 
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" >
+</ScrollView>
 
-            <Button
-                android:id="@+id/buttonck"
-                android:layout_width="30dp"
-                android:layout_height="50dp"
-                android:layout_marginLeft="100dp"
-                android:layout_marginRight="80dp"
-                android:layout_marginTop="30dp"
-                android:onClick="gotocheckinfrmationActivity"
-                android:text="Check" />
-        </TableRow>
-
-    </TableLayout>
-</android.support.constraint.ConstraintLayout>

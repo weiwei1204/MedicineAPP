@@ -73,7 +73,7 @@ public class MyBeaconActivity extends AppCompatActivity {
         BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomNavView_Bar);
         BottomNavigationViewHelper.disableShiftMode(bottomNavigationView);
         Menu menu = bottomNavigationView.getMenu();
-        MenuItem menuItem = menu.getItem(2);
+        MenuItem menuItem = menu.getItem(4);
         menuItem.setChecked(true);
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -82,9 +82,6 @@ public class MyBeaconActivity extends AppCompatActivity {
                     case R.id.ic_list:
                         Intent intent0 = new Intent(MyBeaconActivity.this, Choice.class);
                         Bundle bundle0 = new Bundle();
-                        bundle0.putString("memberid", memberdata.getMember_id());
-                        bundle0.putString("my_google_id", memberdata.getGoogle_id());
-                        bundle0.putString("my_supervise_id", memberdata.getMy_mon_id());
                         intent0.putExtras(bundle0);   // 記得put進去，不然資料不會帶過去哦
                         startActivity(intent0);
                         break;
@@ -93,9 +90,6 @@ public class MyBeaconActivity extends AppCompatActivity {
                         if(isNetworkAvailable()){
                             Intent intent1 = new Intent(MyBeaconActivity.this, MonitorActivity.class);
                             Bundle bundle1 = new Bundle();
-                            bundle1.putString("my_id", memberdata.getMember_id());
-                            bundle1.putString("my_google_id", memberdata.getGoogle_id());
-                            bundle1.putString("my_supervise_id", memberdata.getMy_mon_id());
                             intent1.putExtras(bundle1);
                             startActivity(intent1);
                         }
@@ -107,7 +101,6 @@ public class MyBeaconActivity extends AppCompatActivity {
                     case R.id.ic_home:
                         Intent intent2 = new Intent(MyBeaconActivity.this, MainActivity.class);
                         Bundle bundle2 = new Bundle();
-                        bundle2.putString("googleid", memberdata.getGoogle_id());
                         intent2.putExtras(bundle2);
                         startActivity(intent2);
                         break;
@@ -115,9 +108,6 @@ public class MyBeaconActivity extends AppCompatActivity {
                     case R.id.ic_information:
                         Intent intent3 = new Intent(MyBeaconActivity.this, druginfo.class);
                         Bundle bundle3 = new Bundle();
-                        bundle3.putString("my_id", memberdata.getMember_id());
-                        bundle3.putString("my_google_id", memberdata.getGoogle_id());
-                        bundle3.putString("my_supervise_id", memberdata.getMy_mon_id());
                         intent3.putExtras(bundle3);
                         startActivity(intent3);
                         break;
@@ -125,7 +115,6 @@ public class MyBeaconActivity extends AppCompatActivity {
                     case R.id.ic_beacon:
                         Intent intent4 = new Intent(MyBeaconActivity.this, MyBeaconActivity.class);
                         Bundle bundle4 = new Bundle();
-                        bundle4.putString("memberid", memberdata.getMember_id());
                         intent4.putExtras(bundle4);
                         startActivity(intent4);
                         break;
