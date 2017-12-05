@@ -78,7 +78,6 @@ public class CheckBeacon_AP extends Service {
     public void onDestroy(){
         super.onDestroy();
         Toast.makeText(this, "Service stop", Toast.LENGTH_SHORT).show();
-        handler.removeCallbacks(runnable);
     }
     public void checkWifi(){
         runnable=new Runnable() {
@@ -142,6 +141,7 @@ public class CheckBeacon_AP extends Service {
             Log.d("qq","333");
 //            handler.removeCallbacks(runnable);
             InitBLE ();
+            Log.d("cccccccccccccc", "");
             SearchForBLEDevices();
             status = 1 ;
         }
@@ -207,9 +207,9 @@ public class CheckBeacon_AP extends Service {
                     sendBroadcast(my_intent);
                 }else{
                     Log.d("bbb1",bring.toString());
-                    Intent my_intent=new Intent(getApplicationContext(),OnBootReceiver_bring.class);
-                    my_intent.putExtra("extra",bring);
-                    sendBroadcast(my_intent);
+//                    Intent my_intent=new Intent(getApplicationContext(),OnBootReceiver_bring.class);
+//                    my_intent.putExtra("extra",bring);
+//                    sendBroadcast(my_intent);
 //                    Toast.makeText(getApplicationContext(), "掃描結束，無應帶而未帶之藥品", Toast.LENGTH_LONG).show();
                 }
 //                if(lost.size()!=0){
@@ -249,6 +249,7 @@ public class CheckBeacon_AP extends Service {
                         mBleDevices.add(device);
                         for (int i=0; i<1; i++) {
                             String  uuid = "" ;
+                            Log.d("aaaaaaaaaaaaaaaaaaa", "");
                             Toast.makeText(getApplicationContext(), "已進入"+mWifiInfo.getSSID()+"("+mWifiInfo.getBSSID()+")範圍，正在開始掃描~", Toast.LENGTH_LONG).show();
                             if(scanRecord.length > 30) {
                                 //從scanRecord 分辦是固定封包是6byte還是9ybge。
