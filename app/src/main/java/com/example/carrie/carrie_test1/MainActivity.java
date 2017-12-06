@@ -238,7 +238,8 @@ public class MainActivity extends LoginActivity
             }
         });
 
-
+        DeviceData.getBeacon(MainActivity.this);
+        DeviceData.getAP(MainActivity.this);
         memberdata.setNeedBeacon(needBeacon);
         memberdata.setBeaconcal(Beaconcal);
         UUIDnum = needBeacon.size();
