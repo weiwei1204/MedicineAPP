@@ -1,6 +1,7 @@
 package com.example.carrie.carrie_test1;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
@@ -34,7 +35,8 @@ public class transparent extends AppCompatActivity {
                                     public void onClick(DialogInterface dialog, int which) {
                                         media_song.stop();
                                         media_song.reset();
-
+                                        Intent it = new Intent(transparent.this, MainActivity.class);
+                                        startActivity(it);
                                     }
                                 });
 

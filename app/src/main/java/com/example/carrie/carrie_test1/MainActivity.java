@@ -60,6 +60,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 import okhttp3.MultipartBody;
@@ -147,8 +148,8 @@ public class MainActivity extends LoginActivity
         getMonitorId();
         getid();
         getpersonal_sql();
+        getMeasureInformationsql();
         //getpersonal();
-
         Log.d("UUIDnum123",Integer.toString(UUIDnum));
         Log.d("SSIDnum123",Integer.toString(SSIDnum));
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -156,11 +157,11 @@ public class MainActivity extends LoginActivity
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
         toggle.syncState();
-        Log.d("iddddd: ",memberdata.getMember_id());
+//       Log.d("iddddd:",memberdata.getMember_id());
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         View hView =  navigationView.getHeaderView(0);
         TextView memberName = (TextView) hView.findViewById(R.id.namee);
-        Log.d("nameeee: ",memberdata.getName());
+        Log.d("nameeee:",memberdata.getName());
         memberName.setText(memberdata.getName());
         TextView memberEmail = (TextView) hView.findViewById(R.id.emaill);
         memberEmail.setText(memberdata.getEmail());
@@ -368,7 +369,7 @@ public class MainActivity extends LoginActivity
         bundle.putString("googleid", memberdata.getGoogle_id());
         bundle.putString("memberid", memberdata.getMember_id());
         it.putExtras(bundle);   // 記得put進去，不然資料不會帶過去哦
-        it.putExtra("bsBpMeasureObject", memberdata.getMember_id());
+        it.putExtra("bsBpMeasureObject", bsBpMeasureObject);
         startActivity(it);
     }
     public void gotoMyAP() {
@@ -817,8 +818,9 @@ public class MainActivity extends LoginActivity
     }
     public static String getCurrentTimeStamp(String dateString) throws ParseException {//時間格式轉換
         String strDate = "";
-        SimpleDateFormat sdfDate = new SimpleDateFormat("HH:mm");//format yyyy-MM-dd HH:mm:ss to HH:mm
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Locale locale = Locale.US;
+        SimpleDateFormat sdfDate = new SimpleDateFormat("HH:mm",locale);//format yyyy-MM-dd HH:mm:ss to HH:mm
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss",locale);
         Calendar calendar = new GregorianCalendar();
 
         Date date = sdf.parse(dateString);
