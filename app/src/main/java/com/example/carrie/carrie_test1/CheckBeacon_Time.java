@@ -157,9 +157,9 @@ public class CheckBeacon_Time extends Service {
                     sendBroadcast(my_intent);
                 }else{
                     Log.d("bbb1",bring.toString());
-                    Intent my_intent=new Intent(getApplicationContext(),OnBootReceiver_bring.class);
-                    my_intent.putExtra("extra",bring);
-                    sendBroadcast(my_intent);
+//                    Intent my_intent=new Intent(getApplicationContext(),OnBootReceiver_bring.class);
+//                    my_intent.putExtra("extra",bring);
+//                    sendBroadcast(my_intent);
 //                    Toast.makeText(getApplicationContext(), "掃描結束，無應帶而未帶之藥品", Toast.LENGTH_LONG).show();
                 }
 //                if(lost.size()!=0){
