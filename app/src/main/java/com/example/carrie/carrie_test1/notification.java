@@ -141,6 +141,7 @@ public class notification extends AppCompatActivity {
                         String id = obj.getString("id");
                         String time = obj.getString("time");
                         String type = obj.getString("type");
+                        Log.d("timeeeee", type);
                         if (Math.abs(alarmid) == Integer.valueOf(id)){
                             alarmtime=time;
                             if (type.equals("bs_1") || type.equals("bs_2") || type.equals("bs_3")){
