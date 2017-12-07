@@ -80,7 +80,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="200dp"
         android:id="@+id/show"
-        android:text="Yes, MineDicine is an incredible App ! Let me show you the logo !"
+        android:text="Yes, MineDicine is an incredible App let me show you the logo"
         android:textSize="20dp"
         android:textColor="#000000"
         android:visibility="invisible"/>
