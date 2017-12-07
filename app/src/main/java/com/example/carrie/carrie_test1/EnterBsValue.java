@@ -1,34 +1,18 @@
 package com.example.carrie.carrie_test1;
 
 import android.content.Context;
-import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-import android.view.View;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.amazonaws.ClientConfiguration;
-import com.amazonaws.auth.AWSCredentials;
-import com.amazonaws.auth.AWSCredentialsProvider;
-import com.amazonaws.auth.BasicAWSCredentials;
-import com.amazonaws.auth.ClasspathPropertiesFileCredentialsProvider;
 import com.amazonaws.auth.CognitoCachingCredentialsProvider;
-import com.amazonaws.auth.PropertiesFileCredentialsProvider;
-import com.amazonaws.internal.StaticCredentialsProvider;
 import com.amazonaws.regions.Regions;
-import com.amazonaws.services.sns.AmazonSNSAsyncClient;
 import com.amazonaws.services.sns.AmazonSNSClient;
 import com.amazonaws.services.sns.model.CreatePlatformEndpointRequest;
 import com.amazonaws.services.sns.model.CreatePlatformEndpointResult;
@@ -51,10 +35,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Matcher;
@@ -250,17 +231,19 @@ public class EnterBsValue extends AppCompatActivity {
             //////////////////////////////////////////////////上面送自己下面送監控者
 
             Log.d("3333","TokenList's Size: "+TokenList.size());
-            for(int i = 0; i<TokenList.size();i++) {
-                mtokens = TokenList.get(i);
-                Log.d("2424","mtokensssss"+mtokens);
-                Log.d("2424", "mToken: " + mtoken);
-                CreatePlatformEndpointRequest cpeReq2 = new CreatePlatformEndpointRequest().withPlatformApplicationArn(applicationArn).withToken(mtokens);
-                CreatePlatformEndpointResult cpeRes2 = snsbs.createPlatformEndpoint(cpeReq2);
-                String endpointArn2 = cpeRes2.getEndpointArn();
-                PublishRequest publishRequest2 = new PublishRequest().withTargetArn(endpointArn2).withMessage(send2);
-                snsbs.publish(publishRequest2);
-                DeleteEndpointRequest deleteEndpointRequest2 = new DeleteEndpointRequest().withEndpointArn(endpointArn2);
-                snsbs.deleteEndpoint(deleteEndpointRequest2);
+            if(TokenList.size()!=0) {
+                for (int i = 0; i < TokenList.size(); i++) {
+                    mtokens = TokenList.get(i);
+                    Log.d("2424", "mtokensssss" + mtokens);
+                    Log.d("2424", "mToken: " + mtoken);
+                    CreatePlatformEndpointRequest cpeReq2 = new CreatePlatformEndpointRequest().withPlatformApplicationArn(applicationArn).withToken(mtokens);
+                    CreatePlatformEndpointResult cpeRes2 = snsbs.createPlatformEndpoint(cpeReq2);
+                    String endpointArn2 = cpeRes2.getEndpointArn();
+                    PublishRequest publishRequest2 = new PublishRequest().withTargetArn(endpointArn2).withMessage(send2);
+                    snsbs.publish(publishRequest2);
+                    DeleteEndpointRequest deleteEndpointRequest2 = new DeleteEndpointRequest().withEndpointArn(endpointArn2);
+                    snsbs.deleteEndpoint(deleteEndpointRequest2);
+                }
             }
 
         } catch (InvalidParameterException ipe) {
