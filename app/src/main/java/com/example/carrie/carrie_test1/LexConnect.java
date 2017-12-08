@@ -12,6 +12,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.MediaController;
 import android.widget.TextView;
@@ -107,6 +109,13 @@ public class LexConnect extends AppCompatActivity{
                                 tv.setVisibility(View.INVISIBLE);
                             }
                         });
+                }
+                if(response.getInputTranscript().equals("why you call it an incredible app")){
+                    Animation am = AnimationUtils.loadAnimation(LexConnect.this, R.anim.animation);
+                    ImageView showicon = (ImageView) findViewById(R.id.showicon);
+                    showicon.setVisibility(View.VISIBLE);
+                    showicon.setAnimation(am);
+                    am.startNow();
                 }
             }
 
