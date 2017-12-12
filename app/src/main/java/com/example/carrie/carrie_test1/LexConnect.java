@@ -12,6 +12,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.MediaController;
 import android.widget.TextView;
@@ -89,24 +91,33 @@ public class LexConnect extends AppCompatActivity{
                 responseTextView.setText(response.getTextResponse());
                 transcriptTextView.setText(response.getInputTranscript());
                 if(response.getInputTranscript().equals("do you like minedicine")) {
-                    final VideoView videoView = (VideoView) LexConnect.this.findViewById(R.id.videoView);
-                    MediaController mc = new MediaController(LexConnect.this);
-                        videoView.setVisibility(View.VISIBLE);
-                        videoView.setMediaController(mc);
-                        videoView.setVideoURI(Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.video));
-                        videoView.requestFocus();
-                        videoView.start();
-                        final TextView tv = (TextView)findViewById(R.id.show);
-                        tv.setVisibility(View.VISIBLE);
-                        videoView.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-                            @Override
-                            public void onCompletion(MediaPlayer mp) {
-                                videoView.setVisibility(View.INVISIBLE);
-                                ImageView showicon = (ImageView) findViewById(R.id.showicon);
-                                showicon.setVisibility(View.VISIBLE);
-                                tv.setVisibility(View.INVISIBLE);
-                            }
-                        });
+//                    final VideoView videoView = (VideoView) LexConnect.this.findViewById(R.id.videoView);
+//                    MediaController mc = new MediaController(LexConnect.this);
+//                        videoView.setVisibility(View.VISIBLE);
+//                        videoView.setMediaController(mc);
+//                        videoView.setVideoURI(Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.video));
+//                        videoView.requestFocus();
+//                        videoView.start();
+//                        final TextView tv = (TextView)findViewById(R.id.show);
+//                        tv.setVisibility(View.VISIBLE);
+//                        videoView.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+//                            @Override
+//                            public void onCompletion(MediaPlayer mp) {
+//                                videoView.setVisibility(View.INVISIBLE);
+//                                ImageView showicon = (ImageView) findViewById(R.id.showicon);
+//                                showicon.setVisibility(View.VISIBLE);
+//                                tv.setVisibility(View.INVISIBLE);
+//                            }
+//                        });
+                    ImageView showicon = (ImageView) findViewById(R.id.showicon);
+                    showicon.setVisibility(View.VISIBLE);
+                }
+                if(response.getInputTranscript().equals("why you call it an incredible app")){
+                    Animation am = AnimationUtils.loadAnimation(LexConnect.this, R.anim.animation);
+                    ImageView showicon = (ImageView) findViewById(R.id.showicon);
+                    showicon.setVisibility(View.VISIBLE);
+                    showicon.setAnimation(am);
+                    am.startNow();
                 }
             }
 

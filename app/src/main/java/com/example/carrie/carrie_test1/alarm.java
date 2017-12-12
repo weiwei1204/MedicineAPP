@@ -38,7 +38,7 @@ public class alarm extends AppCompatActivity {
     AlarmManager alarm_manager;
 //    TimePicker alarm_timepicker;
     TextClock textClock;
-    TextView alarmset , alarmdrug;
+    TextView alarmset , alarmdrug,mname;
     Context context;
     RequestQueue requestQueue;
 
@@ -63,6 +63,7 @@ public class alarm extends AppCompatActivity {
         alarmdrug = (TextView) findViewById(R.id.alarmdrug);
         alarmoff = (Button) findViewById(R.id.alarmoff);
         delaybtn = (Button) findViewById(R.id.delaybtn);
+        mname = (TextView)findViewById(R.id.mname);
         final Calendar calendar = Calendar.getInstance();
 //        final Button alarmon=(Button)findViewById(R.id.alarmon);
         Bundle bundle = getIntent().getExtras();
@@ -71,6 +72,7 @@ public class alarm extends AppCompatActivity {
         memberid = bundle.getString("memberid");
         alarmtype = bundle.getString("alarmtype");
 
+        mcalname();
         drugeffect();
 
         final Intent my_intent = new Intent(this.context, Alarm_Receiver.class);
@@ -90,42 +92,7 @@ public class alarm extends AppCompatActivity {
             }
         });
 
-        requestQueue = Volley.newRequestQueue(getApplicationContext());
-        final StringRequest request = new StringRequest(Request.Method.POST, mcalnameUrl, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                Log.d("nnnmmmm", response);
-                try {
-                    JSONObject obj = new JSONObject(response);
-                    Log.d("nnnnmnmn", String.valueOf(obj.length()));
-                    Log.d("nnnnmnmn", String.valueOf(obj));
-                    String id = obj.getString("id");
-                    String name = obj.getString("name");
-//                        String startDate = mcalendar.getString("startDate");
-//                        String day = mcalendar.getString("day");
-//                        String beacon_id =mcalendar.getString("beacon_id");
-                    Log.d("nnnmnmnmn", id);
-                    alarmset.setText(name + "  時間到了!!");
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Log.d("rrr", error.toString());
-                Toast.makeText(getApplicationContext(), "Error read getm_calendarid.php!!!", Toast.LENGTH_LONG).show();
-            }
-        }) {
-            protected Map<String, String> getParams() throws AuthFailureError {//把值丟到php
-                Map<String, String> parameters = new HashMap<String, String>();
-                parameters.put("mcalid", mcalid);
-                Log.d("nnnmmmm", parameters.toString());
-                return parameters;
-            }
-        };
-        RequestQueue requestQueue = Volley.newRequestQueue(this);
-        requestQueue.add(request);
+
 
     }
 
@@ -189,6 +156,48 @@ public class alarm extends AppCompatActivity {
 //        }
 //
 //    }
+    public void mcalname(){
+        requestQueue = Volley.newRequestQueue(getApplicationContext());
+        final StringRequest request = new StringRequest(Request.Method.POST, mcalnameUrl, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Log.d("nnnmmmm1", response);
+                try {
+                    JSONArray jarray = new JSONArray(response);
+                    final String[] dbmcalname=new String[jarray.length()];
+                    for (int i=0;i<jarray.length();i++) {
+                        JSONObject obj = jarray.getJSONObject(i);
+                        Log.d("nnmmm1", String.valueOf(obj.length()));
+                        Log.d("nnmmm1", String.valueOf(obj));
+                        String dbmname = obj.getString("name");
+                        dbmcalname[i]=dbmname;
+                        Log.d("nnnmnmnmn1",dbmname);
+//                    set_alarm_text(dbmname);
+//                    alarmset.setText(name + "  時間到了!!");
+//                        mname.setText(dbmname);
+                        mname.setText(dbmcalname[i]);
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.d("rrr", error.toString());
+                Toast.makeText(getApplicationContext(), "Error read getm_calendarid.php!!!", Toast.LENGTH_LONG).show();
+            }
+        }) {
+            protected Map<String, String> getParams() throws AuthFailureError {//把值丟到php
+                Map<String, String> parameters = new HashMap<String, String>();
+                parameters.put("mcalid", mcalid);
+                Log.d("nnnmmmm", parameters.toString());
+                return parameters;
+            }
+        };
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(request);
+    }
 
     public void cancelAlarm(Intent my_intent){
         set_alarm_text("Alarm off!");

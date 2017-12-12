@@ -178,6 +178,7 @@ public class m_calendarlist extends Activity{
         onCreate(null);
 
     }
+
     public void madapter(){
         adapter = new mcallistAdapter(getApplicationContext(),m_calendararray);
         m_callist.setAdapter(adapter);

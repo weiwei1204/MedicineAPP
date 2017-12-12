@@ -60,6 +60,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 import okhttp3.MultipartBody;
@@ -115,13 +116,13 @@ public class MainActivity extends LoginActivity
         mfakebtn = (Button)findViewById(R.id.mfakebtn);
         hfakebtn = (Button)findViewById(R.id.hfakebtn);
         Bundle bundle = getIntent().getExtras();
-        googleid = bundle.getString("googleid");
-        Log.d("GOOGLEID",googleid);
-        nname = bundle.getString("name");
-        gender = bundle.getString("gender_man");
-        weight=bundle.getString("weight");
-        height=bundle.getString("height");
-        birth=bundle.getString("birth");
+//        googleid = bundle.getString("googleid");
+//        Log.d("GOOGLEID",googleid);
+////        nname = bundle.getString("name");
+//        gender = bundle.getString("gender_man");
+//        weight=bundle.getString("weight");
+//        height=bundle.getString("height");
+//        birth=bundle.getString("birth");
 
 
 //        Log.d("GOOGLEID",nname);
@@ -137,7 +138,7 @@ public class MainActivity extends LoginActivity
 //        height=bundle.getString("height");
 //        birth=bundle.getString("birth");
 
-        memberdata.setGoogle_id(this.googleid);
+        //memberdata.setGoogle_id(this.googleid);
 
 //        Log.d("GOOGLEID",name);
 //        Log.d("GOOGLEID",gender);
@@ -147,8 +148,8 @@ public class MainActivity extends LoginActivity
         getMonitorId();
         getid();
         getpersonal_sql();
+        getMeasureInformationsql();
         //getpersonal();
-
         Log.d("UUIDnum123",Integer.toString(UUIDnum));
         Log.d("SSIDnum123",Integer.toString(SSIDnum));
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -156,11 +157,14 @@ public class MainActivity extends LoginActivity
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
         toggle.syncState();
+
 //        Log.d("iddddd: ",memberdata.getMember_id());
+
+//       Log.d("iddddd:",memberdata.getMember_id());
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         View hView =  navigationView.getHeaderView(0);
         TextView memberName = (TextView) hView.findViewById(R.id.namee);
-        Log.d("nameeee: ",memberdata.getName());
+        Log.d("nameeee:",memberdata.getName());
         memberName.setText(memberdata.getName());
         TextView memberEmail = (TextView) hView.findViewById(R.id.emaill);
         memberEmail.setText(memberdata.getEmail());
@@ -179,9 +183,6 @@ public class MainActivity extends LoginActivity
                     case R.id.ic_list:
                         Intent intent0 = new Intent(MainActivity.this, Choice.class);
                         Bundle bundle0 = new Bundle();
-                        bundle0.putString("memberid", memberid);
-                        bundle0.putString("my_google_id", MainActivity.this.googleid);
-                        bundle0.putString("my_supervise_id", my_mon_id);
                         intent0.putExtras(bundle0);   // 記得put進去，不然資料不會帶過去哦
                         startActivity(intent0);
                         break;
@@ -201,7 +202,6 @@ public class MainActivity extends LoginActivity
                     case R.id.ic_home:
                         Intent intent2 = new Intent(MainActivity.this, MainActivity.class);
                         Bundle bundle2 = new Bundle();
-                        bundle2.putString("googleid", MainActivity.this.googleid);
                         intent2.putExtras(bundle2);
                         startActivity(intent2);
                         break;
@@ -209,9 +209,6 @@ public class MainActivity extends LoginActivity
                     case R.id.ic_information:
                         Intent intent3 = new Intent(MainActivity.this, druginfo.class);
                         Bundle bundle3 = new Bundle();
-                        bundle3.putString("my_id", memberid);
-                        bundle3.putString("my_google_id", MainActivity.this.googleid);
-                        bundle3.putString("my_supervise_id", my_mon_id);
                         bundle3.putString("m_calid","-1");
                         intent3.putExtras(bundle3);
                         startActivity(intent3);
@@ -220,9 +217,6 @@ public class MainActivity extends LoginActivity
                     case R.id.ic_beacon:
                         Intent intent4 = new Intent(MainActivity.this, MyBeaconActivity.class);
                         Bundle bundle4 = new Bundle();
-                        bundle4.putString("my_id", memberid);
-                        bundle4.putString("my_google_id", MainActivity.this.googleid);
-                        bundle4.putString("my_supervise_id", my_mon_id);
                         intent4.putExtras(bundle4);
                         startActivity(intent4);
                         break;
@@ -248,13 +242,14 @@ public class MainActivity extends LoginActivity
             }
         });
 
-
+        DeviceData.getBeacon(MainActivity.this);
+        DeviceData.getAP(MainActivity.this);
         memberdata.setNeedBeacon(needBeacon);
         memberdata.setBeaconcal(Beaconcal);
         UUIDnum = needBeacon.size();
         SSIDnum = storeAPBSSID.size();
-//        Intent checkBeaconIntent = new Intent(MainActivity.this,CheckBeacon_AP.class);
-//        startService(checkBeaconIntent);
+        Intent checkBeaconIntent = new Intent(MainActivity.this,CheckBeacon_AP.class);
+        startService(checkBeaconIntent);
 
         //用藥排程提醒假按鈕
         mfakebtn.setOnClickListener(new View.OnClickListener() {
@@ -267,7 +262,7 @@ public class MainActivity extends LoginActivity
                 my_intent.putExtra("extra","alarm on");
                 my_intent.putExtra("alarmid","0");
                 my_intent.putExtra("mcalid","513");
-                my_intent.putExtra("memberid",memberid);
+                my_intent.putExtra("memberid",memberdata.getMember_id());
                 my_intent.putExtra("alarmtype","medicine");
                 pending_intent= PendingIntent.getBroadcast(MainActivity.this,0,
                         my_intent,PendingIntent.FLAG_CANCEL_CURRENT);
@@ -285,8 +280,8 @@ public class MainActivity extends LoginActivity
                 final Intent my_intent=new Intent(MainActivity.this,Alarm_Receiver.class);
                 my_intent.putExtra("extra","alarm on");
                 my_intent.putExtra("alarmid","331");
-                my_intent.putExtra("memberid",memberid);
-                my_intent.putExtra("alarmtype","healthbs");
+                my_intent.putExtra("memberid",memberdata.getMember_id());
+                my_intent.putExtra("alarmtype","healthbp");
                 pending_intent= PendingIntent.getBroadcast(MainActivity.this,0,
                         my_intent,PendingIntent.FLAG_CANCEL_CURRENT);
                 alarm_manager.setExact(AlarmManager.RTC_WAKEUP, now,pending_intent);
@@ -377,14 +372,14 @@ public class MainActivity extends LoginActivity
         bundle.putString("googleid", memberdata.getGoogle_id());
         bundle.putString("memberid", memberdata.getMember_id());
         it.putExtras(bundle);   // 記得put進去，不然資料不會帶過去哦
-        it.putExtra("bsBpMeasureObject", memberdata.getMember_id());
+        it.putExtra("bsBpMeasureObject", bsBpMeasureObject);
         startActivity(it);
     }
     public void gotoMyAP() {
         Intent it = new Intent(this,MyAPActivity.class);
         Bundle bundle = new Bundle();
         bundle.putString("memberid", memberdata.getMember_id());
-        Log.d("fffaaa","*"+memberid);
+        Log.d("fffaaa","*"+memberdata.getMember_id());
         it.putExtras(bundle);   // 記得put進去，不然資料不會帶過去哦
         startActivity(it);
     }
@@ -392,7 +387,7 @@ public class MainActivity extends LoginActivity
         Intent it = new Intent(this,BeaconModeActivity.class);
         Bundle bundle = new Bundle();
         bundle.putString("memberid", memberdata.getMember_id());
-        Log.d("fffaaa","*"+memberid);
+        Log.d("fffaaa","*"+memberdata.getMember_id());
         it.putExtras(bundle);   // 記得put進去，不然資料不會帶過去哦
         startActivity(it);
     }
@@ -826,11 +821,13 @@ public class MainActivity extends LoginActivity
     }
     public static String getCurrentTimeStamp(String dateString) throws ParseException {//時間格式轉換
         String strDate = "";
-        SimpleDateFormat sdfDate = new SimpleDateFormat("HH:mm");//format yyyy-MM-dd HH:mm:ss to HH:mm
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String date1 = dateString;
+        Locale locale = Locale.US;
+        SimpleDateFormat sdfDate = new SimpleDateFormat("HH:mm",locale);//format yyyy-MM-dd HH:mm:ss to HH:mm
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss",locale);
         Calendar calendar = new GregorianCalendar();
 
-        Date date = sdf.parse(dateString);
+        Date date = sdf.parse(date1);
         calendar.setTime(date);
         int month = calendar.get(Calendar.MONTH)+1;
         if (month==1){

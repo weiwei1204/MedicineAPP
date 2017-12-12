@@ -6,6 +6,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.Locale;
 
 /**
  * Created by mindy on 2017/9/4.
@@ -96,12 +97,14 @@ public class BsBpMeasureObject implements Serializable {
         this.bp_third = bp_third;
     }
     public static String getCurrentTimeStamp(String dateString) throws ParseException {//時間格式轉換
+        String date1 = dateString;
         String strDate = "";
-        SimpleDateFormat sdfDate = new SimpleDateFormat("HH:mm");//format yyyy-MM-dd HH:mm:ss to HH:mm
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Locale locale = Locale.US;
+        SimpleDateFormat sdfDate = new SimpleDateFormat("HH:mm",locale);//format yyyy-MM-dd HH:mm:ss to HH:mm
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss",locale);
         Calendar calendar = new GregorianCalendar();
 
-        Date date = sdf.parse(dateString);
+        Date date = sdf.parse(date1);
         calendar.setTime(date);
         int month = calendar.get(Calendar.MONTH)+1;
         if (month==1){
