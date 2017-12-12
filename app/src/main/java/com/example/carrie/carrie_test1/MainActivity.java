@@ -156,7 +156,7 @@ public class MainActivity extends LoginActivity
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
         toggle.syncState();
-        Log.d("iddddd: ",memberdata.getMember_id());
+//        Log.d("iddddd: ",memberdata.getMember_id());
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         View hView =  navigationView.getHeaderView(0);
         TextView memberName = (TextView) hView.findViewById(R.id.namee);
