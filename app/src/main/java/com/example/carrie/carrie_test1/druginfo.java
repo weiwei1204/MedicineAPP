@@ -123,6 +123,7 @@ public class druginfo extends AppCompatActivity {
                         case R.id.ic_information:
                             Intent intent3 = new Intent(druginfo.this, druginfo.class);
                             Bundle bundle3 = new Bundle();
+                            bundle3.putString("m_calid","-1");
                             intent3.putExtras(bundle3);
                             startActivity(intent3);
                             break;
