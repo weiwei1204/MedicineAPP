@@ -33,7 +33,6 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -457,7 +456,7 @@ public class MainActivity extends LoginActivity
             @Override
             public void onErrorResponse(VolleyError error) {
 //                Log.d("rrr", error.toString());
-                Toast.makeText(getApplicationContext(), "Error read getMonitorId.php!!!", Toast.LENGTH_LONG).show();
+                //Toast.makeText(getApplicationContext(), "Error read getMonitorId.php!!!", Toast.LENGTH_LONG).show();
 //                refreshNormalDialogEvent();
             }
         }) {
@@ -502,6 +501,7 @@ public class MainActivity extends LoginActivity
 
                         bsBpMeasureObject = new BsBpMeasureObject(response.getInt("id"), response.getString("member_id"), response.getString("bs_first"), response.getString("bs_second"), response.getString("bs_third"), response.getString("bp_first"), response.getString("bp_second"), response.getString("bp_third"));
                         Log.d("measureInfor", "object " + bsBpMeasureObject.toString());
+                        addBsBpData(response.getString("id"),memberdata.getMember_id(),response.getString("bs_first"),response.getString("bs_second"),response.getString("bs_third"),response.getString("bp_first"),response.getString("bp_second"),response.getString("bp_third"));
                     } catch (JSONException e) {
                         e.printStackTrace();
                     } catch (ParseException e) {
@@ -513,7 +513,7 @@ public class MainActivity extends LoginActivity
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.d("measureInfor", error.toString());
-                Toast.makeText(getApplicationContext(), "Error read getMeasureInformation.php!!!", Toast.LENGTH_LONG).show();
+                //Toast.makeText(getApplicationContext(), "Error read getMeasureInformation.php!!!", Toast.LENGTH_LONG).show();
 //                refreshNormalDialogEvent();
             }
         });
@@ -540,30 +540,38 @@ public class MainActivity extends LoginActivity
         public void getMeasureInformationsql(){
         sqLiteDatabase = openOrCreateDatabase(DATABASE_NAME, Context.MODE_APPEND,null);
         Cursor c1  = sqLiteDatabase.rawQuery("SELECT * FROM Health_BsBpMeasureTime",null);
+            Log.d("sqlcount", String.valueOf(c1.getCount()));
+        if(c1.getCount()!=0){
+            if(c1.moveToFirst()){
 
-        if(c1.moveToFirst()){
+                do{
+                    memberdata.measure_id = Integer.parseInt(c1.getString(0));
+                    try {
+                        memberdata.bs_first=getCurrentTimeStamp(c1.getString(2));
+                        memberdata.bs_second=getCurrentTimeStamp(c1.getString(3));
+                        memberdata.bs_third=getCurrentTimeStamp(c1.getString(4));
+                        memberdata.bp_first=getCurrentTimeStamp(c1.getString(5));
+                        memberdata.bp_second=getCurrentTimeStamp(c1.getString(6));
+                        memberdata.bp_third=getCurrentTimeStamp(c1.getString(7));
+                        bsBpMeasureObject = new BsBpMeasureObject(Integer.parseInt(c1.getString(0)), memberdata.getMember_id(), c1.getString(2), c1.getString(3), c1.getString(4), c1.getString(5), c1.getString(6), c1.getString(7));
+                        Log.d("measureInfor", "object " + bsBpMeasureObject.toString());
+                        Log.d("measureInforcount", memberdata.bs_first);
+                        Log.d("measureInforcount", memberdata.bs_second);
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
 
-            do{
-                memberdata.measure_id = Integer.parseInt(c1.getString(0));
-                try {
-                    memberdata.bs_first=getCurrentTimeStamp(c1.getString(2));
-                    memberdata.bs_second=getCurrentTimeStamp(c1.getString(3));
-                    memberdata.bs_third=getCurrentTimeStamp(c1.getString(4));
-                    memberdata.bp_first=getCurrentTimeStamp(c1.getString(5));
-                    memberdata.bp_second=getCurrentTimeStamp(c1.getString(6));
-                    memberdata.bp_third=getCurrentTimeStamp(c1.getString(7));
-                    bsBpMeasureObject = new BsBpMeasureObject(Integer.parseInt(c1.getString(0)), memberdata.getMember_id(), c1.getString(2), c1.getString(3), c1.getString(4), c1.getString(5), c1.getString(6), c1.getString(7));
-                    Log.d("measureInfor", "object " + bsBpMeasureObject.toString());
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
 
 
+                }while (c1.moveToNext());
 
-            }while (c1.moveToNext());
 
+            }
+        }else {
+            getMeasureInformation();
 
         }
+
     }
     public void getpersonal() {
 
@@ -727,7 +735,7 @@ public class MainActivity extends LoginActivity
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(getApplicationContext(), "Error read getm_Beacon.php!!!", Toast.LENGTH_LONG).show();
+                //Toast.makeText(getApplicationContext(), "Error read getm_Beacon.php!!!", Toast.LENGTH_LONG).show();
             }
         })
         {
@@ -769,7 +777,7 @@ public class MainActivity extends LoginActivity
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(getApplicationContext(), "Error read getm_AP.php!!!", Toast.LENGTH_LONG).show();
+                //Toast.makeText(getApplicationContext(), "Error read getm_AP.php!!!", Toast.LENGTH_LONG).show();
             }
         })
         {
@@ -875,7 +883,7 @@ public class MainActivity extends LoginActivity
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.d("rrr111", error.toString());
-                Toast.makeText(getApplicationContext(), "Error read insert.php!!!", Toast.LENGTH_LONG).show();
+                //Toast.makeText(getApplicationContext(), "Error read insert.php!!!", Toast.LENGTH_LONG).show();
             }
         }) {
             protected Map<String, String> getParams() throws AuthFailureError {//把值丟到php
@@ -889,6 +897,22 @@ public class MainActivity extends LoginActivity
         };
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         requestQueue.add(request);
+
+    }
+    public void addBsBpData(String a ,String b,String c ,String d,String e ,String f,String g ,String h){
+        sqLiteDatabase = openOrCreateDatabase(DATABASE_NAME, Context.MODE_PRIVATE,null);
+        ContentValues contentValues = new ContentValues(8);
+        contentValues.put("id","0");
+        contentValues.put("member_id",b);
+        contentValues.put("bs_first",c);
+        contentValues.put("bs_second",d);
+        contentValues.put("bs_third",e);
+        contentValues.put("bp_first",f);
+        contentValues.put("bp_second",g);
+        contentValues.put("bp_third",h);
+        Log.d("ffffff", String.valueOf(contentValues));
+        sqLiteDatabase.insert("Health_BsBpMeasureTime",null,contentValues);
+
 
     }
 
