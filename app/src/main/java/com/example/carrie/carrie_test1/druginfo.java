@@ -273,7 +273,7 @@ public class druginfo extends AppCompatActivity {
 
                         MyData mydata = new MyData(object.getInt("id"),object.getString("chineseName"),
                                 object.getString("image") ,object.getString("indication"),object.getString("englishName"),object.getString("licenseNumber")
-                                ,object.getString("category"), object.getString("component"), object.getString("maker_Country"), object.getString("applicant")
+                                ,object.getString("category"), object.getString("component"), object.getString("sideEffect"), object.getString("applicant")
                                 ,object.getString("maker_Name"),object.getString("QRCode"));
 
                         data_list.add(mydata);
@@ -316,7 +316,7 @@ public class druginfo extends AppCompatActivity {
 
                         MyData mydata = new MyData(object.getInt("id"),object.getString("chineseName"),
                                 object.getString("image") ,object.getString("indication"),object.getString("englishName"),object.getString("licenseNumber")
-                                ,object.getString("category"), object.getString("component"), object.getString("maker_Country"), object.getString("applicant")
+                                ,object.getString("category"), object.getString("component"), object.getString("sideEffect"), object.getString("applicant")
                                 ,object.getString("maker_Name"),object.getString("QRCode"));
 
 
@@ -362,7 +362,7 @@ public class druginfo extends AppCompatActivity {
 
                         MyData mydata = new MyData(object.getInt("id"),object.getString("chineseName"),
                                 object.getString("image") ,object.getString("indication"),object.getString("englishName"),object.getString("licenseNumber")
-                                ,object.getString("category"), object.getString("component"), object.getString("maker_Country"), object.getString("applicant")
+                                ,object.getString("category"), object.getString("component"), object.getString("sideEffect"), object.getString("applicant")
                                 ,object.getString("maker_Name"),object.getString("QRCode") );
 
 

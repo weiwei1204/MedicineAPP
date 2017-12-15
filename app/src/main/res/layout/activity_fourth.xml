@@ -311,7 +311,7 @@
                 android:layout_marginLeft="-125dp"
                 android:layout_marginTop="10dp"
                 android:layout_weight="1"
-                android:text="製造商國別："
+                android:text="副作用："
                 android:textColor="#6C6C6C"
                 android:textSize="8pt"/>
 

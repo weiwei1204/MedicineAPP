@@ -11,7 +11,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 
@@ -62,7 +61,7 @@ public class CustomAdapter2 extends RecyclerView.Adapter<CustomAdapter2.ViewHold
         holder.drugButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(context,"Click positioin"+ position,Toast.LENGTH_LONG).show();
+                //Toast.makeText(context,"Click positioin"+ position,Toast.LENGTH_LONG).show();
                 Log.d("customadapter2","1");
                 Intent it =new Intent(context,FourthActivity.class);
                 Log.d("customadapter2","2");

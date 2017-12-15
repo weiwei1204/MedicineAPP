@@ -61,7 +61,7 @@ public class mcallistAdapter extends BaseAdapter {
             mcaldelay.setText(mcallist.get(position).getMcaldelay());
         }
 
-        if (mcallist.get(position).getMnotify()==1){
+        if (mcallist.get(position).getMnotify()==1 && mcallist.get(position).getStatus()!=1){
             mcalnotify.setText(Html.fromHtml("<font color='#48A3A3'>＊藥品快沒了，若未康復記得再拿藥～</font>"));
         }
         else if (mcallist.get(position).getMnotify()==0){

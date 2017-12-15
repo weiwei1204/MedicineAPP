@@ -249,8 +249,8 @@ public class Main2 extends Activity {
         Runnable runnable = new Runnable() {
             public void run() {
                 if(token!=null) {
-                    sendRegistrationToServer();
-                    finish();
+//                    sendRegistrationToServer();
+//                    finish();
                 }
                 //DynamoDB calls go here
             }
