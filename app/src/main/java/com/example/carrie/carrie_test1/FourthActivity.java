@@ -85,8 +85,6 @@ public class FourthActivity extends AppCompatActivity {
 
         String string1= getIntent().getExtras().getString("indication", "not found");
         indi = bundle.getString("indication");//get 中文名
-        indication.setText(string1);
-        indication.setText(autoSplitText(indication));
 
         indication=(TextView) findViewById(R.id.indication);
         indication.setText(string1);
