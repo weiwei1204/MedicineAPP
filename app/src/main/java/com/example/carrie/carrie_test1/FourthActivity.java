@@ -30,6 +30,7 @@ public class FourthActivity extends AppCompatActivity {
     String appli;
     String maker_Nam;
     String ima;
+    String side;
 
     android.support.design.widget.CoordinatorLayout coordinatorLayout;
 
@@ -39,7 +40,7 @@ public class FourthActivity extends AppCompatActivity {
     private ArrayList<ArrayList<String>> mydrugs = new ArrayList<ArrayList<String>>();
     private String m_calid;
     private static float MAX_TEXT_SIZE = 20;
-    TextView indication,englishName;
+    TextView indication,englishName,sideEffect;
     TextView gltxt;
 
 
@@ -89,6 +90,8 @@ public class FourthActivity extends AppCompatActivity {
         indication=(TextView) findViewById(R.id.indication);
         indication.setText(string1);
         passtxt(indication);
+
+
 
 //        indication.setText(autoSplitText(indication));
 //        indication.getViewTreeObserver().addOnGlobalLayoutListener(new OnTvGlobalLayoutListener());

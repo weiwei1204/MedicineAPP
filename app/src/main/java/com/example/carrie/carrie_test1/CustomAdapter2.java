@@ -81,7 +81,6 @@ public class CustomAdapter2 extends RecyclerView.Adapter<CustomAdapter2.ViewHold
                 bundle.putString("applicant", my_data.get(position).getApplicant());
                 bundle.putString("maker_Name", my_data.get(position).getMaker_Name());
                 bundle.putString("m_calid",m_calid);
-
                 Log.d("customadapter2","5");
                 it.putExtras(bundle);
                 it.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
