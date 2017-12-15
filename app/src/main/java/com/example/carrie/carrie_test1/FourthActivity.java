@@ -28,6 +28,7 @@ public class FourthActivity extends AppCompatActivity {
     String appli;
     String maker_Nam;
     String ima;
+    TextView indication;
     android.support.design.widget.CoordinatorLayout coordinatorLayout;
 
     private int drugid;
@@ -45,6 +46,7 @@ public class FourthActivity extends AppCompatActivity {
         Log.d("drug","1");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_fourth);
+        indication = (TextView) findViewById(R.id.indication);
         coordinatorLayout = (CoordinatorLayout)findViewById(R.id.addlayout);
         Log.d("drug","2");
         Bundle bundle5=getIntent().getExtras();
@@ -78,9 +80,10 @@ public class FourthActivity extends AppCompatActivity {
 
         String string1= getIntent().getExtras().getString("indication", "not found");
         indi = bundle.getString("indication");//get 中文名字
-        TextView indication=(TextView) findViewById(R.id.indication);
+
         indication.setText(string1);
         indication.setText(autoSplitText(indication));
+
     //    indi = autoSplitText(indication);
    //     indication.setText(indi);
 
