@@ -18,7 +18,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ExpandableListView;
-import android.widget.Toast;
 
 import com.android.volley.RequestQueue;
 
@@ -58,7 +57,7 @@ public class PillPlot extends Fragment {
         Log.d("testExpand objectArray", objectDetailArray);
         try {
             if (objectArray.equals("nodata")) {
-                nodateCheck();
+                //nodateCheck();
             } else {
                 initObjectData(objectArray, objectDetailArray);
                 Log.d("testExpand", "4");
@@ -104,7 +103,7 @@ public class PillPlot extends Fragment {
     public void gotoschedule() {
         Intent it = new Intent(this.getActivity(), Choice.class);
         this.startActivity(it);
-        Toast.makeText(getActivity(), "have done this method!", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(getActivity(), "have done this method!", Toast.LENGTH_SHORT).show();
 
     }
 

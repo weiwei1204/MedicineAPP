@@ -6,9 +6,11 @@ import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.util.Log;
 import android.graphics.Paint;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -28,7 +30,7 @@ public class FourthActivity extends AppCompatActivity {
     String appli;
     String maker_Nam;
     String ima;
-    TextView indication;
+
     android.support.design.widget.CoordinatorLayout coordinatorLayout;
 
     private int drugid;
@@ -37,6 +39,8 @@ public class FourthActivity extends AppCompatActivity {
     private ArrayList<ArrayList<String>> mydrugs = new ArrayList<ArrayList<String>>();
     private String m_calid;
     private static float MAX_TEXT_SIZE = 20;
+    TextView indication,englishName;
+    TextView gltxt;
 
 
     //String chineseName;
@@ -77,36 +81,52 @@ public class FourthActivity extends AppCompatActivity {
         Log.d("drug","5");
         String string = getIntent().getExtras().getString("chineseName", "not found");
         chineseName.setText(string);
+        passtxt(chineseName);
 
         String string1= getIntent().getExtras().getString("indication", "not found");
-        indi = bundle.getString("indication");//get 中文名字
-
+        indi = bundle.getString("indication");//get 中文名
         indication.setText(string1);
         indication.setText(autoSplitText(indication));
 
-    //    indi = autoSplitText(indication);
+        indication=(TextView) findViewById(R.id.indication);
+        indication.setText(string1);
+        passtxt(indication);
+
+//        indication.setText(autoSplitText(indication));
+//        indication.getViewTreeObserver().addOnGlobalLayoutListener(new OnTvGlobalLayoutListener());
+
+
    //     indication.setText(indi);
 
         String string2= getIntent().getExtras().getString("englishName", "not found");
         eng = bundle.getString("englishName");//get 中文名字
-        TextView englishName=(TextView) findViewById(R.id.englishName3);
+        englishName=(TextView) findViewById(R.id.englishName3);
         englishName.setText(string2);
+        Log.d("dadada",englishName.getText().toString());
+//        englishName.setText(autoSplitText(englishName));
+        passtxt(englishName);
+//        englishName.getViewTreeObserver().addOnGlobalLayoutListener(new OnTvGlobalLayoutListener());
+        Log.d("dadada222",englishName.getText().toString());
+
 
         String string3= getIntent().getExtras().getString("licenseNumber", "not found");
         license = bundle.getString("licenseNumber");//get 中文名字
         TextView licenseNumber=(TextView) findViewById(R.id.licenseNumber);
         licenseNumber.setText(string3);
+        passtxt(licenseNumber);
 
         String string4= getIntent().getExtras().getString("category", "not found");
         cate = bundle.getString("category");//get 中文名字
         TextView category=(TextView) findViewById(R.id.category);
         category.setText(string4);
+        passtxt(category);
         Log.d("drug","6");
 
         String string5= getIntent().getExtras().getString("component", "not found");
         compon = bundle.getString("component");//get 中文名字
         TextView component=(TextView) findViewById(R.id.component);
         component.setText(string5);
+        passtxt(component);
         Log.d("drug","8");
 
 
@@ -114,16 +134,19 @@ public class FourthActivity extends AppCompatActivity {
         maker_Coun = bundle.getString("maker_Country");//get 中文名字
         TextView maker_Country=(TextView) findViewById(R.id.maker_Country);
         maker_Country.setText(string6);
+        passtxt(maker_Country);
 
         String string7= getIntent().getExtras().getString("applicant", "not found");
         appli = bundle.getString("applicant");//get 中文名字
         TextView applicant=(TextView) findViewById(R.id.applicant);
         applicant.setText(string7);
+        passtxt(applicant);
 
         String string8= getIntent().getExtras().getString("maker_Name", "not found");
         maker_Nam = bundle.getString("maker_Name");//get 中文名字
         TextView maker_Name=(TextView) findViewById(R.id.maker_Name);
         maker_Name.setText(string8);
+        passtxt(maker_Name);
 
 
         String string9= getIntent().getExtras().getString("image", "not found");
@@ -154,10 +177,26 @@ public class FourthActivity extends AppCompatActivity {
         finish();
     }
 
+    public void passtxt(TextView txt){
+        gltxt=txt;
+        gltxt.getViewTreeObserver().addOnGlobalLayoutListener(new OnTvGlobalLayoutListener());
+    }
 
-    //
-//    将textview中的文字进行排版
+    private class OnTvGlobalLayoutListener implements ViewTreeObserver.OnGlobalLayoutListener {
+
+         @Override
+         public void onGlobalLayout() {
+                         gltxt.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                         final String newText = autoSplitText(gltxt);
+                         if (!TextUtils.isEmpty(newText)) {
+                                 gltxt.setText(newText);
+                             }
+                     }
+     }
+
     private String autoSplitText(final TextView tv) {
+//        gltxt=tv;
+//        gltxt.getViewTreeObserver().addOnGlobalLayoutListener(new OnTvGlobalLayoutListener());
         final String rawText = tv.getText().toString(); //原始文本
         final Paint tvPaint = tv.getPaint(); //paint，包含字體等信息
         final float tvWidth = tv.getWidth() - tv.getPaddingLeft() - tv.getPaddingRight(); //控制項可用寬度
@@ -193,7 +232,6 @@ public class FourthActivity extends AppCompatActivity {
 
         return sbNewText.toString();
     }
-
 
 
     public void inserttomcal(){
