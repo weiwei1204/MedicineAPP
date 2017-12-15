@@ -248,8 +248,8 @@ public class MainActivity extends LoginActivity
         memberdata.setBeaconcal(Beaconcal);
         UUIDnum = needBeacon.size();
         SSIDnum = storeAPBSSID.size();
-        Intent checkBeaconIntent = new Intent(MainActivity.this,CheckBeacon_AP.class);
-        startService(checkBeaconIntent);
+    //        Intent checkBeaconIntent = new Intent(MainActivity.this,CheckBeacon_AP.class);
+    //        startService(checkBeaconIntent);
 
         //用藥排程提醒假按鈕
         mfakebtn.setOnClickListener(new View.OnClickListener() {
