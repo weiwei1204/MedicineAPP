@@ -172,7 +172,7 @@ public class scandrug extends AppCompatActivity {
 
                         mydata = new MyData(object.getInt("id"), object.getString("chineseName"),
                                 object.getString("image"), object.getString("indication"), object.getString("englishName"), object.getString("licenseNumber")
-                                , object.getString("category"), object.getString("component"), object.getString("maker_Country"), object.getString("applicant")
+                                , object.getString("category"), object.getString("component"), object.getString("sideEffect"), object.getString("applicant")
                                 , object.getString("maker_Name"), object.getString("QRCode"));
 
 

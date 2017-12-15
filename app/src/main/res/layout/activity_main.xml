@@ -167,6 +167,8 @@
                 android:layout_marginBottom="60dp"
                 android:layout_centerInParent="true"
                 android:layout_alignParentBottom="true"
+                android:background="#4DB7B0"
+
                 />
             <Button
                 android:id="@+id/hfakebtn"
@@ -176,6 +178,7 @@
                 android:layout_marginBottom="60dp"
                 android:layout_alignParentRight="true"
                 android:layout_alignParentBottom="true"
+                android:background="#4DB7B0"
                 />
         </RelativeLayout>
 
